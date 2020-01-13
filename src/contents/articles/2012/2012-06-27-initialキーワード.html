@@ -1,0 +1,84 @@
+<script type="application/x-yaml">
+title: "initialキーワード"
+description: "initialキーワードという、プロパティを初期化するキーワードがCSS Values and Units Module Level 3で定められています。"
+slug: css-initial-keyword
+published: 2012-06-27T11:12:38+09:00
+updated: 2020-01-10T21:59:51+09:00
+category: webdev
+</script>
+
+<p>
+  <code>initial</code>キーワードというものが「CSS Values and Units Module Level 3」で定められているのですが、知りませんでした……。
+</p>
+<figure>
+  <blockquote cite="https://www.w3.org/TR/2012/WD-css3-values-20120308/#common-keywords">
+    <p>
+      The <dfn>‘<code>initial</code>’</dfn> keyword represents the specified value that is designated as the property's initial value.
+    </p>
+  </blockquote>
+  <figcaption>
+    <cite><a href="https://www.w3.org/TR/2012/WD-css3-values-20120308/#common-keywords">CSS Values and Units Module Level 3 - 3.1.1. CSS-wide keywords: ‘initial’ and ‘inherit’</a></cite>
+  </figcaption>
+</figure>
+<p>
+  この値が指定されたプロパティには、そのプロパティの初期値が指定されます。<br>
+  以下はその例です。
+</p>
+<!--
+<div style="margin-bottom:1.6em;">
+  <iframe style="width: 100%; height: 220px" src="http://jsfiddle.net/aJkFC/4/embedded/result,css,html/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+</div>
+-->
+<ins datetime="2020-01-10T21:59:51+09:00">
+  <p>
+    <a href="/demo/2012/css-initial-keyword">initialキーワード デモ</a>
+  </p>
+  <pre><code class="language-html">&lt;ul&gt;
+  &lt;li&gt;Unordered List Item&lt;/li&gt;
+  &lt;!-- 4回繰り返し --&gt;
+&lt;/ul&gt;</code></pre>
+  <pre><code class="language-css">ul {
+  color: gray;
+}
+
+li {
+  margin: 5px;
+  border: 2px solid red;
+}
+
+li:nth-child(3) {
+  border-color: -moz-initial; /* currentColor */
+  border-color: initial; /* currentColor */
+}</code></pre>
+</ins>
+<p>
+  3番目のリストアイテムのボーダーカラーが灰色で表示されているのが分かります。<br>
+  <a href="https://www.w3.org/TR/2012/CR-css3-background-20120417/#the-border-color"><code>border-color</code>の初期値は<code>currentColor</code></a>なので、親である<code>ul</code>要素の<code>color</code>プロパティで指定された<code>gray</code>で表示されるわけです。
+</p>
+<p>
+  MDNによると、現在このキーワードはFirefoxとWebkitで使用可能なようです。<br>
+  （Firefoxでは<code>-moz-initial</code>です。Firefox 13で確認）<br>
+  先ほどのサンプルで試したら、確かにInternet Explorer 9とOpera 12では期待通りの表示にはなりませんでした。
+</p>
+<p>
+  このキーワードは本当に初期値を指定するため、そのプロパティの初期値を理解していないと使うことは難しいと思います。
+</p>
+<p>
+  まあ、プロパティの値に何も指定しなければ初期値が使われるので（ショートハンドプロパティでよくある）、いちいち書く必要もないわけですが、どうしても明示したいときくらいにしか使う機会はないんじゃないでしょうか。<br>
+  そんな機会があるかどうか分かりませんが。
+</p>
+<p>
+  とりあえず、こういうキーワードもあると覚えておく程度でもいいんじゃないかと思います。
+</p>
+<p>以降は参考リンクです。</p>
+<ul>
+  <li>
+    <a href="https://www.w3.org/TR/2012/WD-css3-values-20120308/#common-keywords">CSS Values and Units Module Level 3 - 3.1.1. CSS-wide keywords: ‘initial’ and ‘inherit’</a>
+  </li>
+  <li>
+    <a href="https://developer.mozilla.org/en/CSS/initial_value">initial value - MDN</a>（<a href="https://developer.mozilla.org/ja/CSS/initial_value">日本語</a>）
+  </li>
+  <li>
+    <a href="https://developer.mozilla.org/en/CSS/initial">initial | -moz-initial - MDN</a>
+  </li>
+</ul>

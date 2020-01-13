@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>GPBG.js サンプル 3</title>
+<style type="text/css">
+  body {
+    margin: 0;
+    background: white;
+  }
+
+  div {
+    margin: 50px auto;
+    width: 600px;
+    height: 250px;
+    background: black;
+  }
+</style>
+</head>
+<body>
+
+<div></div>
+<div></div>
+
+<script type="text/javascript" src="gpbg.min.js"></script>
+<script type="text/javascript">
+  (function (w) {
+    if (w.GPBG) {
+      var gpbg = new GPBG();
+
+      if (w.addEventListener) {
+
+        var draw = function () {
+          gpbg.draw('body', {
+            apexes       : [0, 3, 4, 5],
+            count        : 25,
+            maxRadius    : 80,
+            fillOpacity  : 0.4,
+            strokeWidth  : 5,
+            strokeOpacity: 1
+          });
+          gpbg.draw('div:first-child', {
+            count        : 20,
+            minRadius    : 10,
+            maxRadius    : 40,
+            fillOpacity  : 0.1,
+            strokeOpacity: 0.1
+          });
+
+          gpbg.draw('div:nth-child(2)', {
+            apexes       : [3],
+            count        : 50,
+            minRadius    : 20,
+            maxRadius    : 20,
+            fillOpacity  : 0,
+            strokeWidth  : 3,
+            strokeOpacity: 0.2
+          })
+        };
+        w.addEventListener('DOMContentLoaded', draw, false);
+      }
+
+      gpbg.die();
+    }
+  })(window);
+</script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <title>Sassで生成したカラースキーム</title>
+  <style type="text/css">
+  body, dd {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    color: black;
+    font-family: "Helvetica Neue", "Arial", sans-serif;
+    line-height: 1;
+  }
+
+  dl {
+    margin: 20px auto;
+    width: 400px;
+  }
+
+  dt {
+    font-size: 18px;
+  }
+
+  dd {
+    margin: 5px 0 20px;
+  }
+
+  span {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    font-size: 14px;
+    line-height: 100px;
+    text-align: center;
+  }
+
+  .base {
+    background-color: #0088cc;
+  }
+
+  .base:before {
+    content: "#0088cc";
+  }
+
+  .complementary {
+    background-color: #cc4400;
+  }
+
+  .complementary:before {
+    content: "#cc4400";
+  }
+
+  .analogous-primary {
+    background-color: #0088cc;
+  }
+
+  .analogous-primary:before {
+    content: "#0088cc";
+  }
+
+  .analogous-secondary-A {
+    background-color: #00ccaa;
+  }
+
+  .analogous-secondary-A:before {
+    content: "#00ccaa";
+  }
+
+  .analogous-secondary-B {
+    background-color: #0022cc;
+  }
+
+  .analogous-secondary-B:before {
+    content: "#0022cc";
+  }
+
+  .split-complementary-primary {
+    background-color: #0088cc;
+  }
+
+  .split-complementary-primary:before {
+    content: "#0088cc";
+  }
+
+  .split-complementary-secondary-A {
+    background-color: #cc0022;
+  }
+
+  .split-complementary-secondary-A:before {
+    content: "#cc0022";
+  }
+
+  .split-complementary-secondary-B {
+    background-color: #ccaa00;
+  }
+
+  .split-complementary-secondary-B:before {
+    content: "#ccaa00";
+  }
+
+  .triadic-primary {
+    background-color: #0088cc;
+  }
+
+  .triadic-primary:before {
+    content: "#0088cc";
+  }
+
+  .triadic-secondary-A {
+    background-color: #88cc00;
+  }
+
+  .triadic-secondary-A:before {
+    content: "#88cc00";
+  }
+
+  .triadic-secondary-B {
+    background-color: #cc0088;
+  }
+
+  .triadic-secondary-B:before {
+    content: "#cc0088";
+  }
+
+  .tetradic-primary {
+    background-color: #0088cc;
+  }
+
+  .tetradic-primary:before {
+    content: "#0088cc";
+  }
+
+  .tetradic-primary-complemantary {
+    background-color: #cc4400;
+  }
+
+  .tetradic-primary-complemantary:before {
+    content: "#cc4400";
+  }
+
+  .tetradic-secondary {
+    background-color: #00cc44;
+  }
+
+  .tetradic-secondary:before {
+    content: "#00cc44";
+  }
+
+  .tetradic-secondary-complemantary {
+    background-color: #cc0088;
+  }
+
+  .tetradic-secondary-complemantary:before {
+    content: "#cc0088";
+  }
+
+
+  </style>
+</head>
+<body>
+
+<dl>
+  <dt>Base Color</dt>
+  <dd>
+    <span class="base"></span>
+  </dd>
+  <dt>Complemantary</dt>
+  <dd>
+    <span class="base"></span><span class="complementary"></span>
+  </dd>
+  <dt>Analogous</dt>
+  <dd>
+    <span class="analogous-primary"></span><span class="analogous-secondary-A"></span><span class="analogous-secondary-B"></span>
+  </dd>
+  <dt>Split Complementary</dt>
+  <dd>
+    <span class="split-complementary-primary"></span><span class="split-complementary-secondary-A"></span><span class="split-complementary-secondary-B"></span>
+  </dd>
+  <dt>Triadic</dt>
+  <dd>
+    <span class="triadic-primary"></span><span class="triadic-secondary-A"></span><span class="triadic-secondary-B"></span>
+  </dd>
+  <dt>Tetradic</dt>
+  <dd>
+    <span class="tetradic-primary"></span><span class="tetradic-primary-complemantary"></span><span class="tetradic-secondary"></span><span class="tetradic-secondary-complemantary"></span>
+  </dd>
+</dl>
+
+</body>
+</html>

@@ -1,0 +1,444 @@
+<script type="application/x-yaml">
+title: "jQueryでシンプルなループスライダーを作る"
+description: "練習がてらコンテンツスライダーを作ってみました。必要な機能だけあって好きに使えるものが欲しかったので1から作りました。"
+slug: jquery-simple-loop-slider
+published: 2011-02-22T15:13:17+09:00
+updated: 2011-05-18T14:29:58+09:00
+category: webdev
+</script>
+
+<figure>
+  <img src="/images/2011/jquery-simple-loop-slider/eyecatch.jpg" width="620" height="240" alt="">
+</figure>
+<p>
+  JavaScriptというかjQueryのお勉強。<br>
+  練習がてらコンテンツスライダーを作ってみました。<br>
+  この手のものはチュートリアルもプラグインも山ほどありますが、必要な機能だけあって好きに使えるものが欲しかったので1から作りました。<br>
+</p>
+<ins datetime="2011-03-10T16:36:04+09:00">
+  <p>
+    プラグインをお求めの方は「<a href="/articles/jquery-simple-loop-slider-js/">jQuery.simpleLoopSlider.js</a>」をどうぞ。
+  </p>
+</ins>
+<section>
+  <h2>欲しかった機能</h2>
+  <ul>
+    <li>シンプルに動くコンテンツスライダー。</li>
+    <li>ループ機能。最後の次は最初、最初の前は最後、という感じで動く。</li>
+    <li>進む、戻るナビゲーション。</li>
+    <li>自動でページネーションを設置。</li>
+  </ul>
+  <p>
+    これをやります。<br>
+    デモとダウンロードは以下からどうぞ。
+  </p>
+  <p>
+    <a href="/demo/2011/jquery-simple-loop-slider/">jQuery Simple Loop Slider DEMO</a>
+  </p>
+  <p>
+    <a href="/download/2011/jquery-simple-loop-slider.zip" download>デモファイルをダウンロード</a>
+  </p>
+</section>
+<section>
+  <h2>HTMLとCSS</h2>
+  <pre><code class="language-html">&lt;div id=&quot;slider&quot;&gt;
+
+    &lt;div class=&quot;slider-view&quot;&gt;
+        &lt;div class=&quot;slider-container&quot;&gt;
+            &lt;div&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;images/image1.jpg&quot; alt=&quot;&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+            &lt;div&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;images/image2.jpg&quot; alt=&quot;&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+            &lt;div&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;images/image3.jpg&quot; alt=&quot;&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+            &lt;div&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;images/image4.jpg&quot; alt=&quot;&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+            &lt;div&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;images/image5.jpg&quot; alt=&quot;&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+        &lt;/div&gt;&lt;!-- // .slider-container --&gt;
+    &lt;/div&gt;&lt;!-- // .slider-view --&gt;
+
+    &lt;a href=&quot;#&quot; id=&quot;slide-prev&quot;&gt;&amp;laquo;&lt;/a&gt;&lt;a href=&quot;#&quot; id=&quot;slide-next&quot;&gt;&amp;raquo;&lt;/a&gt;
+
+&lt;/div&gt;</code></pre>
+  <p>
+    ナビゲーションがなければ<code>div</code>は1個減らせます。<br>
+    基本的には<code>.slider-view</code>を固定して<code>.slider-container</code>を横に動かす形となります。
+  </p>
+  <pre><code class="language-css">#slider {
+    position: relative;
+    margin: 50px auto;
+    border: 1px solid #aaa;
+    border-radius: 10px;
+    width: 482px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+#slider a:focus {
+    outline: 0;
+}
+
+.slider-view {
+    position: relative;
+    margin: 10px 40px 30px;
+    border: 1px solid #bbb;
+    width: 400px; /* スライダーで表示するエリアの大きさ */
+    height: 160px;
+    overflow: hidden; /* 必須 */
+}
+
+/* widthはjsで指定するのでここでは書かない */
+.slider-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* スライドするコンテンツ部分 */
+.slider-container div {
+    position: relative; /* ループ処理に使う */
+    float: left;
+    width: 400px; /* viewと同じ大きさに */
+    height: 160px;
+}
+
+/* デモ用 --------*/
+.slider-container div a {
+    display: block;
+}
+
+.slider-container div a:hover {
+    color: #600;
+}
+/*-------- ここまで */
+
+/* 進む、戻るの配置とデコレーション */
+#slide-prev, #slide-next {
+    position: absolute;
+    top: 60px;
+    color: #e0e0e0;
+    font-size: 60px;
+    line-height: 1;
+    text-decoration: none;
+    text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
+}
+
+#slide-prev {
+    left: 2px;
+}
+
+#slide-next {
+    right: 2px;
+}
+
+#slide-prev:hover,
+#slide-next:hover {
+    color: #ccc;
+    text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* ページネーションの配置とデコレーション */
+.slider-pagination {
+    position: absolute;
+    top: 177px;
+    left: 50%;
+    margin-left: -50px;
+    width: 100px;
+}
+
+.slider-pagination a {
+    float: left;
+    margin: 5px 5px 0;
+    border-radius: 5px;
+    width: 10px;
+    height: 10px;
+    overflow: hidden;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) inset;
+    background: #eee;
+    text-indent: -9999px;
+    vertical-align: middle;
+}
+
+.slider-pagination a:hover {
+    background: #ccc;
+}
+
+/* 現在表示しているコンテンツと同じページナンバー */
+.slider-pagination a.current {
+    box-shadow: 1px 1px 2px rgba( 0,   0,   0, 0.5) inset,
+                0   0   2px rgba(68, 170, 238, 0.5);
+    background: #4ae;
+}
+</code></pre>
+  <p>
+   <code>position</code>, <code>width</code>, <code>height</code>, <code>overflow</code>プロパティさえしっかり指定していればそんなに問題は起きないと思います。<br>
+    特に<code>.slider-view</code>の<code>overflow: hidden</code>はないと悲惨なことになるので必ず指定します。
+  </p>
+  <ins datetime="2011-02-22T23:56:25+09:00">
+    <p>
+     <code>.slider-view</code>の<code>overflow: hidden</code>を消した場合、ループ処理がどういう仕組になっているか分かりやすいと思いますので、試してみてもいいかもしれません。
+    </p>
+  </ins>
+</section>
+<section>
+  <h2>jQuery</h2>
+  <p>
+    最初に各種設定をします。
+  </p>
+  <pre><code class="language-javascript">var o = {
+  speed   : 300, // スライドするスピード(ミリ秒)
+  interval: 3000 // 次のスライドまでの時間(ミリ秒)
+};
+
+// 対象となる要素を変数に格納しておく
+var $slider     = $('#slider'),
+    $container  = $slider.find('div.slider-container'),
+    $contents   = $container.children(),
+    $firstChild = $contents.filter(':first-child'),
+    $lastChild  = $contents.filter(':last-child');
+
+// スライドが表示されるエリアのサイズ(スライドするコンテンツ1つ分と同じ)
+var size = {
+  width : $container.width(),
+  height: $container.height() // 今回は使いません
+};
+
+// スライドするコンテンツの現在地の管理
+var count = {
+  min    : 0,
+  max    : $contents.length,
+  current: 0
+};
+
+// div.slider-container の width を設定する
+// 前後にスライドコンテンツ1つ分のスペースを作る(ループ処理に使う)
+$container.css({
+  width      : size.width * ($contents.length + 2),
+  marginLeft : -size.width,
+  paddingLeft: size.width
+});
+</code></pre>
+  <p>
+    次にスライドする動きと、共通処理を作ります。
+  </p>
+  <pre><code class="language-javascript">var distance; // 移動距離を指定するのに使う
+var slide = {
+
+  // スライド(進む)
+  next: function (index) {
+
+          // 移動距離を出すための関数
+          fnc.range(index, 'positive');
+
+          // スライドアニメーション
+          if(count.current &lt; count.max - 1) {
+
+            // 現在地が最後のコンテンツより前の場合の処理
+            fnc.scroll(distance);
+
+          } else {
+
+            // 現在地が最後のコンテンツだった場合
+
+            // 最初のコンテンツをコンテナの一番後ろまで移動
+            $firstChild.css('left', size.width * $contents.length);
+
+            // 一番最後のコンテンツの次のエリアにスライド
+            $container.stop(true, false)
+                      .animate({left: -distance}, o.speed,
+                        // アニメーションコールバック関数
+                        function () {
+                          // 移動した最初のコンテンツを元の場所に戻す
+                          $firstChild.css('left', 0);
+                          // スライドしていったコンテナ自体も元の場所に戻す
+                          $container.css('left', 0);
+                        }
+                      );
+
+            // 現在地を-1に（次の処理で0になる）
+            count.current = -1;
+          }
+
+          // 現在地を1増やす
+          fnc.counter(index, 'increment');
+
+          // ページネーションのクラスを付け替える
+          fnc.pageNav(count.current);
+        },
+
+  // スライド（戻る）。基本的にはnextの逆の処理をするだけ
+  prev: function (index) {
+          fnc.range(index, 'negative');
+          if(count.current &gt; count.min) {
+            fnc.scroll(distance);
+          } else {
+            $lastChild.css('left', -(size.width * $contents.length));
+            $container.stop(true, false)
+                      .animate({left: -distance}, o.speed,
+                        function () {
+                          $lastChild.css('left', '');
+                          $container.css('left', -(size.width * ($contents.length - 1)));
+                        }
+                      );
+            count.current = count.max;
+          }
+          fnc.counter(index, 'decrement');
+          fnc.pageNav(count.current);
+        }
+
+};
+
+// 共通で使われる関数
+var fnc = {
+
+  // 移動距離を出す
+  range  : function (n, d) {
+             if(n &gt;= 0) {
+               // ページネーションで指定するとき
+               distance = size.width * n;
+             } else {
+               // それ以外。自動or進む、戻る
+               var addNum;
+               if(d === 'negative') addNum = -1; // Next
+               if(d === 'positive') addNum = +1; // Prev
+               distance = size.width * (count.current + addNum);
+             }
+           },
+
+  // シンプルに移動距離分スライド
+  scroll : function (d) {
+             $container.stop(true, false).animate({left: -d}, o.speed);
+           },
+
+  // アニメーションするときに現在位置を増減する
+  counter: function (n, c) {
+             if(n &gt;= 0) {
+               // ページネーションで指定するとき
+               count.current = n;
+             } else {
+               if(c === 'increment') count.current++; // 進む
+               if(c === 'decrement') count.current--; // 戻る
+             }
+           },
+
+  // ページネーションのクラス名を振りなおす
+  pageNav: function (n) {
+             $pagination.children('a').removeClass('current');
+             $pagination.children('a:eq(' + n + ')').addClass('current');
+           },
+
+  // 進む、戻るをクリックしたときの処理
+  pager  : function (d, e) {
+               if(!$container.is(':animated')) {
+                 clearInterval(start);
+                 if(d === 'positive') slide.next(); // 進む
+                 if(d === 'negative') slide.prev(); // 戻る
+                 play();
+               }
+               e.preventDefault(); // リンククリック動作を無効にする
+           }
+
+};
+</code></pre>
+  <p>
+    説明が足りていないような気もしますが、たぶん分かるんじゃないかと思います。<br>
+    ごめんなさい。
+  </p>
+  <p>
+    最後はイベント処理、自動スライド、ページネーションです。
+  </p>
+  <pre><code class="language-javascript">var play, start;
+
+// 自動スライド処理
+// o.interval で指定した時間ごとに slide.next() を実行する
+play = function () {
+         start = setInterval(function () {
+                     slide.next();
+                 }, o.interval);
+       };
+
+// スライドコンテンツにホバーしたときの処理
+$contents.hover(
+  function () {
+    // ホバーしたら自動スライドを停止
+    clearInterval(start);
+  },
+  function () {
+    // カーソルが離れたら再開
+    play();
+  }
+);
+
+// 進む、戻るの処理
+// 共通関数部分を参照
+$('#slide-prev').click(function (e) {
+  fnc.pager('negative', e);
+});
+
+$('#slide-next').click(function (e) {
+  fnc.pager('positive', e);
+});
+
+// ページネーションを入れるdiv.slider-paginationを作成
+var $pagination = $('&lt;div/&gt;', {'class': 'slider-pagination'});
+
+// スライドするコンテンツ数と同じ数のa要素を作ってdiv.slider-paginationに追加
+$contents.each(function (i) {
+  $('&lt;a/&gt;', {'href': '#'})
+    .text(i + 1)
+    .appendTo($pagination)
+
+    // クリックイベントを一緒に追加しておく
+    .click(function (e) {
+
+      e.preventDefault(); // リンククリック動作を無効にする
+      var indexNum = i; // クリックされたリンクのインデックス番号を取得
+      clearInterval(start); // 自動スライドを停止
+
+      // インデックス番号が現在地より大きい場合
+      if(indexNum &gt; count.current) {
+        slide.next(indexNum);
+      }
+      // インデックス番号が現在地より小さい場合
+      else if(indexNum &lt; count.current) {
+        slide.prev(indexNum);
+      }
+      play(); // 自動スライド再開
+    });
+});
+
+// ページネーションをdiv#sliderに追加
+$pagination.appendTo($slider);
+
+// ページネーションの最初にcurrentというクラス名を付ける
+$pagination.find('a:first-child').addClass('current');
+</code></pre>
+  <p>
+    これで処理は完了です。<br>
+    最後に
+  </p>
+  <pre><code class="language-javascript">play();</code></pre>
+  <p>
+    を書いて、自動スライドを開始して完成です。
+  </p>
+  <p>
+    デモに使っているものと説明とは順番が少し違っていますが、書いてあることは同じです。<br>
+    最終的にできあがるものはデモページで使っている<span class="path">script.js</span>をご覧ください。
+  </p>
+</section>
+<p>
+  このスクリプトを使いたい場合は、ソースを丸ごと転載とかしなければ好きに使ってもらって構いません。<br>
+  もっと素敵なコードに改良されて使われるといいなと思っています。<br>
+  あと、写真は自分で撮ったものです。こっちはダウンロードしたデモページ以外では使わないでください。
+</p>
+<p>
+  スライドの順番を管理するために、以下を参考にしました。
+</p>
+<p>
+  <a href="http://jsdo.it/GeckoTang/bXtA">CountNum - jsdo.it - Share JavaScript, HTML5 and CSS</a>
+</p>
+<p>
+  練習としてはなかなかのものになったんじゃないかなーと思いますが、もっとよくしていきたいですね。
+</p>
+<ins datetime="2011-02-22T16:17:50+09:00">
+  <hr>
+  <p>
+    <b>2011年2日22 追記：</b><br>
+    ページネーションを作るときに一緒にイベントを設定したほうがいいとご指摘を受けたので修正しました。
+  </p>
+</ins>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>CSS text-shadow on Google Chrome Test</title>
+<link rel="stylesheet" type="text/css" media="screen" href="reset.css" />
+<style type="text/css">
+  html {
+    background: #ccc;
+  }
+  body {
+    margin: 20px;
+    font-size: 16px;
+  }
+  hr {
+    margin-bottom: 20px;
+    border: 0;
+    border-bottom: 1px solid #888;
+  }
+  p {
+    margin-bottom: 20px;
+    color: #303030;
+    font-family: "Consolas";
+    white-space: pre-wrap;
+  }
+  .font-1 {
+    font-family: "Consolas";
+  }
+  .font-2 {
+    font-family: "MS Gothic";
+  }
+  .test-0 {
+    text-shadow: 1px 1px 1px #transparent;
+  }
+  .test-1 {
+    text-shadow: 1px 1px 1px #fff;
+  }
+  .test-2 {
+    text-shadow: 1px 1px 0   #fff;
+  }
+  .test-3 {
+    text-shadow: 0   0   0   transparent,
+                 1px 1px 1px #fff;
+  }
+  .test-4 {
+    text-shadow: 0   0   1px rgba(0, 0, 0, 0),
+                 1px 1px 1px #fff;
+  }
+  .test-5 {
+    text-shadow: 0   0   1px rgba(255, 255, 255, 0),
+                 1px 1px 1px #fff;
+  }
+  .test-6 {
+    text-shadow: 0   0   1px rgba(0, 0, 0, 0.1),
+                 1px 1px 1px #fff;
+  }
+</style>
+</head>
+<body>
+
+<p class="font-1">text-shadow: none;</p>
+<p class="font-1 test-0">text-shadow: 1px 1px 1px transparent;</p>
+<p class="font-1 test-1">text-shadow: 1px 1px 1px #fff;</p>
+<p class="font-1 test-2">text-shadow: 1px 1px 0   #fff;</p>
+<p class="font-1 test-3">text-shadow: 0   0   0   transparent,
+             1px 1px 1px #fff;</p>
+<p class="font-1 test-4">text-shadow: 0   0   1px rgba(0, 0, 0, 0),
+             1px 1px 1px #fff;</p>
+<p class="font-1 test-5">text-shadow: 0   0   1px rgba(255, 255, 255, 0),
+             1px 1px 1px #fff;</p>
+<p class="font-1 test-6">text-shadow: 0   0   1px rgba(0, 0, 0, 0.1),
+             1px 1px 1px #fff;</p>
+
+<hr />
+
+<p class="font-2">text-shadow: none;</p>
+<p class="font-2 test-0">text-shadow: 1px 1px 1px transparent;</p>
+<p class="font-2 test-1">text-shadow: 1px 1px 1px #fff;</p>
+<p class="font-2 test-2">text-shadow: 1px 1px 0   #fff;</p>
+<p class="font-2 test-3">text-shadow: 0   0   0   transparent,
+             1px 1px 1px #fff;</p>
+<p class="font-2 test-4">text-shadow: 0   0   1px rgba(0, 0, 0, 0),
+             1px 1px 1px #fff;</p>
+<p class="font-2 test-5">text-shadow: 0   0   1px rgba(255, 255, 255, 0),
+             1px 1px 1px #fff;</p>
+<p class="font-2 test-6">text-shadow: 0   0   1px rgba(0, 0, 0, 0.1),
+             1px 1px 1px #fff;</p>
+</body>
+</html>

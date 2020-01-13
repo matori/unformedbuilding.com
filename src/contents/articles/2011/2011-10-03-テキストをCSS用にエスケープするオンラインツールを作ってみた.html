@@ -1,0 +1,45 @@
+<script type="application/x-yaml">
+title: "テキストをCSS用にエスケープするオンラインツールを作ってみた"
+description: "テキストをCSS用にエスケープするツールを作ったので、一応紹介しておきます。"
+slug: text-escaping-for-css
+published: 2011-10-03T15:03:33+09:00
+updated: 2011-10-03T15:08:21+09:00
+category: webdev
+</script>
+
+<p>
+  テキストをCSS用にエスケープするツールを作ったので、一応紹介しておきます。
+</p>
+<p>
+  CSSの<code>content</code>プロパティなどでテキストを書くときなど、そのまま書いてもいいのですが、日本語などの場合は文字コードが面倒くさいのでエスケープした文字列を入れておくと便利だと思っています。<br>
+  <code>font-family</code>の指定とかに使うこともあるかもしれません。
+</p>
+<p>
+  この辺の話は<a href="http://tenderfeel.xsrv.jp/">WebTecNote</a>さんの「<a href="http://tenderfeel.xsrv.jp/css/787/">[css] contentプロパティで挿入できるコンテンツ</a>」という記事が分かりやすいです。
+</p>
+<p>
+  で、上記リンク先にも今回作ったものと似たような変換機があって、以前はよく使わせてもらっていたのですが、何と言うか、練習も兼ねて自分で作ってみたいと思ったわけです。<br>
+  まあ自分なりに使いやすいものができたかと思います。
+</p>
+<p>
+  <a href="http://labs.unformedbuilding.com/text-escaping-for-css/">Text Escaping for CSS</a>
+</p>
+<p>
+  使い方は上のテキストエリアに好きな文字列を入れるだけです。<br>
+  あ、改行も変換されますので注意してください。<br>
+  書いたものが変換されない場合、一旦フォーカスを外すなどして下さい。<br>
+  それと、多分IE 8未満では動きません。
+</p>
+<p>
+  <code>❤</code>とか<code>✿</code>とか<code>☂</code>みたいなのでも大丈夫です。<br>
+  こういう文字は『<a href="http://www.sciweavers.org/i2symbol">i2Symbol</a>』でたくさん見られますので、そういうところで探すといいんじゃないでしょうか。
+</p>
+<p>
+  元は自分用に作ったツールですが、よかったら使ってみてください。<br>
+  あ、あと、テキストのエンコードなら下の2つがお勧めです！
+</p>
+<ul>
+  <li><a href="http://0xcc.net/jsescape/">Text Escaping and Unescaping in JavaScript</a></li>
+  <li><a href="http://encodemaniax.com/">エンコードマニアックス - 各種エンコードやハッシュを一発作成</a></li>
+</ul>
+

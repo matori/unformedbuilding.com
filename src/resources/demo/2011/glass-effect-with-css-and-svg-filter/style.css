@@ -1,0 +1,93 @@
+html, body, h1, p {
+  margin : 0;
+  padding: 0;
+}
+
+article, header, footer {
+  display: block;
+}
+
+html,
+#content-bg {
+  background     : url(bg.jpg) no-repeat right bottom fixed;
+  background-size: cover;
+}
+
+body {
+  font: 16px/1 "Arial", sans-serif;
+}
+
+#content {
+  position     : absolute;
+  left         : 5%;
+  top          : 5%;
+  border-top   : 1px solid rgba(255, 255, 255, 0.8);
+  border-left  : 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 2px;
+  box-shadow   : 2px 2px 5px #000;
+}
+
+#content-bg {
+  position: absolute;
+  left    : 0;
+  top     : 0;
+  width   : 100%;
+  height  : 100%;
+  z-index : 0;
+  filter  : url(filter.svg#blur);
+}
+
+article {
+  position   : relative;
+  z-index    : 1;
+  padding    : 30px;
+  background : rgba(255, 255, 255, 0.15);
+  color      : #f0f0f0;
+  font-family: serif;
+  text-shadow: 1px 1px 1px #000;
+}
+
+article h1 {
+  margin-bottom : 32px;
+  font-size     : 32px;
+  letter-spacing: 0.25em;
+}
+
+article .body p {
+  margin        : 18px 0;
+  font-size     : 18px;
+  line-height   : 1.4;
+  letter-spacing: 1px;
+}
+
+article footer p {
+  margin-top: 32px;
+  font-size : 14px;
+  text-align: right;
+}
+
+article footer cite {
+  font-style: normal;
+}
+
+#copyright {
+  position  : fixed;
+  left      : 0;
+  bottom    : 0;
+  z-index   : 9;
+  border-top: 1px solid #000;
+  width     : 100%;
+  background: rgba(0, 0, 0, 0.8);
+  color     : #e0e0e0;
+}
+
+#copyright p {
+  margin    : 0 20px;
+  padding   : 5px 0;
+  text-align: right;
+}
+
+#copyright a {
+  color          : inherit;
+  text-decoration: none;
+}

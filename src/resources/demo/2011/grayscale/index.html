@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>元画像を変更せずに画像をグレースケールで表示する デモページ</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<style type="text/css">
+#gray1 {
+	filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+}
+#gray2 {
+	filter: url(resources.svg#desaturate);
+}
+</style>
+<script type="text/javascript">
+	window.onload = function() {
+		var img = document.getElementById('gray3');
+		img.src = grayscaleImage(img);
+	}
+	
+	function grayscaleImage(imgObj) {
+
+		var canvas = document.createElement('canvas');
+		var canvasContext = canvas.getContext('2d');
+
+		var imgW = imgObj.width;
+		var imgH = imgObj.height;
+		canvas.width = imgW;
+		canvas.height = imgH;
+
+		canvasContext.drawImage(imgObj, 0, 0);
+		var imgPixels = canvasContext.getImageData(0, 0, imgW, imgH);
+
+		for(var y = 0; y < imgPixels.height; y++){
+			for(var x = 0; x < imgPixels.width; x++){
+				var i = (y * 4) * imgPixels.width + x * 4;
+				var avg = (imgPixels.data[i] + imgPixels.data[i + 1] + imgPixels.data[i + 2]) / 3;
+				imgPixels.data[i] = avg; 
+				imgPixels.data[i + 1] = avg; 
+				imgPixels.data[i + 2] = avg;
+			}
+		}
+
+		canvasContext.putImageData(imgPixels, 0, 0, 0, 0, imgPixels.width, imgPixels.height);
+		return canvas.toDataURL();
+	}
+</script>
+</head>
+<body>
+
+<div>
+	<img src="./image.jpg" alt="" /><span>元画像</span>
+</div>
+
+<div>
+	<img src="./image.jpg" alt="" id="gray1" /><span>filter</span>
+</div>
+
+<div>
+	<img src="./image.jpg" alt="" id="gray2" /><span>SVG filter</span>
+</div>
+
+<div>
+	<img src="./image.jpg" alt="" id="gray3" /><span>canvas</span>
+</div>
+
+</body>
+</html>

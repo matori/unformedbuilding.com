@@ -1,0 +1,167 @@
+<script type="application/x-yaml">
+title: "XAMPP + PhpStorm + WordPressの設定メモ"
+description: "毎回設定方法を忘れて検索するのがつらいのでメモしておきます。"
+slug: xampp-phpstorm-wordpress-setting-memo
+published: 2013-10-24T16:35:26+09:00
+updated: 2013-10-24T16:35:26+09:00
+category: webdev
+</script>
+
+<p>
+  毎回設定方法を忘れて検索するのがつらいのでメモしておきます。
+</p>
+<ul>
+  <li><span class="path">C:\Develop</span>以下で構成。</li>
+  <li>XAMPPのドキュメントルートはそのまま、実際に使うのは<span class="path">C:\Develop\www</span>以下にディレクトリ作る。</li>
+  <li>WordPressのルートは<span class="path">C:\Develop\www\wp</span>にする。</li>
+  <li>MySQLのdataもXAMPPとは別ディレクトリの<span class="path">C:\Develop\mysql</span>に。</li>
+  <li>WordPressのURLは<span class="path">wp.localhost</span>にする。</li>
+</ul>
+<section>
+  <h2>バーチャルホストの設定とか</h2>
+  <p>
+    今回は<span class="path">C:\Develop\xampp</span>にインストールする。<br>
+    インストールが終わったら<span class="path">php.ini</span>の設定。
+  </p>
+  <pre><code class="language-ini">mbstring.language = Japanese
+date.timezone=Asia/Tokyo</code></pre>
+  <p>
+    とりあえずこれだけやって、他は本番用サーバーにあわせる。
+  </p>
+  <p>
+    参考リンク：<br>
+    <a href="http://www.adminweb.jp/xampp/php/index2.html">php.iniファイルの確認と修正 - XAMPPの使い方</a>
+  </p>
+  <p>
+    ApacheとMySQL起動して、ちゃんとインストールできていたらセキュリティ設定して一旦終了させる。<br>
+    次はバーチャルホストの設定。
+  </p>
+  <p>
+    <span class="path">C:\Develop\xampp\apache\conf\extra\httpd-vhosts.conf</span>を開く。<br>
+    一番最後に次を加える。
+  </p>
+  <pre><code>NameVirtualHost *:80
+
+&lt;VirtualHost *:80&gt;
+  DocumentRoot &quot;C:/Develop/xampp/htdocs&quot;
+  ServerName localhost
+&lt;/VirtualHost&gt;
+
+&lt;VirtualHost *:80&gt;
+  DocumentRoot &quot;C:/Develop/www/wp&quot;
+  ServerName wp.localhost
+  &lt;Directory &quot;C:/Develop/www/wp&quot;&gt;
+    Order allow,deny
+    Allow from all
+    Require all granted
+  &lt;/Directory&gt;
+&lt;/VirtualHost&gt;</code></pre>
+  <p>
+    <span class="path">C:\Windows\System32\drivers\etc\hosts</span>を開く。<br>
+    最後に次を加える。
+  </p>
+  <pre><code>127.0.0.1 localhost
+127.0.0.1 wp.localhost</code></pre>
+  <p>
+    <span class="path">C:\Develop\www\wp</span>に<code>&lt;?php phpinfo() ?&gt;</code>だけを書いた<span class="path">index.php</span>を置いて、Apacheを起動したら<span class="path">http://wp.localhost</span>にアクセスしてちゃんと表示されるか確認。
+  </p>
+  <p>
+    参考リンク：<br>
+    <a href="http://vitafacio.sakura.ne.jp/wordpress/?p=168">XAMPPのVirtualhostで複数のサイトを管理する方法（403対策あり） | ケーキ・先生・アドセンス</a>
+  </p>
+</section>
+<section>
+  <h2>phpMyAdmin のログイン時間を変更</h2>
+  <p>
+    初期状態だと短いので変更する。
+  </p>
+  <p>
+    <span class="path">C:\Develop\xampp\phpMyAdmin\config.inc.php</span>を開く。<br>
+    最後に次を追加。
+  </p>
+  <pre><code class="language-php">ini_set(
+  'session.gc_maxlifetime',
+  ($cfg['LoginCookieValidity'] = (3600 * 8))
+);</code></pre>
+  <p>
+    参考リンク：<br>
+    <a href="http://blog.aulta.net/2009/12/26/phpmyadmin%E3%81%AE%E8%87%AA%E5%8B%95%E3%83%AD%E3%82%B0%E3%82%A2%E3%82%A6%E3%83%88%E6%99%82%E9%96%93%E3%82%92%E5%BB%B6%E9%95%B7%E3%81%99%E3%82%8B%E3%80%82/">phpMyAdminの自動ログアウト時間を延長する。 | 篠原隆司のブログ</a>
+  </p>
+</section>
+<section>
+  <h2>MySQL Dataを移動</h2>
+  <p>
+    <span class="path">C:\Develop\xampp\mysql</span>にある<span class="path">data</span>ディレクトリを<span class="path">C:\Develop\mysql</span>に移動。
+  </p>
+  <p>
+    <span class="path">C:\Develop\xampp\mysql\bin\my.ini</span>を開く。<br>
+    <span class="path">C:/Develop/xampp/mysql/data</span>になっている箇所を<span class="path">C:/Develop/mysql/data</span>に変更。<br>
+    必要ならログファイルのパスも変更する。
+  </p>
+  <p>
+    MySQLを起動してちゃんと動いているか確認。
+  </p>
+  <p>
+    参考リンク：<br>
+    <a href="http://naka7772.blog.fc2.com/blog-entry-252.html">初心者がWEB開発に挑戦 MySQLのデータディレクトリの変更方法(XAMPP)</a>
+  </p>
+</section>
+<section>
+  <h2>WordPressのインストール</h2>
+  <p>
+    WordPress用のデータベース<span class="path">wp_test</span>を作成。<br>
+    <span class="path">C:\Develop\www\wp</span>に WordPressを置いたらインストール。<br>
+    <span class="path">http://wp.localhost</span>にブラウザでアクセスして表示されたらOK。
+  </p>
+</section>
+<section>
+  <h2>PhpStormの設定</h2>
+  <p>
+    プロジェクト作成。<br>
+    PhpStormを起動して、ツールバーの「Open Directory」から<span class="path">C:\Develop\www\wp</span>を指定。<br>
+    （<span class="path">wp-config.php</span>を触らないなら、<span class="path">C:\Develop\www\wp\wp-content</span>を指定するといい。その際、次の段落の手順は飛ばす）
+  </p>
+  <p>
+    Settings → Project Settings → Derectoriesへ。<br>
+    Content Rootを一旦削除し、Add Content Rootで<span class="path">C:\Develop\www\wp\wp-content</span>を指定。
+  </p>
+  <p>
+    XAMPPとの連携。<br>
+    Settings → Project Settings → PHPへ。<br>
+    Interpreterボタンをクリックして、Interpretersウィンドウが開いたらAddをクリック。<br>
+    名前は何でもいいので「XAMPP PHP」とでもつけておく。<br>
+    パスは<span class="path">C:\Develop\xampp\php</span>にする。<br>
+    OKをクリック。<br>
+    Include pathに<span class="path">C:\Develop\www\wp\wp-admin</span>と<span class="path">C:\Develop\www\wp\wp-includes</span>を追加。
+  </p>
+  <p>
+    使わないと思うけど、一応Deploymentの設定もしておく。<br>
+    Settings → Project Settings → Deploymentへ。<br>
+    Addをクリック。<br>
+    名前は何でもいいので「WordPress Test」とか。<br>
+    TypeはLocal or mounted folderを選択。<br>
+    Upload/donwload project filesは<span class="path">C:\Develop\www\wp</span>を指定。<br>
+    Browse files on serverはバーチャルホストで設定した<span class="path">http://wp.localhost</span>を指定。
+  </p>
+  <p>
+    次はデータベースとの接続。<br>
+    エディタ画面に戻って、ツールバー → View → Tool Windows → Databaseへ。<br>
+    New → Data Srourceをクリック。<br>
+    名前は何でもいい。<br>
+    Databaseタブ → JDBC driver files → MySQL Connectorを選択。<br>
+    ダウンロード先はどこでもいい。ダウンロード済みなら、JDBC driver filesにそのパスを指定する。<br>
+    Database URLは<span class="path">jdbc:mysql://localhost:3306/</span>を記入。<br>
+    ユーザー名とパスワードはXAMPPで設定したデータベースのアカウント。<br>
+    IDEからの書き換えを禁止するならRead-onlyにもチェック。<br>
+    左下のTest Connectionをクリックして接続テスト。<br>
+    Schemas &amp; Tablesタブ → WordPressで使うものだけにだけScan for TablesとMake Defaultにチェック。
+  </p>
+  <p>
+    参考リンク：<br>
+    <a href="http://confluence.jetbrains.com/display/PhpStorm/Installing+and+Configuring+XAMPP+with+PhpStorm+IDE">Installing and Configuring XAMPP with PhpStorm IDE - PhpStorm - Confluence</a>
+  </p>
+</section>
+<p>
+  簡単なテーマ作成用なので、たぶん足りないものいっぱいあります。あと間違っていたらすみません。<br>
+  Xdebugの導入とかは自信ないので検索してください……。
+</p>

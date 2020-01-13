@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     xmlns:ev="http://www.w3.org/2001/xml-events">
+
+
+
+  <defs>
+    <filter id="bokeh">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+  </defs>
+  <style type="text/css">
+    .blur {
+      fill-opacity: 0;
+      stroke-width: 1.5;
+      filter: url(#bokeh);
+    }
+    .base {
+      fill-opacity: 0.2;
+    stroke-width: 1;
+    stroke-opacity: 0.6;
+    }
+  </style>
+  <script type="text/javascript">
+    <![CDATA[
+      var svgNS = 'http://www.w3.org/2000/svg';
+      var d = document;
+      var w = window.innerWidth;
+      var h = window.innerHeight;
+      var rand = function (min, max, integer) {
+              var num = Math.random() * (max - min);
+              if (integer) {
+                num = Math.floor(num);
+              }
+              num = num + min;
+              return num;
+            };
+      var rgb = function (min, max) {
+              var channels = [];
+              for (var i = 0; i < 3; i++) {
+                channels.push(rand(min, max, true));
+              }
+              return channels.join(',');
+            };
+      var c = [];
+      var s=d.getElementsByTagName('svg')[0];
+      for(var i=0; i<20; i++) {
+        var e = document.createElementNS(svgNS, 'g');
+        var posX = rand(0, w);
+        var posY = rand(0, h);
+        e.setAttribute('transform', 'translate(' + posX + ',' + posY + ')');
+        var color = rgb(150, 255);
+        color= 'rgb(' + color + ')';
+        var radius = rand(30, 200);
+        var blur= document.createElementNS(svgNS, 'circle');
+        blur.setAttribute('r', radius);
+        blur.setAttribute('class', 'blur');
+        blur.setAttribute('fill', color);
+        blur.setAttribute('stroke', color);
+        //blur.setAttribute('filter', 'url(#blur)')
+        var circle = document.createElementNS(svgNS, 'circle');
+        circle.setAttribute('r', radius);
+        circle.setAttribute('class', 'base');
+        circle.setAttribute('fill', color);
+        circle.setAttribute('stroke', color);
+        e.appendChild(blur);
+        e.appendChild(circle);
+        s.appendChild(e);
+      }
+    ]]>
+  </script>
+
+</svg>

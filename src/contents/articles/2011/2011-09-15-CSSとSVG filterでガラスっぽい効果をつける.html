@@ -1,0 +1,133 @@
+<script type="application/x-yaml">
+title: "CSSとSVG filterでガラスっぽい効果をつける"
+description: "今回はfeGaussianBlur要素を使って、ガラスのようなエフェクトを付けてみたいと思います。"
+slug: glass-effect-with-css-and-svg-filter
+published: 2011-09-15T14:39:27+09:00
+updated: 2011-09-16T17:26:13+09:00
+category: webdev
+</script>
+
+<p>
+  <a href="/articles/convert-image-to-grayscale-on-html/">SVGのフィルタについては以前も少し書きました</a>が、今回は<code>feGaussianBlur</code>要素を使って、ガラスのようなエフェクトを付けてみたいと思います。
+</p>
+<figure>
+  <img src="/images/2011/glass-effect-with-css-and-svg-filter/eyecatch.jpg" width="620" height="370" alt="">
+</figure>
+<p>
+  デモページは以下ですが、たぶんFirefoxでしかちゃんと見れないと思います。
+</p>
+<p>
+  <a href="/demo/2011/glass-effect-with-css-and-svg-filter/">Glass effect with CSS &amp; SVG filter</a>
+</p>
+<p>
+  <a href="/download/2011/glass-effect-with-css-and-svg-filter.zip" download>デモファイルをダウンロード</a>
+</p>
+<p>
+  背景には<a href="http://www.flickr.com/photos/kimonomania/">rachel a. k.</a>さんの「<a href="https://www.flickr.com/photos/kimonomania/2946948135/">52. she’s gone where the goblins go</a>」を使用しています。<br>
+  この画像は<a href="http://creativecommons.org/licenses/by-nc-sa/2.0/deed.ja">CC BY-NC-SA 2.0</a>でライセンスされています。
+</p>
+<section>
+  <h2>SVG</h2>
+  <p>
+    今回作ったSVGファイルにはこんな感じのが書かれています。
+  </p>
+  <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;svg version=&quot;1.1&quot;
+     baseProfile=&quot;full&quot;
+     xmlns=&quot;http://www.w3.org/2000/svg&quot;
+     xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;
+     xmlns:ev=&quot;http://www.w3.org/2001/xml-events&quot;&gt;
+    &lt;filter id=&quot;blur&quot;&gt;
+      &lt;feGaussianBlur stdDeviation=&quot;2.5&quot;/&gt;
+    &lt;/filter&gt;
+&lt;/svg&gt;</code></pre>
+  <p>
+    やっていることはブラーをかけるフィルタを作っているだけですね。<br>
+    SVGのフィルタについてはW3Cのページを参照してください。
+  </p>
+  <p>
+    <a href="http://www.w3.org/TR/SVG/filters.html">Filter Effects — SVG 1.1 (Second Edition)</a>
+  </p>
+</section>
+<section>
+  <h2>HTML</h2>
+  <p>
+    空<code>div</code>を使っていますが、やりようによってはどうにかできると思います。
+  </p>
+  <pre><code class="language-html">&lt;div id=&quot;content&quot;&gt;
+  &lt;div id=&quot;content-bg&quot;&gt;&lt;/div&gt;
+  &lt;article&gt;
+    &lt;header&gt;
+      &lt;h1&gt;初恋&lt;/h1&gt;
+    &lt;/header&gt;
+    &lt;div class=&quot;body&quot;&gt;
+      &lt;p&gt;......&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;footer&gt;
+      &lt;p&gt;&lt;cite&gt;島崎藤村 ｢若菜集｣ より&lt;/cite&gt;&lt;/p&gt;
+    &lt;/footer&gt;
+  &lt;/article&gt;
+&lt;/div&gt;</code></pre>
+  <p>
+    そういえば、使ったテキストは島崎藤村の「初恋」という詩です。
+  </p>
+</section>
+<section>
+  <h2>CSS</h2>
+  <pre><code class="language-css">html,
+#content-bg {
+  background     : url(bg.jpg) no-repeat right bottom fixed;
+  background-size: cover;
+}
+
+#content {
+  position     : absolute;
+  left         : 5%;
+  top          : 5%;
+  border-top   : 1px solid rgba(255, 255, 255, 0.8);
+  border-left  : 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 2px;
+  box-shadow   : 2px 2px 5px #000;
+}
+
+#content-bg {
+  position: absolute;
+  left    : 0;
+  top     : 0;
+  width   : 100%;
+  height  : 100%;
+  z-index : 0;
+  filter  : url(filter.svg#blur);
+}
+
+article {
+  position   : relative;
+  z-index    : 1;
+  padding    : 30px;
+  background : rgba(255, 255, 255, 0.15);
+  color      : #f0f0f0;
+  font-family: serif;
+  text-shadow: 1px 1px 1px #000;
+}</code></pre>
+  <p>
+    例によってどうでもいい部分は省いてあります。
+  </p>
+  <p>
+    <code>html</code>要素と、空にした要素<code>div#content-bg</code>に同じような背景指定をしています。<br>
+    以前「<a href="/articles/learn-about-css3-background/">CSS3での背景指定方法のまとめ</a>」でも書いた通り、<code>background-size: cover</code>は「画像が背景配置領域内を完全に覆う最小サイズになるようにアスペクト比を保ちながら拡大縮小する」指定です。
+  </p>
+  <p>
+    また、<code>background-position: fixed</code>は、画像の位置がビューポートに固定されますので、要素がどこにあろうと背景画像は同じ位置になりまうす。<br>
+    これを利用して、同じ背景画像を2枚重ねているわけです。
+  </p>
+  <p>
+    そして、<code>div#content-bg</code>にSVGのフィルタをかけてぼかし、その上に重なる<code>article</code>要素に薄い白をRGBAで背景色に指定します。
+  </p>
+  <p>
+    これでガラスっぽい効果が完成です。
+  </p>
+</section>
+<p>
+  大して難しいことはやっていませんので、色々試してみるのも面白いと思いますよ。<br>
+  今のところ使い道はありませんが……。
+</p>

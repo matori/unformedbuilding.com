@@ -1,0 +1,35 @@
+h2,
+h3,
+h4,
+h5 {
+  margin-top: get-lines(3);
+  margin-bottom: get-lines(1);
+  font-weight: 600;
+}
+
+h2 + section > h3,
+h3 + section > h4,
+h4 + section > h5,
+h5 + section > h6 {
+  margin-top: get-lines(1);
+}
+
+h2 {
+  @include text(3);
+}
+
+h3 {
+  @include text(2);
+}
+
+h4 {
+  @include text(1);
+}
+
+h5 {
+  @include text(0);
+}
+
+h6 {
+  @include text(-1);
+}

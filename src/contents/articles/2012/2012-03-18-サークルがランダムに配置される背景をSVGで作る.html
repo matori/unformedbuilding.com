@@ -1,0 +1,207 @@
+<script type="application/x-yaml">
+title: "サークルがランダムに配置される背景をSVGで作る"
+description: "SVGを使って、毎回ランダムな色・大きさ・配置でボケ（bokeh）なサークルを作ってみます。 "
+slug: random-bubbles-background-with-svg
+published: 2012-03-18T01:45:57+09:00
+updated: 2012-03-18T01:45:57+09:00
+category: webdev
+</script>
+
+<p>
+  SVGを使って、毎回ランダムな色・大きさ・配置でボケ（bokeh）なサークルを作ってみます。<br>
+  まあやってることは前回の「<a href="/articles/kawaii-bubbles/">Kawaii Bubbles!</a>」とあんまり変わりませんけど……。<br>
+  前回は<code>li</code>要素を使ってやったのですが、背景として使うには適切ではないとかもなーと考えてました。で、SVGなら画像だから別にいいかと思って、今回のを作ってみました。
+</p>
+<figure>
+  <img src="/images/2012/random-bubbles-background-with-svg/result.png" width="620" height="378" alt="">
+</figure>
+<p>
+  <a href="/demo/2012/random-bubbles-background-with-svg/">Random Bubbles Background with SVG</a>
+</p>
+<p>
+  <a href="/download/2012/random-bubbles-background-with-svg.zip" download>デモファイルをダウンロード</a>
+</p>
+<p>
+  始めはCSS BackgroundでSVG読み込ませようとしたり<code>img</code>で置こうとしたんですが、<a href="http://www.w3.org/TR/html5/embedded-content-1.html#the-img-element">それだとSVGのスクリプトは実行されない</a>ので、HTMLファイルで読み込んでいるJavaScriptでSVG要素を作ってインラインSVGとして追加することにしました。<br>
+  今回の各ファイルは次のようになっています。
+</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot; /&gt;
+&lt;title&gt;タイトル&lt;/title&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;screen&quot; href=&quot;style.css&quot; /&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;script.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class=&quot;content&quot;&gt;
+  &lt;section&gt;
+    &lt;h1&gt;見出し&lt;/h1&gt;
+    &lt;p&gt;本文&lt;/p&gt;
+  &lt;/section&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>
+  使ったテキストは与謝野晶子の「セエヌ川」です。
+</p>
+<pre><code class="language-css">html, body {
+  margin : 0;
+  padding: 0;
+}
+
+section {
+  display: block;
+}
+
+/* for SVG */
+
+.bg { /* 背景として使うことを考えて指定する */
+  display : block;
+  position: fixed;
+  top     : 0;
+  left    : 0;
+  z-index : -1;
+  width   : 100%;
+  height  : 100%;
+}
+
+.blurred {
+  fill-opacity: 0;   /* 塗りつぶしの不透明度 */
+  stroke-width: 1.5; /* 縁の不透明度 */
+}
+
+.filled {
+  fill-opacity  : 0.2; /* 塗りつぶしの不透明度 */
+  stroke-width  : 1;   /* 縁の太さ */
+  stroke-opacity: 0.3; /* 縁の不透明度 */
+}
+
+/* content area */
+
+.content {
+  margin     : 3em auto;
+  width      : 19em;
+  color      : #3a3a3a;
+  font-size  : 22px;
+  font-family: &quot;Hiragino Mincho Pro W3&quot;, &quot;MS Mincho&quot;, serif;
+  text-shadow:  1px  1px 2px #fff,
+                1px -1px 2px #fff,
+               -1px  1px 2px #fff,
+               -1px -1px 2px #fff;
+}
+
+.content h1 {
+  margin     : 0;
+  font-size  : 44px;
+  text-indent: 1em;
+  line-height: 1;
+}
+
+.content p {
+  margin     : 2.5em 0;
+  line-height: 1.6;
+}</code></pre>
+<pre><code class="language-javascript">// この関数でインラインSVGを作って表示する
+function bgSVG() {
+
+  // 設定
+  var settings = {
+    count     : 30,  // 表示する泡の数
+    minRadius : 20,  // 泡の半径の最小値
+    maxRadius : 150, // 泡の半径の最大値
+    blurRadius: 10,  // ぼかしの半径
+    minRgb    : 150, // rgb 値の最小値
+    maxRgb    : 255  // rgb 値の最大値
+  };
+
+  var createSvgElm = function (tagName) {
+    // SVGの要素を作るための関数
+    return document.createElementNS('http://www.w3.org/2000/svg', tagName);
+  },
+      svg = createSvgElm('svg'),             // svg要素
+      def = createSvgElm('defs'),            // defs要素 / フィルタ用
+      filter = createSvgElm('filter'),       // filter要素
+      blur = createSvgElm('feGaussianBlur'), // ブラーのための要素
+      wW = window.innerWidth,
+      wH = window.innerHeight,
+      rand = function (min, max, integer) {
+        // 範囲内でランダムな数を出す関数
+        var num = Math.random() * (max - min);
+        // 整数にするかどうか
+        if (integer) {
+          num = Math.floor(num);
+        }
+        return num + min;
+      },
+      rgb = function (min, max) {
+        // 範囲内でランダムなrgbカラーコードを出す関数
+        var channels = [];
+        for (var i = 0; i &lt; 3; i++) {
+          channels.push(rand(min, max, true));
+        }
+        return 'rgb(' + channels.join(',') + ')';
+      };
+
+  // svg要素に属性を指定
+  svg.setAttribute('version', '1.1');
+  svg.setAttribute('class', 'bg');
+
+  // フィルタ用の要素と属性を作ってsvg要素に追加
+  filter.id = 'blur';
+  blur.setAttribute('stdDeviation', settings.blurRadius);
+  filter.appendChild(blur);
+  def.appendChild(filter);
+  svg.appendChild(def);
+
+  // 指定した数だけバブルを作ってsvg要素に追加
+  for (var i = 0; i &lt; settings.count; i++) {
+
+    var bubble = createSvgElm('g'),       // バブル用のグループ
+        blurred = createSvgElm('circle'), // 塗りつぶしなしで縁にぼかしのあるバブル
+        filled = createSvgElm('circle'),  // 半透明の塗りつぶしと縁があるバブル
+        posX = rand(0, wW), // X方向の配置
+        posY = rand(0, wH), // Y方向の配置
+        radius = rand(settings.minRadius, settings.maxRadius), // バブルの半径
+        color = rgb(settings.minRgb, settings.maxRgb);         // バブルに使う色
+
+    // g要素を移動
+    bubble.setAttribute('transform', 'translate(' + posX + ',' + posY + ')');
+
+    // ぼかしバブルに各属性を指定
+    blurred.setAttribute('r', radius);
+    blurred.setAttribute('fill', color);
+    blurred.setAttribute('stroke', color);
+    blurred.setAttribute('filter', 'url(#blur)');
+    blurred.setAttribute('class', 'blurred');
+
+    // 塗りつぶしありバブルに各属性を指定
+    filled.setAttribute('r', radius);
+    filled.setAttribute('fill', color);
+    filled.setAttribute('stroke', color);
+    filled.setAttribute('class', 'filled');
+
+    // 2つのバブルをg要素に追加
+    bubble.appendChild(blurred);
+    bubble.appendChild(filled);
+
+    // グループをsvg要素に追加
+    svg.appendChild(bubble)
+
+  }
+
+  // HTMLのbody要素にsvg要素を追加
+  document.getElementsByTagName('body')[0].appendChild(svg);
+}
+
+// ウィンドウがロードされたらbgSVGを実行
+window.addEventListener('load', bgSVG, false);</code></pre>
+<p>
+  前回のよりは使い道あるかな……？ まあIE 8以下では何も表示されませんけど。<br>
+  あとIE 9, Safari 5ではSVGフィルタが使えないのでブラーはかかりません。今回のだとなんかポップな感じになってますｗ
+</p>
+<p>
+  まあいつも通り練習用なので使いたい人は上手いこと直しちゃってください。
+</p>

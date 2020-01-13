@@ -1,0 +1,67 @@
+<script type="application/x-yaml">
+title: "Google Chromeでtext-shadowしたフォントの表示がおかしくなる条件と対処法"
+description: "Google Chromeでtext-shadow したフォントの表示がおかしくなることがあったのでちょっと調べてみました。"
+slug: text-shadow-on-google-chrome
+published: 2011-05-24T17:24:41+09:00
+updated: 2011-07-29T12:05:37+09:00
+category: webdev
+</script>
+
+<p>
+  Google Chromeで<code>text-shadow</code>したフォントの表示がおかしくなることがあったのでちょっと調べてみました。<br>
+  Arialやメイリオといったアンチエイリアスのかかったフォントが汚くなったり、ビットマップフォントにアンチエイリアスがかかってしまう現象です。
+</p>
+<p>
+  環境はWindows Vista/7でのGoogle Chrome 13.0.772.0 dev-mです。
+</p>
+<p>
+  <a href="/demo/2011/text-shadow-on-chrome-test/">CSS text-shadow on Google Chrome Test</a>
+</p>
+<p>
+  上段が<code>Consolas</code>指定、下段が<code>MS Gothic</code>指定です。
+</p>
+<p>
+  スクリーンショットは以下の通り。
+</p>
+<figure>
+  <img src="/images/2011/text-shadow-on-google-chrome/1.png" width="472" height="372" alt="テストページのConsolas指定部分のスクリーンショット">
+</figure>
+<figure>
+  <img src="/images/2011/text-shadow-on-google-chrome/2.png" width="472" height="372" alt="テストページのMS Gothic指定部分のスクリーンショット">
+</figure>
+<p>
+  Google Chromeは一部の<code>text-shadow</code>にブラウザ独自のアンチエイリアスを使用するらしく、それによって起こる現象と思われます。</p>
+<p>
+  また、上のテストを見る限りでは<br>
+  <strong>「最初のシャドウ指定にブラーが設定されており、アルファ値が<code>0</code>以外のカラーを指定している」</strong><br>
+  という条件で発生するようです。<br>
+  2つ目以降のシャドウの指定は特に影響しないようです。
+</p>
+<p>
+  上の条件を満たすような指定をする場合には最初のシャドウ指定に<code>0 0 0 transparent</code>などを指定すると回避できるようです。
+</p>
+<section>
+  <h2>参考ページ</h2>
+  <ul>
+    <li>
+      <a href="http://code.google.com/p/chromium/issues/detail?id=23440">Issue 23440 - chromium - Wrong text-shadow blur rendering - Google Project Hosting</a>
+    </li>
+    <li>
+      <a href="http://stackoverflow.com/questions/4046142/google-chrome-text-shadow-rendering">Google Chrome text shadow rendering - Stack Overflow</a>
+    </li>
+    <li>
+      <a href="http://jsdo.it/xl1/bs03">Windows 版 Chrome のアンチエイリアス - jsdo.it - Share JavaScript, HTML5 and CSS</a>
+    </li>
+  </ul>
+  <p>
+    一番最後のは<a href="https://twitter.com/xl1blue">@xl1blue</a>さんが作ってくれました。<br>
+    Chromiumのを見ると、ずいぶん前から知られているんですね……。
+  </p>
+</section>
+<ins datetime="2011-07-29T11:43:32+09:00">
+  <hr>
+  <p>
+    Google Chrome 14.0.835.8 dev-mで発生しなくなっているのを確認しました。<br>
+    そのうち正式版でも問題なくなるんじゃないかと思います。
+  </p>
+</ins>

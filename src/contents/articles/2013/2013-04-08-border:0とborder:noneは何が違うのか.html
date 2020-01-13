@@ -1,0 +1,87 @@
+<script type="application/x-yaml">
+title: "border:0とborder:noneは何が違うのか"
+description: "ボーダーのスタイルをリセットする場合などに使われる指定について。border:0とborder:none、この2つはどう違うのか、という話です。"
+slug: border-0-or-border-none
+published: 2013-04-08T11:57:20+09:00
+updated: 2013-04-08T12:18:00+09:00
+category: webdev
+</script>
+
+<p>
+  ボーダーのスタイルをリセットする場合などに使われる指定について。<br>
+  <code>border: 0</code>と<code>border: none</code>どちらを使いますか？ ということではなく、この2つはどう違うのか、という話です。
+</p>
+<p>
+  <code>border</code>プロパティについてですが、これは4つのボーダーの指定をまとめて行うショートハンドプロパティです。<br>
+  構文としては次のようになります。<br>
+  （参考：<a href="http://www.w3.org/TR/CSS21/box.html#border-shorthand-properties">CSS 2.1 Box model</a>,
+  <a href="http://www.w3.org/TR/css3-background/#the-border-shorthands">CSS Backgrounds and Borders Module Level 3</a>）
+</p>
+<pre><code class="language-text">// CSS 2.1
+[ &lt;border-width&gt; || &lt;border-style&gt; || &lt;'border-top-color'&gt; ] | inherit
+
+// CSS Backgrounds and Borders Module Level 3
+&lt;border-width&gt; || &lt;border-style&gt; || &lt;color&gt;</code></pre>
+<p>
+  若干構文が違いますが、結果は同じです。
+</p>
+<p>
+  Borders Module Level 3に<code>inherit</code>キーワードがないのは<q cite="http://www.w3.org/TR/css3-values/#common-keywords">all properties accept the ‘initial’ and ‘inherit’ keywords</q>（<a href="http://www.w3.org/TR/css3-values/#common-keywords">CSS Values and Units Module Level 3</a>）だからですね。
+</p>
+<p>
+  今回は関係ないですが、色の指定部分についても。<br>
+  CSS 2.1では&lt;&#8216;border-top-color’&gt;となっていますが、これは<code>border-top-color</code>プロパティに指定できる値と同じ値が指定できるという意味です。で、<code>border-top-color</code>に指定できるものは
+</p>
+<pre><code class="language-text">&lt;color&gt; | transparent | inherit</code></pre>
+<p>
+  となります。
+</p>
+<p>
+  Borders Module Level 3は&lt;color&gt;なので分かりやすいですね。<code>transparent</code>キーワードは&lt;color&gt;に含まれます。<br>
+  （参考：<a href="http://www.w3.org/TR/css3-values/#color-value">CSS Values and Units Module Level 3</a>,
+  <a href="http://www.w3.org/TR/css3-color/#transparent">CSS Color Module Level 3</a>）
+</p>
+<p>
+  それでは本題に。<br>
+  まずは<code>border: 0</code>から。
+</p>
+<p>
+  <code>0</code>は&lt;length&gt;なので、これは<code>border-width</code>に指定される値ですね。<br>
+  <code>&lt;border-width&gt; = &lt;length&gt; | thin | medium | thick</code>なので。&lt;border-style&gt;形式はキーワードのみで構成されているので当てはまりません。
+</p>
+<p>
+  ついでに書いておくと、<code>0</code>に単位をつけなくてもいいのは<q cite="http://www.w3.org/TR/CSS21/syndata.html#length-units">After a zero length, the unit identifier is optional</q>だからです。<br>
+  （参考：<a href="http://www.w3.org/TR/CSS21/syndata.html#length-units">Syntax and basic data types</a>,
+  <a href="http://www.w3.org/TR/css3-values/#lengths">CSS Values and Units Module Level 3</a>）
+</p>
+<p>
+  次に&lt;border-width&gt;を使用する<code>border-*-width</code>プロパティの部分を見ると、Computed valueの部分に<q cite="http://www.w3.org/TR/CSS21/box.html#value-def-border-width">absolute length; &#8216;0’ if the border style is &#8216;none’ or &#8216;hidden’</q>と書かれています。<br>
+  つまり、<code>border-style</code>の値が<code>none</code>または<code>hidden</code>の場合には、<code>border-*-width</code>は<code>0</code>になるということです。
+</p>
+<p>
+  これで<code>border: 0</code>でも<code>border: none</code>でもボーダーが表示されなくなる理由は分かりました。<br>
+  &lt;border-style&gt;の箇所を見ても、<code>none</code>キーワードの説明には<q cite="http://www.w3.org/TR/CSS21/box.html#value-def-border-style">No border; the computed border width is zero.</q>となっています。<br>
+  ただし、Borders Module Level 3の場合にはちょっと違っていて「<em>ボーダーが画像でない限りは</em>」という注意書きがあります。
+</p>
+<p>
+  また、<code>border-*-style</code>の初期値は<code>none</code>キーワードなので、<code>border: 1px red</code>などと書いても、元々ボーダーが指定されていない要素にボーダーはつきません。
+</p>
+<p>
+  以上です。
+</p>
+<ins datetime="2013-04-08T12:18:00+09:00">
+  <hr>
+  <p>
+    ちょっと追加。
+  </p>
+  <figure>
+    <blockquote class="twitter-tweet" lang="ja">
+      <p>
+        一言で言うと、border:0 は border-width, border:none は border-style という話です。
+      </p>
+    </blockquote>
+    <figcaption>
+      <cite>@ub_pnr <a href="https://twitter.com/ub_pnr/status/321095441280274432">https://twitter.com/ub_pnr/status/321095441280274432</a></cite>
+    </figcaption>
+  </figure>
+</ins>

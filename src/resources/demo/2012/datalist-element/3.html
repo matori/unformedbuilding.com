@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <title>datalist要素のフォールバック</title>
+</head>
+<body>
+
+<p>
+  <datalist id="browsers-fallback">
+    ご利用のブラウザを選択してください
+    <select>
+      <option value="Internet Explorer">Internet Explorer</option>
+      <option value="Mozilla Firefox">Mozilla Firefox</option>
+      <option value="Google Chrome">Google Chrome</option>
+      <option value="Apple Safari">Apple Safari</option>
+      <option value="Opera">Opera</option>
+    </select>
+    <br>選択肢になければ、こちらにご記入ください
+  </datalist>
+  <input type="text" list="browsers-fallback">
+</p>
+
+</body>
+</html>

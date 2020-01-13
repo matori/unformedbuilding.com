@@ -1,0 +1,64 @@
+.prettyQuote blockquote {
+	padding: 5px;
+	border: 1px solid;
+	border-color: #aaa #ddd #ddd #aaa;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	background-color: #fafafa;
+}
+
+.prettyQuote .header {
+	padding-left: 5px;
+}
+
+.prettyQuote .footer {
+	padding-right: 5px;
+	text-align: right;
+}
+
+.prettyQuote .footer cite {
+	font-style: normal;
+}
+
+dl.prettyQuote dd {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+dl.prettyQuote dt {
+	margin: 0;
+	font-size: 13px;
+	font-weight: 400;
+}
+
+span.prettyQuote {
+	margin: 0 5px;
+}
+
+span.prettyQuote q {
+	background-color: #ddd;
+	quotes: '"' '"';
+}
+
+span.prettyQuote q:before {
+	content: '"'; /* for webkit */
+	content: open-quote;
+}
+
+span.prettyQuote q:after {
+	content: '"'; /* for webkit */
+	content: close-quote;
+}
+
+span.prettyQuote cite a {
+	display: inline-block;
+	margin-left: 5px;
+	width: 1em;
+	height: 1.6em;
+	overflow: hidden;
+	background: url(link.gif) center center no-repeat;
+	text-indent: -9999px;
+	vertical-align: bottom;
+}

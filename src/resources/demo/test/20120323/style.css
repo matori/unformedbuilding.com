@@ -1,0 +1,36 @@
+body {
+  margin: 0;
+  height: 100%;
+  font-family: "Hiragino Kaku Gothic Pro", "Meiryo", sans-serif;
+}
+
+section {
+  display: block;
+}
+
+h1, p {
+  margin: 0 auto;
+  width: 600px;
+  max-width: 90%;
+}
+
+h1 {
+  margin-top: 3em;
+  line-height: 1.2;
+}
+
+p {
+  margin-top: 2em;
+  line-height: 1.64;
+  text-align: justify;
+  text-align-last: right;
+}
+
+a:link,
+a:visited {
+  color: #08f;
+}
+
+a:hover {
+  color: #f80;
+}

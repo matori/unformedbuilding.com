@@ -1,0 +1,102 @@
+<script type="application/x-yaml">
+title: "三点リーダの垂直位置をどうにかしたい"
+description: "三点リーダがfont-familyで欧文フォントと日本語フォントのどちらが先に指定されているかによって垂直位置が変わるのをどうにかしたいというわけです。"
+slug: ellipsis-vertical-position
+published: 2012-01-06T10:08:02+09:00
+updated: 2012-01-06T10:08:02+09:00
+category: webdev
+</script>
+
+<p>
+  三点リーダはご存知かと思いますが、一応言っておくと「……」こういうものです。<br>
+  これが<code>font-family</code>で欧文フォントと日本語フォントのどちらが先に指定されているかによって垂直位置が変わるのをどうにかしたいというわけです。
+</p>
+<p>
+  まず、なんでこんなことをしたいのかをちょっと書いておきます。<br>
+  WindowsにはVistaからメイリオという日本語フォントが入っています（XPでも自分で入れれば使えます）。このフォントは結構気に入っているんですが、英語とか数字の文字がなんだかぽっちゃりしているように感じてしまって好きじゃないんですよね。<br>
+  そこで、欧文や数字にはArialなどの欧文フォントを、日本語用にはメイリオを使いたいと考えたわけです。
+</p>
+<p>
+  最初はCSSの<code>font-family</code>で指定する順序によって、ブラウザにうまく解釈してもらおうと考えました。
+</p>
+<pre><code class="language-css">body {
+  font-family: &quot;Arial&quot;, &quot;Meiryo&quot;, sans-serif;
+}</code></pre>
+<p>
+  こんな感じですね。
+</p>
+<p>
+  これならOpera以外なら基本的にはArialで、Arialにない文字はメイリオで表示してくれるようになります。<br>
+  （詳しく調べたわけではありませんが、初期設定だとそうなると思います）
+</p>
+<p>
+  ところが、これだと三点リーダが欧文フォントで表示されてしまいました。<br>
+  三点リーダは省略記号などとして英語でも使われるので（Ellipsisとして）、欧文フォントにも用意されているんですね。<br>
+  ですが、表示される位置が違うのです。
+</p>
+<figure>
+  <img src="/images/2012/ellipsis-vertical-position/1.png" width="620" height="339" alt="三点リーダの垂直位置をどうにかしたい サンプル 1">
+</figure>
+<p>
+  スクリーンショットはGoogle Chrome 17.0.963.26 dev-mでのものです。
+</p>
+<p>
+  行の高さは<code>line-height</code>で調整できるので気にしないことにします。<br>
+  画像を見ると分かるように、三点リーダの表示が上下で異なっています。
+</p>
+<p>
+  日本語主体の場合には日本語用に中央に配置したい。というか日本語フォントで表示したい。<br>
+  <code>span</code>で囲んで個別に指定するという手もあるにはあるけど、そこまでしたくはない。
+</p>
+<p>
+  そこで<a href="http://hail2u.net/blog/software/replace-ms-pgothic-with-arial-plus-meiryo-in-chrome.html">以前hail2u.netさんでArialとメイリオの混合をやっていた</a>のを思い出して、他にも「<a href="http://rishida.net/blog/?p=760">Using unicode-range in font-face in CSS</a>」という記事を見かけました。
+</p>
+<p>
+  この2つの記事を参考に、フォントの指定を上書きして混ぜていくことにしました。
+</p>
+<pre><code class="language-css">@font-face {
+  font-family: &quot;MeiryoArial&quot;;
+  src        : local(&quot;Meiryo&quot;);
+}
+
+@font-face {
+  font-family: &quot;MeiryoArial&quot;;
+  src        : local(&quot;Arial&quot;);
+}
+
+@font-face {
+  font-family  : &quot;MeiryoArial&quot;;
+  src          : local(&quot;Meiryo&quot;);
+  unicode-range: U+2026;
+}
+
+body {
+  font-family: &quot;MeiryoArial&quot;, sans-serif;
+}</code></pre>
+<p>
+  これを指定すると、次のように表示されました。
+</p>
+<figure>
+  <img src="/images/2012/ellipsis-vertical-position/2.png" width="620" height="162" alt="三点リーダの垂直位置をどうにかしたい サンプル 2">
+</figure>
+<p>
+  英数部分はArialで表示され、日本語部分はメイリオで表示されています。<br>
+  そして問題の三点リーダですが、期待通りメイリオで表示されました。
+</p>
+<p>
+  最後になりましたが、今回のサンプルはこちらです。
+</p>
+<p>
+  <a href="/demo/2012/ellipsis-vertical-position/">三点リーダの垂直位置をどうにかしたい</a>
+</p>
+<p>
+  問題は対応しているブラウザが少ないことです。<br>
+  FirefoxとOperaといった<code>unicode-range</code>に対応していないブラウザでは最後に指定したメイリオのみで表示されます。<br>
+  IE 9ですが、自分の環境では期待通り表示されています。
+</p>
+<p>
+  それと、何回も<code>@font-face</code>で似たような指定するのでCSSがごちゃごちゃして読みにくいかもしれないですね。
+</p>
+<p>
+  まあ個人的な趣味で使う分にはいいんじゃないかと思います。
+</p>

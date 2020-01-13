@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>background-clip DEMO</title>
+<style>
+body {
+	font-family: "Arial", sans-serif;
+}
+
+div {
+	float           : left;
+  margin          : 50px 10px;
+  padding         : 20px;
+  border          : 20px dashed #000;
+  width           : 100px;
+  height          : 100px;
+  background-color: #dc322f;
+  color           : #fff;
+  font-size       : 16px;
+  line-height     : 100px;
+  text-align      : center;
+  text-shadow     : -1px -1px 0 rgba(0, 0, 0, 0.6)
+}
+
+#box-1 {
+  background-clip: border-box;
+}
+
+#box-2 {
+  background-clip: padding-box;
+}
+
+#box-3 {
+  background-clip: content-box;
+}
+</style>
+</head>
+<body>
+
+<div id="box-1">border-box</div>
+<div id="box-2">padding-box</div>
+<div id="box-3">content-box</div>
+
+</body>
+</html>

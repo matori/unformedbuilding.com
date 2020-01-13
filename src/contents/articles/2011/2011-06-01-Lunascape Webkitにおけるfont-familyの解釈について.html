@@ -1,0 +1,82 @@
+<script type="application/x-yaml">
+title: "Lunascape Webkitにおけるfont-familyの解釈について"
+description: "LunascapeをWebkitエンジンで利用しているとき、CSSで指定したfont-familyの解釈がおかしい。"
+slug: lunascape-webkit-font-family-trouble
+published: 2011-06-01T13:52:32+09:00
+updated: 2011-08-19T15:04:14+09:00
+category: misc
+</script>
+
+<p>
+  Lunascape 6.5が公開されましたね。<br>
+  このバグというか現象は結構前に見つけていました。ただ、6.5のベータ版とかが出ていたので、6.5正式版で直るかもしれないと思って放置していました。<br>
+  ですが、6.5でも同様の現象が発生したので書いておこうと思います。
+</p>
+<p>
+  現象というのはタイトルにも書いている通り、LunascapeをWebkitエンジンで利用しているとき、CSSで指定した<code>font-family</code>の解釈がおかしいのです。<br>
+  そこで、ちょっとテストしてみました。
+</p>
+<p>
+  <a href="/demo/2011/lunascape-webkit-font-family-test/">Lunascape webkit font-family test</a>
+</p>
+<p>
+  CSSは以下のようになっています。<br>
+  （指定部分は実際には改行されていません）
+</p>
+<pre><code class="language-css">#test1 {
+  font-family: &quot;ヒラギノ角ゴ Pro W3&quot;, &quot;Hiragino Kaku Gothic Pro&quot;,
+               &quot;メイリオ&quot;, &quot;Meiryo&quot;,
+               &quot;Helvetica&quot;, &quot;Arial&quot;,
+               sans-serif;
+}
+
+#test2 {
+  font-family: &quot;Helvetica&quot;, &quot;Arial&quot;,
+               &quot;ヒラギノ角ゴ Pro W3&quot;, &quot;Hiragino Kaku Gothic Pro&quot;,
+               &quot;メイリオ&quot;, &quot;Meiryo&quot;,
+               sans-serif;
+}
+
+#test3 {
+  font-family: &quot;Helvetica&quot;, sans-serif;
+}
+
+#test4 {
+  font-family: &quot;Dummyfont&quot;, &quot;Times New Roman&quot;, serif;
+}
+
+#test5 {
+  font-family: &quot;Menlo&quot;, &quot;Consolas&quot;, monospace;
+}
+
+#test6 {
+  font-family: &quot;ＭＳ Ｐ明朝&quot;, &quot;MS PMincho&quot;, serif;
+}</code></pre>
+<p>
+  そして、そのスクリーンショットがこれです。<br>
+  Webkitを使っているGoogle Chromeと比較してみました。Safariでも同じ表示なります。
+</p>
+<figure>
+  <img src="/images/2011/lunascape-webkit-font-family-trouble/result.png" width="620" height="560" alt="Lunascape Webkit使用時におけるfont-family解釈テストのスクリーンショット">
+</figure>
+<p>
+  ここから分かるのは、<code>font-family</code>の1つ目にインストールされていない未知のフォントが指定されていると、以降の指定はすべて無視されて、エンジン設定で指定したデフォルトのフォントが使われるということです。<br>
+  <code>sans-serif</code>, <code>serif</code>, <code>monospace</code>のような総称ファミリーの指定も無視されます。<br>
+  Helvetica→Arialや、Times→Times New Romanのように、代替フォントがあるものは大丈夫なようです。
+</p>
+<p>
+  それとwebfontですが、一番最初にあっても無視されます。<br>
+  <a href="http://www.google.com/webfonts">Google Web Fonts</a>を見てみると分かりやすいです。
+</p>
+<p>
+  Lunascape Webkitモードという限定された環境ですので、制作時に気にする必要はないのですが、この環境で使っている人はWebkitを使っているにも関わらず損な体験をしてしまうことになります。<br>
+  たいていの場合、閲覧には支障ありませんが「せっかくWebkitなのに……」と思ってしまいます。
+</p>
+<ins datetime="2011-08-19T14:51:38+09:00">
+  <hr>
+  <p>
+    Lunascape 6.5.4 WebKit 535.1 r91436で、ある程度修正されていました。<br>
+    この時点では最初にマッチしたフォントはちゃんと使われますが、それ以外（英語フォント時の日本語など）や何もマッチしなかった場合にはデフォルトのフォントが使われるようです。<br>
+    また、総称フォントファミリーが無視されるのは変わっていません。
+  </p>
+</ins>

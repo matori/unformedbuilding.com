@@ -1,0 +1,54 @@
+html, body {
+  margin : 0;
+  padding: 0;
+}
+
+section {
+  display: block;
+}
+
+/* for SVG */
+
+.bg {
+  display : block;
+  position: fixed;
+  top     : 0;
+  left    : 0;
+  z-index : -1;
+  width   : 100%;
+  height  : 100%;
+}
+
+.blurred {
+  fill-opacity: 0;
+  stroke-width: 1.5;
+}
+
+.filled {
+  fill-opacity  : 0.2;
+  stroke-width  : 1;
+  stroke-opacity: 0.3;
+}
+
+/* content area */
+
+.content {
+  margin     : 3em auto;
+  width      : 19em;
+  color      : #3a3a3a;
+  font-size  : 22px;
+  font-family: "Hiragino Mincho Pro W3", "MS Mincho", serif;
+  text-shadow: 1px 1px 2px #fff, 1px -1px 2px #fff, -1px 1px 2px #fff, -1px -1px 2px #fff;
+}
+
+.content h1 {
+  margin     : 0;
+  font-size  : 44px;
+  text-indent: 1em;
+  line-height: 1;
+}
+
+.content p {
+  margin     : 2.5em 0;
+  line-height: 1.6;
+}

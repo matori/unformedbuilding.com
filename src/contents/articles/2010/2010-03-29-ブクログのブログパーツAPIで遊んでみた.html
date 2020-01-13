@@ -1,0 +1,135 @@
+<script type="application/x-yaml">
+title: "ブクログのブログパーツAPIで遊んでみた"
+description: "ブクログのブログパーツはデータをJSONPで取得しているようなので好きな形にできるんじゃないかと思ったので実際にやってみました。"
+slug: booklog-blogparts-api
+published: 2010-03-29T15:06:55+09:00
+updated: 2011-05-18T14:32:39+09:00
+category: webdev
+</script>
+
+<p>
+  JavaScriptの勉強その3。<br>
+  ブクログのブログパーツを見ていて気づいたんですが、データ自体はJSONPで取得しているようなので好きな形にできるんじゃないかと思ったので実際にやってみました。
+</p>
+<p>
+  jQueryを使った簡単なデモページを作ったのでどうぞ。
+</p>
+<p>
+  <a href="/demo/2010/booklog-blogparts-api/demo1.html">ブクログのブログパーツで遊んでみる DEMO</a>
+</p>
+<p>
+  フォームのデータはデモページでデータを取得する以外には使っていません。<br>
+  アカウントを持っていない方は、とりあえず俺のアカウント<kbd>pnr</kbd>とでも入力してみてください。
+</p>
+<p>
+  カテゴリーのIDはユーザーごとに違うみたいなので自分のアカウントページから探してください。<br>
+  本棚のカテゴリーページURLの<span class="path">category_id=???</span>の数字部分です。<br>
+  俺のアカウントで試してみる場合は「Web系参考書」カテゴリの625920を使ってみてください。
+</p>
+<section>
+  <h2>JSONPの取得</h2>
+  <p>
+    ブログパーツ取得ページにいけば貼り付けコードに書いてありますが、JSONPは<span class="path">http://api.booklog.jp/json/アカウント</span>で取れます。
+  </p>
+  <p>
+    使えるパラメータは以下の通り。
+  </p>
+  <dl>
+    <dt><code>category</code></dt>
+    <dd>
+      カテゴリーIDを指定する。<br>
+      デフォルトは指定なし。<br>
+     <code>0</code>を指定するとカテゴリー指定なしになります。
+    </dd>
+    <dt><code>count</code></dt>
+    <dd>
+      いくつのアイテムを取得するか。<br>
+      現時点でのデフォルトは<code>5</code>でした。
+    </dd>
+    <dt><code>status</code></dt>
+    <dd>
+      読書状況。指定できるのは<code>1</code>, <code>2</code>, <code>3</code>の数字。<br>
+      <ul>
+        <li><span class="path">status=1</span>が「読みたい」</li>
+        <li><span class="path">status=2</span>が「いま読んでる」</li>
+        <li><span class="path">status=3</span>が「読み終わった」</li>
+      </ul>
+      指定なし、もしくは<code>0</code>を指定するとすべての本。<br>
+      デフォルトは指定なし。
+    </dd>
+    <dt><code>rank</code></dt>
+    <dd>
+      ランク。<br>
+      その人が本棚に本を登録するときにつけたスター数。
+      <ul class="m0">
+        <li><span class="path">rank=1</span>が「★」</li>
+        <li><span class="path">rank=2</span>が「★★」</li>
+        <li><span class="path">rank=3</span>が「★★★」</li>
+        <li><span class="path">rank=4</span>が「★★★★」</li>
+        <li><span class="path">rank=5</span>が「★★★★★」</li>
+      </ul>
+      指定なし、もしくは<code>0</code>を指定するとすべての本。<br>
+      デフォルトは指定なし。
+    </dd>
+  </dl>
+  <p>
+    本棚ページは昇順・降順でソートできるから、このAPIでもできるかと試してみたけど駄目でした。
+  </p>
+</section>
+<section>
+  <h2>JSONPの中身</h2>
+  <p>
+    データは以下のようなもの。<br>
+    ここでは自分のアカウントで上記の「Web系参考書」カテゴリーを取ってみました。
+  </p>
+  <pre><code class="language-javascript">{
+    &quot;tana&quot;: {
+        &quot;id&quot;: &quot;203839&quot;,
+        &quot;account&quot;: &quot;pnr&quot;,
+        &quot;name&quot;: &quot;\u307e\u3068\u308a\u3055\u3093\u306e\u672c\u68da&quot;
+    },
+    &quot;category&quot;: {
+        &quot;id&quot;: &quot;625920&quot;,
+        &quot;name&quot;: &quot;Web\u7cfb\u53c2\u8003\u66f8&quot;
+    },
+    &quot;books&quot;: [{
+        &quot;id&quot;: &quot;23070917&quot;,
+        &quot;asin&quot;: &quot;4839927081&quot;,
+        &quot;url&quot;: &quot;http:\/\/booklog.jp\/users\/pnr\/archives\/4839927081&quot;,
+        &quot;title&quot;: &quot;JavaScript\u30de\u30b9\u30bf\u30fc\u30d6\u30c3\u30af&quot;,
+        &quot;author&quot;: &quot;\u5c71\u7530 \u7965\u5bdb&quot;,
+        &quot;image&quot;: &quot;http:\/\/ecx.images-amazon.com\/images\/I\/41Ggo0kHVAL._SL75_.jpg&quot;,
+        &quot;width&quot;: &quot;57&quot;,
+        &quot;height&quot;: &quot;75&quot;,
+        &quot;catalog&quot;: &quot;Books&quot;
+    },
+    {
+        ......
+    }]
+}</code></pre>
+  <p>
+   <code>tana.name</code>は名前だけじゃなくて「○○さんの本棚」なので注意。<br>
+    カテゴリーを指定していない場合、<code>category</code>部分は空になります。
+  </p>
+  <p>
+    本のデータはデータ名そのまま。<br>
+   <code>books.width</code>と<code>books.height</code>は画像の大きさ。<br>
+   <code>width</code>はアイテムによって違いますが、<code>height</code>は<code>75</code>で一定しているみたいです。
+  </p>
+  <p>
+   <code>books.catalog</code>はBooksの他にDVDとか。
+  </p>
+</section>
+<p>
+  <abbr title="Amazon Standard Identification Number">ASIN</abbr>コードが入っているので、ちょっと加工すればAmazonアソシエイトリンクを作れます。<br>
+  それをやってみたのが以下のデモ。
+</p>
+<p>
+  <a href="/demo/2010/booklog-blogparts-api/demo2.html">ブクログのブログパーツで遊んでみる Amazonアソシエイト対応版 DEMO</a>
+</p>
+<p>
+  また、ブクログのレビュー一覧ページのURLにもASINコードが使われているので、同様にレビュー一覧ページへのリンクも作れます。
+</p>
+<p>
+  以上で終わりです。
+</p>

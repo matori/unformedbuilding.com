@@ -1,0 +1,856 @@
+@charset "utf-8";
+
+/* リセット
+==============================================*/
+
+html, body, div, ol, li, label, input {
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+
+html {
+  font-size: 120%;
+  font-size: 4vmin;
+}
+
+/* ストップウォッチの機能とカウンターのレイアウト
+==============================================*/
+
+/* レイアウト
+--------------------------------*/
+
+.stopwatch {
+  position: relative;
+  width: 18.75rem;
+}
+
+.counter::after {
+  display: table;
+  clear: both;
+  content: "";
+}
+
+/* カウンター */
+.counter > div {
+  float: left;
+  margin: 3rem 0.375rem;
+}
+
+.counter > div > div {
+  height: 3rem;
+  overflow: hidden;
+}
+
+.counter > div:first-child {
+  margin-left: 0.75rem;
+}
+
+.counter > div:last-child {
+  margin-right: 0.75rem;
+}
+
+/* 1桁ごとのカウンター */
+.counter ol {
+  position: relative;
+  float: left;
+  width: 1.875rem;
+  height: 100%;
+  list-style: none;
+  text-align: center;
+}
+
+/* 数字 */
+.counter li {
+  position: absolute;
+  width: 100%;
+  font-size: 3rem;
+}
+
+/* li に数字を振る
+--------------------------------*/
+
+/* 開始の数を 0 にするので -1 にリセット */
+.counter ol {
+  counter-reset: increment -1;
+}
+
+/* 数字は 1 ずつ増えるように設定 */
+.counter li {
+  counter-increment: increment 1;
+}
+
+/* ::before 擬似要素に数字を振る */
+.counter li::before {
+  content: counter(increment, decimal);
+}
+
+/* 数字を環のように3次元配置
+--------------------------------*/
+
+/* IE 10 does not support 'preserve-3d' なので */
+.counter > div > div,
+.counter ol {
+  -webkit-transform-style: flat;
+  transform-style: flat;
+}
+
+/* 裏から何も見えないようにしておく */
+.counter li {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* 0～6 までの数字部分 */
+.six li:nth-child(1) {
+  -webkit-transform: translateZ(3rem);
+  transform: translateZ(3rem);
+}
+
+.six li:nth-child(2) {
+  -webkit-transform: rotateX(300deg) translateZ(3rem);
+  transform: rotateX(300deg) translateZ(3rem);
+}
+
+.six li:nth-child(3) {
+  -webkit-transform: rotateX(240deg) translateZ(3rem);
+  transform: rotateX(240deg) translateZ(3rem);
+}
+
+.six li:nth-child(4) {
+  -webkit-transform: rotateX(180deg) translateZ(3rem);
+  transform: rotateX(180deg) translateZ(3rem);
+}
+
+.six li:nth-child(5) {
+  -webkit-transform: rotateX(120deg) translateZ(3rem);
+  transform: rotateX(120deg) translateZ(3rem);
+}
+
+.six li:nth-child(6) {
+  -webkit-transform: rotateX(60deg) translateZ(3rem);
+  transform: rotateX(60deg) translateZ(3rem);
+}
+
+/* 0～9 までの数字部分 */
+.ten li:nth-child(1) {
+  -webkit-transform: translateZ(4.8541rem);
+  transform: translateZ(4.8541rem);
+}
+
+.ten li:nth-child(2) {
+  -webkit-transform: rotateX(-36deg) translateZ(4.8541rem);
+  transform: rotateX(-36deg) translateZ(4.8541rem);
+}
+
+.ten li:nth-child(3) {
+  -webkit-transform: rotateX(-72deg) translateZ(4.8541rem);
+  transform: rotateX(-72deg) translateZ(4.8541rem);
+}
+
+.ten li:nth-child(4) {
+  -webkit-transform: rotateX(-108deg) translateZ(4.8541rem);
+  transform: rotateX(-108deg) translateZ(4.8541rem);
+}
+
+.ten li:nth-child(5) {
+  -webkit-transform: rotateX(-144deg) translateZ(4.8541rem);
+  transform: rotateX(-144deg) translateZ(4.8541rem);
+}
+
+.ten li:nth-child(6) {
+  -webkit-transform: rotateX(180deg) translateZ(4.8541rem);
+  transform: rotateX(180deg) translateZ(4.8541rem);
+}
+
+.ten li:nth-child(7) {
+  -webkit-transform: rotateX(144deg) translateZ(4.8541rem);
+  transform: rotateX(144deg) translateZ(4.8541rem);
+}
+
+.ten li:nth-child(8) {
+  -webkit-transform: rotateX(108deg) translateZ(4.8541rem);
+  transform: rotateX(108deg) translateZ(4.8541rem);
+}
+
+.ten li:nth-child(9) {
+  -webkit-transform: rotateX(72deg) translateZ(4.8541rem);
+  transform: rotateX(72deg) translateZ(4.8541rem);
+}
+
+.ten li:nth-child(10) {
+  -webkit-transform: rotateX(36deg) translateZ(4.8541rem);
+  transform: rotateX(36deg) translateZ(4.8541rem);
+}
+
+/* カウンターを回すアニメーション
+--------------------------------*/
+
+/* 0～6 までの数字部分 */
+@-webkit-keyframes rotateX360six {
+  from {
+    -webkit-transform: rotateX(0deg) translateZ(3rem);
+  }
+  to {
+    -webkit-transform: rotateX(360deg) translateZ(3rem);
+  }
+}
+
+@keyframes rotateX360six {
+  from {
+    transform: rotateX(0deg) translateZ(3rem);
+  }
+  to {
+    transform: rotateX(360deg) translateZ(3rem);
+  }
+}
+
+/* 0～9 までの数字部分 */
+@-webkit-keyframes rotateX360ten {
+  from {
+    -webkit-transform: rotateX(0deg) translateZ(4.8541rem);
+  }
+  to {
+    -webkit-transform: rotateX(360deg) translateZ(4.8541rem);
+  }
+}
+
+@keyframes rotateX360ten {
+  from {
+    transform: rotateX(0deg) translateZ(4.8541rem);
+  }
+  to {
+    transform: rotateX(360deg) translateZ(4.8541rem);
+  }
+}
+
+/* リセット状態では何もしない (アニメーションリセット) */
+#reset:checked ~ .counter li {
+  -webkit-animation-name: none;
+  animation-name: none;
+}
+
+/* スタート状態でアニメーション開始 */
+#start:checked ~ .counter li {
+  -webkit-animation-play-state: running;
+  animation-play-state: running;
+}
+
+/* ストップ状態ではアニメーション一時停止 */
+#stop:checked ~ .counter li {
+  -webkit-animation-play-state: paused;
+  animation-play-state: paused;
+}
+
+/* 何回転かは不定なのでアニメーション回数は無限 */
+.counter li {
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}
+
+/* アナログモードでない場合は、数字を切り替える */
+.counter .six li {
+  -webkit-animation-name: rotateX360six;
+  animation-name: rotateX360six;
+  -webkit-animation-timing-function: steps(6, end);
+  animation-timing-function: steps(6, end);
+}
+
+.counter .ten li {
+  -webkit-animation-name: rotateX360ten;
+  animation-name: rotateX360ten;
+  -webkit-animation-timing-function: steps(10, end);
+  animation-timing-function: steps(10, end);
+}
+
+/* アナログモードのときには数字を回転移動させる */
+#analogmode:checked ~ .counter li {
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+}
+
+/* 時間単位の1回転にかかるアニメーション */
+.h .ten li {
+  -webkit-animation-duration: 36000s;
+  animation-duration: 36000s;
+}
+
+/* 数字の初期位置を負のディレイで調節 */
+.h .ten li:nth-child(2) {
+  -webkit-animation-delay: -32400s;
+  animation-delay: -32400s;
+}
+
+.h .ten li:nth-child(3) {
+  -webkit-animation-delay: -28800s;
+  animation-delay: -28800s;
+}
+
+.h .ten li:nth-child(4) {
+  -webkit-animation-delay: -25200s;
+  animation-delay: -25200s;
+}
+
+.h .ten li:nth-child(5) {
+  -webkit-animation-delay: -21600s;
+  animation-delay: -21600s;
+}
+
+.h .ten li:nth-child(6) {
+  -webkit-animation-delay: -18000s;
+  animation-delay: -18000s;
+}
+
+.h .ten li:nth-child(7) {
+  -webkit-animation-delay: -14400s;
+  animation-delay: -14400s;
+}
+
+.h .ten li:nth-child(8) {
+  -webkit-animation-delay: -10800s;
+  animation-delay: -10800s;
+}
+
+.h .ten li:nth-child(9) {
+  -webkit-animation-delay: -7200s;
+  animation-delay: -7200s;
+}
+
+.h .ten li:nth-child(10) {
+  -webkit-animation-delay: -3600s;
+  animation-delay: -3600s;
+}
+
+/* 分単位10の位の1回転にかかるアニメーション */
+.min .six li {
+  -webkit-animation-duration: 3600s;
+  animation-duration: 3600s;
+}
+
+/* 初期位置調整 */
+.min .six li:nth-child(2) {
+  -webkit-animation-delay: -3060s;
+  animation-delay: -3060s;
+}
+
+.min .six li:nth-child(3) {
+  -webkit-animation-delay: -2400s;
+  animation-delay: -2400s;
+}
+
+.min .six li:nth-child(4) {
+  -webkit-animation-delay: -1800s;
+  animation-delay: -1800s;
+}
+
+.min .six li:nth-child(5) {
+  -webkit-animation-delay: -1200s;
+  animation-delay: -1200s;
+}
+
+.min .six li:nth-child(6) {
+  -webkit-animation-delay: -600s;
+  animation-delay: -600s;
+}
+
+/* 分単位1の位の1回転にかかるアニメーション */
+.min .ten li {
+  -webkit-animation-duration: 600s;
+  animation-duration: 600s;
+}
+
+/* 初期位置調整 */
+.min .ten li:nth-child(2) {
+  -webkit-animation-delay: -540s;
+  animation-delay: -540s;
+}
+
+.min .ten li:nth-child(3) {
+  -webkit-animation-delay: -480s;
+  animation-delay: -480s;
+}
+
+.min .ten li:nth-child(4) {
+  -webkit-animation-delay: -420s;
+  animation-delay: -420s;
+}
+
+.min .ten li:nth-child(5) {
+  -webkit-animation-delay: -360s;
+  animation-delay: -360s;
+}
+
+.min .ten li:nth-child(6) {
+  -webkit-animation-delay: -300s;
+  animation-delay: -300s;
+}
+
+.min .ten li:nth-child(7) {
+  -webkit-animation-delay: -240s;
+  animation-delay: -240s;
+}
+
+.min .ten li:nth-child(8) {
+  -webkit-animation-delay: -180s;
+  animation-delay: -180s;
+}
+
+.min .ten li:nth-child(9) {
+  -webkit-animation-delay: -120s;
+  animation-delay: -120s;
+}
+
+.min .ten li:nth-child(10) {
+  -webkit-animation-delay: -60s;
+  animation-delay: -60s;
+}
+
+/* 秒単位10の位の1回転にかかるアニメーション */
+.sec .six li {
+  -webkit-animation-duration: 60s;
+  animation-duration: 60s;
+}
+
+/* 初期位置調整 */
+.sec .six li:nth-child(2) {
+  -webkit-animation-delay: -50s;
+  animation-delay: -50s;
+}
+
+.sec .six li:nth-child(3) {
+  -webkit-animation-delay: -40s;
+  animation-delay: -40s;
+}
+
+.sec .six li:nth-child(4) {
+  -webkit-animation-delay: -30s;
+  animation-delay: -30s;
+}
+
+.sec .six li:nth-child(5) {
+  -webkit-animation-delay: -20s;
+  animation-delay: -20s;
+}
+
+.sec .six li:nth-child(6) {
+  -webkit-animation-delay: -10s;
+  animation-delay: -10s;
+}
+
+/* 秒単位1の位の1回転にかかるアニメーション */
+.sec .ten li {
+  -webkit-animation-duration: 10s;
+  animation-duration: 10s;
+}
+
+/* 初期位置調整*/
+.sec .ten li:nth-child(2) {
+  -webkit-animation-delay: -9s;
+  animation-delay: -9s;
+}
+
+.sec .ten li:nth-child(3) {
+  -webkit-animation-delay: -8s;
+  animation-delay: -8s;
+}
+
+.sec .ten li:nth-child(4) {
+  -webkit-animation-delay: -7s;
+  animation-delay: -7s;
+}
+
+.sec .ten li:nth-child(5) {
+  -webkit-animation-delay: -6s;
+  animation-delay: -6s;
+}
+
+.sec .ten li:nth-child(6) {
+  -webkit-animation-delay: -5s;
+  animation-delay: -5s;
+}
+
+.sec .ten li:nth-child(7) {
+  -webkit-animation-delay: -4s;
+  animation-delay: -4s;
+}
+
+.sec .ten li:nth-child(8) {
+  -webkit-animation-delay: -3s;
+  animation-delay: -3s;
+}
+
+.sec .ten li:nth-child(9) {
+  -webkit-animation-delay: -2s;
+  animation-delay: -2s;
+}
+
+.sec .ten li:nth-child(10) {
+  -webkit-animation-delay: -1s;
+  animation-delay: -1s;
+}
+
+/* ミリ秒単位100の位の1回転にかかるアニメーション */
+.msec .ten:nth-child(1) li {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+}
+
+/* 初期位置調整 */
+.msec .ten:nth-child(1) li:nth-child(2) {
+  -webkit-animation-delay: -900ms;
+  animation-delay: -900ms;
+}
+
+.msec .ten:nth-child(1) li:nth-child(3) {
+  -webkit-animation-delay: -800ms;
+  animation-delay: -800ms;
+}
+
+.msec .ten:nth-child(1) li:nth-child(4) {
+  -webkit-animation-delay: -700ms;
+  animation-delay: -700ms;
+}
+
+.msec .ten:nth-child(1) li:nth-child(5) {
+  -webkit-animation-delay: -600ms;
+  animation-delay: -600ms;
+}
+
+.msec .ten:nth-child(1) li:nth-child(6) {
+  -webkit-animation-delay: -500ms;
+  animation-delay: -500ms;
+}
+
+.msec .ten:nth-child(1) li:nth-child(7) {
+  -webkit-animation-delay: -400ms;
+  animation-delay: -400ms;
+}
+
+.msec .ten:nth-child(1) li:nth-child(8) {
+  -webkit-animation-delay: -300ms;
+  animation-delay: -300ms;
+}
+
+.msec .ten:nth-child(1) li:nth-child(9) {
+  -webkit-animation-delay: -200ms;
+  animation-delay: -200ms;
+}
+
+.msec .ten:nth-child(1) li:nth-child(10) {
+  -webkit-animation-delay: -100ms;
+  animation-delay: -100ms;
+}
+
+/* ミリ秒単位10の位の1回転にかかるアニメーション */
+.msec .ten:nth-child(2) li {
+  -webkit-animation-duration: 100ms;
+  animation-duration: 100ms;
+}
+
+/* 初期位置調整 */
+.msec .ten:nth-child(2) li:nth-child(2) {
+  -webkit-animation-delay: -90ms;
+  animation-delay: -90ms;
+}
+
+.msec .ten:nth-child(2) li:nth-child(3) {
+  -webkit-animation-delay: -80ms;
+  animation-delay: -80ms;
+}
+
+.msec .ten:nth-child(2) li:nth-child(4) {
+  -webkit-animation-delay: -70ms;
+  animation-delay: -70ms;
+}
+
+.msec .ten:nth-child(2) li:nth-child(5) {
+  -webkit-animation-delay: -60ms;
+  animation-delay: -60ms;
+}
+
+.msec .ten:nth-child(2) li:nth-child(6) {
+  -webkit-animation-delay: -50ms;
+  animation-delay: -50ms;
+}
+
+.msec .ten:nth-child(2) li:nth-child(7) {
+  -webkit-animation-delay: -40ms;
+  animation-delay: -40ms;
+}
+
+.msec .ten:nth-child(2) li:nth-child(8) {
+  -webkit-animation-delay: -30ms;
+  animation-delay: -30ms;
+}
+
+.msec .ten:nth-child(2) li:nth-child(9) {
+  -webkit-animation-delay: -20ms;
+  animation-delay: -20ms;
+}
+
+.msec .ten:nth-child(2) li:nth-child(10) {
+  -webkit-animation-delay: -10ms;
+  animation-delay: -10ms;
+}
+
+/* ミリ秒単位1の位の1回転にかかるアニメーション */
+.msec .ten:nth-child(3) li {
+  -webkit-animation-duration: 10ms;
+  animation-duration: 10ms;
+}
+
+/* 初期位置調整 */
+.msec .ten:nth-child(3) li:nth-child(2) {
+  -webkit-animation-delay: -9ms;
+  animation-delay: -9ms;
+}
+
+.msec .ten:nth-child(3) li:nth-child(3) {
+  -webkit-animation-delay: -8ms;
+  animation-delay: -8ms;
+}
+
+.msec .ten:nth-child(3) li:nth-child(4) {
+  -webkit-animation-delay: -7ms;
+  animation-delay: -7ms;
+}
+
+.msec .ten:nth-child(3) li:nth-child(5) {
+  -webkit-animation-delay: -6ms;
+  animation-delay: -6ms;
+}
+
+.msec .ten:nth-child(3) li:nth-child(6) {
+  -webkit-animation-delay: -5ms;
+  animation-delay: -5ms;
+}
+
+.msec .ten:nth-child(3) li:nth-child(7) {
+  -webkit-animation-delay: -4ms;
+  animation-delay: -4ms;
+}
+
+.msec .ten:nth-child(3) li:nth-child(8) {
+  -webkit-animation-delay: -3ms;
+  animation-delay: -3ms;
+}
+
+.msec .ten:nth-child(3) li:nth-child(9) {
+  -webkit-animation-delay: -2ms;
+  animation-delay: -2ms;
+}
+
+.msec .ten:nth-child(3) li:nth-child(10) {
+  -webkit-animation-delay: -1ms;
+  animation-delay: -1ms;
+}
+
+/* 飾りつけ
+==============================================*/
+
+html {
+  height: 100%;
+  background: -webkit-radial-gradient(center, farthest-side, #fff, #f0f0f0);
+  background: radial-gradient(farthest-side at center, #fff, #f0f0f0);
+  font-family: "Helvetica", "Arial", sans-serif;
+}
+
+.stopwatch {
+  margin: 100px auto;
+  border-radius: 0.1875rem;
+  background-color: #cacaca;
+  background-image:
+    -webkit-linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)),
+    -webkit-repeating-linear-gradient(left, transparent, transparent 40px, rgba(255, 255, 255, 0.1) 40px, rgba(255, 255, 255, 0.1) 41px),
+    -webkit-repeating-linear-gradient(left, transparent, transparent 130px, rgba(255, 255, 255, 0.15) 130px, rgba(255, 255, 255, 0.1) 131px),
+    -webkit-repeating-linear-gradient(left, transparent, transparent 1px, rgba(255, 255, 255, 0.15) 1px, rgba(255, 255, 255, 0.15) 2px);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0)),
+    repeating-linear-gradient(to right, transparent, transparent 40px, rgba(255, 255, 255, 0.1) 40px, rgba(255, 255, 255, 0.1) 41px),
+    repeating-linear-gradient(to right, transparent, transparent 130px, rgba(255, 255, 255, 0.15) 130px, rgba(255, 255, 255, 0.1) 131px),
+    repeating-linear-gradient(to right, transparent, transparent 1px, rgba(255, 255, 255, 0.15) 1px, rgba(255, 255, 255, 0.15) 2px);
+  background-size: 100% 100%, 41px 100%, 131px 100%, 2px 100%;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.02), 0 0 1rem rgba(0, 0, 0, 0.3);
+}
+
+.stopwatch::after {
+  display: block;
+  position: absolute;
+  bottom: 0.5rem;
+  width: 100%;
+  color: #9a9a9a;
+  font-size: 0.6875rem;
+  text-align: center;
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.8);
+  content: "{ CSS Programming Advent Calendar 2012 : Day 2 }";
+}
+
+input {
+  display: none;
+}
+
+.counter > div > div {
+  position: relative;
+  border-radius: 0.1875rem;
+  background: -webkit-linear-gradient(#202020, #3f3f3f, #202020);
+  background: linear-gradient(#202020, #3f3f3f, #202020);
+  box-shadow: -1px -1px 0 rgba(0, 0, 0, 0.2), 1px 1px 0 #fff;
+}
+
+.counter > div > div::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  border-radius: 0.1875rem;
+  width: 100%;
+  height: 100%;
+  background: -webkit-linear-gradient(rgba(0, 0, 0, 0.4), transparent, rgba(0, 0, 0, 0.4));
+  background: linear-gradient(rgba(0, 0, 0, 0.4), transparent, rgba(0, 0, 0, 0.4));
+  box-shadow: inset 2px 2px 5px #000;
+  content: "";
+}
+
+.counter > div {
+  position: relative;
+}
+
+.counter > div::after {
+  position: absolute;
+  top: 100%;
+  right: 0.25rem;
+  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
+  color: #aaa;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  text-align: right;
+  text-shadow: 1px 1px 0 #fff;
+  cursor: default;
+  content: attr(class);
+}
+
+.counter li {
+  color: #fff;
+  text-shadow: -1px -1px 0 #000, 1px 1px 0 rgba(255, 255, 255, 0.1);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+.counter :not(.h) ol:not(:first-of-type) li::after {
+  position: absolute;
+  top: 0;
+  left: -1px;
+  width: 2px;
+  height: 110%;
+  background: -webkit-linear-gradient(left, #000 1px, #4a4a4a 1px);
+  background: linear-gradient(to right, #000 1px, #4a4a4a 1px);
+  content: "";
+}
+
+.toggle {
+  position: absolute;
+  top: 1rem;
+  left: 0.75rem;
+  border-radius: 0.5rem;
+  height: 1rem;
+  width: 1.875rem;
+  background: rgba(0, 0, 0, 0.05);
+  box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5), -1px -1px 0 rgba(0, 0, 0, 0.2), inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.toggle label {
+  display: block;
+  position: absolute;
+  left: -webkit-calc(100% - 1rem - 1px);
+  left: calc(100% - 1rem - 1px);
+  border-radius: 50%;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1), -1px -1px 0 rgba(255, 255, 255, 0.9);
+  width: 1rem;
+  height: 1rem;
+  background-color: #dadada;
+  background-image: -webkit-repeating-linear-gradient(left, transparent, transparent 40px, rgba(255, 255, 255, 0.1) 40px, rgba(255, 255, 255, 0.1) 41px), -webkit-repeating-linear-gradient(left, transparent, transparent 130px, rgba(255, 255, 255, 0.15) 130px, rgba(255, 255, 255, 0.1) 131px), -webkit-repeating-linear-gradient(left, transparent, transparent 1px, rgba(255, 255, 255, 0.15) 1px, rgba(255, 255, 255, 0.15) 2px);
+  background-image: repeating-linear-gradient(to right, transparent, transparent 40px, rgba(255, 255, 255, 0.1) 40px, rgba(255, 255, 255, 0.1) 41px), repeating-linear-gradient(to right, transparent, transparent 130px, rgba(255, 255, 255, 0.15) 130px, rgba(255, 255, 255, 0.1) 131px), repeating-linear-gradient(to right, transparent, transparent 1px, rgba(255, 255, 255, 0.15) 1px, rgba(255, 255, 255, 0.15) 2px);
+  background-size: 41px 100%, 131px 100%, 2px 100%;
+  -webkit-transition: left 0.05s linear;
+  transition: left 0.05s linear;
+  cursor: default;
+  pointer-events: none;
+}
+
+#analogmode:checked ~ .toggle label {
+  left: 1px;
+}
+
+#reset:checked ~ .toggle label {
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.controller {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  margin: -1px -1px 0 0;
+  border: 1px solid;
+  border-color: rgba(0, 0, 0, 0.15) rgba(255, 255, 255, 0.5) rgba(255, 255, 255, 0.5) rgba(0, 0, 0, 0.15);
+  border-radius: 0.1875rem;
+  width: 5.625rem;
+  height: 2rem;
+  overflow: hidden;
+}
+
+.controller label {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  border: 1px solid;
+  border-color: rgba(255, 255, 255, 0.5) rgba(0, 0, 0, 0.08) rgba(0, 0, 0, 0.08) rgba(255, 255, 255, 0.5);
+  border-radius: -webkit-calc(0.1875rem - 1px);
+  border-radius: calc(0.1875rem - 1px);
+  width: 100%;
+  height: 100%;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
+
+#reset:checked ~ .controller label[for="start"],
+#start:checked ~ .controller label[for="stop"],
+#stop:checked ~ .controller label[for="reset"] {
+  display: block;
+}
+
+.status {
+  position: absolute;
+  top: 0.5rem;
+  left: 50%;
+  margin-left: -0.15625rem;
+  border-radius: 50%;
+  width: 0.3125rem;
+  height: 0.3125rem;
+  background-image: -webkit-radial-gradient(0.125rem 0.125rem, closest-side, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.1));
+  background-image: radial-gradient(closest-side at 0.125rem 0.125rem, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.1));
+  box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.4), -1px -1px 0 rgba(0, 0, 0, 0.1), inset 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+#start:checked ~ .status {
+  background-color: #08c;
+  box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.4), -1px -1px 0 rgba(0, 0, 0, 0.1), inset 0 0 2px rgba(0, 0, 0, 0.2), 0 0 3px #08c;
+}
+
+#stop:checked ~ .status {
+  background-color: #c02;
+  box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.4), -1px -1px 0 rgba(0, 0, 0, 0.1), inset 0 0 2px rgba(0, 0, 0, 0.2), 0 0 3px #c02;
+}
+
+#reset:checked ~ .status {
+  background-color: #cacaca;
+}

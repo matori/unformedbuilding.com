@@ -1,0 +1,180 @@
+<script type="application/x-yaml">
+title: "最近見かけた引用文のマークアップいろいろ"
+description: "人様のページのソースを眺めていると色々な使い方してるなーと思ったので、良し悪しにかかわらず紹介してみようと思います。"
+slug: blockquote-markup-styles
+published: 2009-11-14T14:32:01+09:00
+updated: 2009-11-14T14:32:01+09:00
+category: webdev
+</script>
+
+<p>
+  普通、引用するときには<code>blockquote</code>要素や<code>q</code>要素でマークアップすると思うんですけど、人様のページのソースを眺めていると色々な使い方してるなーと思ったので、良し悪しにかかわらず紹介してみようと思います。<br>
+  （<code>q</code>要素については今回はやりません）
+</p>
+<p><code>blockquote</code>要素については以前から解釈の違いからの議論が多いようですけど、それらは検索すれば山ほど出てくるのでそちらをどうぞ。
+</p>
+<p>
+  まず、引用文の基本マークアップ。<br>
+  当たり前かもしれませんが、調べた範囲ではこうやってる人が一番多かったですね。
+</p>
+<pre><code class="language-html">&lt;blockquote cite=&quot;URI&quot; title=&quot;引用元のタイトルや情報&quot;&gt;
+  &lt;p&gt;引用文&lt;/p&gt;
+&lt;/blockquote&gt;</code></pre>
+<section>
+  <h2><code>blockquote</code>単体でマークアップしているタイプ</h2>
+  <section>
+    <h3>属性なし、<code>blockquote</code>要素の子要素がテキスト</h3>
+    <pre><code class="language-html">&lt;blockquote&gt;
+  引用文
+&lt;/blockquote&gt;
+</code></pre>
+    <p>
+      引用文だと分かるだけで、どこからの引用かは不明になってしまいます。同じコンテンツ内にリンクがあれば見ている人には分かるかもしれません。<br>
+      あと、<code>blockquote</code>要素は基本的にインライン要素とテキストは子要素にできないので、微妙な感じ。Transitionalでは一応OKみたいですけど……。
+    </p>
+  </section>
+  <section>
+    <h3><code>blockquote</code>要素の子要素がテキスト</h3>
+    <pre><code class="language-html">&lt;blockquote cite=&quot;URI&quot; title=&quot;引用元のタイトルや情報&quot;&gt;
+  引用文
+&lt;/blockquote&gt;</code></pre>
+    <p>
+      上のに<code>cite</code>と<code>title</code>の属性がある以外は一緒。
+    </p>
+  </section>
+  <section>
+    <h3>属性なし</h3>
+    <pre><code class="language-html">&lt;blockquote&gt;
+  &lt;p&gt;引用文&lt;/p&gt;
+&lt;/blockquote&gt;</code></pre>
+    <p>
+      同一文書内に参照リンクがある場合が多かった。見ている人にはどこからの引用か予測できると思ういますが、やっぱり<code>cite</code>属性はあった方がいいと思います。
+    </p>
+  </section>
+</section>
+<section>
+  <h2><code>blockquote</code>要素と<code>cite</code>要素を使用しているタイプ</h2>
+  <p>
+    このタイプの人は「この引用はこのURIを参照していますよ」と見てすぐ分かるように書いているのだと思います。<br>
+    <code>cite</code>要素は引用文の前または後のどちらも見かけましたが、後につける人が多かった印象。
+  </p>
+  <section>
+    <h3><code>blockquote</code>要素の中に<code>cite</code>要素</h3>
+    <pre><code class="language-html">&lt;blockquote cite=&quot;URI&quot; title=&quot;引用元のタイトルや情報&quot;&gt;
+  &lt;p&gt;引用文&lt;/p&gt;
+  &lt;p&gt;&lt;cite&gt;URI&lt;/cite&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+</code></pre>
+    <p>
+     <code>cite</code>要素内は
+    </p>
+    <pre><code class="language-html">&lt;cite&gt;&lt;a href=&quot;URI&quot;&gt;引用元のタイトルや情報&lt;/a&gt;&lt;/cite&gt;</code></pre>
+    <p>
+      になっている場合も多いです。<br>
+      これは以下の例でも一緒。
+    </p>
+    <p>
+      よく議論されていますが、<code>cite</code>要素を<code>blockquote</code>要素内に入れるのはどうなんでしょうね。
+    </p>
+  </section>
+  <section>
+    <h3><code>blockquote</code>要素の外に<code>cite</code>要素</h3>
+    <pre><code class="language-html">&lt;blockquote cite=&quot;URI&quot; title=&quot;引用元のタイトルや情報&quot;&gt;
+  &lt;p&gt;引用文&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;cite&gt;URI&lt;/cite&gt;&lt;/p&gt;</code></pre>
+    <p>
+     <code>cite</code>要素が<code>blockquote</code>要素の外にありますね。<br>
+     <code>cite</code>の中身は引用元にはないのだから、こちらの方がしっくりくるかと。
+    </p>
+  </section>
+</section>
+<section>
+  <h2><code>blockquote</code>要素と<code>cite</code>要素を結び付けようとしているタイプ</h2>
+  <p>
+    class名は色々あったのでこっちで適当につけました。
+  </p>
+  <section>
+    <h3><code>blockquote</code>要素と<code>cite</code>要素を<code>div</code>要素でひとまとめに</h3>
+    <pre><code class="language-html">&lt;div class=&quot;quote&quot;&gt;
+  &lt;blockquote cite=&quot;URI&quot; title=&quot;引用元のタイトルや情報&quot;&gt;
+    &lt;p&gt;引用文&lt;/p&gt;
+  &lt;/blockquote&gt;
+  &lt;p class=&quot;cite&quot;&gt;&lt;cite&gt;URI&lt;/cite&gt;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    <p>
+      このタイプでは一番多く見かけました。<br>
+      1つのブロックとして扱うことで関連性を持たせようとしているのじゃないかと思います。
+    </p>
+  </section>
+  <section>
+    <h3><code>blockquote</code>要素と<code>cite</code>要素を定義リストでマークアップ</h3>
+    <pre><code class="language-html">&lt;dl class=&quot;quote&quot;&gt;
+  &lt;dd&gt;
+    &lt;blockquote cite=&quot;URI&quot; title=&quot;引用元のタイトルや情報&quot;&gt;
+      &lt;p&gt;引用文&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/dd&gt;
+  &lt;dt&gt;&lt;cite&gt;URI&lt;/cite&gt;&lt;/dt&gt;
+&lt;/dl&gt;</code></pre>
+    <p>
+     <code>dt</code>要素が上に来ている場合もあります。<br>
+      これを発展させたものが以下。
+    </p>
+    <pre><code class="language-html">&lt;dl class=&quot;quote&quot;&gt;
+  &lt;dt&gt;&lt;cite&gt;引用元のタイトル&lt;/cite&gt;&lt;/dt&gt;
+  &lt;dd&gt;
+    &lt;blockquote cite=&quot;URI&quot; title=&quot;引用元のタイトルや情報&quot;&gt;
+      &lt;p&gt;引用文&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/dd&gt;
+  &lt;dt class=&quot;cite&quot;&gt;&lt;a href=&quot;URI&quot;&gt;引用元の情報&lt;/a&gt;&lt;/dt&gt;
+&lt;/dl&gt;</code></pre>
+    <p>
+      これらは<code>div</code>要素を使う場合よりも明確に関係が分かるようにと考案されたもの。
+    </p>
+  </section>
+  <section>
+    <h3><code>cite</code>要素を<code>ul</code>要素でマークアップ</h3>
+    <pre><code class="language-html">&lt;blockquote cite=&quot;URI&quot; title=&quot;引用元のタイトルや情報&quot;&gt;
+  &lt;p&gt;引用文&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul class=&quot;cite&quot;&gt;
+  &lt;li&gt;&lt;cite&gt;URI&lt;/cite&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+    <p>
+      定義リストでマークアップするのがありならこれもありなんじゃないか、という趣旨で提案されていました。提案者は使用していませんでした。<br>
+      が、実際に使っている人も見かけました。
+    </p>
+  </section>
+</section>
+<section>
+  <h2><code>blockquote</code>要素を使わないタイプ</h2>
+  <p>
+    リンクもあるし「引用」って書いてあるし、見た目（インデントとか）と文脈で分かるからいいだろ、的なもの。<br>
+    確かに、人が見る分には判断できると思いますけど……。
+  </p>
+  <section>
+    <h3><code>p</code>要素でいいだろ</h3>
+    <pre><code class="language-html">&lt;p class=&quot;quote&quot;&gt;引用文&lt;/p&gt;</code></pre>
+    <p>
+      恐ろしくシンプル。<br>
+      引用したいテキストが2段落に渡って書かれていたりしたらどうするんだろうとか考えてしまいます。
+    </p>
+  </section>
+  <section>
+    <h3><code>fieldset</code>要素&amp;<code>legend</code>要素</h3>
+    <pre><code class="language-html">&lt;fieldset&gt;
+  &lt;legend&gt;引用元のタイトルや情報&lt;/legend&gt;
+  引用文
+&lt;/fieldset&gt;</code></pre>
+    <p>
+      そんなに最近ではないですけど、一部で話題になったもの。<br>
+      考え出した人は使うのを諦めたようです。
+    </p>
+  </section>
+</section>
+<p>
+  他にもありそうですが、とりあえずこんなところで。<br>
+  初めにも書いた通り、引用のマークアップについては色々な意見があるので読んでおくと勉強になるかもしれません。
+</p>

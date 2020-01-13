@@ -1,0 +1,244 @@
+<script type="application/x-yaml">
+title: "auto heightなCSS Transitions"
+description: "要素の高さを0からautoまでCSSでトランジションさせたいと思って色々試してみました。"
+slug: auto-height-css-transitions
+published: 2012-10-01T15:17:01+09:00
+updated: 2020-01-11T00:58:39+09:00
+category: webdev
+</script>
+
+<p>
+  要素の高さを<code>0</code>から<code>auto</code>までCSSでトランジションさせたいと思って色々試してみました。<br>
+  試した順に書いていきます。
+</p>
+<p>
+  例として横並びのドロップダウンナビゲーションを使います。<br>
+  こういうのはユーザビリティ的にどうなのとかそういう話は今回の本題じゃないので置いておきます。<br>
+  動作サンプルとして違いが分かりやすいので選んだだけです。
+</p>
+<p>
+  HTMLは次のようにしました。最小構成だと大体こんな感じになるかと思います。
+</p>
+<pre><code class="language-html">&lt;nav class=&quot;global&quot;&gt;
+  &lt;ul&gt;
+    &lt;li class=&quot;dropdown&quot;&gt;
+      &lt;a href=&quot;#&quot;&gt;Lorem&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Lorem ipsum dolor sit amet&lt;/a&gt;&lt;/li&gt;
+        &lt;!-- 3つまで繰り返し --&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;dropdown&quot;&gt;
+      &lt;a href=&quot;#&quot;&gt;Ipsum&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Lorem ipsum dolor sit amet&lt;/a&gt;&lt;/li&gt;
+        &lt;!-- 5つまで繰り返し --&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;dropdown&quot;&gt;
+      &lt;a href=&quot;#&quot;&gt;Dolor&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Lorem ipsum dolor sit amet&lt;/a&gt;&lt;/li&gt;
+        &lt;!-- 10個まで繰り返し --&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Sit&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Amet&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;</code></pre>
+<p>
+  ここからはCSSのみを変更していきます。
+</p>
+<pre><code class="language-css">.dropdown ul {
+  height: 0;
+  overflow: hidden;
+  transition: 1s linear;
+}
+
+.dropdown:hover &gt; ul {
+  z-index: 1;
+  height: auto;
+}</code></pre>
+<p>
+  とりあえず最初に思いつくであろうものはこれでしょうね。<br>
+  動かしてみましょう。
+</p>
+<ins datetime="2020-01-11T00:58:39+09:00">
+  <p>
+    <a href="/demo/2012/auto-height-css-transitions/1.html">Auto Height CSS Transition 1</a>
+  </p>
+</ins>
+<!--
+<div style="margin-bottom:1.6em">
+  <iframe style="width: 100%; height: 480px" src="http://jsfiddle.net/ub_pnr/pXGb3/embedded/result,css,html" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+</div>
+-->
+<p>
+  状態変化が上手くアニメーションしていませんね。
+</p>
+<p>
+  現在の最新版である「<a href="http://www.w3.org/TR/2012/WD-css3-transitions-20120403/">CSS Transitionsの2012年4月3日の仕様</a>」を見てみます。<br>
+  ここの「<a href="http://www.w3.org/TR/2012/WD-css3-transitions-20120403/#animatable-css">7. Animatable properties - 7.1. Properties from CSS</a>」にトランジション可能なプロパティと型の一覧があります。<br>
+  <code>height</code>の欄を見てみると<q>length, percentage</q>となっています。<code>auto</code>はlengthにもpercentageにも含まれていません。<br>
+  これは2012年9月20日のEditor’s Draftでも同様です。
+</p>
+<p>
+  それでは<code>height: auto</code>な高さまでトランジションさせるにはどうすればいいのか。<br>
+  検索していると、去年の5月に<a href="http://lea.verou.me/">Lea Verou</a>がこういうツイートをしているのを見つけました。
+</p>
+<figure>
+  <blockquote class="twitter-tweet" lang="ja">
+    <p>
+      (this is probably not new, but just in case…) Q: How to transition to height:auto? A: Transition max-height instead!
+      <a href="http://t.co/48N05bg" title="http://jsfiddle.net/leaverou/zwvNY/">jsfiddle.net/leaverou/zwvNY/</a>
+    </p>
+  </blockquote>
+  <figcaption>
+    <cite>@LeaVerou <a href="https://twitter.com/LeaVerou/status/69776299685715970">https://twitter.com/LeaVerou/status/69776299685715970</a></cite>
+  </figcaption>
+</figure>
+<p>
+  なるほど、確かに<code>auto</code>の高さまで変化しています。<br>
+  これを踏まえて先ほどのサンプルに実装してみます。
+</p>
+<pre><code class="language-css">.dropdown ul {
+  max-height: 0;
+  overflow: hidden;
+  transition: 1s linear;
+}
+
+.dropdown:hover > ul {
+  z-index: 1;
+  max-height: 50em;
+}</code></pre>
+<ins datetime="2020-01-11T00:58:39+09:00">
+  <p>
+    <a href="/demo/2012/auto-height-css-transitions/2.html">Auto Height CSS Transition 2</a>
+  </p>
+</ins>
+<!--
+<div style="margin-bottom:1.6em">
+  <iframe style="width: 100%; height: 480px" src="http://jsfiddle.net/ub_pnr/CRDt3/embedded/result,css,html" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+</div>
+-->
+<p>
+  ……何か変です。<br>
+  開くときは期待通りの動きをしているように見えますが、閉じるときのラグがひどいです。それと、最初のアイテムのアニメーションがどう見ても1秒もかかっていません。
+</p>
+<p>
+  これはトランジションの対象が<code>max-height</code>の場合、たとえ実際にはその高さまでなくてもその高さから（または、その高さまで）変化するものとしてトランジションしているのが原因です。<br>
+  遷移時間が長いのは<code>max-height</code>に指定した<code>50em</code>の高さまで変化するつもりでトランジションしているからで、逆に閉じるときにラグがあるのは<code>50em</code>の高さから<code>0</code>までトランジションしているからです。
+</p>
+<p>
+  じゃあ一番大きな3番目に合わせて<code>max-height</code>を指定すればいいのでは？
+</p>
+<pre><code class="language-css">.dropdown ul {
+  max-height: 0;
+  overflow: hidden;
+  transition: 1s linear;
+}
+
+.dropdown:hover > ul {
+  z-index: 1;
+ /* max-height: 50em; */
+  max-height: 20em;
+}</code></pre>
+<ins datetime="2020-01-11T00:58:39+09:00">
+  <p>
+    <a href="/demo/2012/auto-height-css-transitions/3.html">Auto Height CSS Transition 3</a>
+  </p>
+</ins>
+<!--
+<div style="margin-bottom:1.6em">
+  <iframe style="width: 100%; height: 480px" src="http://jsfiddle.net/ub_pnr/QjUGj/embedded/result,css,html" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+</div>
+-->
+<p>
+  3番目がまともになっただけで、1番目と2番目にはラグが出ます。<br>
+  それに、どうせぴったりの高さを指定するならJavaScriptでそれぞれに指定した方がいいです。
+</p>
+<p>
+  とりあえず戻るときのラグだけでもどうにかしたいので、少しいじります。
+</p>
+<pre><code class="language-css">.dropdown ul {
+  height: 0; /* 追加 */
+  max-height: 0;
+  overflow: hidden;
+  transition: 1s linear;
+}
+
+.dropdown:hover > ul {
+  z-index: 1;
+  height: auto; /* 追加 */
+  max-height: 50em;
+}</code></pre>
+<ins datetime="2020-01-11T00:58:39+09:00">
+  <p>
+    <a href="/demo/2012/auto-height-css-transitions/4.html">Auto Height CSS Transition 4</a>
+  </p>
+</ins>
+<!--
+<div style="margin-bottom:1.6em">
+  <iframe style="width: 100%; height: 480px" src="http://jsfiddle.net/ub_pnr/zkrJQ/embedded/result,css,html" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+</div>
+-->
+<p>
+  マウスカーソルが離れたら<code>height: 0</code>になるようにし、ラグをなくしてみました。<br>
+  その影響で閉じるときのトランジションはなくなってしまいましたが、それ以外はほぼ期待通りに動いているように見えます。
+</p>
+<p>
+  しかしまだ問題がありました。2番目と3番目を素早く移動してみて下さい。<br>
+  3番目のサブメニューが開きっ放しになっている（ように見える）ときがあります。<br>
+  確かにマウスが離れた時点で高さはゼロになってサブメニューは見えなくなりますが、指定された<code>transition</code>は実行されていて、その途中だとサブメニューが閉じきっていない状態が表示されてしまいます。
+</p>
+<p>
+  「じゃあマウスが乗ったときだけトランジションさせて、離れたときにはそのまま<code>height: 0</code>にすればいいのでは？」となったので、次のように変更しました。
+</p>
+<pre><code class="language-css">.dropdown ul {
+  height: 0; /* 追加 */
+  max-height: 0;
+  overflow: hidden;
+  /* transition: 1s linear; */
+}
+
+.dropdown:hover > ul {
+  z-index: 1;
+  height: auto; /* 追加 */
+  max-height: 50em;
+  transition: 1s linear; /* 追加 */
+}</code></pre>
+<ins datetime="2020-01-11T00:58:39+09:00">
+  <p>
+    <a href="/demo/2012/auto-height-css-transitions/5.html">Auto Height CSS Transition 5</a>
+  </p>
+</ins>
+<!--
+<div style="margin-bottom:1.6em">
+  <iframe style="width: 100%; height: 480px" src="http://jsfiddle.net/ub_pnr/gjMu8/embedded/result,css,html" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+</div>
+-->
+<p>
+  <code>transition</code>の指定を<code>:hover</code>時のみに変更しました。<br>
+  これにより、マウスが離れたときにはトランジションしなくなります。<br>
+  1つ前のとどちらがいいかは好みなので、使うなら好きなほうを選べばいいと思います。
+</p>
+<hr>
+<p>
+  このサンプルだとこのあたりが妥協点かと思って、ここでやめました。<br>
+  で、この方法の気になるところですが……
+</p>
+<ul>
+  <li>トランジションの遷移時間が常に<code>max-height</code>で指定したものを基準とし、それぞれの高さでは決まらない。これは欠点ではあるけど場合によっては利点になるかもしれない。</li>
+  <li>閉じるときのラグをなくそうとすると、閉じるときのトランジションを実装するのが難しい。ドロップダウンならまだいいが、アコーディオンとかだと致命的な気がする。</li>
+  <li>動作確認がめんどくさい。</li>
+  <li>他にもハマりポイントありそう。</li>
+</ul>
+<p>
+  簡単にまとめるとこんな感じです。<br>
+  こうして試してみる分にはいいですが、実際のサイトで使うにはちょっと不安です。<br>
+  まあ一度開いたら閉じないようなものなら使い道はあるかもしれませんね。
+</p>
+<p>
+  少し残念ではありますが、こういう動きをCSS Transitions使ってやるなら、大人しくJavaScriptから高さを算出して指定したほうが現実的な気がします。<br>
+  <a href="http://stackoverflow.com/questions/3149419/can-you-use-css3-to-transition-from-height0-to-the-variable-height-of-content">たとえばこんなふうに</a>。
+</p>

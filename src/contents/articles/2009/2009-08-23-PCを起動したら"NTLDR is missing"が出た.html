@@ -1,0 +1,63 @@
+<script type="application/x-yaml">
+title: 'PCを起動したら"NTLDR is missing"が出た'
+description: '"NTLDR is missing"が出たときに参考にしたサイトと対処手順。'
+slug: ntldr-is-missing
+published: 2009-08-23T15:22:31+09:00
+updated: 2011-05-18T14:19:01+09:00
+category: misc
+</script>
+
+<p>
+  タイトルの通り。<br>
+  電源入れたら
+</p>
+<pre><samp>NTLDR is missing
+Ctrl+Alt+Delete to reboot</samp></pre>
+<p>
+  何これ？ とりあえず困ったときは検索……PC使えないんだった。<br>
+  仕方ないので携帯で検索。
+</p>
+<p>
+  俺が見たなかでは以下のエントリーが一番分かりやすく書いてありました。
+</p>
+<p>
+  <a href="http://orbit.cocolog-nifty.com/supportdiary/2009/02/ntldr-is-missin.html">NTLDR is missing. は意外にも…。 :
+    パソコントラブル出張修理・サポート日記</a>
+</p>
+<p>
+  こちらを参考に修復開始。<br>
+  以下、作業手順。
+</p>
+<ol>
+  <li>Windows XPのCDを入れて再起動</li>
+  <li>CD-ROMを読みこんで回復コンソールを起動</li>
+  <li>
+    <samp>
+      C:\WINDOWS<br>
+      どのWindowsインストールにログオンしますか？（取り消すにはEnterキーを押してください）
+    </samp><br>
+    ここでは<kbd>1</kbd>を入力して<kbd>Enter</kbd></li>
+  <li>パスワードはそのまま</li>
+  <li><code><kbd>c ..</kbd></code>を入力</li>
+  <li><code><kbd>dir</kbd></code>を入力し、ファイル一覧を見て<span class="path">ntldr</span>がないことを確認</li>
+  <li><code><kbd>map</kbd></code>を入力してドライブの位置を確認</li>
+  <li>
+    <code><kbd>C:\&gt;copy G:\i386\ntldr</kbd></code>で<span class="path">ntldr</span>をコピー<br>
+    （CDのドライブがGだったので。普通はEかな？）
+  </li>
+  <li><code><kbd>ATTRIB -C C:\NTLDR</kbd></code>を入力</li>
+  <li><code><kbd>EXIT</kbd></code>を入力して終了</li>
+</ol>
+<p>
+  俺の場合は<span class="path">ntldr</span>がなくなってただけなので、これで起動できました。<br>
+  ちなみに、この「NTLDR is missing」が出るのは
+</p>
+<ul>
+  <li><span class="path">boot.ini</span></li>
+  <li><span class="path">NTDETECT.COM</span></li>
+  <li><span class="path">ntldr</span></li>
+  <li><span class="path">bootfont.bin</span></li>
+</ul>
+<p>
+  この4つのファイルがないか、壊れているときらしいです。
+</p>

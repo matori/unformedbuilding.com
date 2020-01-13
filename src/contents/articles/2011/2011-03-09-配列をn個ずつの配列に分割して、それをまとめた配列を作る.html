@@ -1,0 +1,81 @@
+<script type="application/x-yaml">
+title: "配列をn個ずつの配列に分割して、それをまとめた配列を作る"
+description: "配列をn個ずつの配列に分割して、それをまとめた配列を作る、という処理のメモです。"
+slug: javascript-array-practice-1
+published: 2011-03-09T14:01:30+09:00
+updated: 2011-03-09T15:34:18+09:00
+category: webdev
+</script>
+
+<p>
+  前の記事『<a href="/articles/glassy-bookshelf-with-booklog-api/">ブクログのブログパーツAPIを使ってスライドする本棚を作る</a>』を書いたとき、配列をn個ずつの配列に分割して、それをまとめた配列を作る、という処理をやったのですが、そのときのメモです。
+</p>
+<p>
+  「1つの配列をn個ずつに分割したい」みたいなことをTwitterに書いたら、
+</p>
+<p>
+  <a href="https://twitter.com/hell2u">@hell2u</a>さんから<br>
+  <q>破壊していいならn回shiftしてまとめたのを後ろに追加をループでいいんじゃないか</q>
+</p>
+<p>
+  <a href="https://twitter.com/GeckoTang">@GeckoTang</a>さんから<br>
+  <q>sliceしてpush</q>
+</p>
+<p>
+  と言われたので、両方やってみました。<br>
+  ちなみに、スライド本棚ではshift &amp; pushと似たような処理にしました。
+</p>
+<p>
+  例として、以下の配列を使います。
+</p>
+<pre><code class="language-javascript">var baseArr = ['AAA', 'BBB', 'CCC', ... 'XXX', 'YYY', 'ZZZ'];</code></pre>
+<p>
+  これを3つずつの9個に分割したいと思います。
+</p>
+<section>
+  <h2><code>shift</code>して<code>push</code>（破壊的）</h2>
+  <pre><code class="language-javascript">var b      = baseArr.length, // 26
+    cnt    = 3,              // いくつずつに分割するか
+    newArr = [];             // 新しく作る配列
+
+for(var i = 0; i &lt; Math.ceil(b / cnt); i++) {
+
+  var arrEl = []; // newArr に追加していく配列
+
+  for(var j = 0; j &lt; cnt; j++) {
+    var p = baseArr.shift(); // 元配列の先頭を取得して元配列から削除
+    if(!p) { break; }        // この場合は'ZZZ'の次に来たらループを抜ける
+    arrEl.push(p);           // arrElに取得した要素を追加
+  }
+
+  newArr.push(arrEl); // 作ったarrElをnewArrに追加
+
+}</code></pre>
+</section>
+<section>
+  <h2><code>slice</code>して<code>push</code>（非破壊的）</h2>
+  <pre><code class="language-javascript">var b      = baseArr.length, // 26
+    cnt    = 3,              // いくつずつに分割するか
+    newArr = [];             // 新しく作る配列
+
+for(var i = 0; i &lt; Math.ceil(b / cnt); i++) {
+  var j = i * cnt;
+  var p = baseArr.slice(j, j + cnt); // i*cnt番目からi*cnt+cnt番目まで取得
+  newArr.push(p);                    // 取得したものをnewArrに追加
+}</code></pre>
+</section>
+<section>
+  <h2>サンプル</h2>
+  <p>
+    『jsdo.it』で作ってみました。<br>
+   <code>console.log</code>使って分かりやすくしたつもりなので、Firebugとかで確認してみてください。
+  </p>
+  <!--  <script type="text/javascript" src="http://jsdo.it/blogparts/iG8D/js"></script>-->
+  <ins datetime="2020-01-06T20:07:58+09:00">
+    <p>
+      <b>2020年1月6日追記：</b><br>
+      『jsdo.it』は2019年に閉鎖されましたので、コードをそのままデモページに移行しました。<br>
+      <a href="/demo/2011/javascript-array-practice-1/">1つの配列を任意の配列に分割</a>
+    </p>
+  </ins>
+</section>

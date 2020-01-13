@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <title>オフキャンバスメニュー</title>
+  <style type="text/css">
+  body {
+    margin: 0;
+    font-family: "Arial", sans-serif;
+  }
+
+  ::-moz-focus-inner {
+    border: 0;
+  }
+
+  .switcher {
+    background: #202020;
+  }
+
+  .switcher button {
+    border: 0;
+    border-right: 1px solid #000;
+    padding: 0.5em;
+    height: 2em;
+    box-shadow: 1px 0 0 0 #303030;
+    background: transparent;
+    color: #f6f6f6;
+    font-size: 2em;
+    line-height: 1;
+  }
+
+  .globalnav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 160px;
+    height: 100%;
+    background: #fcc;
+    visibility: hidden;
+    -webkit-transition: visibility 0s linear 0.2s;
+    -moz-transition: visibility 0s linear 0.2s;
+    -o-transition: visibility 0s linear 0.2s;
+    transition: visibility 0s linear 0.2s;
+  }
+
+  .showMenu .globalnav {
+    z-index: 1;
+    visibility: visible;
+    -webkit-transition: z-index 0s linear 0.2s;
+    -moz-transition: z-index 0s linear 0.2s;
+    -o-transition: z-index 0s linear 0.2s;
+    transition: z-index 0s linear 0.2s;
+  }
+
+  .content {
+    height: 900px;
+    background: #ccf;
+    -webkit-transform: translateX(0px);
+    -moz-transform: translateX(0px);
+    -o-transform: translateX(0px);
+    transform: translateX(0px);
+    -webkit-transition: -webkit-transform 0.2s linear;
+    -moz-transition: -moz-transform 0.2s linear;
+    -o-transition: -o-transform 0.2s linear;
+    transition: transform 0.2s linear;
+  }
+
+  .showMenu .content {
+    -webkit-transform: translateX(160px);
+    -moz-transform: translateX(160px);
+    -o-transform: translateX(160px);
+    transform: translateX(160px);
+  }
+  </style>
+</head>
+<body>
+
+<div id="nav" class="globalnav">
+  <a href="#">Navigation</a>
+</div>
+
+<div id="main" class="content">
+  <div class="switcher">
+    <button id="toggleMenu">☰<!-- &#9776; --></button>
+  </div>
+  Main Content
+</div>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+<script type="text/javascript">
+jQuery(function ($) {
+  $('#toggleMenu').on('click', function (e) {
+    e.preventDefault();
+    $('body').toggleClass('showMenu');
+  });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>animation-delay のデモ</title>
+<style type="text/css">
+html, body {
+  margin : 0;
+  padding: 0;
+}
+
+body {
+  background : #fdf6e3;
+  font-family: "Arial", sans-serif;
+}
+
+ol {
+  margin      : 30px auto;
+  padding-left: 0;
+  width       : 620px;
+}
+
+code {
+  color      : #2aa198;
+  font-family: "Menlo", "Monaco", "Consolas", monospace;
+}
+
+li:nth-child(even) code {
+  color: #d33682;
+}
+
+#container {
+  margin : 30px auto;
+  padding: 9px;
+  border : 1px solid #ccc;
+  width  : 600px;
+}
+
+#container > div {
+  position                         : relative;
+  margin-bottom                    : 10px;
+  border-radius                    : 50%;
+  width                            : 30px;
+  height                           : 30px;
+  background                       : #268bd2;
+  color                            : #fff;
+  line-height                      : 30px;
+  text-align                       : center;
+  -webkit-animation-name           : left-to-right;
+  -moz-animation-name              : left-to-right;
+  -ms-animation-name               : left-to-right;
+  -o-animation-name                : left-to-right;
+  animation-name                   : left-to-right;
+  -webkit-animation-duration       : 3s;
+  -moz-animation-duration          : 3s;
+  -ms-animation-duration           : 3s;
+  -o-animation-duration            : 3s;
+  animation-duration               : 3s;
+  -webkit-animation-timing-function: ease;
+  -moz-animation-timing-function   : ease;
+  -ms-animation-timing-function    : ease;
+  -o-animation-timing-function     : ease;
+  animation-timing-function        : ease;
+  -webkit-animation-direction      : normal;
+  -moz-animation-direction         : normal;
+  -ms-animation-direction          : normal;
+  -o-animation-direction           : normal;
+  animation-direction              : normal;
+  -webkit-animation-iteration-count: 1;
+  -moz-animation-iteration-count   : 1;
+  -ms-animation-iteration-count    : 1;
+  -o-animation-iteration-count     : 1;
+  animation-iteration-count        : 1;
+}
+
+.test1 {
+  -webkit-animation-delay: -1s;
+  -moz-animation-delay   : -1s;
+  -ms-animation-delay    : -1s;
+  -o-animation-delay     : -1s;
+  animation-delay        : -1s;
+}
+
+.test2 {
+  -webkit-animation-delay: 0;
+  -moz-animation-delay   : 0;
+  -ms-animation-delay    : 0;
+  -o-animation-delay     : 0;
+  animation-delay        : 0;
+}
+
+.test3 {
+  -webkit-animation-delay: 1s;
+  -moz-animation-delay   : 1s;
+  -ms-animation-delay    : 1s;
+  -o-animation-delay     : 1s;
+  animation-delay        : 1s;
+}
+
+.test4 {
+  -webkit-animation-delay: 2s;
+  -moz-animation-delay   : 2s;
+  -ms-animation-delay    : 2s;
+  -o-animation-delay     : 2s;
+  animation-delay        : 2s;
+}
+
+#container > div:last-child {
+  margin-bottom: 0;
+}
+
+@-webkit-keyframes left-to-right {
+  from { left: 0; }
+  to   { left: 570px; }
+}
+
+@-moz-keyframes left-to-right {
+  from { left: 0; }
+  to   { left: 570px; }
+}
+
+@-ms-keyframes left-to-right {
+  from { left: 0; }
+  to   { left: 570px; }
+}
+
+@-o-keyframes left-to-right {
+  from { left: 0; }
+  to   { left: 570px; }
+}
+
+@keyframes left-to-right {
+  from { left: 0; }
+  to   { left: 570px; }
+}
+</style>
+</head>
+<body>
+
+<div id="container">
+  <div class="test1">1</div>
+  <div class="test2">2</div>
+  <div class="test3">3</div>
+  <div class="test4">4</div>
+</div>
+
+<ol>
+  <li><code>animation-delay: -1s;</code></li>
+  <li><code>animation-delay: 0;</code></li>
+  <li><code>animation-delay: 1s;</code></li>
+  <li><code>animation-delay: 2s;</code></li>
+</ol>
+
+</body>
+</html>

@@ -1,0 +1,141 @@
+/*-----------------------------------------------------
+  based on Eric Meyer Reset CSS / meyerweb.com
+  http://meyerweb.com/eric/tools/css/reset/
+-----------------------------------------------------*/
+
+body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+
+body {
+	font-size: 10px;
+	font-family: "\0030d2\0030e9\0030ae\0030ce\0089d2\0030b4\0020\0050\0072\006f\0020\0057\0033", "Hiragino Kaku Gothic Pro", "\0030e1\0030a4\0030ea\0030aa", "Meiryo", "\00ff2d\00ff33\0020\00ff30\0030b4\0030b7\0030c3\0030af", "MS PGothic", sans-serif;
+	line-height: 1;
+	color: #000;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+blockquote, q {
+	quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+ins {
+	text-decoration: underline;
+}
+
+del {
+	text-decoration: line-through;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+a {
+	color: #08c;
+}
+
+a:hover {
+	color: #06a;
+}
+
+
+/*-----------------------------------------------------
+  base layout
+-----------------------------------------------------*/
+
+#container {
+	margin: 0 auto;
+	width: 940px;
+}
+
+#container {
+	padding-top: 20px;
+}
+
+#content {
+	float: left;
+	width: 800px;
+}
+
+#main {
+	float: right;
+	width: 600px;
+}
+
+#sidebar {
+	float: right;
+	margin-right: 20px;
+	width: 180px;
+	height: 600px;
+	background-color: #ccc;
+}
+
+#extra {
+	float: left;
+	margin-left: 20px;
+	width: 120px;
+	height: 600px;
+	background-color: #eee;
+}
+
+
+/*-----------------------------------------------------
+  clearfix
+-----------------------------------------------------*/
+
+#container:after,
+#content:after,
+.clearfix:after {
+	clear: both;
+	display: block;
+	content: '';
+}
+
+#container,
+#content,
+.clearfix {
+	/zoom: 1;
+}
+
+
+/*-----------------------------------------------------
+  Main
+-----------------------------------------------------*/
+
+#main .article {
+	margin-bottom: 20px;
+}
+
+#main .article .head {
+	background: url(img/mainhead.png) bottom left no-repeat;
+}
+
+#main .article .head h2 {
+	padding: 6px 50px 6px 0;
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 20px;
+}
+
+#main .article .body {
+	padding: 10px 5px;
+	font-size: 13px;
+	line-height: 1.6;
+}

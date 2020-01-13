@@ -1,0 +1,33 @@
+<script type="application/x-yaml">
+title: "WordPressのカスタム投稿でHeadSpaceページモジュールを有効にする"
+description: "カスタム投稿タイプを作った場合、編集画面にHeadSpaceのページモジュールが出てきません。これはちょっと不便なので、使えるようにしたいと思います。"
+slug: add-headpspace-page-module-on-custom-post
+published: 2011-06-22T14:18:26+09:00
+updated: 2011-06-22T14:18:26+09:00
+category: webdev
+</script>
+
+<p>
+  HeadSpaceを使っているWordPresブログで、カスタム投稿タイプを作った場合、編集画面にHeadSpaceのページモジュールが出てきません。<br>
+  これはちょっと不便なので、使えるようにしたいと思います。
+</p>
+<p>
+  使用できるようにするには、お使いのテーマのfunctions.phpに以下のコードを追加します。
+</p>
+<pre><code class="language-php">/*
+ カスタム投稿でHeadSpaceページモジュールを有効にする
+*/
+function add_headpspace_custom_box() {
+  global $headspace2;
+  if (function_exists('add_meta_box') &amp;&amp; is_object($headspace2)) {
+    add_meta_box('headspacestuff', __('HeadSpace', 'headspace'), array(&amp;$headspace2, 'metabox'), 'custom_post_type_name', 'normal', 'high');
+  }
+}
+add_action('wp_print_scripts', 'add_headpspace_custom_box');</code></pre>
+<p>
+  <code>custom_post_type_name</code>は作ったカスタム投稿のものを指定してください。<br>
+  カスタム投稿タイプが複数ある場合は<code>add_meta_box</code>をそれぞれ記述します。
+</p>
+<p>
+  これで編集画面にページモジュールが表示されるようになります。
+</p>

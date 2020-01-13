@@ -1,0 +1,126 @@
+<script type="application/x-yaml">
+title: "ブクログのブログパーツAPIを使ってスライドする本棚を作る"
+description: "前回、前々回に作ったものをブクログのブログパーツ用APIと組み合わせてスライドする本棚を作ってみました。"
+slug: glassy-bookshelf-with-booklog-api
+published: 2011-03-03T16:54:32+09:00
+updated: 2011-05-18T14:29:45+09:00
+category: webdev
+</script>
+
+<figure>
+  <img src="/images/2011/glassy-bookshelf-with-booklog-api/eyecatch.png" width="620" height="250" alt="">
+</figure>
+<p>
+  前回、前々回に作ったものをブクログのブログパーツ用APIと組み合わせてスライドする本棚を作ってみました。<br>
+  『<a href="http://creamycss.com/">Creamy CSS</a>』や『<a href="http://www.shelfluv.com/">ShelfLuv</a>』を見たときに、こういう本棚作りたいなーとずっと思っていたんですが、不恰好ながら何とか完成させることができました。<br>
+  スライダー作ったり、ガラス棚作ったりしてたのはこれがやりたかったからですｗ
+</p>
+<p>
+  <a href="/demo/2011/glassy-bookshelf-with-booklog-api/">Glassy Bookshelf with Booklog API デモページ</a>
+</p>
+<p>
+  <a href="/download/2011/glassy-bookshelf-with-booklog-api.zip" download>デモファイルをダウンロード</a>
+</p>
+<p>
+  いくつかjQueryプラグインを使っていますので、同梱しています。
+</p>
+<ul>
+  <li><a href="http://jquery.com/">jQuery</a></li>
+  <li><a href="http://code.google.com/p/jquery-jsonp/">jquery-jsonp</a></li>
+  <li><a href="http://gsgd.co.uk/sandbox/jquery/easing/">jQuery Easing Plugin</a></li>
+</ul>
+<p>
+  参考にした自分の記事
+</p>
+<ul>
+  <li><a href="/articles/booklog-blogparts-api/">ブクログのブログパーツAPIで遊んでみた</a></li>
+  <li><a href="/articles/jquery-simple-loop-slider/">jQueryでシンプルなループスライダーを作る</a></li>
+  <li><a href="/articles/create-glass-shelf-with-gimp/">GIMPでガラス棚を作るチュートリアル</a></li>
+</ul>
+<p>
+  基本的には以前の記事を読んでもらえれば何やってるか分かると思いますが、とりあえずスライダー以外の部分を簡単なコメントつきで書いておきます。
+</p>
+<pre><code class="language-html">&lt;div id=&quot;bookshelf&quot;&gt;
+  &lt;div class=&quot;sls-view&quot;&gt;
+    &lt;div class=&quot;sls-container&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<pre><code class="language-javascript">// セッティング
+var o = {
+  account : 'pnr', // ブクログID
+  count   : 16, // 取得するアイテム数
+  category: '625920', // アイテムのカテゴリ（全部取るなら空にする）
+  status  : '', // 読書状況 / 1～3のどれか（全部取るなら空にする）
+  rank    : '', // アイテムの評価 / 1～5のどれか（全部取るなら空にする）
+  noImage : './img/no-image.jpg', // アイテム画像がないときの代替画像へのパス
+  imgWidth: 80, // 取得するアイテム画像の横幅
+  display : 4, // 一度に表示するアイテム数
+  duration: 1000, // アニメーションのスピード
+  easing  : 'easeOutExpo' // アニメーションのイージング
+};
+
+var $shelf     = $('#bookshelf'),
+    $container = $shelf.find('div.sls-container');
+
+// データを取得する
+$.jsonp({
+  url              : 'http://api.booklog.jp/json/' + o.account,
+  data             : {
+                       category: o.category,
+                       count   : o.count,
+                       status  : o.status,
+                       rank    : o.rank
+                     },
+  callbackParameter: 'callback',
+  pageCache        : true,
+  success          : function (j) {
+                       $shelf.booklog(j); // スライダーの要素を作る
+                       $shelf.simpleLoopSlider(o.duration, o.easing); // スライダー
+                     },
+  error            : function () { $shelf.hide(); } // エラー時には全部非表示にする
+});
+
+$.fn.booklog = function (json) {
+
+  // 本のデータが入ってる配列部分
+  var books = json.books;
+
+  // 本のデータの配列を表示数ずつに分割してコンテナに突っ込んでいく
+  for(var i = 0; i &lt; Math.ceil(o.count / o.display); i++) {
+
+    var $ul = $('&lt;ul/&gt;');
+
+    for(var k = 0; k &lt; o.display; k++) {
+
+      var book = books.shift();
+      if($.isEmptyObject(book)) break; // 要素が空になったらループを抜ける
+
+      // データに入っている画像URLをwidthベースに書き換える
+      var imgPath = book.image
+                    ? book.image.replace(/_SL75_/, '_SX' + o.imgWidth + '_')
+                    : o.noImage;
+
+      // HTML 要素を作っていく
+      var $li   = $('&lt;li/&gt;'),
+          $link = $('&lt;a/&gt;').attr('href', book.url),
+          $img  = $('&lt;img/&gt;', {
+                                src  : imgPath,
+                                width: o.imgWidth,
+                                alt  : book.title,
+                                title: book.title + ' | ' + book.author
+                              });
+      $link.html($img).appendTo($li);
+      $li.appendTo($ul);
+
+    }
+
+    $('&lt;div/&gt;').addClass('sls-content')
+               .html($ul)
+               .appendTo($container);
+
+  };
+
+};</code></pre>
+<p>
+  画像URLについては「<kbd>Amazon 画像 URL</kbd>」とかで検索してください。
+</p>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>background-attachment DEMO</title>
+<style>
+html {
+  height: 100%;
+}
+
+body {
+  height     : 120%;
+  background : url(bg.jpg) no-repeat;
+  font       : 24px/1 "Arial", sans-serif;
+  text-shadow: 0 0 5px #fff;
+}
+
+div {
+  float     : left;
+  margin    : 50px 20px;
+  border    : 1px solid #000;
+  width     : 250px;
+  height    : 400px;
+  overflow  : auto;
+  background: url(bg.jpg);
+}
+
+div p {
+  padding: 20px;
+  height : 150%;
+}
+
+#box-1 {
+  background-attachment: fixed;
+}
+
+#box-2 {
+  background-attachment: scroll;
+}
+
+#box-3 {
+  background-attachment: local;
+}
+</style>
+</head>
+<body>
+
+<div id="box-1"><p>fixed</p></div>
+<div id="box-2"><p>scroll</p></div>
+<div id="box-3"><p>local</p></div>
+
+</body>
+</html>

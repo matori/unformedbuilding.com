@@ -1,0 +1,39 @@
+<script type="application/x-yaml">
+title: "Lunascape 5をIE 8標準モードに"
+description: "IE 8がインストールされている場合、LunascapeのTridentが互換モードで動いているようなので標準準拠モードで表示されるようにしてみました。"
+slug: lunascape-ie8-mode
+published: 2009-04-24T01:26:43+09:00
+updated: 2011-05-18T14:26:55+09:00
+tags: misc
+</script>
+
+<p>Internet Explorer 8がインストールされている場合、LunascapeのTridentは互換モードで動いてるらしい。</p>
+<p>
+  WordPressのダッシュボードが綺麗に表示されないのが気に入らないので標準準拠モードで表示されるようにしてみました。<br>
+  レジストリをいじらないといけないので自己責任で。<br>
+  手順は以下からどうぞ。
+</p>
+<ol>
+  <li>スタート &gt; ファイル名を指定して実行 &gt; <kbd>regedit</kbd>を入力</li>
+  <li>
+    Internet Explorerのレジストリを探す<br>
+    場所は<span class="path">HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION</span>
+  </li>
+  <li><kbd>Luna.exe</kbd>で新規DWORD値を作成</li>
+  <li>DWORD値のデータを<kbd>8</kbd>に書き換える</li>
+</ol>
+<p>
+  以上。<br>
+  これでLunascape 5がInternet Explorer 8の標準準拠モードで動くようになります。<br>
+  （レジストリに追加したDWORD値を削除すれば元に戻ります)
+</p>
+<ins datetime="2010-01-08T17:43:54+09:00">
+  <hr>
+  <p>
+    Lunascape Version 6.0.1からはオプションで設定できるようになりました。<br>
+    ツール &gt; Lunascapeの設定 &gt; エンジン固有 &gt; Trident &gt; エンジンの拡張機能<br>
+    から<br>
+    「ネイティブモード（Trident 8.0）を有効にする」にチェック<br>
+    で、できます。
+  </p>
+</ins>

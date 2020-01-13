@@ -1,0 +1,257 @@
+<script type="application/x-yaml">
+title: "［翻訳］Hgroup要素"
+description: "WHATWG Wikiに興味深い記事があったので簡単に翻訳しつつ紹介してみようと思います。"
+slug: hgroup-element
+published: 2011-05-09T21:59:57+09:00
+updated: 2011-05-10T09:14:54+09:00
+category: webdev
+</script>
+
+<p>
+  『WHATWG Wiki』に興味深い記事があったので簡単に翻訳しつつ紹介してみようと思います。
+</p>
+<section>
+  <h2>この記事の情報</h2>
+  <p>
+    この記事は『<a href="http://wiki.whatwg.org/wiki/Main_Page">WHATWG Wiki</a>』の「<a href="http://wiki.whatwg.org/wiki/Hgroup_element">Hgroup element</a>」を翻訳したものです。<br>
+    なお、原文は<a href="http://wiki.whatwg.org/wiki/WHATWG_Wiki:Copyrights">MITライセンスで公開されています</a>。<br>
+    この記事の最終更新時点で、原文の最終更新日時は<del datetime="2011-05-10T09:11:41+09:00">9 May 2011, at 12:31.</del><ins datetime="2011-05-10T09:11:41+09:00">9 May 2011, at 13:28.</ins>となっています。
+  </p>
+  <ul>
+    <li>HTMLコード内の特に重要でないと思われる部分に関しては一部省略して表記しています。</li>
+    <li>原文・リンク先は変更される可能性があります。</li>
+    <li>訳がおかしいところがありましたらご指摘ください。できるだけ早く直します。</li>
+    <li>翻訳部分は次のセクションからとなります。</li>
+  </ul>
+</section>
+<section>
+  <h2>Hgroup要素</h2>
+  <p>
+    このページの文書は、ヘッダー内のサブタイトルやキャッチコピーのマークアップにおけるユースケースと既存の使用パターンに関するものです。
+  </p>
+  <section>
+    <h3>現実における例</h3>
+    <p>
+      以下は全て、ページや記事ヘッダー内のサブタイトルやキャッチコピーが様々な構造でマークアップされている実在するページです。<br>
+      それぞれのマークアップは必要に応じて、空白、またはヘッダーから無関係な内容を省略し、各サイトから直接コピー&amp;ペーストされたものです。
+    </p>
+    <section>
+      <h4><a href="http://www.telegraph.co.uk/">The Telegraph (UK)</a></h4>
+      <p>
+        例：<a href="http://www.telegraph.co.uk/foodanddrink/8324778/Coca-Cola-recipe-discovered.html">Coca Cola recipe &#8216;discovered’</a>
+      </p>
+      <pre><code class="language-html">&lt;div class=&quot;storyHead&quot;&gt;
+  &lt;h1&gt;Coca Cola recipe 'discovered'&lt;/h1&gt;
+  &lt;h2&gt;A website claims to have uncovered Coca-Cola's top secret recipe.&lt;/h2&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    <section>
+      <h4><a href="http://www.nationalgeographic.com/">National Geographic</a></h4>
+      <p>
+        例：<a href="http://news.nationalgeographic.com/news/2011/05/110505-einstein-theories-confirmed-gravity-probe-nasa-space-science">Einstein Theories Confirmed by NASA Gravity Probe</a>
+      </p>
+      <pre><code class="language-html">&lt;div id=&quot;page_head&quot;&gt;
+  &lt;h1&gt;Einstein Theories Confirmed by NASA Gravity Probe&lt;/h1&gt;
+  &lt;h2 class=&quot;subtitle&quot;&gt;Space mission did what the famed physicist said would be impossible.&lt;/h2&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    <section>
+      <h4><a href="http://www.gutenberg.org/">Project Gutenberg</a></h4>
+      <p>
+        例：<a href="http://www.gutenberg.org/files/36/36-h/36-h.htm">The War of the Worlds, by H. G. Wells</a>
+      </p>
+      <pre><code class="language-html">&lt;h3 class=&quot;chapnum&quot;&gt;CHAPTER ONE&lt;/h3&gt;
+&lt;h3 class=&quot;chaptitle&quot;&gt;THE EVE OF THE WAR&lt;/h3&gt;</code></pre>
+      <p>
+        例：<a href="http://www.gutenberg.org/files/28749/28749-h/28749-h.htm">The Madcap of the School, by Angela Brazil.</a>
+      </p>
+      <pre><code class="language-html">&lt;div style=&quot;(スタイル指定)&quot;&gt;
+  &lt;a name=&quot;CHAPTER_I_THE_MOATED_GRANGE&quot; id=&quot;CHAPTER_I_THE_MOATED_GRANGE&quot;&gt;&lt;/a&gt;
+  &lt;h2&gt;CHAPTER I&lt;/h2&gt;
+  &lt;h3&gt;THE MOATED GRANGE&lt;/h3&gt;
+&lt;/div&gt;</code></pre>
+      <p>
+        例：<a href="http://www.gutenberg.org/files/98/98-h/98-h.htm">A Tale of Two Cities, by Charles Dickens</a>
+      </p>
+      <pre><code class="language-html">&lt;h1&gt;A TALE OF TWO CITIES&lt;/h1&gt;
+&lt;h2&gt;A STORY OF THE FRENCH REVOLUTION&lt;/h2&gt;&lt;br&gt;
+&lt;h2&gt;By Charles Dickens&lt;/h2&gt;</code></pre>
+    </section>
+    <section>
+      <h4><a href="http://www.techdirt.com/">Techdirt</a></h4>
+      <p>：<a href="http://www.techdirt.com/articles/20110506/15124514188/when-copyright-contracts-can-get-way-art.shtml">When Copyright And Contracts Can Get In The Way Of Art</a>
+      </p>
+      <pre><code class="language-html">&lt;div class=&quot;story&quot;&gt;
+  &lt;h1&gt;When Copyright And Contracts Can Get In The Way Of Art&lt;/h1&gt;
+  &lt;h3&gt;from the &lt;i&gt;tales-from-the-creative-front-lines&lt;/i&gt; dept&lt;/h3&gt;
+  &lt;p&gt;...&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    <section>
+      <h4><a href="http://xkcd.com/">XKCD</a></h4>
+      <pre><code class="language-html">&lt;div id=&quot;topRightContainer&quot;&gt;
+  &lt;div id=&quot;logo&quot;&gt;
+    &lt;a href=&quot;/&quot;&gt;&lt;img src=&quot;(URL)&quot; alt=&quot;xkcd.com logo&quot; height=&quot;83&quot; width=&quot;185&quot;/&gt;&lt;/a&gt;
+    &lt;h2&gt;&lt;br /&gt;A webcomic of romance,&lt;br/&gt; sarcasm, math, and language.&lt;/h2&gt;
+    &lt;div class=&quot;clearleft&quot;&gt;&lt;/div&gt;
+    &lt;br /&gt;
+    XKCD updates every Monday, Wednesday, and Friday.
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    <section>
+      <h4><a href="http://finance.yahoo.com/">Yahoo! Finance</a></h4>
+      <p>
+        例：<a href="http://finance.yahoo.com/news/Gas-prices-expected-to-drop-apf-3767822723.html?x=0">Gas prices expected to drop 50 cents by summer</a>
+      </p>
+      <pre><code class="language-html">&lt;div id=&quot;y-article-hd&quot;&gt;
+  &lt;h1 class=&quot;test1&quot;&gt;Gas prices expected to drop 50 cents by summer&lt;/h1&gt;
+  &lt;h2&gt;After 44 days of surging gas prices, analysts expect drop of 50 cents by summer driving season&lt;br&gt;&lt;/h2&gt;
+  &lt;a href=&quot;(URL)&quot; rel=&quot;nofollow&quot;&gt;&lt;img src=&quot;(URL)&quot; alt=&quot;ap&quot; class=&quot;sponsorimage&quot;&gt;&lt;/a&gt;
+  ...
+&lt;/div&gt;</code></pre>
+    </section>
+    <section>
+      <h4><a href="http://oed.com/">Oxford English Dictionary</a></h4>
+      <pre><code class="language-html">&lt;h1&gt;
+  &lt;span&gt;
+    &lt;p&gt;Discover the story of English&lt;/p&gt;
+    &lt;span class=&quot;blurb&quot;&gt;
+      &lt;p&gt;More than 600,000 words, over a thousand years&lt;/p&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+&lt;/h1&gt;</code></pre>
+    </section>
+    <section>
+      <h4><a href="http://diveintoaccessibility.org/">Dive Into Accessibility</a></h4>
+      <pre><code class="language-html">&lt;div id=&quot;logo&quot;&gt;
+  &lt;div class=&quot;inner&quot;&gt;
+    &lt;h1 class=&quot;title&quot;&gt;&lt;a href=&quot;/&quot; accesskey=&quot;1&quot;&gt;Dive Into Accessibility&lt;/a&gt;&lt;/h1&gt;
+    &lt;p&gt;30 days to a more accessible web site&lt;/p&gt;
+    &lt;a class=&quot;skip&quot; href=&quot;#startnavigation&quot;&gt;Skip to navigation&lt;/a&gt;
+    &lt;span class=&quot;divider&quot;&gt;&amp;nbsp;&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    <section>
+      <h4><a href="http://www.calgaryherald.com/">Calgary Herald</a></h4>
+      <p>
+        例：<a href="http://www.calgaryherald.com/life/Cooking+Solo+Grows/4746884/story.html">Cooking Solo Grows Up
+      </a>
+      </p>
+      <pre><code class="language-html">&lt;div id=&quot;storyheader&quot;&gt;
+  &lt;div class=&quot;headline&quot;&gt;
+    &lt;h1&gt;Cooking Solo Grows Up&lt;/h1&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;clear&quot;&gt;&amp;nbsp;&lt;/div&gt;
+  &lt;div class=&quot;subheadline&quot;&gt;
+    &lt;h2&gt;On your own? You no longer have to put up with cereal over the sink or days of the same old leftovers. Joe Yonan shows us why&lt;/h2&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;clear&quot;&gt;&amp;nbsp;&lt;/div&gt;
+  &lt;div class=&quot;byline&quot;&gt;
+    &lt;span class=&quot;name&quot;&gt;By Gwendolyn Richards, Calgary Herald&lt;/span&gt;
+    &lt;span class=&quot;timestamp&quot;&gt;May 8, 2011 2:06 AM&lt;/span&gt;
+    &lt;span id=&quot;lblComment&quot; class=&quot;comments&quot;&gt;&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;clear&quot;&gt;&amp;nbsp;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    <section>
+      <h4><a href="http://www.panic.com/">Panic</a></h4>
+      <p>
+        例：<a href="http://www.panic.com/coda/">Coda - One-Window Web Development for Mac OS X</a>
+      </p>
+      <pre><code class="language-html">&lt;div id=&quot;header&quot;&gt;
+  &lt;h1&gt;&lt;a href=&quot;/coda/&quot; title=&quot;Coda&quot;&gt;Coda&lt;/a&gt;&lt;/h1&gt;
+  &lt;p&gt;One window web development.*&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+      <p>
+        例：<a href="http://www.panic.com/unison/">Unison - The Best Usenet Browser / Newsreader, Only For Mac OS X</a>
+      </p>
+      <pre><code class="language-html">&lt;h1&gt;
+  &lt;a href=&quot;(URL)&quot; title=&quot;Unison - The Best Usenet Browser&quot;&gt;Unison&lt;/a&gt;
+  &lt;br&gt;
+  the best usenet browser
+&lt;/h1&gt;</code></pre>
+    </section>
+    <section>
+      <h4><a href="http://www.pcworld.com/">PCWorld</a></h4>
+      <p>
+        例：<a href="http://www.pcworld.com/article/227313/top_15_android_apps_for_smartphone_shutterbugs.html">Top 15 Android Apps For Smartphone Shutterbugs</a>
+      </p>
+      <pre><code class="language-html">&lt;div id=&quot;articleHead&quot;&gt;
+  ...
+  &lt;h1&gt;Top 15 Android Apps For Smartphone Shutterbugs&lt;/h1&gt;
+  &lt;h2&gt;Use these Android apps to add effects to your mobile photos and make them easier to take.&lt;/h2&gt;
+  &lt;p class=&quot;byline&quot;&gt;By &lt;a href=&quot;(URL)&quot;&gt;Daniel Ionescu&lt;/a&gt;,
+     &lt;a href=&quot;(URL)&quot; target=&quot;_blank&quot;&gt;PCWorld&lt;/a&gt;
+     &amp;nbsp;&amp;nbsp; &lt;script type=&quot;text/javascript&quot;&gt;timestamp(1304707200000,'longDateTime')&lt;/script&gt;May 6, 2011 8:40 pm&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    <section>
+      <h4><a href="http://www.computerworld.com/">Computerworld</a></h4>
+      <p>
+        例：<a href="http://www.computerworld.com/s/article/9216484/Elgan_How_to_pop_your_Internet_filter_bubble_">Elgan: How to pop your Internet &#8216;filter bubble’</a>
+      </p>
+      <pre><code class="language-html">&lt;div id=&quot;article_header&quot; class=&quot;clearfix&quot;&gt;
+  &lt;div id=&quot;content_type&quot;&gt;Opinion&lt;/div&gt;
+  &lt;h1&gt;Elgan: How to pop your Internet 'filter bubble'&lt;/h1&gt;
+  &lt;h2&gt;Personalization algorithms are stereotyping you, then hiding information from you based on that stereotype. Wait -- what?&lt;/h2&gt;
+  &lt;div id=&quot;byline&quot;&gt;By Mike Elgan&lt;/div&gt;
+  &lt;div id=&quot;date&quot;&gt;May 7, 2011 08:00 AM ET&lt;/div&gt;
+    ...
+&lt;/div&gt;</code></pre>
+    </section>
+    <section>
+      <h4><a href="http://www.apple.com/">Apple</a></h4>
+      <p>
+        例：<a href="http://www.apple.com/imac/features.html">Apple - iMac - Read about the features of the new iMac.</a>
+      </p>
+      <pre><code class="language-html">&lt;hgroup&gt;
+  &lt;h1&gt;&lt;img src=&quot;(URL)&quot; alt=&quot;Its beauty is way more than screen  deep. &quot; width=&quot;766&quot; height=&quot;46&quot; class=&quot;center&quot; /&gt;&lt;/h1&gt;
+  &lt;p class=&quot;intro&quot;&gt;All-new quad-core processors. Advanced graphics. Thunderbolt technology. FaceTime HD. iMac is a desktop workhorse disguised as an all-in-one wonder.&lt;/p&gt;
+&lt;/hgroup&gt;</code></pre>
+    </section>
+    <section>
+      <h4><a href="http://docbook.sf.net/">DocBook XSL Stylesheets</a></h4>
+      <p>
+        DocBook からタイトル／サブタイトルとして生成されるコンテンツは以下のように出力されます。（実際の見出しレベルはタイトル／サブタイトルを持つ要素の階層の深さによって異なる場合があります）
+      </p>
+      <pre><code class="language-html">&lt;div class=&quot;titlepage&quot;&gt;
+  &lt;h2 class=&quot;title&quot;&gt;Title&lt;/h2&gt;
+  &lt;h3 class=&quot;subtitle&quot;&gt;Subtitle&lt;/h3&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    <section>
+      <h4><a href="http://miniapps.co.uk/">MiniApps</a></h4>
+      <pre><code class="language-html">&lt;hgroup&gt;
+  &lt;h1&gt;&lt;a href=&quot;(URL)&quot; title=&quot;Home page&quot;&gt;&lt;span&gt;MiniApps&lt;/span&gt;&lt;/a&gt;&lt;/h1&gt;
+  &lt;h2&gt;Beautifully crafted mobile web apps.&lt;/h2&gt;
+&lt;/hgroup&gt;
+</code></pre>
+    </section>
+    <section>
+      <h4><a href="http://interactwithwebstandards.com/">InterACT with Web Standards</a></h4>
+      <pre><code class="language-html">&lt;h1&gt;
+  &lt;span id=&quot;title&quot;&gt;InterACT With &lt;strong&gt;Web Standards&lt;/strong&gt;&lt;/span&gt;
+  &lt;span id=&quot;subtitle&quot;&gt;A Holistic Approach to Web Design&lt;/span&gt;
+&lt;/h1&gt;</code></pre>
+    </section>
+    <section>
+      <h4><a href="http://www.fokus.se/2011/05/kort-triumf-for-obama/">From the Swedish Magazine Fokus</a></h4>
+      <pre><code class="language-html">&lt;h4&gt;Utmanarna&lt;/h4&gt;
+&lt;p&gt;&lt;em&gt;Tio republikanska kandidater som kan bli ett hot mot Obamas andra presidentperiod.&lt;/em&gt;&lt;/p&gt;</code></pre>
+    </section>
+    <section>
+      <h4>サブタイトルを全くマークアップしていないウェブサイト</h4>
+      <p>
+        <i>おそらく</i>、開発者が魅力的な手本を持っていないから？
+      </p>
+      <ul>
+        <li>IMDB</li>
+        <li>Amazon</li>
+        <li>Wikipedia</li>
+      </ul>
+    </section>
+  </section>
+</section>

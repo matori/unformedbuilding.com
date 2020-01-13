@@ -1,0 +1,50 @@
+<script type="application/x-yaml">
+title: "WebStorm/PhpStormからYUI Compressorを使う"
+description: "CSSとJavaScriptを圧縮できるYUI CompressorをWebStorm/PhpStormから使う方法です。"
+slug: using-yui-compressor-on-webstorm-and-phpstorm
+published: 2011-11-25T20:59:16+09:00
+updated: 2011-11-28T13:37:51+09:00
+category: webdev
+</script>
+
+<p>
+  CSSとJavaScriptを圧縮できる「YUI Compressor」をWebStorm/PhpStormから使う方法です。<br>
+  1つ前の「<a href="/articles/sass-compile-on-webstorm-and-phpstorm/">WebStorm/PhpStormでSassをコンパイルする</a>」で、コマンド入れて何かできるんならこれもできるかもなーと思ったのでやってみたら上手くいったのでついでに書いておきます。
+</p>
+<p>
+  まず、JavaがインストールされていたらYUI Compressorをダウンロードして、適当な場所に展開します。ダウンロードは以下のリンクからどうぞ。
+</p>
+<p>
+  <a href="http://developer.yahoo.com/yui/compressor/">YUI Compressor</a>
+</p>
+<p>
+  前回と同じようにSettingsからExternal Toolsと進んで、［Add］ボタンをクリック。<br>
+  ダイアログが出てくるので、そこに入力していきます。
+</p>
+<p>
+  Programの欄には、<span class="path">java.exe</span>へのパスを入力。自分の場合はこれでした。
+</p>
+<pre><kbd>C:\Program Files\Java\jre6\bin\java.exe</kbd></pre>
+<p>
+  次はParametersですね。<br>
+  YUI Compressorのページを参考に、こんな感じで書きます。変換するファイルのパスとかは前回と同じように指定します。<br>
+  （これはCSSの場合）
+</p>
+<pre><kbd>-jar yuicompressor-2.4.7.jar &quot;$FilePath$&quot; -o &quot;$FileDir$\$FileNameWithoutExtension$.min.css&quot; --charset utf-8</kbd></pre>
+<p>
+  YUI Compressorのバージョンは自分の環境に合わせてください。あと、オプションや圧縮後のファイル名も好きなようにつければいいと思います。
+</p>
+<p>
+  Working DirectoryはYUI Compressorのある場所を指定します。<br>
+  まあ好きな場所に置いとけばいいと思います。
+</p>
+<pre><kbd>C:\YUI\yuicompressor\build</kbd></pre>
+<p>
+  あとはファイルを選んでツールを選択すればOKです。
+</p>
+<ins datetime="2011-11-28T13:26:06+09:00">
+  <hr>
+  <p>
+    以上と同様のやり方で「<a href="http://code.google.com/intl/ja/closure/compiler/">Closure Compiler</a>」や「<a href="http://csslint.net/">CSS Lint</a>」、「<a href="http://www.jshint.com/">JSHint</a>」なんかも実行できます。
+  </p>
+</ins>

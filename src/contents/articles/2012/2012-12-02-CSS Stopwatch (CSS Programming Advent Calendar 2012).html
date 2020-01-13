@@ -1,0 +1,70 @@
+<script type="application/x-yaml">
+title: "CSS Stopwatch (CSS Programming Advent Calendar 2012)"
+description: "CSS Programming Advent Calendar 2012の2日目です。ストップウォッチを作ってみました。 "
+slug: css-stopwatch
+published: 2012-12-02T09:00:25+09:00
+updated: 2012-12-02T09:00:25+09:00
+category: webdev
+</script>
+
+<p>
+  <a href="http://www.adventar.org/calendars/2">CSS Programming Advent Calendar 2012</a>の2日目です。<br>
+  まだ2日目ですし、あんまりややこしくないものをやろうと思ってストップウォッチを作ってみました。
+</p>
+<figure>
+  <img src="/images/2012/css-stopwatch/result.png" width="620" height="340" alt="CSSストップウォッチのスクリーンショット。9時間59分59秒999までカウントできる。">
+</figure>
+<p>
+  <a href="/demo/2012/css-stopwatch/">CSS Stopwatch</a>
+</p>
+<p>
+  <a href="/download/2012/css-stopwatch.zip" download>ダウンロード</a>
+</p>
+<p>
+  右上のボタンでスタート、ストップ、リセットです。<br>
+  上部中央のランプは色なしがリセット状態、青がスタート（カウント中）、赤が停止中を表します。<br>
+  左のスイッチでは数字部分のカウントスタイルの変更ができます。これはリセット状態でないと変更できません。
+</p>
+<ul>
+  <li><code>:checked</code>擬似クラス</li>
+  <li>間接兄弟セレクタ</li>
+  <li>CSS Counters</li>
+  <li>CSS 3D Transforms</li>
+  <li>CSS Animations</li>
+  <li>CSS Gradients</li>
+  <li>Root em</li>
+  <li>Viewport percentage length</li>
+  <li><code>pointer-events</code></li>
+  <li><code>calc()</code></li>
+</ul>
+<p>などを使っています。</p>
+<p>
+  IE 10, Firefox（17で確認）, Chrome（25で確認）で動作します。<br>
+  ビューポートのサイズに応じて大きさが変わります。ただし、Firefox は<code>vmin</code>にまだ対応していないので表示サイズは文字サイズ設定依存になります。<br>
+  Operaはまだ3D Transformsに対応していないのでちゃんと動きません。<br>
+  Safariは動きますが一部の表示がおかしいです。
+</p>
+<p>
+  3日目の明日は<a href="https://dskd.jp/">dskd</a>の越智さん（<a href="https://twitter.com/o_ti">@o_ti</a>）です。<br>
+  よろしくお願いします！
+</p>
+<hr>
+<p>
+  ついでなので、この手のデモについて少し。
+</p>
+<p>
+  こういうCSSでやってみた系のものは、そのままだとはっきり言って普通のサイトでは実用性ないですし、自分で使う気もありません。<br>
+  単に「CSSでもやろうと思えばここまでできる」と見せるデモだと考えています。
+</p>
+<p>
+  ただ、そのデモを見て仕組みを調べたり、実際に作ってみてスタイルがどう適用されるのか、ブラウザの対応はどうなっているのかなど、学べる部分もあったりします。<br>
+  先月末に書いた「<a href="/articles/after-the-decimal-point-in-css/">CSSの小数点以下の数値を各ブラウザはどのように解釈するか</a>」と「<a href="/articles/ie10-does-not-support-transform-style-preserve-3d/">Internet Explorer 10のCSS 3D Transforms</a>」は、このCSSストップウォッチを作っていて動作がおかしい部分を直す過程で調べたものです。
+</p>
+<p>
+  なので、まあ遊びで作ってみる分にはいいんじゃないでしょうか。<br>
+  何か学べればそれでいいですし、特にトラブルなく作れたらそのときは自分の理解度を確認できたと思えばいいです。
+</p>
+<hr>
+<p>
+  それと、これの作り終わりのころに海外の人が似たようなものを作っていたのを知ったのですが、仕組みは少し違うので被ってないってことで……。
+</p>

@@ -1,0 +1,155 @@
+<script type="application/x-yaml">
+title: "自分用CSSスタイルガイド"
+description: "2011年12月時点でのCSSを書くときの自分内での決まりごとを書いておきます。"
+slug: my-css-style-guide-2011
+published: 2011-12-12T12:24:13+09:00
+updated: 2011-12-12T12:24:13+09:00
+category: webdev
+</script>
+
+<p>
+  2011年12月時点でのCSSを書くときの自分内での決まりごとを書いておきます。<br>
+  まあこういうのは自分（やチーム）が分かりやすければ何でもいいと思いますけどね。<br>
+  基本的に自分以外は編集することがないので、結構好き勝手に書いてます。
+</p>
+<section>
+  <h2>インデント・改行・空白</h2>
+  <ul>
+    <li>基本的にセレクタはインデントなし。</li>
+    <li>宣言（プロパティと値）の部分はセレクタの開始位置から半角スペース2つ分インデントする。</li>
+    <li><code>@media</code>内など、ネストされている場合はその中のセレクタはアットマークルールの開始位置から半角スペース2つでインデントする。</li>
+    <li>
+      セレクタが複数ある場合は基本的にカンマで改行するが、擬似要素・擬似クラスが違うだけの場合は同一行でもよい。<br>
+      （リセットCSSなどは除く）
+    </li>
+    <li>宣言ブロック開始の波括弧<code>{</code>は最後のセレクタと同じ行に書き、直後に改行を入れる。</li>
+    <li>宣言ブロック終了の波括弧<code>}</code>の直前に改行を入れる。</li>
+    <li>各宣言ごとに改行する。基本的にはセミコロン<code>;</code>の直後。</li>
+    <li>値が複数ある場合（背景など）に、それが長すぎると感じたら各値ごとに改行する。そのとき、値の開始位置は揃える。</li>
+    <li>複雑なグラデーションなど、1つの値が長い場合は分かりやすい位置で改行する。</li>
+    <li>ルールセットの前後には1行の空白行を入れる。</li>
+    <li>セレクタの<code>+</code>などの接続詞の前後には半角スペース1つ分の空白を入れる。</li>
+    <li>宣言ブロック開始の波括弧<code>{</code>の直前には半角スペース1つ分の空白を入れる。</li>
+    <li>プロパティと値の間にあるコロン<code>:</code>の直後に半角スペース1つ分の空白を入れる。前には入れない。</li>
+    <li>宣言終了のセミコロン<code>;</code>の直前には空白を入れない。</li>
+    <li>
+      環境があるならば、保存する前にルールセットごとにコロン<code>:</code>の位置を揃える。<br>
+      （IDEなどで整形できる場合。手動ではやらない）
+    </li>
+  </ul>
+  <pre><code class="language-css">@media screen {
+
+  body {
+    background: #fafafa;
+    color     : #101010;
+  }
+
+  body &gt; header,
+  body &gt; footer {
+    display: block;
+  }
+
+  a:link {
+    color: #08a;
+  }
+
+  a:visited {
+    color: #80a;
+  }
+
+  a:hover, a:active {
+    color: #0a8;
+  }
+
+}</code></pre>
+</section>
+<section>
+  <h2>省略・短縮・単位・命名・文字列</h2>
+  <ul>
+    <li>最後の宣言のセミコロン<code>;</code>を省略してはいけない。</li>
+    <li>
+      数値が<code>0</code>の場合、その単位は省略する。<br>
+      （書いてもよい）
+    </li>
+    <li><code>line-height</code>の値の長さの単位は書かない。</li>
+    <li>
+      <code>font</code>プロパティは使わない。<br>
+      （色々と面倒くさいので）
+    </li>
+    <li>それ以外の短縮形は、そちらをメインに使う。</li>
+    <li><code>&lt;time&gt;</code>形式の単位は基本的に<code>ms</code>ではなく<code>s</code>を使う。</li>
+    <li>アニメーションなどの<code>&lt;identifier&gt;</code>はハイフンつなぎで書く。</li>
+    <li>
+      <code>content</code>プロパティなどで挿入する文字列に英数以外があったらエスケープする。<br>
+      （元の文字列はコメントで残す）
+    </li>
+  </ul>
+</section>
+<section>
+  <h2>コメント</h2>
+  <pre><code class="language-css">/*!
+ * 重要なコメント
+ * 重要なコメント
+ */
+
+/*
+ * 複数行のコメント
+ * 複数行のコメント
+ */
+
+/* 大見出し
+----------------------------------*/
+
+/*-- 小見出し --*/
+
+/* その他 */
+</code></pre>
+  <ul>
+    <li>ルールセットではなく宣言にコメントをつける場合には、セミコロン<code>;</code>の後に半角スペース1つ分を空けてから「その他」スタイルで書く。</li>
+    <li>「大見出し」の見た目は気分で変えてもいいが、統一すること。</li>
+  </ul>
+</section>
+<section>
+  <h2>プロパティを書く順番</h2>
+  <p>基本的には次に従う。が、特に細かい理由のあるオーダーではないので気が付いたら適宜修正する。</p>
+  <pre><code class="language-plain">E {
+  display
+  position, top, bottom, left, right, z-index
+  clear, float
+  margin, margin-(top | bottom | left | right)
+  padding, padding-(top | bottom | left | right)
+  border, border-(top | bottom | left | right)-(width | style | color)
+  border-*
+  width, height, box-sizing
+  box-*
+  background, background-*
+  color
+  font-(size | weight | style | family), font-*
+  line-height,
+  text-*
+  vertical-align, white-space, 他テキスト関連
+  その他
+  content
+}</code></pre>
+</section>
+<section>
+  <h2>その他</h2>
+  <ul>
+    <li>基本的には図書館方式。</li>
+    <li>なるべく複雑なセレクタは書かない。</li>
+    <li>可能な限りCSSハックは使わない。</li>
+    <li>同じ宣言を持つセレクタはまとめてもよいが、全て1つにまとめるのではなく役割ごとにまとめておく。</li>
+    <li>クオーテーションはダブルクオーテーションを使う。</li>
+    <li>フォント名はダブルクオーテーションで囲む。</li>
+    <li>実際に使うファイルは1つにまとめる。</li>
+  </ul>
+</section>
+<hr>
+<p>
+  最近Sassを使い始めましたが、SCSSで基本的にこれと同じ感じで書いてます。CSSでもSassでも、実際に使うときには圧縮したりするので、これらのスタイルは表には出ないです。<br>
+  あと、いつも一人でやってるので自分が見やすいように書いてます。
+</p>
+<p>
+  他にも何かあった気がするけど思い出せないということは、たいしたものではないのでしょう。<br>
+  長々と書いてきましたが、どれもこれも深い理由があるわけではないので、これからも色々変更されていく感じです。
+</p>

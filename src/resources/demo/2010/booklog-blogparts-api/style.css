@@ -1,0 +1,148 @@
+body {
+	margin: 0;
+	padding: 0;
+	font-size: 14px;
+	font-family: "\0030e1\0030a4\0030ea\0030aa", meiryo, Helvetica, Arial, sans-serif;
+}
+
+h1 {
+	margin: 20px;
+	font-size: 20px;
+	font-family: georgia, meiryo, sans-serif;
+}
+
+h1, h2, h3 {
+	text-align: center;
+}
+
+#form {
+	margin: 0 auto;
+	width: 660px;
+	border: 1px solid #ccc;
+	background: #eee;
+}
+
+#form div {
+	margin: 0 10px;
+	border: 1px solid #ccc;
+	width: 198px;
+	background: #fff;
+}
+
+#form div h3 {
+	margin: 0 0 10px;
+	padding: 5px;
+	border-bottom: #ccc;
+	background: #111;
+	color: #eee;
+	font-weight: 400;
+}
+
+#form div p {
+	margin: 0 0 10px;
+	padding: 0 10px;
+}
+
+.text,
+.radio {
+	float: left;
+}
+
+#form div.button {
+	clear: both;
+	margin: 0 0 10px;
+	padding-top: 20px;
+	border: 0;
+	width: 100%;
+	background: transparent;
+	text-align: center;
+}
+
+#submit {
+	padding: 5px 0;
+	width: 220px;
+	font-size: 14px;
+}
+
+#booklog {
+	display: none;
+	margin: 0 auto;
+	width: 600px;
+}
+
+#booklog h2 img {
+	border: 0;
+	vertical-align: baseline;
+}
+
+.userInfo {
+	text-align: center;
+}
+
+.userInfo span {
+	display: inline-block;
+	margin: 0 10px;
+}
+
+.bookshelf {
+	padding: 0;
+	border: 1px solid #ccc;
+	list-style-type: none;
+}
+
+.bookshelf li {
+	margin: 0;
+	padding: 10px;
+	border-top: 1px solid #ccc;
+	/zoom: 1;
+}
+
+.bookshelf li:after {
+	clear : both;
+	display: block;
+	content : '';
+}
+
+.bookshelf li:first-child {
+	border: 0; 
+}
+
+.bookImage {
+	float: left;
+	display: block;
+	margin-right: 10px;
+}
+
+.bookImage img {
+	border: 5px solid #f0f0f0;
+}
+
+.bookImage img:hover {
+	border-color: #ccc;
+}
+
+.bookInfo {
+	overflow: hidden;
+}
+
+.bookTitle {
+	font-weight: 700;
+}
+
+.bookAuthor {
+	margin-bottom: 5px;
+}
+
+.asin,
+.review {
+	font-size: 12px;
+}
+
+abbr {
+	border: 0;
+}
+
+.copy {
+	margin: 20px 10px;
+	text-align: right;
+}

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>animation-timing-function のデモ 2</title>
+<style type="text/css">
+html, body {
+  margin : 0;
+  padding: 0;
+}
+
+body {
+  background : #fdf6e3;
+  font-family: "Arial", sans-serif;
+}
+
+ol {
+  margin      : 30px auto;
+  padding-left: 0;
+  width       : 620px;
+}
+
+code {
+  color      : #2aa198;
+  font-family: "Menlo", "Monaco", "Consolas", monospace;
+}
+
+li:nth-child(even) code {
+  color: #d33682;
+}
+
+#container {
+  margin : 30px auto;
+  padding: 9px;
+  border : 1px solid #ccc;
+  width  : 600px;
+}
+
+#container > div {
+  position                  : relative;
+  margin-bottom             : 10px;
+  border-radius             : 50%;
+  width                     : 30px;
+  height                    : 30px;
+  background                : #268bd2;
+  color                     : #fff;
+  line-height               : 30px;
+  text-align                : center;
+  -webkit-animation-name    : left-to-right;
+  -moz-animation-name       : left-to-right;
+  -ms-animation-name        : left-to-right;
+  -o-animation-name         : left-to-right;
+  animation-name            : left-to-right;
+  -webkit-animation-duration: 3s;
+  -moz-animation-duration   : 3s;
+  -ms-animation-duration    : 3s;
+  -o-animation-duration     : 3s;
+  animation-duration        : 3s;
+}
+
+.test1 {
+  -webkit-animation-timing-function: ease;
+  -moz-animation-timing-function   : ease;
+  -ms-animation-timing-function    : ease;
+  -o-animation-timing-function     : ease;
+  animation-timing-function        : ease;
+}
+
+.test2 {
+  -webkit-animation-timing-function: linear;
+  -moz-animation-timing-function   : linear;
+  -ms-animation-timing-function    : linear;
+  -o-animation-timing-function     : linear;
+  animation-timing-function        : linear;
+}
+
+.test3 {
+  -webkit-animation-timing-function: ease-in;
+  -moz-animation-timing-function   : ease-in;
+  -ms-animation-timing-function    : ease-in;
+  -o-animation-timing-function     : ease-in;
+  animation-timing-function        : ease-in;
+}
+
+.test4 {
+  -webkit-animation-timing-function: ease-out;
+  -moz-animation-timing-function   : ease-out;
+  -ms-animation-timing-function    : ease-out;
+  -o-animation-timing-function     : ease-out;
+  animation-timing-function        : ease-out;
+}
+
+.test5 {
+  -webkit-animation-timing-function: ease-in-out;
+  -moz-animation-timing-function   : ease-in-out;
+  -ms-animation-timing-function    : ease-in-out;
+  -o-animation-timing-function     : ease-in-out;
+  animation-timing-function        : ease-in-out;
+}
+
+.test6 {
+  -webkit-animation-timing-function: cubic-bezier(1, 0, 1, 0);
+  -moz-animation-timing-function   : cubic-bezier(1, 0, 1, 0);
+  -ms-animation-timing-function    : cubic-bezier(1, 0, 1, 0);
+  -o-animation-timing-function     : cubic-bezier(1, 0, 1, 0);
+  animation-timing-function        : cubic-bezier(1, 0, 1, 0);
+}
+
+.test7 {
+  -webkit-animation-timing-function: step-start;
+  -moz-animation-timing-function   : step-start;
+  -ms-animation-timing-function    : step-start;
+  -o-animation-timing-function     : step-start;
+  animation-timing-function        : step-start;
+}
+
+.test8 {
+  -webkit-animation-timing-function: step-end;
+  -moz-animation-timing-function   : step-end;
+  -ms-animation-timing-function    : step-end;
+  -o-animation-timing-function     : step-end;
+  animation-timing-function        : step-end;
+}
+
+.test9 {
+  -webkit-animation-timing-function: steps(10, start);
+  -moz-animation-timing-function   : steps(10, start);
+  -ms-animation-timing-function    : steps(10, start);
+  -o-animation-timing-function     : steps(10, start);
+  animation-timing-function        : steps(10, start);
+}
+
+.test10 {
+  -webkit-animation-timing-function: steps(10, end);
+  -moz-animation-timing-function   : steps(10, end);
+  -ms-animation-timing-function    : steps(10, end);
+  -o-animation-timing-function     : steps(10, end);
+  animation-timing-function        : steps(10, end);
+}
+
+#container > div:last-child {
+  margin-bottom: 0;
+}
+
+@-webkit-keyframes left-to-right {
+  from { left: 0; }
+  50%  { left: 285px; }
+  to   { left: 570px; }
+}
+
+@-moz-keyframes left-to-right {
+  from { left: 0; }
+  50%  { left: 285px; }
+  to   { left: 570px; }
+}
+
+@-ms-keyframes left-to-right {
+  from { left: 0; }
+  50%  { left: 285px; }
+  to   { left: 570px; }
+}
+
+@-o-keyframes left-to-right {
+  from { left: 0; }
+  50%  { left: 285px; }
+  to   { left: 570px; }
+}
+
+@keyframes left-to-right {
+  from { left: 0; }
+  50%  { left: 285px; }
+  to   { left: 570px; }
+}
+</style>
+</head>
+<body>
+
+<div id="container">
+  <div class="test1">1</div>
+  <div class="test2">2</div>
+  <div class="test3">3</div>
+  <div class="test4">4</div>
+  <div class="test5">5</div>
+  <div class="test6">6</div>
+  <div class="test7">7</div>
+  <div class="test8">8</div>
+  <div class="test9">9</div>
+  <div class="test10">10</div>
+</div>
+
+<ol>
+  <li><code>animation-timing-function: ease;</code></li>
+  <li><code>animation-timing-function: linear;</code></li>
+  <li><code>animation-timing-function: ease-in;</code></li>
+  <li><code>animation-timing-function: ease-out;</code></li>
+  <li><code>animation-timing-function: ease-in-out;</code></li>
+  <li><code>animation-timing-function: cubic-bezier(1, 0, 1, 0);</code></li>
+  <li><code>animation-timing-function: step-start;</code></li>
+  <li><code>animation-timing-function: step-end;</code></li>
+  <li><code>animation-timing-function: steps(10, start);</code></li>
+  <li><code>animation-timing-function: steps(10, end);</code></li>
+</ol>
+
+</body>
+</html>

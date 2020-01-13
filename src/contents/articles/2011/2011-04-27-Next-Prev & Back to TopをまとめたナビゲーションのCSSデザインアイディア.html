@@ -1,0 +1,58 @@
+<script type="application/x-yaml">
+title: "Next/Prev & Back to TopをまとめたナビゲーションのCSSデザインアイディア"
+description: "Next/PrevとBack to Topをまとめたナビゲーションを作ったんですが、これを応用すれば色々作れそうだと思って、5種類ほど作ってみました。 "
+slug: next-prev-and-back-to-top-navigation-design-idea
+published: 2011-04-27T14:35:38+09:00
+updated: 2011-04-27T15:04:17+09:00
+category: webdev
+</script>
+
+<p>
+  『<a href="http://d.matori.org/">mlog</a>』を作るときに、Next/PrevとBack to Topをまとめた、下の画像のようなナビゲーションを作ったんですが、これを応用すれば色々作れそうだと思って、5種類ほど作ってみました。
+</p>
+<figure>
+  <img src="/images/2011/next-prev-and-back-to-top-navigation-design-idea/1.png" width="620" height="80" alt="『mlog』で使っているナビゲーションのスクリーンショット">
+</figure>
+<p>
+  画像を使わなくてもそれなりに色々できるというデモです。<br>
+  ただし、そのまま使えばもちろん非対応ブラウザでは表示が崩れますし、コードも長いです。<br>
+  実用するなら素直に画像を使ったほうが早いし安心だと思います。<br>
+  前置き終わり。
+</p>
+<p>
+  Google Chrome 12 devだと以下のように表示されます。
+</p>
+<p>
+  <img src="/images/2011/next-prev-and-back-to-top-navigation-design-idea/2.png" width="620" height="440" alt="デモページのスクリーンショット">
+</p>
+<p>
+  <a href="/demo/2011/next-prev-and-back-to-top-navigation-design-idea/">Next/Prev &amp; Back to Top Navigation Design Idea</a>
+</p>
+<p>
+  <a href="/download/2011/next-prev-and-back-to-top-navigation-design-idea.zip" download>デモファイルをダウンロード</a>
+</p>
+<p>
+  各ブラウザの最新版なら、どれも同じように見えると思います。<br>
+  IE 8は3番目と4番目以外は崩れますが、使えなくはない……と思います。<br>
+  <code>:before</code>, <code>:after</code>擬似要素が使えないIE 7以下はかなり悲惨です。<br>
+  Firefox 3.6は2番目の真ん中の三角がダメでした。
+</p>
+<p>
+  どれもこれも指定が長いので、CSSコードは省略します。<br>
+  Firebugとかのデバッグツールで見たりダウンロードしたりしてご確認ください。<br>
+  ポイントは<code>:before</code>, <code>:after</code>, <code>box-shadow</code>, <code>border</code>です。<br>
+  <code>text-indent: -9999px</code>みたいなのはスパムがどうこうありますが、ここでは考えてません。
+</p>
+<p>
+  何でわざわざ「Back to Top」を見えなくしてボーダーで三角形を作ってるのかというと、そこのテキストが「<span aria-label="上向き三角形">▲</span>」だとCSS切られたときに分かりづらいかなーと思ったからです。<br>
+  それと、フォントで「<span aria-label="上向き三角形">▲</span>」作ると環境によっては崩れる可能性があるので、ボーダーで作りました。
+</p>
+<p>
+  また、見た目だけを考えるなら、『<a href="http://leaverou.me/css3patterns/">CSS3 Patterns Gallery</a>』などを見ても分かるように、Multiple backgrounds,
+  <code>background-size</code>, <code>gradient()</code>が使えれば、もっと自由度はアップします。<code>:before</code>, <code>:after</code>も使わずに済みます。<br>
+  IE 9が<code>gradient()</code>に対応していないので、今回は使いませんでした。
+</p>
+<p>
+  デモで使っているCSSを使いたい方がいましたらご自由にどうぞ。<br>
+  でもまあ、最初に書いたように画像で指定したほうが安全だとは思います。
+</p>

@@ -1,0 +1,154 @@
+<script type="application/x-yaml">
+title: "vw, vh, vm(vmin)という単位についての覚え書き"
+description: "CSS Values and Units Module Level 3のViewport-relative lengthsについての覚え書きです。"
+slug: learn-about-vw-vh-vm
+published: 2011-12-19T15:37:05+09:00
+updated: 2011-12-19T15:37:05+09:00
+category: webdev
+</script>
+
+<p>
+  「CSS Values and Units Module Level 3」のViewport-relative lengths（または Viewport-percentage lengths）についての覚え書きです。<br>
+  これは新しく追加された長さの単位です。
+</p>
+<ol>
+  <li>
+    <a href="http://www.w3.org/TR/2011/WD-css3-values-20110906/#viewport-relative-lengths">CSS Values and Units Module Level 3 - 5.1.2. Viewport-relative lengths</a>
+  </li>
+  <li>
+    <a href="http://dev.w3.org/csswg/css3-values/#viewport-relative-lengths">CSS Values and Units Module Level 3 - 5.1.2. Viewport-percentage lengths</a>
+  </li>
+</ol>
+<p>
+  上は2011年9月6日版のWorking Draftの仕様へのリンクで、下がEditor’s Draftの最新版へのリンクです。<br>
+  Editor’s Draftの方は2011年12月13日版を参考にしていますが、ページが見つからないので最新版へのリンクにしてあります。
+</p>
+<p>
+  各単位は次のようになっています。<br>
+  <dfn>WD</dfn>は2011年9月6日版のWorking Draftを、<dfn>ED</dfn>は2011年12月13日版Editor’s Draftを指します。
+</p>
+<p>
+  これらは初期包含ブロックのサイズを基準にしています。<br>
+  ビューポートの高さまたは幅が変更されたとき、それに応じてスケーリングされます。
+</p>
+<dl>
+  <dt><code>vw</code></dt>
+  <dd>
+    WD: 初期包含ブロックのwidthの<span class="frac">1/100</span>に等しい。<br>
+    ED: 初期包含ブロックのwidthの1%に等しい。
+  </dd>
+  <dt><code>vh</code></dt>
+  <dd>
+    WD: 初期包含ブロックのheightの<span class="frac">1/100</span>に等しい。<br>
+    ED: 初期包含ブロックのheightの1%に等しい。
+  </dd>
+  <dt>WD: <code>vm</code> / ED: <code>vmin</code></dt>
+  <dd>
+    <code>vw</code>または<code>vh</code>の小さい方に等しい。
+  </dd>
+</dl>
+<p>
+  たとえば、初期包含ブロックの幅が<code>1000px</code>の場合、<code>1vw</code>は<code>10px</code>と同じ意味になります。<br>
+  初期包含ブロックの高さが<code>500px</code>の場合には<code>1vh</code>は<code>5px</code>と同じ。<br>
+  初期包含ブロックの幅が<code>1000px</code>で幅が<code>500px</code>の場合、<code>1vm (1vmin)</code>は<code>5px</code>です。
+</p>
+<p>
+  2011年12月現在、この単位に対応しているブラウザ（安定版）はInternet Explorer 9だけです。<br>
+  とりあえず、簡単なサンプルを作ってみましたのでご確認ください。<br>
+  表示領域のサイズを変更してリロードすると分かると思います。
+</p>
+<p>
+  <a href="/demo/2011/vw-vh-vm/">vw, vh, vm(vmin) Sample</a>
+</p>
+<p>
+  <a href="/download/2011/vw-vh-vm.zip" download>サンプルをダウンロード</a>
+</p>
+<p>
+  このサンプルには<a href="https://gist.github.com/1347501">Lea Verou作のpolyfill</a>を<a href="https://gist.github.com/1379503">drublicがForkしたもの</a>を使っています。<br>
+  なので、一応IE9以外でもそれっぽく見れると思います。<br>
+  また、画面サイズの表示には「<a href="http://www.josscrowcroft.com/2011/code/window-size-bookmarklet/">Window Size bookmarklet to test/debug CSS3 Media Queries</a>」を使っています。<br>
+  テキストは「<a href="http://cupcakeipsum.com/">Cupcake Ipsum</a>」で生成したものです。
+</p>
+<p>
+  HTMLとCSSは次のようになっています。CSSは関係ない部分は省略しています。
+</p>
+<pre><code class="language-html">&lt;section&gt;
+  &lt;h1&gt;CSS3 vw, vh, vm(vmin) Sample&lt;/h1&gt;
+  &lt;p&gt;...&lt;/p&gt;
+  &lt;p&gt;...&lt;/p&gt;
+&lt;/section&gt;</code></pre>
+<pre><code class="language-css">html {
+  overflow: hidden;
+}
+
+body {
+  margin   : 0;
+  padding  : 0;
+  font-size: 100%;
+}
+
+section {
+  margin    : 5vh 5vw;
+  padding   : 1vh 1vw;
+  width     : 90vw;
+  height    : 90vh;
+  box-sizing: border-box;
+  overflow  : auto;
+}
+
+h1 {
+  font-size  : 20px;
+  font-weight: normal;
+}
+
+p {
+  font-size: 10px;
+}
+
+@media screen and (min-width: 500px) {
+
+  h1 {
+    font-size: 4vw;
+  }
+
+  p {
+    font-size: 2vw;
+  }
+
+}
+
+@media screen and (min-width: 2000px) {
+
+  h1 {
+    font-size: 80px;
+  }
+
+  p {
+    font-size: 40px;
+  }
+
+}</code></pre>
+<p>
+  <code>section</code>部分の<code>width: 90vw</code>と<code>height: 90vh</code>の指定により、このブロックは必ず表示領域内に収まるようになっています。
+</p>
+<p>
+  <code>h1</code>と<code>p</code>のフォントサイズの指定ですが、普通に<code>vw</code>を使ったのでは表示領域が小さいときに文字が小さすぎて読めなくなってしまうので、まず最低ラインを決めておきます。<br>
+  次に、表示領域の幅が<code>500px</code>以上の場合の指定で<code>vw</code>を使い、常に表示領域に対して相対的なサイズで文字が表示されるようにします。<br>
+  最後は小さいときの逆で、最大値を設定しておきます。
+</p>
+<p>
+  レイアウトなどに使うときはあまり気にしなくてもいいかもしれませんが、フォントサイズなどに使う場合にはMedia Queriesを使って最大値と最小値を指定しておかないと非常に読みづらいページになってしまう可能性があるので、そこらへんは気をつけたほうがいいかなーと思います。
+</p>
+<p>
+  ただ、この単位のいい使いどころがまだよく分からないので（対応ブラウザも少ないですし）、しばらく使うことはなさそうです。<br>
+  <a href="http://snook.ca/archives/html_and_css/vm-vh-units">Snook.caの人はLightboxや画像に使うといいんじゃないかと書いていました</a>。
+</p>
+<p>
+  あと、ちょっと気になってることが。<br>
+  Editor’s Draftでは<code>vm</code>が<code>vmin</code>に変更されているみたいですが、このまま<code>vmin</code>が正式に決定して、いつかこの単位を普通に使うようになったときにIE9が現役だと、IE9用に<code>vm</code>も書く必要が出てくるんじゃないかなーと。<br>
+  まあそのくらい上手く調整しろって言われればそれまでなんですけどね……。
+</p>
+<p>
+  最後に。<br>
+  こういう記事ではいつも書いていることですが、この記事で書いたものは決定した仕様ではありません。今後変更される可能性もありますのでお気をつけください。
+</p>

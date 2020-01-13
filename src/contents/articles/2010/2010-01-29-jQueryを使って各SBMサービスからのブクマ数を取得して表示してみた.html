@@ -1,0 +1,317 @@
+<script type="application/x-yaml">
+title: "jQueryを使って各SBMサービスからのブクマ数を取得して表示してみた"
+description: "jQueryで任意のページの被ブックマーク数を各ソーシャルブックマークから取得したいと思いました。"
+slug: jquery-sbm-counter-with-link
+published: 2010-01-29T18:16:12+09:00
+updated: 2011-05-18T14:32:53+09:00
+category: webdev
+</script>
+
+<p>
+  jQueryで任意のページの被ブックマーク数を各ソーシャルブックマークから取得したいと思ったので、勉強だと思ってやってみたよ。<br>
+  とりあえず、はてな、Delicious、Livedoor クリップ、Buzzurlはできました。<br>
+  <ins datetime="2010-01-30T07:44:26+09:00">@niftyもできました。</ins>
+  <br>
+  おまけで、Twitterの投稿からのリンク数を取得するのにTopsyのAPIを使ってやってみました。
+</p>
+<p>
+  以下のようなHTMLで、ブックマークするボタンの直後に登録者数を表示して、各サービスごとのブックマークの数え方（○○usersって出るやつ）を単数形と複数形で分けたい。
+</p>
+<pre><code class="language-html">&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;登録リンク&quot; id=&quot;addHatena&quot;&gt;はてなアイコン&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;登録リンク&quot; id=&quot;addDelicious&quot;&gt;Deliciousアイコン&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;登録リンク&quot; id=&quot;addLivedoor&quot;&gt;Livedoorクリップアイコン&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;登録リンク&quot; id=&quot;addBuzzurl&quot;&gt;Buzzurlアイコン&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;登録リンク&quot; id=&quot;addNifty&quot;&gt;@niftyクリップアイコン&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;投稿リンク&quot; id=&quot;postTwitter&quot;&gt;Twitterアイコン&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<section>
+  <h2>はてなブックマーク</h2>
+  <p>
+    はてなブックマーク数を取得して、エントリーページへのリンクと共に表示。<br>
+    はてなはブックマーク数のみを取得できるAPIを公開しているのでそれを使いました。
+  </p>
+  <pre><code class="language-javascript">jQuery(function ($) {
+
+  var baseurl = location.href;
+
+  function hatenaCount(data) {
+    if (data &gt; 0) {
+      var user = (data === 1) ? ' user' : ' users';
+      var link = '&lt;a href=&quot;http://b.hatena.ne.jp/entry/' + baseurl + '&quot;&gt;' + data + user + '&lt;/a&gt;';
+      $('#addHatena').after(link);
+    }
+  }
+
+  $.getJSON('http://api.b.st-hatena.com/entry.count?url=' + encodeURIComponent(baseurl) + '&amp;callback=?', hatenaCount);
+
+});</code></pre>
+  <p>
+    まず、変数<code>baseurl</code>に現在のURLを代入。<br>
+    次にコールバック関数<code>hatenaCount</code>を。<br>
+    このAPIではブックマークされていない場合は<code>0</code>が返ってくるので、値が<code>0</code>より大きい場合にのみ、カウントとリンクを表示するようにしました。<br>
+    変数<code>user</code>では、条件演算子を使って値が<code>1</code>であるかどうかを判定。<code>true</code>なら<code>user</code>を、<code>false</code>なら<code>users</code>を代入します。<br>
+    変数<code>link</code>で、<code>a</code>要素を作って、<code>after</code>メソッドで<code>a#addHatena</code>の直後に追加しています。<br>
+    値は<code>$.getJSON</code>で取得しました。コールバック関数が<code>?</code>になっているのは、こうしておけばjQueryがやってくれるから……。
+  </p>
+  <p>
+    たぶん、一番簡単。
+  </p>
+</section>
+<section>
+  <h2>Delicious</h2>
+  <p>
+    Deliciousはちょっと面倒。<br>
+    最初にURLをmd5エンコードしないといけないらしいです。<br>
+    今回はjQueryを使っているので、jQueryのプラグイン<a href="http://plugins.jquery.com/project/md5">jQuery MD5 hash algorithm function</a>を使いました。他にもmd5エンコードしてくれるライブラリは<a href="http://www.onicos.com/staff/iz/amuse/javascript/expert/">md5.js</a>とかありますね。
+  </p>
+  <pre><code class="language-javascript">jQuery(function ($) {
+
+  var baseurl = location.href;
+  var md5hash = $.md5(baseurl); //ここでプラグインを使っています
+
+  function deliciousCount(data) {
+    if (data.length &gt; 0) {
+      var count = data[0].total_posts;
+      var user = (count === 1) ? ' person' : ' people';
+      var link = '&lt;a href=&quot;http://delicious.com/url/' + md5hash + '&quot;&gt;' + count + user + '&lt;/a&gt;';
+      $('#addDelicious').after(link);
+    }
+  }
+
+  $.ajax({
+    type: 'GET',
+    dataType: 'jsonp',
+    url: 'http://feeds.delicious.com/v2/json/urlinfo/' + md5hash,
+    success: deliciousCount
+  });
+
+});</code></pre>
+  <p>
+   <code>$.getJSON</code>で上手くできなかったので、<code>$.ajax</code>でやりました。<br>
+    基本的には、はてなのと一緒ですね。<br>
+    違うのは、person/peopleと、返ってくるもの。
+  </p>
+  <p>
+    ブックマークされていないページだと空のデータが返ってきて、<code>data[0].total_posts &gt; 0</code>だとエラーになるので、<code>data.length &gt; 0</code>でデータの文字数が<code>0</code>より大きい場合にのみ表示、という形にしました。<br>
+    取得できるJSONPは、たとえば<code>http://www.google.co.jp</code>だとこういうのになります。
+  </p>
+  <pre><code class="language-javascript">([{
+  &quot;hash&quot;:&quot;9d0f4061beb6ae41f64eb124665e0768&quot;,
+  &quot;title&quot;:&quot;Google&quot;,
+  &quot;url&quot;:&quot;http:\/\/www.google.co.jp\/&quot;,
+  &quot;total_posts&quot;:1174,
+  &quot;top_tags&quot;:{
+    &quot;google&quot;:368,
+    &quot;search&quot;:318,
+    &quot;\u691c\u7d22&quot;:139,
+    // ......
+  }
+}])</code></pre>
+  <p>
+    配列になっているのでそのように。<br>
+   <code>total_posts</code>の値がブックマーク数です。<br>
+    あとははてなのと一緒。
+  </p>
+  <p>
+    これが一番大変でした。
+  </p>
+</section>
+<section>
+  <h2>Livedoor クリップ</h2>
+  <p>
+    はてなのをちょっと変更するだけ。
+  </p>
+  <pre><code class="language-javascript">jQuery(function ($) {
+
+  var baseurl = location.href;
+
+    function livedoorCount(data) {
+    var count = data.total_clip_count;
+    if(count &gt; 0){
+      var user = (count === 1) ? ' user' : ' users';
+      var link = '&lt;a href=&quot;http://clip.livedoor.com/page/' + baseurl + '&quot;&gt;' + count + user +'&lt;/a&gt;';
+      $('#addLivedoor').after(link);
+    }
+  }
+
+  $.getJSON('http://api.clip.livedoor.com/json/comments?link=' + encodeURIComponent(baseurl) + '&amp;callback=?', livedoorCount);
+
+});</code></pre>
+  <p>
+    取得できるのはこれ。同じく<code>google.co.jp</code>ですね。
+  </p>
+  <pre><code class="language-javascript">({
+  &quot;link&quot;:&quot;http://www.google.co.jp/&quot;,
+  &quot;Comments&quot;:[
+    {
+      //ユーザーのブックマーク情報
+    },
+    {
+      // ......
+    }
+  ],
+  &quot;public_clip_count&quot;:381,
+  &quot;last_clipped_on&quot;:1264610012,
+  &quot;StatusCode&quot;:200,
+  &quot;total_clip_count&quot;:436,
+  &quot;isSuccess&quot;:1,
+  &quot;Message&quot;:&quot;comment list&quot;,
+  &quot;created_on&quot;:1151397785,
+  &quot;title&quot;:&quot;Google&quot;
+});</code></pre>
+  <p>
+   <code>total_clip_count</code>がブックマーク数。<br>
+    ユーザー情報までついてくるからちょっと容量が大きいです。<br>
+    今回、<code>google.co.jp</code>の情報を取ってみたら、Livedoorだけ2.5KBもありました。他は大きくても300B程度。
+  </p>
+</section>
+<section>
+  <h2>Buzzurl</h2>
+  <p>
+    こっちも似たようのでいけました。
+  </p>
+  <pre><code class="language-javascript">jQuery(function ($) {
+
+  var baseurl = location.href;
+
+  function buzzurlCount(data) {
+    if (data.length &gt; 0) {
+      var link = '&lt;a href=&quot;http://buzzurl.jp/entry/' + baseurl + '&quot;&gt;' + data[0].users + ' USER&lt;/a&gt;';
+      $('#addBuzzurl').after(link);
+    }
+  }
+
+  $.getJSON('http://api.buzzurl.jp/api/counter/v1/json?url=' + encodeURIComponent(baseurl) + '&amp;cb=?', buzzurlCount);
+
+});
+</code></pre>
+  <p>
+    まず、これもDeliciousと同じように配列になっていて、ブックマークされていないと空のデータが返ってくるので、同じように<code>data.length &gt; 0</code>で中身がある場合に絞ります。<br>
+    また、このサービスはブックマークしている人が複数人いても○○USERと表示しているので、その区別をしなくてもいいです。なので、いったん変数に代入することなく、そのまま使うことにしました。<br>
+    <ins datetime="2010-02-10T08:07:04+09:00">画像で取得すると複数形があるみたいですが、そっちが好みなら他のと同じように条件分岐で。</ins>
+    <br>
+    他に気をつけるのはコールバックが<code>&amp;callback=</code>じゃなくて<code>&amp;cb=</code>なことくらいですかね。
+  </p>
+  <p>
+    取得できるのはこれ。</p>
+  <pre><code class="language-javascript">([{
+  &quot;url&quot;:&quot;http://www.google.co.jp/&quot;,
+  &quot;users&quot;:&quot;121&quot;,
+  &quot;title&quot;:&quot;Google&quot;
+}]);
+</code></pre>
+  <p>
+    ブックマーク数は<code>users</code>の値。<br>
+    すごく分かりやすい。ファイルサイズも数字のみのはてなの次に小さいです。
+  </p>
+</section>
+<section>
+  <h2>@nifty クリップ</h2>
+  <p>
+    monmonさんのコメントを参考に書いたらちゃんとできました。アドバイスありがとうございました！<br>
+    上手くいかなかった原因は、xmlを<code>$.ajax</code>で取ろうとしていたからでした。別ドメインなのに……。<br>
+  </p>
+  <p>
+    ちゃんと動いたコードはこれ。
+  </p>
+  <pre><code class="language-javascript">jQuery(function ($) {
+  var baseurl = location.href;
+
+  function niftyCount(data) {
+
+    if (data.status.code !== '200') return; //200じゃなければ終了
+
+    var count = data.result.clips[0].count;
+    if (count &gt; 0) {
+      var user = (count === 1) ? ' user' : ' users';
+      var link = '&lt;a href=&quot;http://clip.nifty.com/entry/?url=' + baseurl + '&quot;&gt;' + count + user + '&lt;/a&gt;';
+      $('#addNifty').after(link);
+    }
+  }
+
+  $.getJSON('http://api.clip.nifty.com/api/v1/counter?alt=json-in-script&amp;url=' + encodeURIComponent(baseurl) + '&amp;callback=?', niftyCount);
+
+});</code></pre>
+  <p>
+    @niftyのAPIが返すJSONに入っているステータスコードが<code>200</code>でなければ、その時点で終了。他には<code>400</code>/<code>403</code>/<code>404</code>/<code>503</code>を返すようです。<br>
+    残りの部分はほとんど他と一緒。<br>
+    エントリーページへのリンクは<code>api.clip.nifty.com/api/v1/entry</code>で取れるけど、<code>http://clip.nifty.com/entry/?url=(URL)</code>でも行けるようなので、データの容量も考慮した結果、こっちを使うことにしました。
+  </p>
+  <p>
+    取得できるのはこれ。
+  </p>
+  <pre><code class="language-javascript">({
+  &quot;status&quot;: {
+    &quot;code&quot;: &quot;200&quot;,
+    &quot;message&quot;: &quot;OK&quot;,
+    &quot;language&quot;: &quot;ja&quot;
+  },
+  &quot;result&quot;: {
+    &quot;clips&quot;: [{
+      &quot;url&quot;: &quot;http\u003a\u002f\u002fwww\u002egoogle\u002eco\u002ejp\u002f&quot;,
+      &quot;count&quot;: 175
+    }]
+  }
+});</code></pre>
+  <p>
+    ブックマーク数はそのまま<code>count</code>なんですが<code>clips</code>が配列になっているので、<code>result.clips[0].count</code>で取得します。<br>
+    ブックマークされていないページの場合は<code>status.code</code>が<code>404</code>になります。
+  </p>
+</section>
+<section>
+  <h2>Topsy</h2>
+  <p>
+    おまけ。Twitterの投稿からのリンクの数をTopsyから取得して表示。<br>
+    基本的には今までのと同じです。
+  </p>
+  <pre><code class="language-javascript">jQuery(function ($) {
+
+  var baseurl = location.href;
+
+  function topsyCount(data) {
+    var count = data.response.all;
+    if (count &gt; 0) {
+      var user = (count === 1) ? ' tweet' : ' tweets';
+      var link = '&lt;a href=&quot;' + data.response.topsy_trackback_url + '&quot;&gt;' + count + user + '&lt;/a&gt;';
+      $('#postTwitter').after(link);
+    }
+  }
+
+  $.getJSON('http://otter.topsy.com/stats.js?url=' + encodeURIComponent(baseurl) + '&amp;callback=?', topsyCount);
+
+});</code></pre>
+  <p>
+    ちょっと違うのはリンク先。<br>
+    取得データにTopsyのページのURLが入ってるので、それを使っています。<br>
+    取れるのはこんな感じ。
+  </p>
+  <pre><code class="language-javascript">({
+  &quot;request&quot;:{
+    &quot;response_type&quot;:&quot;js&quot;,
+    &quot;resource&quot;:&quot;stats&quot;,
+    &quot;parameters&quot;:{
+      &quot;url&quot;:&quot;http://www.google.co.jp/&quot;
+    },
+    &quot;url&quot;:&quot;http://button.topsy.com/stats.js?url=http%3A%2F%2Fwww.google.co.jp%2F&quot;
+  },
+  &quot;response&quot;:{
+      &quot;influential&quot;:71,
+      &quot;all&quot;:4275,
+      &quot;contains&quot;:0,
+      &quot;topsy_trackback_url&quot;:&quot;http://topsy.com/tb/www.google.co.jp/&quot;
+  }
+});</code></pre>
+  <p>
+    使うのは<code>respoonse</code>内。<br>
+   <code>all</code>がTwitterの投稿からのリンク数で、<code>topsy_trackback_url</code>がリクエストしたページにリンクした投稿の一覧のURLです。<br>
+   <code>influential</code>は、Topsyが計算して出した、そのURLの影響力。<abbr title="ReTweet">RT</abbr>とかで計算しているらしいです。
+  </p>
+</section>
+<ins datetime="2010-02-10T08:07:04+09:00">
+  <hr>
+  <p>
+    コードを少し修正。<br>
+    必要のない行を削除。等価演算子を厳密等価演算子に修正。
+  </p>
+</ins>

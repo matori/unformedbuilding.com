@@ -1,0 +1,153 @@
+<script type="application/x-yaml">
+title: "自サイトのTwitterでの注目エントリーをTopsy APIを使ってランキング形式で表示"
+description: "JavaScriptの勉強その4。TopsyのAPIを使ってTwitterでの自サイト注目エントリーをランキング形式で表示したい。"
+slug: twitter-ranking-in-my-site
+published: 2010-04-12T20:33:22+09:00
+updated: 2011-05-18T14:32:28+09:00
+category: webdev
+</script>
+
+<p>
+  JavaScriptの勉強その4。<br>
+  TopsyのAPIを使ってTwitterでの自サイト注目エントリーをランキング形式で表示したい。<br>
+  今回デモページはありません。
+</p>
+<section>
+  <h2>JSONP</h2>
+  <p>
+    サイトごとの注目エントリーのJSONPは<span class="path">http://otter.topsy.com/search.js?q=site:example.com</span>で取得できます。<br>
+    パラメータなどは下記のリンク先を参照してください。
+  </p>
+  <p>
+    <a href="http://code.google.com/p/otterapi/wiki/Resources">Resources - otterapi - Project Hosting on Google Code</a>
+  </p>
+  <p>
+    並び順はTopsyが出したスコア順なので、Tweetの多さ順にならない場合もあります。
+  </p>
+  <p>
+    JSONPは以下のようなものになります。<br>
+    今回はYahoo!ニュースを全期間指定で取ってみました。
+  </p>
+  <pre><code class="language-javascript">({
+  &quot;request&quot;: {
+    &quot;parameters&quot;: {
+      &quot;window&quot;: &quot;a&quot;,
+      &quot;q&quot;: &quot;site:headlines.yahoo.co.jp&quot;,
+      &quot;perpage&quot;: &quot;2&quot;
+    },
+    &quot;response_type&quot;: &quot;js&quot;,
+    &quot;resource&quot;: &quot;search&quot;,
+    &quot;url&quot;: &quot;http://button.topsy.com/search.js?perpage=2&amp;q=site%3Aheadlines.yahoo.co.jp&amp;window=a&quot;
+  },
+  &quot;response&quot;: {
+    &quot;window&quot;: &quot;a&quot;,
+    &quot;page&quot;: 1,
+    &quot;total&quot;: 1000,
+    &quot;perpage&quot;: 2,
+    &quot;list&quot;: [{
+      &quot;trackback_permalink&quot;: &quot;https://twitter.com/hatebu/status/11179773972&quot;,
+      &quot;mytype&quot;: &quot;link&quot;,
+      &quot;content&quot;: &quot;携帯端末、全社対応型に…総務省が制限解除要請へ（読売新聞） - Yahoo!ニュース (50 users) http://bit.ly/9yyK61&quot;,
+      &quot;trackback_date&quot;: 1269751579,
+      &quot;score&quot;: 10.6204,
+      &quot;trackback_total&quot;: 985,
+      &quot;hits&quot;: 925,
+      &quot;topsy_trackback_url&quot;: &quot;http://topsy.com/trackback?url=http%3A%2F%2Fheadlines.yahoo.co.jp%2Fhl%3Fa%3D20100328-00000055-yom-bus_all&quot;,
+      &quot;url&quot;: &quot;http://headlines.yahoo.co.jp/hl?a=20100328-00000055-yom-bus_all&quot;,
+      &quot;firstpost_date&quot;: 1269713788,
+      &quot;title&quot;: &quot;携帯端末、全社対応型に…総務省が制限解除要請へ（読売新聞） - Yahoo!ニュース&quot;,
+      &quot;highlight&quot;: &quot;??^(o)a*??c,?????a~??a*?¨c,?3/4a*?3/4a*??a*??a~??a^?￤c,??a*??c,??a~??a*?¶e'??e`§￡e'??e`￤?e`??a~??i"1/4?e`^(a)?a*￡^(2)??°e`??i"1/4? - &lt;span class=\&quot;highlight-term\&quot;&gt;Yahoo&lt;/span&gt;!&amp;atilde;&amp;#131;&amp;#139;&amp;atilde;&amp;#131;&amp;yen;&amp;atilde;&amp;#131;&amp;frac14;&amp;atilde;&amp;#130;&amp;sup1; (50 users) http://bit.ly/9yyK61&amp;#8230;&quot;
+    },
+    {
+      // ......
+    }]
+  }
+});</code></pre>
+  <p>
+    これから必要なものを抜き出して使います。
+  </p>
+</section>
+<section>
+  <h2>jQuery</h2>
+  <p>
+    上記のデータを<code>ol</code>要素と<code>li</code>要素でマークアップして、指定の<code>id</code>内に表示します。
+  </p>
+  <pre><code class="language-javascript">jQuery(function ($) {
+
+  var opt = {
+    url: 'http://headlines.yahoo.co.jp/', // サイトのURL
+    time: 'a', // h：最近1時間, d：最近24時間, w：最近一週間, m：最近1ヶ月間, a：全期間
+    count: 2, // いくつまで表示するか (デフォルト10, 最大50)
+    del: '', // 取得したエントリータイトルから削除したい文字列
+    showcount: true // ○○tweets を表示するかどうか (true/false デフォルトtrue)
+  }
+
+  // パラメータ用に整形
+  var param = {
+    url: opt.url.replace(/^http(|s):\/\/|\/$/g, ''),
+    time: (opt.time != null &amp;&amp; opt.time.match(/^[hdwma]{1}$/)) ? opt.time : 'auto',
+    cnt: (opt.count &gt; 0 &amp;&amp; opt.count &lt; 51) ? opt.count : 10
+  }
+
+  // コールバック関数
+  function twiRank(data) {
+
+    var list = '';
+
+    // 1つもなければ終了
+    if (data.response.total === 0) return;
+
+    // レスポンスの配列数だけループさせる
+    for (i = 0; i &lt; data.response.list.length; i++) {
+
+      // エントリーへのリンク
+      list += '&lt;li&gt;&lt;a href=&quot;' + data.response.list[i].url + '&quot;&gt;';
+
+      // エントリーのタイトル (消したい文字列がない場合はそのまま)
+      if (opt.del !== '') {
+        list += data.response.list[i].title.replace(opt.del, '');
+      } else {
+        list += data.response.list[i].title;
+      }
+
+      list += '&lt;/a&gt;'
+
+      // tweet数(Topsyへのリンク付き)
+      if (opt.showcount !== false) {
+        tweets = (data.response.list[i].trackback_total &gt; 1) ? 'tweets' : 'tweet';
+        list += '&lt;a href=&quot;' + data.response.list[i].topsy_trackback_url + '&quot; target=&quot;_blank&quot;&gt;'
+        list += data.response.list[i].trackback_total + tweets;
+        list += '&lt;/a&gt;';
+      }
+
+      list += '&lt;/li&gt;';
+    }
+
+    // 指定した ID 内にol要素を作ってリストを追加
+    $('#twirank').html('&lt;ol&gt;' + list + '&lt;/ol&gt;');
+
+  }
+
+  // JSONPを取得
+  $.getJSON('http://otter.topsy.com/search.js?q=site%3A' + param.url + '&amp;window=' + param.time + '&amp;perpage=' + param.cnt + '&amp;callback=?', twiRank);
+
+});</code></pre>
+  <p>
+  <code>opt.del</code>を入れたのは、ブログなんかだと各タイトルにブログ名が入るので自分のサイトに置いた場合に見た目が悪くなるからです。<br>
+    うちの場合は<code>' | Unformed Building'</code>を指定して、エントリーのタイトルのみに置換します。
+  </p>
+  <p>
+    パラメータ用に整形と書かれている箇所について。<span class="path">http://</span>があったからといって問題はないんですが、念のため消しています。<br>
+    また、URLの最後のスラッシュがあると上手く検索されないようなので、それも消しています。<br>
+    他の2つは指定できるもの以外のパラメータを入れられた場合のデフォルト値。ちゃんと指定するならいらないと思います。
+  </p>
+</section>
+<hr>
+<p>
+  データ量が多いので、他にも色々できそうです。<br>
+  もしこのコードを使う場合、見た目はclass名とか適当につけて自分でスタイル指定してね。
+</p>
+<p>
+  本当はプラグインに挑戦してみようと思ってたんですが、これでいいのか不安なのでやめておきました。<br>
+  少しでも自信が持てたら作ります。
+</p>

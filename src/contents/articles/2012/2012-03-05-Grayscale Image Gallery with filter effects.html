@@ -1,0 +1,248 @@
+<script type="application/x-yaml">
+title: "Grayscale Image Gallery with filter effects"
+description: "以前「canvasでの変換は重いから現実的じゃない」と言いましたが、-webkit-filterが使えることで負担を減らして使えるのではないかと思いました。"
+slug: grayscale-image-gallery-with-filter-effects
+published: 2012-03-05T14:43:19+09:00
+updated: 2012-03-05T21:24:15+09:00
+category: webdev
+</script>
+
+<p>
+  以前、「<a href="/articles/convert-image-to-grayscale-on-html/">元画像を変更せずに画像をグレースケールで表示する</a>」という記事で「canvasでの変換は重いから現実的じゃない」みたいなことを書いたのですが、<code>-webkit-filter</code>が使えるようになった（なる）ことにより、もう少し負担を減らして使えるのではないかと思いました。<br>
+  そこで、なるべく<code>canvas</code>での変換を行わずにやってみようと思います。
+</p>
+<p>
+  今回作ったものはこれです。
+</p>
+<p>
+  <a href="/demo/2012/grayscale-image-gallery/">Grayscale Image Gallery</a>
+</p>
+<ins datetime="2012-03-05T21:24:15+09:00">
+  <p>
+    <b>2012年3月5日 21:24 追記：</b><br>
+    Firefoxをご利用の方で、環境によっては、CSSグラデーションを<code>background-size</code>で小さくして<code>background-repeat</code>で敷き詰めると、gfx.direct2d.disabledがfalseの場合にフリーズするようです（Firefox 10.0.2で確認）。<br>
+    <a href="/demo/2012/grayscale-image-gallery/for-firefox.html">Firefoxで見ても安全なデモページはこちら</a>です。<br>
+    本来のデモページから小さな点々を除いたものになります。
+  </p>
+</ins>
+<p>
+  <a href="/download/2012/grayscale-image-gallery.zip" download>デモファイルをダウンロード</a>
+</p>
+<p>
+  使うものはHTML, CSS, SVG, JavaScriptです。
+</p>
+<p>
+  まずはHTMLから。
+</p>
+<pre><code class="language-html">&lt;ul class=&quot;gallery&quot;&gt;
+  &lt;li&gt;
+    &lt;a href=&quot;#&quot;&gt;
+      &lt;span&gt;&lt;img src=&quot;images/01.jpg&quot; width=&quot;200&quot; height=&quot;200&quot; alt=&quot;&quot; /&gt;&lt;/span&gt;
+    &lt;/a&gt;
+  &lt;/li&gt;
+  ...
+&lt;/ul&gt;</code></pre>
+<p>
+  次にCSSを。SVG用のCSSも一緒に書いていきます。<br>
+  どうでもいい部分は省きます。
+</p>
+<pre><code class="language-css">.gallery {
+  background : #fff;
+  list-style : none;
+}
+
+/* clearfix */
+.gallery:after {
+  clear  : both;
+  display: block;
+  content: &quot;&quot;;
+}
+
+.gallery li {
+  float : left;
+  margin: 10px;
+  width : 200px;
+  height: 200px;
+}
+
+.gallery a {
+  display        : block;
+  width          : 200px;
+  height         : 200px;
+  text-decoration: none;
+}
+
+.gallery span {
+  display           : block;
+  position          : relative;
+  -webkit-transition: opacity linear 0.5s;
+  -moz-transition   : opacity linear 0.5s;
+  -ms-transition    : opacity linear 0.5s;
+  -o-transition     : opacity linear 0.5s;
+  transition        : opacity linear 0.5s;
+}
+
+/* 小さい点々とぼかしたような効果を出すためのグラデーション */
+.gallery span:before {
+  position         : absolute;
+  top              : 0;
+  left             : 0;
+  z-index          : 9;
+  width            : 200px;
+  height           : 200px;
+  background-image : -webkit-radial-gradient(center, circle, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+                     -webkit-radial-gradient(center, circle, transparent 40%, rgba(0, 0, 0, 0.5));
+  background-image : -moz-radial-gradient(center, circle, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+                     -moz-radial-gradient(center, circle, transparent 40%, rgba(0, 0, 0, 0.5));
+  background-image : -ms-radial-gradient(center, circle, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+                     -ms-radial-gradient(center, circle, transparent 40%, rgba(0, 0, 0, 0.5));
+  background-image : -o-radial-gradient(center, circle, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+                     -o-radial-gradient(center, circle, transparent 40%, rgba(0, 0, 0, 0.5));
+  background-image : radial-gradient(circle at center, rgba(0, 0, 0, 0.2) 1px, transparent 1px),
+                     radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.5));
+  background-size  : 4px 4px, 100% 100%;
+  background-repeat: repeat, no-repeat;
+  content          : &quot;&quot;;
+}
+
+.gallery img {
+  /* Chrome 19+ */
+  -webkit-filter: grayscale(1);
+  /* Firefox 3.5+ */
+  filter        : url(filter.svg#grayscale);
+  /* Internet Explorer 5.5 - 9.0 */
+  filter        : progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+}
+
+/* マウスオーバーでグレースケール画像を透明に */
+.gallery a:hover span {
+  opacity: 0;
+  filter : progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+}
+
+/* Opera用 */
+.gallery svg {
+  width : 200px;
+  height: 200px;
+}
+
+/* Opera用 */
+image {
+  filter: url(filter.svg#grayscale);
+}</code></pre>
+<p>
+  一応、標準のグラデーションの指定は新しい構文にしてあります。
+</p>
+<p>
+  <code>img</code>で指定した画像をグレースケールにするのですが、ここで各ブラウザごとの指定を行います。<br>
+  CSSフィルタもSVGフィルタも使えないOperaですが、画像をSVGにすることでSVGフィルタの効果を使うことができます。
+</p>
+<p>
+  <span class="path">filter.svg</span>の中身は次のようになっています。<br>
+  グレースケール用の指定は<a href="https://dvcs.w3.org/hg/FXTF/raw-file/tip/filters/index.html">Filter Effects 1.0</a>に載っています。
+</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;svg version=&quot;1.1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+  &lt;defs&gt;
+    &lt;filter id=&quot;grayscale&quot;&gt;
+      &lt;feColorMatrix type=&quot;matrix&quot;
+                     values=&quot;0.2126 0.7152 0.0722 0 0
+                             0.2126 0.7152 0.0722 0 0
+                             0.2126 0.7152 0.0722 0 0
+                             0      0      0      1 0&quot;/&gt;
+    &lt;/filter&gt;
+  &lt;/defs&gt;
+&lt;/svg&gt;</code></pre>
+<p>
+  これらのどれも使えないブラウザには<code>canvas</code>によるData URI変換で対応します。
+</p>
+<p>
+  最後にjQueryを使って色々やります。
+</p>
+<pre><code class="language-javascript">jQuery(function ($) {
+
+  // フィルタが使えるかどうかのチェック
+  var dummy = document.createElement('div'),
+      checkStyle = function (el) {
+        return el.currentStyle || document.defaultView.getComputedStyle(el, null);
+      },
+      svgFlag = false,
+      canvasFlag = false;
+  document.body.appendChild(dummy);
+  if (checkStyle(dummy).webkitTransition !== undefined) {
+    // webkitTransitionがあるかどうか
+    // webkitTransitionが使えて、webkitFilterがあるかどうか
+    canvasFlag = checkStyle(dummy).webkitFilter ? false : true;
+  } else if (checkStyle(dummy).msTransition !== undefined) {
+    // msTransitionがあるかどうか（IE 10かどうか）
+    canvasFlag = true;
+  } else if (checkStyle(dummy).OTransition !== undefined) {
+    // OTransitionがある（Operaかどうか）
+    svgFlag = true;
+  }
+  document.body.removeChild(dummy);
+  // チェック終わり
+
+  $('.gallery').find('a').each(function () {
+    var img = $(this).find('img').eq(0),
+        imgUrl = img.attr('src'),
+        imgW = img.width(),
+        imgH = img.height();
+    // svgFlag は Opera のみ true になる
+    if (svgFlag) {
+      // 画像をSVGの埋め込み画像に
+      var svgImg = '&lt;svg width=&quot;' + imgW + '&quot; height=&quot;' + imgH + '&quot;&gt;&lt;image xlink:href=&quot;' + imgUrl + '&quot; width=&quot;' + imgW + '&quot; height=&quot;' + imgH + '&quot; /&gt;&lt;/svg&gt;';
+      img.replaceWith(svgImg);
+    }
+    // canvasFlagはwebkitFilterのないWebkitとIE 10でtrue
+    if (canvasFlag) {
+      // 画像がロードされたらData URIに変換
+      img.load(function () {
+        this.src = grayscale(this.src);
+      });
+    }
+    // 元々の画像をa要素の背景として指定する
+    $(this).css('background-image', 'url(' + imgUrl + ')');
+  });
+
+  /*!
+   * Grayscale Image Hover
+   * http://webdesignerwall.com/tutorials/html5-grayscale-image-hover
+   */
+  function grayscale(src) {
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
+    var imgObj = new Image();
+    imgObj.src = src;
+    canvas.width = imgObj.width;
+    canvas.height = imgObj.height;
+    ctx.drawImage(imgObj, 0, 0);
+    var imgPixels = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    for (var y = 0; y &lt; imgPixels.height; y++) {
+      for (var x = 0; x &lt; imgPixels.width; x++) {
+        var i = (y * 4) * imgPixels.width + x * 4;
+        var avg = (imgPixels.data[i] + imgPixels.data[i + 1] + imgPixels.data[i + 2]) / 3;
+        imgPixels.data[i] = avg;
+        imgPixels.data[i + 1] = avg;
+        imgPixels.data[i + 2] = avg;
+      }
+    }
+    ctx.putImageData(imgPixels, 0, 0, 0, 0, imgPixels.width, imgPixels.height);
+    return canvas.toDataURL();
+  }
+
+});</code></pre>
+<p>
+  コメント入れておいたので、やりたいことは分かると思います。<br>
+  ブラウザ分岐は適当なので信用しないほうがいいです……。
+</p>
+<p>
+  <code>canvas</code>を使った変換は「<a href="http://webdesignerwall.com/tutorials/html5-grayscale-image-hover">HTML5 Grayscale Image Hover</a>」のコードを使用しました。
+</p>
+<p>
+  IE 7以下では<code>a:hover span</code>の部分が動きませんが、この辺はやりようはあると思います。<br>
+  それと、画像を<code>span</code>で囲んでいるのはFirefox以外では擬似要素のみのTransitionができないからです。特に必要なものではありません。
+</p>
+<p>
+  <code>canvas</code>変換による負担を減らしたかっただけなので、今回はこれで。
+</p>

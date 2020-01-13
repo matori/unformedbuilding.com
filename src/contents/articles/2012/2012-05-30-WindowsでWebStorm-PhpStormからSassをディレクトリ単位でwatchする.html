@@ -1,0 +1,73 @@
+<script type="application/x-yaml">
+title: "WindowsでWebStorm-PhpStormからSassをディレクトリ単位でwatchする"
+description: "単にSassファイルをwatchするだけなら以前書いたやり方でいいんですが、分割したファイルなどもあるのでディレクトリ単位でwatchしておきたいわけです。"
+slug: sass-watch-dir-with-webstorm-phpstorm-on-windows
+published: 2012-05-30T13:41:57+09:00
+updated: 2012-05-30T13:41:57+09:00
+category: webdev
+</script>
+
+<p>
+  単にSassファイルをwatchするだけなら、<a href="/articles/sass-compile-on-webstorm-and-phpstorm/">以前書いた記事</a>と<a href="http://d.hatena.ne.jp/ub-pnr/20120427/1335492186">はてなダイアリーで書いたもの</a>で大丈夫なんですが、分割されたSCSSファイルごとにやるのもあれだし、partialなんかはどうするのってなるので、ディレクトリ単位でwatchしておきたいわけです。
+</p>
+<p>
+  まあ前のと同じようにディレクトリを指定すればいいんだろうと思ったらエラー。<br>
+  で、調べてみたら、<code>--watch</code>コマンドのディレクトリ指定時のパスの書き方が問題のようです。
+</p>
+<p>
+  <a href="http://groups.google.com/group/sass-lang/browse_thread/thread/34be5b71a3406cc4">SASS -watch path:path broken on Windows - Sass | Google グループ</a>
+</p>
+<p>
+  つまり、パスを指定するときはバックスラッシュじゃなくてフォワードスラッシュ（普通のやつ）で書いてね、ってことみたいです。
+</p>
+<p>
+  次の問題はPhpStormのExternal Toolsの設定なんですが、Parametersのマクロにはフォワードスラッシュの絶対パスがないんですよね。<br>
+  External Toolsに登録したものは使いまわしたいのでマクロを上手く使ってパラメーターに指定したい。けど<code>$FileDir$</code>なんかのフォワードスラッシュ版がない。<br>
+  ただし、プロジェクトルートから現在のファイルへの相対パスに限ればフォワードスラッシュのものはあるので、プロジェクトルートまでのパスさえ取れればいいわけです。
+</p>
+<p>
+  とりあえずマクロをプレビューしながら見ていたら、プロジェクトの設定なんかが入ってる<span class="path">.idea</span>ディレクトリ内の<span class="path">.iml</span>。<br>
+  これを使ってプロジェクトルートへの絶対パスを取ります。
+</p>
+<p>
+  ちなみに、最近は大体こんな構造にしています。
+</p>
+<pre>ProjectRoot/
+  ├ .idea/
+  │&nbsp;└ ProjectName.iml
+  │
+  ├ inc/
+  │&nbsp;├ scss/
+  │&nbsp;│&nbsp;├ style.scss
+  │&nbsp;│&nbsp;└ partial/
+  │&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├ _reset.scss
+  │&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├ _layout.scss
+  │&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├ _more.scss
+  │&nbsp;│
+  │&nbsp;├ css/
+  │&nbsp;│&nbsp;└ style.css
+  │&nbsp;│
+  │&nbsp;└ js/
+  │
+  ├ content1/
+  └ content2/</pre>
+<p>
+  この構造でプロジェクトルートまで行くには次のようにします。
+</p>
+<pre><kbd>$ModuleFilePath$/../../</kbd></pre>
+<p>
+  モジュールファイルはプロジェクトルート直下のディレクトリ内にあるので、2回戻ってプロジェクトルートまで行きます。<br>
+  ここまでくればあとは単体のSCSSファイルのときと同じです。<br>
+  External Toolsに渡すパラメーターは次のようになります。
+</p>
+<pre><kbd>--watch --load-path &quot;$FileDir$&quot; &quot;$ModuleFilePath$/../../$/FileRelativeDir$&quot;:&quot;$ModuleFilePath$/../../$/FileRelativeDir$/../css&quot;</kbd></pre>
+<p>
+  <code>$/FileRelativeDir$</code>はプロジェクトルートから対象ファイルのあるディレクトリまでのフォワードスラッシュ相対パスです。<br>
+  <code>--load-path</code>以外のオプションはお好みで。
+</p>
+<p>
+  コンパイルするファイルのあるディレクトリを<code>$/FileRelativeDir$</code>で指定して、コンパイル後のCSSのあるディレクトリは同じ階層なので、また1回戻って<span class="path">css</span>ディレクトリを指定します。
+</p>
+<p>
+  以上で終わりですが、これはWindowsの場合のみに起きるっぽいので、Macの人とかは普通に<code>$FileDir$</code>とかを使うといいんじゃないかと思います。
+</p>

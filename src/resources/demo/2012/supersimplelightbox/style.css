@@ -1,0 +1,124 @@
+body {
+  margin     : 0;
+  font-family: "Helvetica", "Arial", sans-serif;
+}
+
+h1,
+.loading-message {
+  text-align: center;
+}
+
+a img {
+  border        : 0;
+  vertical-align: bottom;
+}
+
+.container {
+  position: relative;
+  width   : 100%;
+  overflow: hidden;
+}
+
+.container ul {
+  margin    : 0;
+  padding   : 0;
+  list-style: none;
+  text-align: center;
+}
+
+.container li {
+  position: relative;
+  display : inline-block;
+  margin  : 5px;
+}
+
+.ss-container {
+  position  : fixed;
+  top       : 0;
+  left      : 0;
+  z-index   : 99;
+  width     : 100%;
+  height    : 100%;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.ss-image,
+.ss-loading {
+  position: absolute;
+  margin  : auto;
+  top     : 0;
+  bottom  : 0;
+  left    : 0;
+  right   : 0;
+}
+
+.ss-image {
+  width            : auto;
+  height           : auto;
+  max-width        : 90%;
+  max-height       : 90%;
+  -webkit-animation: image-zoom 0.25s 1 linear both;
+  -moz-animation   : image-zoom 0.25s 1 linear both;
+  -ms-animation    : image-zoom 0.25s 1 linear both;
+  -o-animation     : image-zoom 0.25s 1 linear both;
+  animation        : image-zoom 0.25s 1 linear both;
+}
+
+.ss-loading {
+  padding      : 20px;
+  border       : 3px solid rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  width        : 200px;
+  height       : 20px;
+  box-shadow   : 0 0 0 1px rgba(0, 0, 0, 0.8);
+  background   : rgba(0, 0, 0, 0.8);
+  color        : #fff;
+  font-size    : 20px;
+  line-height  : 1;
+  text-align   : center;
+}
+
+@-webkit-keyframes image-zoom {
+  from {
+    -webkit-transform: scale(0);
+  }
+  to {
+    -webkit-transform: scale(1);
+  }
+}
+
+@-moz-keyframes image-zoom {
+  from {
+    -moz-transform: scale(0);
+  }
+  to {
+    -moz-transform: scale(1);
+  }
+}
+
+@-ms-keyframes image-zoom {
+  from {
+    -ms-transform: scale(0);
+  }
+  to {
+    -ms-transform: scale(1);
+  }
+}
+
+@-o-keyframes image-zoom {
+  from {
+    -o-transform: scale(0);
+  }
+  to {
+    -o-transform: scale(1);
+  }
+}
+
+@keyframes image-zoom {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}

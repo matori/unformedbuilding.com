@@ -1,0 +1,359 @@
+<script type="application/x-yaml">
+title: "Internet Explorer 10のCSS 3D Transforms"
+description: "IE 10ではtransform-style: preserve-3dをサポートしていないので、その対策を考えてみました。"
+slug: ie10-does-not-support-transform-style-preserve-3d
+published: 2012-11-22T13:36:05+09:00
+updated: 2020-01-11T21:27:13+09:00
+category: webdev
+</script>
+
+<p>
+  とうとうWindows 7向けのIE 10が公開されましたね！（これを書いている時点ではRelease Previewですが）<br>
+  IE 10ではCSS 3D Transforms, Animations, Transitionsなどが<code>-ms-</code>なしで使えるようになりました。素晴らしい！
+</p>
+<p>
+  というわけでさっそく試してみたわけですが、どうもおかしい。表示はできるんですが、アニメーションやトランジションしたときに立体的に見えない。<br>
+  調べてみるとMSDNに次のような記述が。
+</p>
+<figure>
+<blockquote cite="http://msdn.microsoft.com/en-us/library/ie/hh673529%28v=vs.85%29.aspx#the_ms_transform_style_property">
+  <p>
+    <strong>Note</strong>&nbsp;&nbsp;The W3C specification defines a keyword value of
+    <strong>preserve-3d</strong> for this property, which indicates that flattening is not performed. At this time, Internet Explorer&nbsp;10 does not support the
+    <strong>preserve-3d</strong> keyword. You can work around this by manually applying the parent element’s transform to each of the child elements in addition to the child element’s normal transform.
+  </p>
+</blockquote>
+  <figcaption>
+    <cite><a href="http://msdn.microsoft.com/en-us/library/ie/hh673529%28v=vs.85%29.aspx#the_ms_transform_style_property">http://msdn.microsoft.com/en-us/library/ie/hh673529%28v=vs.85%29.aspx#the_ms_transform_style_property</a></cite>
+  </figcaption>
+</figure>
+<p>
+  つまり、IE 10では<code>transform-style: preserve-3d</code>をサポートしていないから子要素それぞれにしてくださいね、ということらしいです。<br>
+  <code>transform-style</code>の初期値は<code>flat</code>ですから、IE 10は<code>flat</code>固定になるわけです。
+</p>
+<p>
+  分かりやすいと思われる例を。<br>
+  4つのパネルがくるくる回るだけのサンプルを作ってみました。<br>
+  上が<code>transform-style</code>に<code>preserve-3d</code>を指定したもの、下が<code>flat</code>を指定したものになります。
+</p>
+<ins datetime="2020-01-11T21:27:13+09:00">
+  <p>
+    <a href="/demo/2012/transform-style-preserve-3d"><code>transform-style: preserve-3d</code>のテスト</a>
+  </p>
+</ins>
+<!--
+<div style="margin-bottom:1.6em">
+  <iframe style="width: 100%; height: 500px" src="http://jsfiddle.net/ub_pnr/rUQ2b/embedded/html,css,result" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+</div>
+-->
+<pre><code class="language-html">&lt;div class=&quot;stage1&quot;&gt;
+  &lt;div class=&quot;view&quot;&gt;
+    &lt;div class=&quot;panel p1&quot;&gt;1&lt;/div&gt;
+    &lt;div class=&quot;panel p2&quot;&gt;2&lt;/div&gt;
+    &lt;div class=&quot;panel p3&quot;&gt;3&lt;/div&gt;
+    &lt;div class=&quot;panel p4&quot;&gt;4&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;stage2&quot;&gt;
+  &lt;!-- 中身はstage1と同じ --&gt;
+&lt;/div&gt;</code></pre>
+<pre><code class="language-css">.stage1,
+.stage1 &gt; .view {
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+
+.stage2,
+.stage2 &gt; .view {
+  -webkit-transform-style: flat;
+  transform-style: flat;
+}
+
+.stage1,
+.stage2 {
+  position: relative;
+  margin: 100px auto 0;
+  width: 100px;
+  height: 100px;
+  -webkit-perspective: 500px;
+  perspective: 500px;
+}
+
+.view {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.panel {
+  position: absolute;
+  padding: 7px;
+  border: 3px solid red;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100px;
+  height: 100px;
+  background: rgba(255, 0, 0, 0.5);
+  color: white;
+  font-size: 80px;
+  line-height: 1;
+  text-align: center;
+}
+
+.p1 {
+  -webkit-transform: translateZ(200px);
+  transform: translateZ(200px);
+}
+
+.p2 {
+  -webkit-transform: rotateY(90deg) translateZ(200px);
+  transform: rotateY(90deg) translateZ(200px);
+}
+
+.p3 {
+  -webkit-transform: rotateY(180deg) translateZ(200px);
+  transform: rotateY(180deg) translateZ(200px);
+}
+
+.p4 {
+  -webkit-transform: rotateY(270deg) translateZ(200px);
+  transform: rotateY(270deg) translateZ(200px);
+}
+
+@-webkit-keyframes rotation {
+  from { -webkit-transform: rotateY(0); }
+  to   { -webkit-transform: rotateY(360deg); }
+}
+
+@keyframes rotation {
+  from { transform: rotateY(0); }
+  to   { transform: rotateY(360deg); }
+}
+
+.view {
+  -webkit-animation: rotation 4s linear infinite;
+  animation: rotation 4s linear infinite;
+}</code></pre>
+<p>
+  IE 10では下のようになってしまうわけですね。<br>
+  これをどうやって各ブラウザに対応させるかを考えてみました。<br>
+  （Operaはまだ3D Transformsに対応していませんが、標準構文を書いておけば大丈夫だと思います）
+</p>
+<p>
+  ここからは上記サンプルの<code>.stage1</code>を変更しながら説明します。
+</p>
+<section>
+  <h2><code>transform-style: preserve-3d</code>のことは忘れてIE 10に合わせる</h2>
+  <p>
+    <code>transform-style</code>には<code>flat</code>しかないんだ、という考えで作ります。<br>
+    <code>.panel</code>の親をアニメーションさせるのではなく、自身をアニメーションさせる指定を行います。
+  </p>
+  <pre><code class="language-css">/* 値をflatに（指定しなくても同じ） */
+.stage1,
+.stage1 &gt; .view {
+  -webkit-transform-style: flat;
+  transform-style: flat;
+}
+
+.stage1 {
+  position: relative;
+  margin: 100px auto 0;
+  width: 100px;
+  height: 100px;
+  /* 削除 */
+  /*
+  -webkit-perspective: 500px;
+  perspective: 500px;
+  */
+}
+
+.view {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  /* 追加 --*/
+  -webkit-perspective: 500px;
+  perspective: 500px;
+  /*-- 追加 */
+}
+
+.panel {
+  position: absolute;
+  /* あまり関係ないので以下略（指定は同じ） */
+}
+
+.p1 {
+  -webkit-transform: translateZ(200px);
+  transform: translateZ(200px);
+}
+
+.p2 {
+  -webkit-transform: rotateY(90deg) translateZ(200px);
+  transform: rotateY(90deg) translateZ(200px);
+}
+
+.p3 {
+  -webkit-transform: rotateY(180deg) translateZ(200px);
+  transform: rotateY(180deg) translateZ(200px);
+}
+
+.p4 {
+  -webkit-transform: rotateY(270deg) translateZ(200px);
+  transform: rotateY(270deg) translateZ(200px);
+}
+
+/* 削除 */
+/*
+@-webkit-keyframes rotation {
+  from { -webkit-transform: rotateY(0); }
+  to   { -webkit-transform: rotateY(360deg); }
+}
+
+@keyframes rotation {
+  from { transform: rotateY(0); }
+  to   { transform: rotateY(360deg); }
+}
+*/
+
+/* 追加 --*/
+@-webkit-keyframes rotation {
+  from { -webkit-transform: rotateY(0) translateZ(200px); }
+  to   { -webkit-transform: rotateY(360deg) translateZ(200px); }
+}
+
+@keyframes rotation {
+  from { transform: rotateY(0) translateZ(200px); }
+  to   { transform: rotateY(360deg) translateZ(200px); }
+}
+/*-- 追加*/
+
+/* 削除 - アニメーションは.panelに指定する */
+/*
+.view {
+  -webkit-animation: rotation 4s linear infinite;
+  animation: rotation 4s linear infinite;
+}
+*/
+
+/* 追加 --*/
+.panel {
+  -webkit-animation: rotation 4s linear infinite;
+  animation: rotation 4s linear infinite;
+}
+
+/* 各パネルの初期位置をずらすため、animation-delayで調節 */
+.p2 {
+  -webkit-animation-delay: -1s;
+  animation-delay: -1s;
+}
+
+.p3 {
+  -webkit-animation-delay: -2s;
+  animation-delay: -2s;
+}
+
+.p4 {
+  -webkit-animation-delay: -3s;
+  animation-delay: -3s;
+}
+/*-- 追加 */</code></pre>
+  <p>
+    安全ではありますが……複雑なアニメーションや変形を行っている場合はかなり大変かもしれません。
+  </p>
+</section>
+<section>
+  <h2>処理を分岐する</h2>
+  <p>
+    FirefoxとWebkitは今までどおりでいいわけですから、IE 10と別に指定できるようにしてみます。<br>
+    そうするとこで、IE 10には上記の指定をし、それ以外は今までどおりという指定ができます。3D Transformsとアニメーションやトランジションを組み合わせている部分でのIE 10はIE 9以下と同じように扱う、ということもできますね。
+  </p>
+  <section>
+    <h3>Modernizrで判定</h3>
+    <p>
+      この判定には<code>transform-style: preserve-3d</code>に対応しているかどうかを調べればいいので、Modernizrを使って判定してみました。
+    </p>
+    <pre><code class="language-javascript">Modernizr.addTest('csstransformspreserve3d', function () {
+
+  var prop,
+      val,
+      cssText,
+      ret;
+
+  prop = 'transform-style';
+  if ('webkitTransformStyle' in document.documentElement.style) {
+    prop = '-webkit-' + prop;
+  }
+  val = 'preserve-3d';
+  cssText = '#modernizr { ' + prop + ': ' + val + '; }';
+
+  Modernizr.testStyles(cssText, function (el, rule) {
+    ret = window.getComputedStyle ? getComputedStyle(el, null).getPropertyValue(prop) : '';
+  });
+
+  return (ret === val);
+});</code></pre>
+    <p>
+      こんな感じでしょうか。
+    </p>
+    <p>
+      あとはCSSを書くときに、<code>.no-csstransformspreserve3d .stage1</code>と<code>.csstransformspreserve3d .stage1</code>のようにセレクタを分けて書いていきます。
+    </p>
+    <p>
+      このコードは<a href="https://gist.github.com/4123325">Gistに置いてある</a>のでよかったら改良してください。
+    </p>
+  </section>
+  <section>
+    <h3>CSSだけで分岐 1</h3>
+    <p>
+      Firefox 17から<code>@supports</code>が使えるので（<code>layout.css.supports-rule.enable</code>を<code>true</code>にする必要があります）、まずはIE 10向けの指定を普通に書いた上で、
+    </p>
+    <pre><code class="language-css">@supports (transfrom-style: preserve-3d) { ... }</code></pre>
+    <p>
+      のように上書きします。ちなみにOperaも12.10から使えます。<br>
+      <a href="https://bugs.webkit.org/show_bug.cgi?id=86146">Webkitは近いうちに対応する</a>ようなので、それも考えると最終的には以下のような感じでしょうか。<br>
+    </p>
+    <pre><code class="language-css">/*
+ IE 10向けの指定
+*/
+
+/*
+ @suuportsが使えないWebkit向けの指定
+ -webkit-が必要なのでIE 10とは被らない
+*/
+
+@supports (transform-style: preserve-3d) or
+          (-webkit-transform-style: preserve-3d) {
+  /* IE 10向けに指定したアニメーションなどを上書きして削除する指定 */
+  /* 標準構文と-webkit-付きを今までどおりに指定 */
+}</code></pre>
+    <p>
+      何回も同じようなの書いてしまうことになりますが……。<br>
+      というかもっといい書き方ができるんじゃないかと思います。
+    </p>
+    <p>
+      現状だとWebkit向けにはメディアクエリで<code>-webkit-min-device-pixel-ratio: 0</code>を使えば振り分けられますが……やるとしても<code>@supports</code>と併用したほうが安全な気がします。
+    </p>
+  </section>
+  <section>
+    <h3>CSSだけで分岐 2</h3>
+    <p>
+      <a href="https://gist.github.com/4025104">IE 10だけを振り分けるメディアクエリを使うやり方</a>ですが、こういうのは好きじゃないのでできれば避けたいです。<br>
+      IE 11で予期しない動作をする可能性がないわけではないですし。<br>
+      使うとしても応急処置的なものですね。
+    </p>
+  </section>
+</section>
+<section>
+  <h2>結局どうするの？</h2>
+  <p>
+    IE 10に合わせておくのが無難かと思われます。
+  </p>
+  <p>
+    分岐させる場合には、多数のIE 10がIE 11に置き換わって他のブラウザと同じように動作するようになったときのことを考えると Modernizerを使って判別しつつJavaScriptオフの環境向けにはIE 10と同じ指定をしておくのが現実的かなーと思います。<br>
+    もしくは<code>@supports</code>で頑張るか。
+  </p>
+  <p>
+    IE 10で<code>@supports</code>使えたら楽だったんですけどね……。
+  </p>
+</section>

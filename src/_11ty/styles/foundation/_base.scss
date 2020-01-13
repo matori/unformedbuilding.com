@@ -1,0 +1,55 @@
+html {
+  overflow-y: scroll;
+  font-size: 100%;
+
+  @media screen and (min-width: #{rem(640px)}) {
+    font-size: percentage(18 / 16);
+  }
+
+  @media screen and (min-width: #{rem(960px)}) {
+    font-size: percentage(20 / 16);
+  }
+
+  @media screen and (min-width: #{rem(1440px)}) {
+    font-size: percentage(22 / 16);
+  }
+}
+
+body {
+  font-family: "Hiragino Sans", sans-serif;
+  hanging-punctuation: allow-end;
+}
+
+main {
+  display: block;
+}
+
+svg {
+  fill: currentColor;
+}
+
+a {
+  text-decoration-thickness: from-font;
+}
+
+:link {
+  color: var(--fg-link);
+}
+
+:visited {
+  color: var(--fg-visited);
+}
+
+:link:active,
+:visited:active {
+  color: var(--fg-active);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 3px solid var(--border-focus);
+  outline-offset: 3px;
+}

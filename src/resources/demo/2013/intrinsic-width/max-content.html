@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title></title>
+<link rel="stylesheet" type="text/css" media="screen" href="./style.css" />
+<style type="text/css">
+
+  ul {
+    margin: 1em auto;
+    padding: 0.5em;
+    background-color: #aaa;
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
+  }
+
+  ul::after {
+    display: block;
+    clear: both;
+    content: "";
+  }
+
+  li {
+    float: left;
+    padding: 0.5em 1em;
+    background-color: #aaf;
+    list-style-type: none;
+  }
+
+  li:nth-child(even) {
+    background-color: #afa;
+  }
+
+</style>
+</head>
+<body>
+
+  <ul>
+    <li>Lorem</li>
+    <li>ipsum</li>
+    <li>dolor</li>
+  </ul>
+
+
+  <ul>
+    <li>Lorem</li>
+    <li>ipsum</li>
+    <li>dolor</li>
+    <li>sit</li>
+    <li>amet</li>
+  </ul>
+
+  <ul>
+    <li>Lorem</li>
+    <li>ipsum</li>
+    <li>dolor</li>
+    <li>sit</li>
+    <li>amet</li>
+    <li>consectetur</li>
+    <li>adipisicing</li>
+  </ul>
+
+</body>
+</html>

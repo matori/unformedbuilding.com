@@ -1,0 +1,121 @@
+<script type="application/x-yaml">
+title: "GoogleモバイルサイトやDisney.comのオフキャンバスっぽいメニュー"
+description: "Googleのスマートフォンサイトがリニューアルされたというので見てみたら、メインメニューの表示表表が面白い感じになっていたので自分でも作ってみました。"
+slug: google-mobile-style-off-canvas-menu
+published: 2012-10-11T16:52:33+09:00
+updated: 2020-01-11T01:33:29+09:00
+category: webdev
+</script>
+
+<p>
+  Googleのスマートフォンサイトがリニューアルされたというので見てみたら、メインメニューの表示方法が面白い感じになっていたので自分でも作ってみました。<br>
+  ちなみに、先日レスポンシブウェブデザインに変更した<a href="http://disney.com/">Disney.com</a>も、表示幅が1024px以下だと似たようなメニューの表示方法になります。
+</p>
+<aside>
+  <p>
+    <a href="http://disney.com/">Disney.com</a>を見るときは、<span class="path">tredir.go.com/capmon/GetDE/</span>をブロックしておくと強制リダイレクトを防げます。
+  </p>
+</aside>
+<p>
+  作ったものは以下。
+</p>
+<ins datetime="2020-01-11T01:33:29+09:00">
+  <p>
+    <a href="/demo/2012/off-canvas-menu/">オフキャンバスメニュー</a>
+  </p>
+</ins>
+<!--
+<div style="margin-bottom: 1.6em">
+  <script type="text/javascript" src="http://jsdo.it/blogparts/3Ung/js?width=620&amp;height=496&amp;view=readme"></script>
+</div>
+-->
+<p>
+  サンプルなのでHTMLは適当に。<br>
+  実際にはもっと複雑になるでしょうが、動きを試すためのものなのでこんな感じで。
+</p>
+<pre><code class="language-html">&lt;div id=&quot;nav&quot; class=&quot;globalnav&quot;&gt;
+  &lt;a href=&quot;#&quot;&gt;Navigation&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;main&quot; class=&quot;content&quot;&gt;
+  &lt;div class=&quot;switcher&quot;&gt;
+    &lt;button id=&quot;toggleMenu&quot;&gt;&amp;#9776;&lt;/button&gt;
+  &lt;/div&gt;
+  Main Content
+&lt;/div&gt;</code></pre>
+<p>
+  <code>button#toggleMenu</code>をクリック（タップ）したらメニューの開閉を行います。
+</p>
+<pre><code class="language-javascript">jQuery(function ($) {
+  $('#toggleMenu').on('click', function (e) {
+    e.preventDefault();
+    $('body').toggleClass('showMenu');
+  });
+});</code></pre>
+<p>
+  遷移アニメーションなどはCSS側でやるので、JavaScript側ではメニューが開いているかどうかという状況を判別するクラス名を付け外しするだけにします。<br>
+  （サンプルでは使ってますが、特にjQuery使う必要はないです）
+</p>
+<p>
+  ではこの動きの肝であるCSSを。
+</p>
+<pre><code class="language-css">.globalnav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 160px;
+  height: 100%;
+  background: #fcc;
+  visibility: hidden;
+  transition: visibility 0s linear 0.2s;
+}
+
+.showMenu .globalnav {
+  z-index: 1;
+  visibility: visible;
+  transition: z-index 0s linear 0.2s;
+}
+
+.content {
+  height: 900px;
+  background: #ccf;
+  transform: translateX(0px);
+  transition: transform 0.2s linear;
+}
+
+.showMenu .content {
+  transform: translateX(160px);
+}</code></pre>
+<p>
+  通常の状態（<code>body</code>に特にクラス名を付与していない状態）では、<code>div.globalnav</code>は<code>visibility: hidden</code>の指定により非表示となっており、<code>position: fixed; z-index: -1</code>の指定で<code>div.content</code>の下（レイヤー的な意味）にあって隠されています。<br>
+  逆に言うと<code>div.content</code>を被せることによって見えなくしているわけです。
+</p>
+<p>
+  メニューを表示している状態（<code>body</code>に<code>showMenu</code>というクラス名が付いている状態）では、<code>div.content</code>は<code>transform: translateX(160px)</code>によって、あらかじめ指定しておいたメニューの幅の分、右に移動します。<br>
+  そしてメニューは<code>visibility: visible; z-index: 1</code>によって<code>div.content</code>より上のレイヤーになって表示されます。
+</p>
+<p>
+  <code>div.content</code>は普通に<code>transition: transform</code>しているわけですが、ここでは<code>transition-duration</code>に<code>0.2s</code>を指定しています。<br>
+  この時間分、<code>div.globalnav</code>のトランジションにディレイをかけます。<br>
+  そうしないと<code>body</code>にクラス名<code>showMenu</code>が付いた瞬間に一番上のレイヤーになってしまって見た目が悪いです。
+</p>
+<p>
+  メニュー部分の<code>transition-duration</code>が<code>0s</code>なのは、これらは状態変化にディレイをかけるためで、遷移アニメーションさせるためのものではないからだと思われます。
+</p>
+<p>
+  メニュー部分は状態によって違うトランジションの指定を行います。<br>
+  <code>body</code>に<code>showMenu</code>というクラス名が付いていないとき、つまり、閉じる動作のときには<code>visibility</code>を対象とします。<br>
+  これがないと閉じようとした瞬間にメニュー部分が見えなくなって見栄えが悪いです。<br>
+  そもそもなぜここに<code>visibility</code>が指定されているのかということですが（なくても期待通りに動くのに）、おそらくAndroidの<code>z-index</code>バグを回避するためだと思われます。重なった状態の下のレイヤー部分が反応してしますあれです。推測ですけど。
+</p>
+<p>
+  で、<code>body</code>に<code>showMenu</code>というクラス名が付いているとき、開く動作の時には<code>z-index</code>をトランジションの対象にします。<br>
+  こうすることによって<code>visibility: visible</code>は即座に反映されて、開いている途中でもメニュー部分が見えるようになります。そして開ききったら<code>transition-delay: 0.2s</code>によって<code>z-index: 1</code>になって、メニューを一番上のレイヤーに配置します。
+</p>
+<hr>
+<p>
+  以上がGoogleのスマートフォンサイトの開閉メニューの仕組みです。たぶん。<br>
+  ざっと見て作ったので実際のものとは結構違いがありますし、間違って解釈している部分があるかもしれません。<br>
+  ちゃんと知りたい方は自分で確認してください。
+</p>

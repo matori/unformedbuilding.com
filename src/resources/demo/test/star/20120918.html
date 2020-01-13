@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="EUC-JP" />
+<title></title>
+<style type="text/css">
+  body {
+    font-family: sans-serif;
+  }
+
+  div {
+    font-size: 32px;
+    text-align: center;
+  }
+
+  .star {
+    position: relative;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    color: #e0e0e0;
+    line-height: 1;
+  }
+
+  .star::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 1em;
+    overflow: hidden;
+    color: #f88;
+    content: "★";
+  }
+
+  .full::before {
+    width: 1em;
+  }
+
+  .half::before {
+    width: 0.5em;
+  }
+</style>
+</head>
+<body>
+
+<div>
+  <span class="star full">★</span><span class="star half">★</span><span class="star">★</span>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,181 @@
+<script type="application/x-yaml">
+title: "そのベンダー接頭辞はいつまで書くの？"
+description: "新しいCSSモジュールを使うためにベンダー接頭辞が必要な場合がありますが、サポート済みのものにまで書くのはどうなのかなという話です。"
+slug: when-can-we-remove-the-css-vendor-prefix
+published: 2012-05-14T16:33:33+09:00
+updated: 2012-06-28T14:26:06+09:00
+category: webdev
+</script>
+
+<p>
+  ベンダー接頭辞（プレフィックス）については最近いろいろと議論が活発ですが、そういう難しい話ではなくて、現状のCSSについての話です。
+</p>
+<p>
+  新しいCSSモジュールを使うために、ブラウザごとに接頭辞をつけなくてはいけない場合があります。まあそれについては現状では仕方ないことなんですが、接頭辞なしでも動作するようになったものでも、いつまで経っても接頭辞つきのものを書くのはどうなのかなと思うわけです。<br>
+  CSSのコードも冗長で読みづらくなりますし、もう使われていない（使われることもない）であろうものを残しておくのもちょっとなー。<br>
+  実際に運用されているサイトなんかだとそうそう簡単に手を入れられないかもしれませんが……。
+</p>
+<p>
+  また、<a href="http://d.hatena.ne.jp/ub-pnr/20120509/1336539362">はてなダイアリーの方でも書きました</a>が、ブログのチュートリアルを見ていて「もうその接頭辞つきの役目は終わった（終わりつつある）のに、なんでそれしか書いてないの」と思うことが結構あります。どちらかというと実際に使われているコードよりこっちの方が気になっています。<br>
+  対象ブラウザが広い場合には理由があるんだと分かりますが「CSS3で作る何とか！」みたいなタイトルで書かれていると、なんか、こう……。<br>
+  実際に使われているものならともかく、チュートリアルとしてはどうなの、と思っちゃうわけです。
+</p>
+<p>
+  とりあえず、現状はどうなっているのか気になっているものを調べてみました。<br>
+  それと、AndroidのOSバージョン別シェアは「<a href="http://developer.android.com/resources/dashboard/platform-versions.html">Platform Versions</a>」で見ることができます。日本のシェアとは違うでしょうが……。
+</p>
+<section>
+  <h2><code>border-radius</code></h2>
+  <p>
+    <a href="http://caniuse.com/border-radius">When can I use CSS3 Border-radius?</a>
+  </p>
+  <dl>
+    <dt><code>-[webkit/moz]-border-radius</code></dt>
+    <dd>
+      <ul>
+        <li>Chrome - 4.0</li>
+        <li>Safari 3.0 - 4.0</li>
+        <li>iOS Safari 4.0.4</li>
+        <li>Android 2.1</li>
+        <li>Firefox 2.0 - 3.6</li>
+      </ul>
+    </dd>
+    <dt><code>border-radius</code></dt>
+    <dd>
+      <ul>
+        <li>Chrome 5.0+（2010年5月25日～）</li>
+        <li>Safari 5.0+（2010年6月7日～）</li>
+        <li>iOS Safari 4.0.5+（2010年6月21日～）</li>
+        <li>Android 2.2+（搭載端末は2010年6月29日以降？）</li>
+        <li>Firefox 4.0+（2011年3月22日～）</li>
+        <li>使用可能になったInternet Explorer 9+とOpera 10.5+では接頭辞は必要ない</li>
+      </ul>
+    </dd>
+  </dl>
+  <p>
+    これはもう接頭辞いらないんじゃないでしょうか。<br>
+    Webkitで必要になるのはAndroid 2.1向けだけのような状態ですが（iOSの人はアップデートしてるでしょうし）、上記のAndroidバージョン別シェア（2012年5月1日版）では5.5%しかありません。国内ではもう少し多いでしょうが、2.1が出てから2年近く経ってますし、どんどん減ってくると思います。
+  </p>
+  <p>
+    Firefox 3.6は先日サポートが切られましたし、書く必要ないと思います。<br>
+    まあまだ3.6相当なLunascape Gecko<del datetime="2012-06-28T14:21:49+09:00">とSleipnir Gecko</del>もサポートしたいという方は書けばいいんじゃないでしょうか。
+    <ins datetime="2012-06-28T14:21:49+09:00"><br>（追記：2012年06月28日リリースのSleipnir 3.5でGeckoのサポートは終了しました）</ins>
+  </p>
+</section>
+<section>
+  <h2><code>box-shadow</code></h2>
+  <p>
+    <a href="http://caniuse.com/css-boxshadow">When can I use CSS3 Box-shadow?</a>
+  </p>
+  <dl>
+    <dt><code>-[webkit/moz]-box-shadow</code></dt>
+    <dd>
+      <ul>
+        <li>Chrome - 9.0</li>
+        <li>Safari 3.1 - 5.0</li>
+        <li>iOS Safari 4.0.4 - 5.0.2</li>
+        <li>Android 2.1 - 現行（4.0）</li>
+        <li>Firefox 3.5 - 3.6</li>
+      </ul>
+    </dd>
+    <dt><code>box-shadow</code></dt>
+    <dd>
+      <ul>
+        <li>Chrome 10.0+（2011年3月8日～）</li>
+        <li>Safari 5.1+（2011年7月20日～）</li>
+        <li>iOS Safari 5.1+（2011年10月12日～）</li>
+        <li>Firefox 4.0+（2011年3月22日～）</li>
+        <li>使用可能になったInternet Explorer 9+とOpera 10.5+, Opera Mobile 11.0+では接頭辞は必要ない</li>
+      </ul>
+    </dd>
+  </dl>
+  <p>
+    デスクトップブラウザ向けには接頭辞いらない感じですね。<br>
+    WebkitはiOSが微妙なところですが、Android 4.0でも接頭辞が必要なのでモバイル向けには書いたほうがいいかもしれません。<br>
+    実務はともかく、チュートリアルなんかでは接頭辞ありは補足的な扱いで十分な気がします。
+  </p>
+</section>
+<section>
+  <h2><code>box-sizing</code></h2>
+  <p>
+    <a href="http://caniuse.com/css3-boxsizing">When can I use CSS3 Box-sizing?</a>
+  </p>
+  <dl>
+    <dt><code>-[webkit/moz]-box-sizing</code></dt>
+    <dd>
+      <ul>
+        <li>Chrome - 9.0</li>
+        <li>Safari 3.1 - 5.0</li>
+        <li>iOS Safari 4.0.4 - 5.0.2（iOS 3.2 - 4.3）</li>
+        <li>Android 2.1 - 2.3 &amp; 3.0</li>
+        <li>Firefox 2.0 - 現行(12.0）</li>
+      </ul>
+    </dd>
+    <dt><code>box-sizing</code></dt>
+    <dd>
+      <ul>
+        <li>Chrome 10.0+（2011年3月8日～）</li>
+        <li>Safari 5.1+（2011年7月20日～）</li>
+        <li>iOS Safari 5.1+（iOS 5.0)（2011年10月12日～）</li>
+        <li>Android 4.0+（搭載端末は2011年12月2日～）</li>
+        <li>使用可能になったInternet Explorer 8+ と Opera 9.5+, Opera Mini 5.0+, Opera Mobile 10.0+ では接頭辞は必要ない</li>
+      </ul>
+    </dd>
+  </dl>
+  <p>
+    WebkitはAndroidが4.0以降なのでモバイル向けにはまだ必要かと思いますが（対応機種がまだ少ないので）、デスクトップ向けには要らない気がします。<br>
+    Firefoxは現行の12.0でも接頭辞が必要です。
+  </p>
+</section>
+<section>
+  <h2>WebkitのCSS グラデーション</h2>
+  <p>
+    <a href="http://caniuse.com/css-gradients">When can I use CSS Gradients?</a>
+  </p>
+  <dl>
+    <dt><code>-webkit-gradient([linear/radial], ...)</code></dt>
+    <dd>
+      <ul>
+        <li>Chrome - 9.0</li>
+        <li>Safari 4.0 - 5.0</li>
+        <li>iOS Safari 4.0.4 - 5.0</li>
+        <li>Android 2.1 - 2.3 &amp; 3.0</li>
+      </ul>
+    </dd>
+    <dt><code>-webkit-[linear/radial]-gradient()</code></dt>
+    <dd>
+      <ul>
+        <li>Chrome 10.0+（2011年3月8日～）</li>
+        <li>Safari 5.1+（2011年7月20日～）</li>
+        <li>iOS Safari 5.1+（2011年10月12日～）</li>
+        <li>Android 4.0+（搭載端末は2011年12月2日～）</li>
+      </ul>
+    </dd>
+  </dl>
+  <p>
+    モバイル向けにはまだ<code>-webkit-gradient()</code>な感じですが、デスクトップ向けには<code>-webkit-[linear/radial]-gradient()</code>でいい気がします。
+  </p>
+  <p>
+    それよりもつい最近見たチュートリアル記事で<code>-webkit-gradient()</code>しか書かれていないのを見て、もう流石にそれはどうなの、と思ったわけです。これを書こうと思ったきっかけでもありますが。
+  </p>
+  <p>
+    それに、<a href="http://www.w3.org/TR/2012/WD-css3-images-20120112/">CSSグラデーションの構文は今年の1月に新しくなりましたし</a>、チュートリアル的なものには標準のコードとしてそっちも載せておいた方が親切ではないでしょうか。構文はまた変更されるかもしれませんが、そのときはそのときで対応すればいいだけです。
+  </p>
+  <p>
+    ちなみに、<code>to</code>キーワードはFirefoxとOperaが既にサポートし始めています。
+  </p>
+</section>
+<hr>
+<p>
+  現状でも他にもあるとは思いますが、とりあえずこんなところで。<br>
+  こういったことはこれからどんどん増えてくると思います。<br>
+  昔の記事にあるコードも全部書き直せとまでは思いませんが、ときどきでもブラウザのサポート状況を見てから記事に書くコードを考えてみてはどうでしょう。
+</p>
+<p>
+  まあ対応ブラウザによって接頭辞を書く書かないは違ってくるでしょうし、どう書こうが人の勝手なんですが、こういう普段使いのスニペット的なものはたまにはアップデートしたほうがいいんじゃないかな、という話でした。
+</p>
+<p>
+  どうでもいいですが、このブログでは最近は記事内にはできるだけ接頭辞を書かないようにしてます。<br>
+  接頭辞なんかなくても大丈夫な日が来たときでも記事の読みやすさが保たれるかもな、と考えてのことです。<br>
+  それと、本当はベンダー接頭辞なんて書きたくないと思っているからです。面倒くさいし読みづらいし長くなるし……。
+</p>

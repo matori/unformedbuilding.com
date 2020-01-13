@@ -1,0 +1,126 @@
+@media screen and (max-width: 480px) {
+
+  #page-header {
+    margin-bottom: 30px;
+    padding: 20px 0 0;
+    background: #fafafa;
+    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  }
+
+  #page-header h1 {
+    margin-bottom: 30px;
+    font-size: 36px;
+    text-align: center;
+  }
+
+  .global-nav {
+    position: static;
+    float: none;
+    margin: 0;
+    padding: 0;
+    height: 32px;
+  }
+
+  .global-nav li {
+    margin: 0;
+    float: left;
+    width: 50%;
+  }
+
+  .global-nav li a {
+    display: block;
+    padding: 0;
+    border-width: 1px 0 1px 1px;
+    border-style: solid;
+    border-color: #fff #d0d0d0 #d0d0d0 #fff;
+    background: #eaeaea;
+    background: -webkit-gradient(linear, left top, left bottom, from(#f6f6f6), to(#eaeaea));
+    background: -webkit-linear-gradient(top, #f6f6f6, #eaeaea);
+    background: -moz-linear-gradient(top, #f6f6f6, #eaeaea);
+    background: -o-linear-gradient(top, #f6f6f6, #eaeaea);
+    background: linear-gradient(top, #f6f6f6, #eaeaea);
+    line-height: 30px;
+    text-align: center;
+    text-shadow: 1px 1px 0 #fff;
+  }
+
+  .global-nav li:first-child a {
+    border-right-width: 1px;
+    border-left: 0;
+  }
+
+  .global-nav li a:hover {
+    border-bottom: 1px solid #cacaca;
+    background: #eaeaea;
+    background: -webkit-gradient(linear, left top, left bottom, from(#eaeaea), to(#e3e3e3));
+    background: -webkit-linear-gradient(top, #eaeaea, #e3e3e3);
+    background: -moz-linear-gradient(top, #eaeaea, #e3e3e3);
+    background: -o-linear-gradient(top, #eaeaea, #e3e3e3);
+    background: linear-gradient(top, #eaeaea, #e3e3e3);
+  }
+
+  .post {
+    margin-bottom: 30px;
+    padding: 16px 10px 17px;
+  }
+
+  .post-header,
+  .post-body,
+  .post-footer {
+    margin-right: 0;
+  }
+
+  .ie7-below .post-header {
+    margin-right: 0;
+    padding-right: 0;
+  }
+
+  .post-header h1 {
+    margin-bottom: 20px;
+    padding-bottom: 0;
+    border-bottom: 0;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .post-header .meta {
+    position: static;
+    width: auto;
+    color: #868686;
+    font-size: 12px;
+  }
+
+  .post-header .meta time,
+  .post-header .meta span {
+    display: inline-block;
+    margin-right: 5px;
+  }
+
+  .post-header .meta a {
+    text-decoration: underline;
+  }
+
+  .post-body {
+    border: 0;
+  }
+
+  .page-nav {
+    margin-bottom: 30px;
+  }
+
+  .page-nav .to-top,
+  .page-nav a {
+    font-size: 24px;
+    background: #c6c6c6;
+  }
+
+  .page-nav .to-top:hover,
+  .page-nav a:hover {
+    background: #a6a6a6;
+  }
+
+  #page-footer {
+    padding: 0 10px 10px;
+  }
+
+}

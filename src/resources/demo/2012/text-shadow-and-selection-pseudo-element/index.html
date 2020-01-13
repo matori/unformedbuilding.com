@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <title>テキスト選択時のtext-shadow デモ</title>
+  <style type="text/css">
+  .test1::-moz-selection {
+    text-shadow: none;
+  }
+
+  .test1::selection {
+    text-shadow: none;
+  }
+
+  .test2::-moz-selection {
+    background: Highlight;
+    color: HighlightText;
+    text-shadow: none;
+  }
+
+  .test2::selection {
+    background: Highlight;
+    color: HighlightText;
+    text-shadow: none;
+  }
+
+  p {
+    font-size: 40px;
+    font-family: "Arial", sans-serif;
+    text-shadow: 2px 2px 0 red;
+  }
+  </style>
+</head>
+<body>
+
+<p>Select Me! (default)</p>
+<p class="test1">Select Me! (test1)</p>
+<p class="test2">Select Me! (test2)</p>
+
+</body>
+</html>

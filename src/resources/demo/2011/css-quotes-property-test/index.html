@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>quotes property test</title>
+<link rel="stylesheet" href="./reset.css" />
+<link rel="stylesheet" href="./style.css" />
+<style type="text/css">
+  #test1 q {
+    quotes: "「" "」" "『" "』";
+  }
+  #test1 q:before {
+    content: open-quote;
+  }
+  #test1 q:after {
+    content: close-quote;
+  }
+
+  #test2 {
+    quotes: "「" "」" "『" "』";
+  }
+  #test2 q:before {
+    content: "「";
+    content: open-quote;
+  }
+  #test2 q:after {
+    content: "」";
+    content: close-quote;
+  }
+  #test2 q q:before {
+    content: "『";
+    content: open-quote;
+  }
+  #test2 q q:after {
+    content: "』";
+    content: close-quote;
+  }
+
+  #test3 q:before {
+    content: "「";
+  }
+  #test3 q:after {
+    content: "」";
+  }
+  #test3 q q:before {
+    content: "『";
+  }
+  #test3 q q:after {
+    content: "』";
+  }
+</style>
+</head>
+<body>
+
+<h1>CSS <code>quotes</code> property test</h1>
+
+<div id="container">
+
+  <div id="test1">
+    <h2>通常通りの指定</h2>
+    <p>
+      <q><code>q</code> 要素のテストです。この部分は全て <code>q</code> 要素でマークアップされていて、CSS で引用符に「」『』を指定しています。また、次の文は更に <code>q</code> でマークアップされています。<q>ここがネストされている部分です。</q>ちゃんと指定が反映されているでしょうか？</q>
+    </p>
+  </div>
+
+  <div id="test2">
+    <h2>対策済みの指定 1</h2>
+    <p>
+      <q><code>q</code> 要素のテストです。この部分は全て <code>q</code> 要素でマークアップされていて、CSS で引用符に「」『』を指定しています。また、次の文は更に <code>q</code> でマークアップされています。<q>ここがネストされている部分です。</q>ちゃんと指定が反映されているでしょうか？</q>
+    </p>
+  </div>
+
+  <div id="test3">
+    <h2>対策済みの指定 2</h2>
+    <p>
+      <q><code>q</code> 要素のテストです。この部分は全て <code>q</code> 要素でマークアップされていて、CSS で引用符に「」『』を指定しています。また、次の文は更に <code>q</code> でマークアップされています。<q>ここがネストされている部分です。</q>ちゃんと指定が反映されているでしょうか？</q>
+    </p>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+  <title>jQuery.simpleLoopSlider.js DEMO</title>
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Josefin+Slab:light" />
+  <link rel="stylesheet" type="text/css" media="screen" href="./css/style.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="./css/jquery.simpleloopslider.css" />
+<!--[if lt IE 9]>
+<style type="text/css">
+  .sls-controller {
+    color : #aaa;
+  }
+
+  .sls-pagination a {
+    background-color : #aaa;
+  }
+  </style>
+
+<![endif]-->
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <script type="text/javascript" src="./js/jquery.simpleloopslider.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      // default
+      $('#sample1').simpleLoopSlider({
+        buttonText: ['肉球', '横顔', 'どや？', '殴る', '霊視']
+      });
+
+      // manual + pagination OFF
+      $('#sample2').simpleLoopSlider({
+      autoSlide: false
+      });
+
+      // auto + controller OFF + pagination OFF
+      $('#sample3').simpleLoopSlider({
+      controller: false,
+      pagination: false,
+      interval : 1500
+      });
+    });
+  </script>
+</head>
+<body>
+
+<header>
+  <div></div>
+  <a href="#"></a>
+  </header>
+
+<h1>jQuery.simpleLoopSlider.js</h1>
+
+
+<h2>buttonText: ['肉球', '横顔', 'どや？', '殴る', '霊視']</h2>
+
+<div id="sample1" class="slider">
+  <div class="sls-view">
+    <div class="sls-container">
+      <div><a href="#"><img src="images/image1.jpg" alt="" /></a></div>
+      <div><a href="#"><img src="images/image2.jpg" alt="" /></a></div>
+      <div><a href="#"><img src="images/image3.jpg" alt="" /></a></div>
+      <div><a href="#"><img src="images/image4.jpg" alt="" /></a></div>
+      <div><a href="#"><img src="images/image5.jpg" alt="" /></a></div>
+    </div>
+    <!-- // .sls-container -->
+  </div>
+  <!-- // .sls-view -->
+</div>
+
+<h2>autoslide:false</h2>
+
+<div id="sample2" class="slider">
+  <div class="sls-view">
+    <div class="sls-container">
+      <div><a href="#"><img src="images/image1.jpg" alt="" /></a></div>
+      <div><a href="#"><img src="images/image2.jpg" alt="" /></a></div>
+      <div><a href="#"><img src="images/image3.jpg" alt="" /></a></div>
+      <div><a href="#"><img src="images/image4.jpg" alt="" /></a></div>
+      <div><a href="#"><img src="images/image5.jpg" alt="" /></a></div>
+    </div>
+    <!-- // .sls-container -->
+  </div>
+  <!-- // .sls-view -->
+</div>
+
+<h2>controller:false, pagination:false, interval:1500</h2>
+
+<div id="sample3" class="slider">
+  <div class="sls-view">
+    <div class="sls-container">
+      <div><a href="#"><img src="images/image1.jpg" alt="" /></a></div>
+      <div><a href="#"><img src="images/image2.jpg" alt="" /></a></div>
+      <div><a href="#"><img src="images/image3.jpg" alt="" /></a></div>
+      <div><a href="#"><img src="images/image4.jpg" alt="" /></a></div>
+      <div><a href="#"><img src="images/image5.jpg" alt="" /></a></div>
+    </div>
+    <!-- // .sls-container -->
+  </div>
+  <!-- // .sls-view -->
+</div>
+
+</body>
+</html>

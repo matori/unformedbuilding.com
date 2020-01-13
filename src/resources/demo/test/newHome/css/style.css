@@ -1,0 +1,261 @@
+/*
+  Reset Stylesheet Based on - html5doctor.com Reset Stylesheet http://html5doctor.com/html-5-reset-stylesheet/
+*/
+
+/*
+html5doctor.com Reset Stylesheet
+v1.6.1
+Last Updated: 2010-09-17
+Author: Richard Clark - http://richclarkdesign.com 
+Twitter: @rich_clark
+*/
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+body {
+  line-height: 1;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { 
+  display:block;
+}
+
+
+/* Styles
+-----------------------------------------------------*/
+
+@font-face {
+  font-family: "Tenderness";
+  src: url('./fonts/Tenderness-webfont.eot');
+  src: local('Tenderness'),
+       url('./fonts/Tenderness-webfont.eot?iefix') format('eot'),
+       url('./fonts/Tenderness-webfont.woff') format('woff'),
+       url('./fonts/Tenderness-webfont.ttf') format('truetype'),
+       url('./fonts/Tenderness-webfont.svg#webfontaYPTm82W') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  color: #666;
+  font-size: 14px;
+  font-family: "Helvetica", "Arial", "\0030e1\0030a4\0030ea\0030aa", "Meiryo", sans-serif;
+}
+
+.lt-ie7 body {
+  font-family: "\0030e1\0030a4\0030ea\0030aa", "Meiryo", sans-serif;
+}
+
+a {
+  color: #666;
+  text-decoration: none;
+}
+
+a:focus {
+  outline: 0;
+}
+
+#page-header {
+  padding: 30px 0 40px 97px;
+}
+
+#page-header h1 {
+  position: relative;
+  z-index: 99;
+  color: #aaa;
+  font-size: 60px;
+  font-weight: normal;
+  font-family: "Tenderness", "Times New Roman", "times", serif;
+  line-height: auto;
+}
+
+#pattern div {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: #f0f0f0;
+  z-index: 1;
+}
+
+#main-nav {
+  position: relative;
+  z-index: 2;
+  width: 210px;
+  height: 400px;
+}
+
+.ie8 #main-nav {
+  margin-top: -13px;
+}
+
+#main-nav a {
+  display: block;
+  position: relative;
+  padding: 10px 0 10px 100px;
+  overflow: hidden;
+  font-size: 16px;
+}
+
+#main-nav a:hover {
+  color: #000;
+}
+
+#main-nav .active a {
+  border-bottom-color: transparent;
+  background-image: -webkit-gradient(linear, left, from(#fff), to(#f0f0f0));
+  background-image: -webkit-linear-gradient(left, #fff, #f0f0f0);
+  background-image: -moz-linear-gradient(left, #fff, #f0f0f0);
+  background-image: -o-linear-gradient(left, #fff, #f0f0f0);
+  background-image: linear-gradient(left, #fff, #f0f0f0);
+  color: #333;
+}
+
+.lt-ie10 #main-nav .active a {
+  background: #f0f0f0;
+}
+
+#main-nav .active a:before {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-width: 0 18px 18px 0;
+  border-style: solid;
+  border-color: transparent #fff transparent transparent;
+  content: "";
+}
+
+#main-nav .active a:after {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-width: 18px 18px 0 0;
+  border-style: solid;
+  border-color: transparent #fff transparent transparent;
+  content: "";
+}
+
+#container {
+  position: absolute;
+  top: 130px;
+  left: 220px;
+  width: 400px;
+  height: 400px;
+  background: #f3f3f3;
+}
+
+.close-button {
+	display: inline-block;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  z-index: 99;
+  border: 3px solid #aaa;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+	width: 24px;
+	height: 24px;
+	background: #fafafa;
+  color: #808080;
+  font-size: 24px;
+  line-height: 24px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.content {
+  padding: 0 10px;
+  color: #333;
+}
+
+.content header {
+  border-bottom: 1px solid #fff;
+}
+
+.content h2 {
+  padding: 10px 5px 8px;
+  border-bottom: 1px solid #ccc;
+  font-size: 22px;
+  font-weight: normal;
+  line-height: 16px;
+  text-shadow: 1px 1px 0 #fff;
+  font-family: "Tenderness", "Times New Roman", "times", serif;
+}
+
+.content-body {
+  padding: 10px 5px 4px;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.content-body p,
+.content-body ul {
+  margin-bottom: 0.5em;
+}
+
+.content-body ul {
+  padding-left: 1.6em;
+  list-style-type: circle;
+  line-height: 1.6;
+}
+
+.link {
+  margin: 1em 0 0;
+}
+
+.content-body a {
+  font-size: 16px;
+  text-decoration: underline;
+  text-shadow: 1px 1px 0 #fff;
+}
+
+.content-body a:hover {
+  color: #000;
+}
+
+#about a,
+#link a {
+  font-size: 13px;
+}
+
+.content-body h3 {
+  margin-top: 1em;
+  font-weight: bold;
+}
+
+.content-body h3:first-child,
+.content-body h3.first-child {
+  margin-top: 0;
+}
+
+#page-footer {
+  margin: 30px 10px 0;
+  padding: 10px 0 10px 100px;
+  border-top: 1px solid #ccc;
+  line-height: 15px;
+}
+
+#page-footer small {
+  font-size: 11px;
+}
+
+#page-footer a {
+  text-decoration: underline;
+}
+
+.copyright {
+  margin-top: 10px;
+}

@@ -1,0 +1,126 @@
+<script type="application/x-yaml">
+title: "CSS Animationsを使ってローディング用アニメーション"
+description: "なんとなく思いついたので、CSS でローディングアニメーションを作ってみました。"
+slug: css-loading-animation
+published: 2011-09-07T17:02:42+09:00
+updated: 2020-01-08T18:01:08+09:00
+category: webdev
+</script>
+
+<p>
+  なんとなく思いついたので、CSSでローディングアニメーションを作ってみました。<br>
+  画像とか<code>canvas</code>使えよって話ではあるんですけどね……。まあアニメーションの練習ってことで。
+</p>
+<p>
+  今回は『jsdo.it』で作ったので、それを置いておきます。<br>
+  Firefox 5以上、またはWebkit系のブラウザで動きます。
+</p>
+<ins datetime="2020-01-08T18:01:08+09:00">
+  <p>
+    <b>2020年1月8日 追記：</b><br>
+    『jsdo.it』は2019年に閉鎖されましたので、回収できた自分のコードだけデモページに移行しました。<br>
+    <a href="/demo/2011/css-loading-animation/">CSS Loading Animation</a>
+  </p>
+</ins>
+<!--
+<div style="margin-bottom:1.6em">
+  <script type="text/javascript" src="http://jsdo.it/blogparts/bycu/js?view=design"></script>
+</div>
+-->
+<p>
+  簡単にですが解説してみたいと思います。<br>
+  まずHTMLから。
+</p>
+<pre><code class="language-html">&lt;div class=&quot;loading style-1&quot;&gt;Now Loading...&lt;/div&gt;</code></pre>
+<p>
+  使うのは<code>div</code>1個です。<br>
+  class名が2つ付いてるのは、最初いくつか作ろうと思ってたからです。<br>
+  （結局思いつかなかったので諦めましたが……）
+</p>
+<p>
+  では次にCSSです。<br>
+  ベンダープレフィックス付きのものと、あんまり関係ない部分は省いてあります。
+</p>
+<pre><code class="language-css">body {
+  background: #101010;
+}
+
+.loading {
+  margin     : 50px auto;
+  color      : transparent;
+  cursor     : default;
+  user-select: none;
+}
+
+.style-1 {
+  position : relative;
+  width    : 50px;
+  height   : 50px;
+  animation: style-1 infinite 0.8s cubic-bezier(0, 0, 1, 1);
+}
+
+.style-1:before {
+  display         : block;
+  position        : absolute;
+  top             : -5px;
+  left            : 20px;
+  width           : 10px;
+  height          : 10px;
+  background-color: rgba(242, 250, 255, 0.9);
+  box-shadow      :   0    0px 3px  0   rgba(242, 250, 255, 0.9),
+                    -12px  4px 1px -1px rgba(242, 250, 255, 0.9),
+                    -20px 12px 1px -2px rgba(242, 250, 255, 0.9),
+                    -25px 22px 1px -3px rgba(242, 250, 255, 0.9);
+  content         : &quot;&quot;;
+}
+
+@keyframes style-1 {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}</code></pre>
+<p>
+  <code>.loading</code>の部分のテキストは、<code>text-indent: -9999px</code>を使ってもいいのですが、今回はこの要素を<code>overflow: hidden</code>したくなかったので、文字色を透明にしてます。<br>
+  また、<code>user-select: none</code>でテキストを選択できないようにしています。カーソルの形はまあ……気分的なものです。
+</p>
+<p>
+  <code>:before</code>擬似要素の部分は、ちまちま調整しながら配置しました。<br>
+  <code>box-shadow</code>の影の広がりの部分にマイナスの数値を指定することで円を少しずつ小さくしています。ここでも細々とした配置調整をしています。
+</p>
+<p>
+  最後にアニメーション部分です。<br>
+  <code>@keyframes</code>では要素を回転させているだけです。<br>
+  <code>50%</code>の部分はなくても大丈夫だと思いますが、一応書いておきました。<br>
+  ここに10%刻みくらいで<code>scale(1)</code>と<code>scale(1.1)</code>を指定したらもう少し動きが出ます。ちょっとキモイですが。<br>
+  アニメーション部分のプロパティは面倒だったので<code>animation</code>ショートハンドプロパティを使いました。<br>
+  省略せず個別に書くと下のような感じになります。
+</p>
+<pre><code class="language-css">.style-1 {
+  animation-name           : style-1;
+  animation-iteration-count: infinite;
+  animation-duration       : 0.8s;
+  animation-timing-function: cubic-bezier(0, 0, 1, 1);
+  animation-delay          : 0s;
+  animation-direction      : normal;
+  animation-fill-mode      : none;
+  animation-play-state     : running;
+}</code></pre>
+<p>
+  CSSアニメーションの説明はMozillaのページが分かりやすいです。
+</p>
+<p>
+  <a href="https://developer.mozilla.org/ja/CSS/animation">animation – MDN</a>
+</p>
+<p>
+  作ったあとに検索してたら5509の人が既に同じようなことしてました……。<br>
+  解説も丁寧なので見ておくといいかもしれませんね。
+</p>
+<p>
+  <a href="http://5509.me/log/css3-animation">CSS3アニメーションのおさらいとローディングアイコン :: 5509</a>
+</p>

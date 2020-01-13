@@ -1,0 +1,77 @@
+<script type="application/x-yaml">
+title: "WordPress日本語版で、テーマ内の日付を英語表記で表示する"
+description: 'WordPressで日付を"May 12th, 2011"みたいに表示したい。本体をいじらず、置換もしない、プラグインも使わないで済む方法をご紹介します。'
+slug: way-to-display-the-date-and-time-in-english-on-wordpress-ja
+published: 2011-05-12T16:32:00+09:00
+updated: 2011-08-14T20:40:00+09:00
+category: webdev
+</script>
+
+<p>
+  WordPressの記事公開日を英語表記にしたい場合ってありますよね。<br>
+  <code>&quot;May 12th, 2011&quot;</code>みたいに表示したい、そういうときは<code>the_time('F jS, Y')</code>でいいはずなんですが、WordPress日本語版だと<code>&quot;5月 12th, 2011&quot;</code>ってなっちゃうんですよね。
+</p>
+<p>
+  今まで、<code>the_time()</code>に<code>str_replace()</code>を<code>add_action()</code>で無理やりやっていたんですが、Twitterでどうにかできないかなーみたいなことを書いたんですよ。<br>
+  <code>str_replace()</code>などの置換もしないで、という条件だったですが、本体の翻訳ファイルもいじらずにすむ方法を教えていただけました。<br>
+  教えて下さったのは<a href="https://twitter.com/miya0001">@miya0001</a>さんです。
+</p>
+<p>
+  以下がその内容になります。
+</p>
+<figure>
+  <blockquote cite="https://twitter.com/miya0001/status/68569801437618176">
+    <p>
+      いまためしたら、こんな感じですね。 echo date(&#39;M jS, Y&#39;, mysql2date(&#39;U&#39;, $post-&gt;post_date));
+    </p>
+  </blockquote>
+  <figcaption>
+    <cite>@miya000 <a href="https://twitter.com/miya0001/status/68569801437618176">https://twitter.com/miya0001/status/68569801437618176</a></cite>
+  </figcaption>
+</figure>
+<figure>
+  <blockquote cite="https://twitter.com/miya0001/status/68570541665157120">
+    <p>
+      have_postのループ内でmysql2date(&#39;U&#39;, $post-&gt;post_date)); としたらタイムスタンプが取れるので、あとはphpの普通のdate()で自由になります。
+    </p>
+  </blockquote>
+  <figcaption>
+    <cite>@miya000 <a href="https://twitter.com/miya0001/status/68570541665157120">https://twitter.com/miya0001/status/68570541665157120</a></cite>
+  </figcaption>
+</figure>
+<p>
+  というわけだそうです。<br>
+  言われたあとでリファレンス見てやっと理解できました。<br>
+  悩んでいたところなので本当に助かりました。
+</p>
+<p>
+  <a href="https://twitter.com/miya0001">@miya0001</a>さんのサイトへはこの下のリンクからどうぞ！
+</p>
+<p>
+  <a href="http://firegoby.theta.ne.jp/">firegoby</a>
+</p>
+<ins datetime="2011-08-14T20:30:26+09:00">
+  <hr>
+  <p>
+    えーと、上記の方法では完全ではないみたいです……。<br>
+    以下は<a href="https://twitter.com/takayukister">@takayukister</a>のツイートです。
+  </p>
+  <figure>
+    <blockquote cite="https://twitter.com/takayukister/status/102181304099016704">
+      <p>
+        <a href="https://twitter.com/miya0001">@miya0001</a><br>
+        <a href="https://twitter.com/jim0912">@jim0912</a> mysql2date(&#39;M jS, Y&#39;, $post-&gt;post_date, false) にしたらローカライズされないすよ。
+      </p>
+    </blockquote>
+    <figcaption>
+      <cite>@takayukister <a href="https://twitter.com/takayukister/status/102181304099016704">https://twitter.com/takayukister/status/102181304099016704</a></cite>
+    </figcaption>
+  </figure>
+  <p>
+    3つ目のはローカライズするかどうかの指定ですね……。<br>
+    「<a href="http://wpdocs.sourceforge.jp/%E9%96%A2%E6%95%B0%E3%83%AA%E3%83%95%E3%82%A1%E3%83%AC%E3%83%B3%E3%82%B9/mysql2date">関数リファレンス/mysql2date - WordPressCodex 日本語版</a>」に書いてありました。
+  </p>
+  <p>
+    <a href="https://twitter.com/takayukister">@takayukister</a>さん、ありがとうございました。
+  </p>
+</ins>

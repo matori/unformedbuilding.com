@@ -1,0 +1,232 @@
+<script type="application/x-yaml">
+title: "meter要素のスタイリングについてのメモ for Webkit & Opera"
+description: "HTML5で追加されたmeter要素。見た目の変更はできないのかなーと思って調べてみたら、独自拡張ではありますが擬似要素がちゃんと用意されていました。"
+slug: about-the-styling-of-meter-element
+published: 2011-01-27T15:00:21+09:00
+updated: 2012-10-15T14:56:27+09:00
+category: webdev
+</script>
+
+<ins datetime="2012-10-15T14:56:21+09:00">
+  <p>
+    <b>2012年10月15日 追記：</b><br>
+    この記事のCSSに関する情報は古くなっています。<br>
+    新しく書き直しましたので、スタイリングについてはそちらをご覧ください。<br>
+    <a href="/articles/styling-meter-element-2012-10/">meter要素のスタイリングについてのメモ 2012年10月</a>
+  </p>
+  <hr>
+</ins>
+
+<p>
+  HTML5で追加された<code>meter</code>要素。<br>
+  Windowsだと現在の最新版であるChrome 8とOpera 11で、何も指定しなくてもちゃんと表示してくれます（Mac環境と開発版は試していないので分かりません）。<br>
+  見た目の変更はできないのかなーと思って調べてみたら、Webkitの独自拡張ではありますが、擬似要素がちゃんと用意されていました。<br>
+  OperaはDragonflyで確認してみましたがそれらしいプロパティを発見できませんでした。
+</p>
+<p>
+  今回のデモは以下をどうぞ。対応しているブラウザはChromeです。
+</p>
+<p>
+  <a href="/demo/2011/meter-styling/">meter 要素のスタイリングについてのメモ デモページ</a>
+</p>
+<p>
+  <a href="/download/2011/meter-styling.zip" download>デモファイルをダウンロード</a>
+</p>
+<section>
+  <h2>マークアップ</h2>
+  <p>今回使うHTMLはこんな感じです。</p>
+  <pre><code class="language-html">&lt;meter min=&quot;0&quot; max=&quot;100&quot; low=&quot;20&quot; high=&quot;80&quot; optimum=&quot;50&quot; value=&quot;100&quot;&gt;100/100&lt;/meter&gt;&lt;span&gt;100/100&lt;/span&gt;&lt;br /&gt;
+&lt;meter min=&quot;0&quot; max=&quot;100&quot; low=&quot;20&quot; high=&quot;80&quot; optimum=&quot;50&quot; value=&quot;90&quot;&gt;90/100&lt;/meter&gt;&lt;span&gt;90/100&lt;/span&gt;&lt;br /&gt;
+&lt;meter min=&quot;0&quot; max=&quot;100&quot; low=&quot;20&quot; high=&quot;80&quot; optimum=&quot;50&quot; value=&quot;70&quot;&gt;70/100&lt;/meter&gt;&lt;span&gt;70/100&lt;/span&gt;&lt;br /&gt;
+&lt;meter min=&quot;0&quot; max=&quot;100&quot; low=&quot;20&quot; high=&quot;80&quot; optimum=&quot;50&quot; value=&quot;50&quot;&gt;50/100&lt;/meter&gt;&lt;span&gt;50/100&lt;/span&gt;&lt;br /&gt;
+&lt;meter min=&quot;0&quot; max=&quot;100&quot; low=&quot;20&quot; high=&quot;80&quot; optimum=&quot;50&quot; value=&quot;30&quot;&gt;30/100&lt;/meter&gt;&lt;span&gt;30/100&lt;/span&gt;&lt;br /&gt;
+&lt;meter min=&quot;0&quot; max=&quot;100&quot; low=&quot;20&quot; high=&quot;80&quot; optimum=&quot;50&quot; value=&quot;10&quot;&gt;10/100&lt;/meter&gt;&lt;span&gt;10/100&lt;/span&gt;&lt;br /&gt;
+&lt;meter min=&quot;0&quot; max=&quot;100&quot; low=&quot;20&quot; high=&quot;80&quot; optimum=&quot;50&quot; value=&quot;1&quot;&gt;1/100&lt;/meter&gt;&lt;span&gt;1/100&lt;/span&gt;</code></pre>
+  <p>
+    各属性については、『HTML5.JP』を参照してください。
+  </p>
+  <p>
+    <a href="http://www.html5.jp/tag/elements/meter.html">meter 要素 - フォーム - HTML要素 - HTML5 タグリファレンス - HTML5.JP</a>
+  </p>
+  <p>
+    この記事でやるのは各擬似要素のスタイル指定ですので、擬似要素が指すものを知らなければなりません。<br>
+    といっても上記の『HTML5.JP』の記事に書かれていますけどね……。<br>
+    特に気をつけるのは以下の部分。
+  </p>
+  <figure>
+    <blockquote cite="http://www.html5.jp/tag/elements/meter.html">
+      <p>
+        <strong>ゲージ領域に対するユーザーエージェントの要件</strong>：最適値が下限または上限またはその間のどこかに等しければ、ゲージの上下限間の領域は、最適領域として扱われなければいけません。そして、低と高の部分がもしあれば、それは準最適であるとして扱われなければいけません。そうでなければ、もし最適値が下限より小さければ、最小値と下限の間の領域は、最適領域として扱われなければいけません。下限と上限の間の領域は、準最適領域として扱われなければいけません。そして、上限と最大値の間の領域は、非最適領域として扱われなければいけません。最後に、最適値が上限より高ければ、その状況は逆転します。上限と最大値の間の領域は、最適領域として扱われなければいけません。上限と下限の間の領域は、準最適領域として扱われなければいけません。そして、残った下限と最大値の間の領域は、非最適領域として扱われなければいけません。
+      </p>
+      <p>
+        <strong>ゲージ表示に対するユーザーエージェントの要件</strong>： ユーザーに
+        <code>meter</code>要素を表示するとき、ユーザーエージェントは、最小値と最大値からの相対的な位置、そして実質値とゲージの 3 つの領域の間の関係を示すべきです。
+      </p>
+    </blockquote>
+    <figcaption>
+      <cite><a href="http://www.html5.jp/tag/elements/meter.html">meter 要素 - フォーム - HTML要素 - HTML5 タグリファレンス - HTML5.JP</a></cite>
+    </figcaption>
+  </figure>
+  <p>
+    Webkit用独自拡張の擬似要素は、主に最適領域・準最適領域・非最適領域を示すために使えるものです。<br>
+    <code>min</code>, <code>max</code>, <code>low</code>, <code>high</code>, <code>optimum</code>, <code>value</code>の各属性の指定によって最適領域・準最適領域・非最適領域がどう変わるのかを確認するために、デモページには3種類用意してあります。
+  </p>
+  <p>
+    では次にスタイル指定をやってみます。
+  </p>
+</section>
+<section>
+  <h2>スタイル指定</h2>
+  <p>
+    使用できる擬似要素の説明をします。<br>
+    これらは以下を参考にしました。
+  </p>
+  <p>
+    <a href="http://trac.webkit.org/wiki/Styling%20Form%20Controls#meter">Styling Form Controls &#8212; WebKit</a>
+  </p>
+  <dl>
+    <dt><code>::-webkit-meter-horizontal-bar</code></dt>
+    <dd>
+      横のメーターの場合に適用されます。<br>
+      縦のメーターの場合には<code>horizontal</code>を<code>vertical</code>に変更します。これは以降の擬似要素でも同じです。<br>
+      ちなみに、正方形の場合には横メーターだと解釈されるようです。<br>
+      また、Opera 11では縦メーター自体が存在しないようです（あるかもしれませんが、指定方法が分かりません……）。
+    </dd>
+    <dt><code>::-webkit-meter-horizontal-optimum-value</code></dt>
+    <dd>
+      <code>value</code>の値が最適領域にある場合に適用されます。<br>
+      デモページでは緑のバーとなります。
+    </dd>
+    <dt><code>::-webkit-meter-horizontal-suboptimal-value</code></dt>
+    <dd>
+      <code>value</code>の値が準最適領域にある場合に適用されます。<br>
+      デモページでは黄色のバーとなります。
+    </dd>
+    <dt><code>::-webkit-meter-horizontal-even-less-good-value</code></dt>
+    <dd>
+      <code>value</code>の値が非最適領域にある場合に適用されます。<br>
+      デモページでは赤のバーとなります。
+    </dd>
+  </dl>
+  <p>
+    参考ページには Max OS Xでは<code>-webkit-appearance</code>プロパティに以下を指定できるとも書いてあります。
+  </p>
+  <ul>
+    <li><code>continuous-capacity-level-indicator</code>（デフォルト）</li>
+    <li><code>discrete-capacity-level-indicator</code>（小さなブロック）</li>
+    <li><code>relevancy-level-indicator</code>（細い線）</li>
+    <li><code>rating-level-indicator</code>（星マーク）</li>
+  </ul>
+  <p>
+    どういうものなのかは名前で分かるかと思います。<br>
+    参考ページには画像もありますので、そちらを参照してください。<br>
+    それと、Mac持ってないので実際に使えるかは確認してません。
+  </p>
+  <section>
+    <h3>デモページで使っている指定</h3>
+    <p>
+      デモページでは、下記のように各擬似要素に指定しています。
+    </p>
+    <pre><code class="language-css">meter {
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    width: 300px;
+    height: 20px;
+    vertical-align: bottom;
+}
+
+meter::-webkit-meter-horizontal-bar {
+    background-color: #eaeaea;
+    background-image: -webkit-gradient(
+                          linear, left top, left bottom,
+                          from(#dadada),
+                          color-stop(0.2, #eee),
+                          to(#f0f0f0)
+                      );
+    background-image: -webkit-linear-gradient(
+                          top,
+                          #dadada,
+                          #eee 20%,
+                          #f0f0f0
+                      );
+    background-image: linear-gradient(
+                          top,
+                          #dadada,
+                          #eee 20%,
+                          #f0f0f0
+                      );
+}
+
+meter::-webkit-meter-horizontal-optimum-value {
+    background-color: #080;
+    background-image: -webkit-gradient(
+                          linear, left top, left bottom,
+                          from(#a0ff9f),
+                          to(#018f00)
+                      );
+    /* 中略（グラデーション用指定2種類） */
+}
+
+meter::-webkit-meter-horizontal-suboptimal-value {
+    background-color: #ff0;
+    background-image: -webkit-gradient(
+                          linear, left top, left bottom,
+                          from(#feff9f),
+                          to(#dddf00)
+                      );
+    /* 中略（グラデーション用指定2種類） */
+}
+
+meter::-webkit-meter-horizontal-even-less-good-value {
+    background-color: #f00;
+    background-image: -webkit-gradient(
+                          linear,
+                          left top,
+                          left bottom,
+                          from(#ffafaf),
+                          to(#f00)
+                      );
+    /* 中略（グラデーション用指定2種類） */
+}</code></pre>
+    <p>
+      これで以下のような感じになると思います。
+    </p>
+    <figure>
+      <img src="/images/2011/about-the-styling-of-meter-element/meter-chrome.png" width="431" height="349" alt="デモページをChromeで表示したときのキャプチャ">
+    </figure>
+    <p>
+      グラデーション指定は以下を参考にしました。
+    </p>
+    <ul>
+      <li>
+        <a href="http://webkit.org/blog/1424/css3-gradients/">Surfin’ Safari - Blog Archive &raquo; CSS3 Gradients</a>
+      </li>
+      <li>
+        <a href="http://dev.w3.org/csswg/css3-images/#linear-gradients">CSS Image Values and Replaced Content Module Level 3</a>
+      </li>
+    </ul>
+    <p>
+      指定自体は普通の指定と変わりませんね。普通の画像も使えます。<br>
+      本当は<code>meter</code>要素に<code>:after</code>擬似要素使って<code>content: attr(value) &quot;/&quot; attr(max)</code>とかやりたかったんですけど、Chrome 8では表示してくれませんでした。
+    </p>
+    <del datetime="2020-01-06T18:38:14+09:00">
+      <p>
+        スタイリングのサンプルとして、GeckoTangさんが『jsdo.it』でいくつか作っていましたので、そちらも見てみるといいんじゃないかと思います。
+      </p>
+      <p>
+        <a href="http://jsdo.it/GeckoTang/Aufg">meter要素を色々飾ってみた。 - jsdo.it</a>
+      </p>
+    </del>
+  </section>
+  <p>
+    それと、ちょっと気になったんですが、Operaの場合、<code>meter</code>要素のデフォルトスタイルシートを上書きするような指定をした場合（<code>border</code>を指定するなど）、バーの色が通常のグラデーションからフラットな感じになってしまいます。<code>:before</code>,
+    <code>:after</code>擬似要素を指定した場合も同様です。
+  </p>
+  <figure>
+    <img src="/images/2011/about-the-styling-of-meter-element/meter-opera.png" width="620" height="100" alt="meter要素にborderを指定したときのOperaの表示">
+  </figure>
+  <p>
+    これはOpera用の指定方法が分からないと直しようがないですね……。<br>
+    でもまあ、そのうち対応するでしょう。
+  </p>
+</section>

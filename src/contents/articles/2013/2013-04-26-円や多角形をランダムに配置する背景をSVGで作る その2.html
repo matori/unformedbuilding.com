@@ -1,0 +1,109 @@
+<script type="application/x-yaml">
+title: "円や多角形をランダムに配置する背景をSVGで作る その2"
+description: "「円や多角形をランダムに配置する背景をSVGで作る」の続きです。もうちょっと使いやすくなるように練習を兼ねてやってみました。"
+slug: random-geometric-pattern-background-with-svg-2
+published: 2013-04-26T16:43:17+09:00
+updated: 2020-01-11T23:17:52+09:00
+category: webdev
+</script>
+
+<ins datetime="2020-01-11T23:17:52+09:00">
+  <figure role="presentation">
+    <picture>
+      <source srcset="/images/2013/random-geometric-pattern-background-with-svg-2/result@2x.png" media="(min-width: 696px) and (min-resolution: 1.5dppx)">
+      <img src="/images/2013/random-geometric-pattern-background-with-svg-2/result.png" width="880" height="573" alt="">
+    </picture>
+  </figure>
+</ins>
+<p>
+  「<a href="/articles/random-geometric-pattern-background-with-svg/">円や多角形をランダムに配置する背景をSVGで作る</a>」の続きです。<br>
+  もうちょっと使いやすくなるように練習を兼ねてやってみました。
+</p>
+<p>
+  <a href="/demo/2013/svgbg/gpbg1.html">GPBG.js サンプル 1</a>
+</p>
+<p>
+  <a href="/demo/2013/svgbg/gpbg2.html">GPBG.js サンプル 2</a>
+</p>
+<p>
+  <a href="/demo/2013/svgbg/gpbg3.html">GPBG.js サンプル 3</a>
+</p>
+<p><a href="/demo/2013/svgbg/gpbg.min.js">GPBG.jsのJavaScriptファイル</a></p>
+<p>
+  前のはインラインSVGを作って<code>body</code>の最後に入れていましたが、今回は<code>style</code>要素を作り、指定したセレクタの背景画像としてData URIにしたSVGを指定するようにしました。
+</p>
+<p>
+  一番簡単に使うと、こんな感じになります。
+</p>
+<pre><code class="language-html">&lt;script type=&quot;text/javascript&quot; src=&quot;gpbg.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;script.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;</code></pre>
+<pre><code class="language-javascript">// script.js の中身
+(function () {
+  if (window.GPBG) {
+    var gpbg = new GPBG();
+
+    if (window.addEventListener) {
+      var draw = function () {
+        gpbg.draw('body');
+      };
+      window.addEventListener('DOMContentLoaded', draw, false);
+    }
+
+    gpbg.die();
+  }
+})();</code></pre>
+<dl>
+  <dt><code>die()</code></dt>
+  <dd>
+    グローバルオブジェクトから<code>GPBG</code>を削除します。
+  </dd>
+  <dt><code>draw(selector, options)</code></dt>
+  <dd>
+    指定されたセレクタの背景画像にData URIにしたSVG画像を指定します。<br>
+    セレクタにマッチする要素が複数ある場合は、一番大きなものに合わせたサイズのSVG画像になります。<br>
+    オプションを指定しない場合は初期設定になります。
+  </dd>
+  <dd>
+    オプションの初期設定。必要ないものは省略可能。
+    <pre><code class="language-javascript">{
+  // 図形の頂点数（0-2: 円, 3: 三角形, 4: 正方形...）
+  // ここで指定したものをランダムに表示します
+  // 必ず数値の配列で指定して下さい
+  apexes: [0],
+  // 図形をいくつ表示するか
+  count: 30,
+  // 図形の最小半径
+  minRadius: 20,
+  // 図形の最大半径
+  maxRadius: 60,
+  // 図形に使う色の最小RGB値（0-255）
+  minRgbRange: 160,
+  // 図形に使う色の最大RGB値（0-255）
+  maxRgbRange: 240,
+  // 図形の塗りつぶし色の不透明度（0-1）
+  fillOpacity: 0.3,
+  // 図形の縁取りの太さ
+  strokeWidth: 1,
+  // 図形の縁取り色の不透明度（0-1）
+  strokeOpacity: 0.5,
+  // グレースケールにするかどうか
+  grayscale: false
+}</code></pre>
+  </dd>
+  <dt><code>getImage(width, height, options)</code></dt>
+  <dd>
+    直接SVG画像を取得したい場合に使います。<br>
+    <code>width</code>と<code>height</code>は数値、オプションは前のと同じです。<br>
+    ここで指定した大きさのSVG画像を得られます。
+  </dd>
+  <dt><code>svgToDataUrl(svg)</code></dt>
+  <dd>
+    SVG画像をData URIに変換します。<br>
+    必要なら<code>getImage()</code>と一緒に使います。
+  </dd>
+</dl>
+<p>
+  練習用に作ったので、中身はあんまり期待しないで下さい……。<br>
+  一応、<a href="https://gist.github.com/Matori/5465231">Gistにも置いてあります</a>。
+</p>

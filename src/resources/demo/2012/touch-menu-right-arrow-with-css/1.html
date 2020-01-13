@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <title>&gt; アイコン</title>
+  <style type="text/css">
+  /* この部分は本題ではない */
+  body {
+    font-size: 14px;
+    font-family: "Arial", sans-serif;
+    line-height: 1.4;
+  }
+
+  div {
+    margin: 20px auto;
+    padding: 0.7em;
+    border: 1px solid #cfcfcf;
+    border-radius: 5px;
+    /* 高さの中心がどこか分かりやすくするために色を分ける */
+    background: -webkit-linear-gradient(#fff 50%, #efefef 50%);
+    background: -moz-linear-gradient(#fff 50%, #efefef 50%);
+    background: -o-linear-gradient(#fff 50%, #efefef 50%);
+    background: linear-gradient(#fff 50%, #efefef 50%);
+  }
+
+  /* 本題 */
+  div {
+    position: relative;
+    padding-right: 40px; /* > の長さの2倍くらいは取っておきたい */
+  }
+
+  div::before,
+  div::after {
+    position: absolute;
+    top: 50%;
+    right: 10px; /* ボックスの右端からの位置 */
+    z-index: 0;
+    width: 20px; /* > の辺の長さ */
+    height: 5px; /* > の線の太さ */
+    background: #aaa; /* > の色*/
+    content: "";
+    -webkit-user-select: none; /* Webkit */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+    user-select: none;
+  }
+
+  div::before {
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+    -webkit-transform-origin: 100% 0%;
+    -moz-transform-origin: 100% 0%;
+    -ms-transform-origin: 100% 0%;
+    -o-transform-origin: 100% 0%;
+    transform-origin: 100% 0%;
+  }
+
+  div::after {
+    margin-top: -5px; /* > の太さと同じにする */
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    -webkit-transform-origin: 100% 100%;
+    -moz-transform-origin: 100% 100%;
+    -ms-transform-origin: 100% 100%;
+    -o-transform-origin: 100% 100%;
+    transform-origin: 100% 100%;
+  }
+  </style>
+</head>
+<body>
+
+<div class="test1">
+  Cupcake ipsum dolor sit. Amet faworki cake brownie pastry gummi bears sweet roll chocolate bar. Chocolate sugar plum sugar plum liquorice.
+</div>
+<div class="test2">
+  Cupcake ipsum dolor sit amet. Wypas chocolate bar jujubes ice cream danish cookie. Sweet oat cake chocolate. Oat cake lollipop lollipop powder cookie faworki toffee cookie liquorice. Toffee tiramisu jelly beans donut. Applicake toffee jelly chocolate jujubes donut chocolate bar.
+</div>
+<div class="test3">
+  Cupcake ipsum dolor sit amet tart chupa chups marzipan. Sweet muffin gummies pudding tiramisu jujubes. Topping halvah icing halvah gummi bears. Lemon drops cheesecake candy canes danish candy soufflé jujubes biscuit toffee. Dragée fruitcake tart sugar plum soufflé chupa chups jelly beans muffin. Apple pie dragée cake gummi bears wafer jujubes gingerbread candy jelly-o. Oat cake sesame snaps chupa chups tiramisu jelly oat cake jujubes.
+</div>
+
+</body>
+</html>

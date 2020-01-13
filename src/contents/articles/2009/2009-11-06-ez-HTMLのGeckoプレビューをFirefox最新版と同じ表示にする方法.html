@@ -1,0 +1,137 @@
+<script type="application/x-yaml">
+title: "ez-HTMLのGeckoプレビューをFirefox最新版と同じ表示にする方法"
+description: "ez-HTMLのサポート掲示板にこの方法が投稿されていましたので試してみました。"
+slug: how-to-use-the-latest-version-of-firefox-on-ez-html
+published: 2009-11-06T00:57:32+09:00
+updated: 2010-06-27T07:12:39+09:00
+category: webdev
+</script>
+
+<p>
+  ez-HTML製作者さんのサイト『<a href="http://www.w-frontier.com/">Web Frontier</a>』のサポート掲示板にこの方法が投稿されていました。<br>
+  このまま掲示板のログが流れていって、この方法が見つかりにくくなるのが悲しいので紹介を兼ねて実際に試してみたよ。<br>
+  試した環境はWindows VistaとWindows 7。
+</p>
+<p>
+  <a href="http://www.w-frontier.com/cgi-bin/soft_bbs/z_bbs.cgi">+ SOFTWARE BBS +</a>
+</p>
+<p>
+  パーマリンクがないので掲示板へのリンクですが、この方法の投稿はNo.2146、No.2148のtroll氏によるものです
+</p>
+<section>
+  <h2>必要なファイルをダウンロード</h2>
+  <p>
+    <a href="https://developer.mozilla.org/ja/XULRunner">XULRunner - MDC</a>へ行くと、ファイルへのリンクがあるのでクリック。
+  </p>
+  <figure>
+    <img src="/images/2009/how-to-use-the-latest-version-of-firefox-on-ez-html/xulrunner-mdc.png" width="620" height="377" alt="">
+  </figure>
+  <p>
+    下画像のように、バージョンごとに分かれているので最新版（一番下）のリンクをクリックし、runtimes/を選んだ先にあるxulrunner-1.9.1.4.en-US.win32.zipをダウンロード。</p>
+  <figure>
+    <img src="/images/2009/how-to-use-the-latest-version-of-firefox-on-ez-html/xulrunner-releases.png" width="620" height="520" alt="xulrunner のリリース一覧">
+  </figure>
+</section>
+<section>
+  <h2>dllを登録する</h2>
+  <section>
+    <h3>ファイルを展開</h3>
+    <p>
+      ダウンロードしたzipファイルを適当な場所に展開します。<br>
+      （今回は<span class="path">C:\Program Files\</span>にしました）
+    </p>
+  </section>
+  <section>
+    <h3>コマンドプロンプトを管理者権限で起動</h3>
+    <p>
+      コマンドプロンプトを起動。スタートメニューにあるコマンドプロンプトのアイコンを右クリックして、管理者権限で起動します。<br>
+      確認ダイアログが出てくるが気にせず続けます。
+    </p>
+    <figure>
+      <img src="/images/2009/how-to-use-the-latest-version-of-firefox-on-ez-html/admin.png" width="456" height="235" alt="">
+    </figure>
+  </section>
+  <section>
+    <h3>mozctlx.dllを登録</h3>
+    <p>
+      コマンドプロンプトで次のように入力。
+    </p>
+    <pre><kbd>regsvr32&nbsp;&quot;C:\Program Files\xulrunner\mozctlx.dll&quot;</kbd></pre>
+    <figure>
+      <img src="/images/2009/how-to-use-the-latest-version-of-firefox-on-ez-html/command-01.png" width="620" height="450" alt="mozctlx.dllを登録">
+    </figure>
+    <p>
+      画像のようなダイアログが出たら成功。
+    </p>
+    <figure>
+      <img src="/images/2009/how-to-use-the-latest-version-of-firefox-on-ez-html/command-02.png" width="620" height="450" alt="mozctlx.dll登録成功">
+    </figure>
+  </section>
+</section>
+<section>
+  <h2>ez-HTMLに登録する</h2>
+  <p>
+    ［表示］&gt;［詳細設定］から［インターネット］&gt;［内蔵プレビュー］へ。<br>
+    画像の赤枠内のテキストボックスにxulrunnerのディレクトリへのパスを指定します。
+  </p>
+  <figure>
+    <img src="/images/2009/how-to-use-the-latest-version-of-firefox-on-ez-html/ez-html-conf.png" width="599" height="476" alt="ez-HTMLに登録する">
+  </figure>
+</section>
+<section>
+  <h2>簡単なテストをしてみる</h2>
+  <p>
+    現時点（2009-11-06）でのxulrunnerの最新版は1.9.1で、Firefox 3.5.4と同等。<br>
+    それならCSS3のプロパティにも対応しているはず。<br>
+    というわけで、Firefox 3.5から対応したCSSプロパティを試してみました。<br>
+    試したHTMLとCSSのソースは以下。
+  </p>
+  <pre><code class="xhtml">&lt;div&gt;
+  &lt;h1&gt;ez-HTML の Gecko プレビューを Firefox 3.5 相当に&lt;/h1&gt;
+  &lt;p&gt;
+  このように、
+  &lt;code&gt;-moz-border-radius&lt;/code&gt;,
+  &lt;code&gt;-moz-box-shadow&lt;/code&gt;,
+  &lt;code&gt;text-shadow&lt;/code&gt; も適応されます。
+  &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+  <pre><code class="css">div {
+  margin: 0 auto;
+  width: 480px;
+}
+
+h1 {
+  padding: 10px;
+  border: 1px solid #aaa;
+  -moz-border-radius: 10px;
+  -moz-box-shadow: 5px 5px 5px #aaa;
+  text-shadow: 5px 5px 5px #666;
+}</code></pre>
+  <p>
+    これで<code>h1</code>要素内の文字に影がついて、要素のボックスは角丸になって影がつくはず。
+  </p>
+  <figure>
+    <img src="/images/2009/how-to-use-the-latest-version-of-firefox-on-ez-html/ez-html-result.png" width="600" height="495" alt="簡単なテストの結果">
+  </figure>
+  <p>
+    ちゃんと表示されました。
+  </p>
+</section>
+<p>
+  今までは何か書いたらいったん保存してFirefoxで確認してましたけど、これで簡単に色々と遊べますね！<br>
+  HTML5とかCSS3とか！
+</p>
+<p>
+  少し補足を。<br>
+  この方法の投稿者であるtroll氏も書いてますが、dllの登録を解除するには以下のようにと入力します。<br>
+  画像のようになれば解除成功です。
+</p>
+<pre><kbd>regsvr32&nbsp;/u&nbsp;&quot;C:\Program Files\xulrunner\mozctlx.dll&quot;</kbd></pre>
+<figure>
+  <img src="/images/2009/how-to-use-the-latest-version-of-firefox-on-ez-html/command-03.png" width="640" height="465" alt="mozctlx.dllの登録を解除">
+</figure>
+<p>
+  あと、この方法はレジストリに書き込みを行います。<br>
+  それがどうしても許せない方にはおすすめしません。<br>
+  そのあたりはez-HTML配布ページで紹介されているMozilla ActiveX Controlも同様です。
+</p>

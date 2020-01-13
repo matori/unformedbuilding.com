@@ -1,0 +1,35 @@
+<script type="application/x-yaml">
+title: "WordPressの管理画面にスタイルシートを追加するプラグイン「WP Custom Admin CSS」"
+description: "WordPressの管理画面にスタイルシートを追加するプラグインです。"
+slug: wp-custom-admin-css
+published: 2010-09-14T17:35:32+09:00
+updated: 2010-09-29T17:33:40+09:00
+category: webdev
+</script>
+
+<p>
+  以前、「<a href="/articles/custom-admin-font-for-wordpress/">WordPressの管理画面を自分の好きなフォントにするプラグイン</a>」という記事を書いたんですが、これを少し変更してユーザーの権限ごとに違うスタイルを適用させることもできるバージョンを作りました。<br>
+  やっていることは前と同じで、管理画面にスタイルシートを追加しているだけです。
+</p>
+<p>
+  いちいち作るのも面倒でしょうから、今回はダウンロードできるようにしました。<br>
+  名前は「WP Custom Admin CSS」ということで。<br>
+  対応バージョンはWordPress 2.8以降です。
+</p>
+<p>
+  <a href="/download/2010/wp-custom-admin-css.zip" download>「WP Custom Admin CSS」ダウンロード</a>
+</p>
+<p>
+  使い方ですが、ダウンロードしたファイルを解凍して、解凍してできたフォルダ内のCSSファイルを編集して、管理画面に自分好みのスタイルを適用します。
+</p>
+<p>
+  <span class="path">role</span>フォルダ内にはユーザー権限ごとに適用できるCSSファイルが入っていますので、必要ならばそちらも編集してください。<br>
+  権限別スタイルシートを利用する場合は<span class="path">wp-custom-admin-css.php</span>の35行目と65行目を削除して、コメントアウトを解除してください。
+</p>
+<p>
+  あとは<span class="path">wp-content/plugins</span>にアップロードすれば大丈夫だと思います。
+</p>
+<p>
+  機能の追加とかは自分が必要になったらします。<br>
+  スタイルシートの書き方が分からない人は、勉強するか調べるかしてください。
+</p>

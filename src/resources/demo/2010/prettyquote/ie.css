@@ -1,0 +1,29 @@
+.content h2,
+.content h3 {
+	font-family: "\0030d2\0030e9\0030ae\0030ce\0089d2\0030b4\0020\0050\0072\006f\0020\0057\0033", "Hiragino Kaku Gothic Pro", "\0030e1\0030a4\0030ea\0030aa", "Meiryo", Helvetica, Arial, sans-serif;
+}
+
+pre {
+	border: 1px solid #aaa;
+}
+
+* html body {
+	text-align: center;
+}
+
+* html #wrapper,
+* html #pageFooter {
+	text-align: left;
+}
+
+* html #sidebar li {
+	line-height: 0;
+	zoom: 1;
+	vertical-align: bottom;
+}
+
+* html #sidebar li a {
+	zoom: 1;
+	margin: 0;
+	line-height: normal;
+}

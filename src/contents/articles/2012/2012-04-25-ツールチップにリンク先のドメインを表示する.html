@@ -1,0 +1,79 @@
+<script type="application/x-yaml">
+title: "ツールチップにリンク先のドメインを表示する"
+description: "スラドがリンク先のドメインを表示してるのを見て便利かもなーと思って、ツールチップで表示しようとしてみました。"
+slug: jquery-domain-tooltip
+published: 2012-04-25T14:51:18+09:00
+updated: 2012-04-25T14:51:18+09:00
+category: webdev
+</script>
+
+<p>
+  この記事は<a href="http://d.hatena.ne.jp/ub-pnr/20120327/1332811245">はてなダイアリーで書いたもの</a>を書き直したものです。
+</p>
+<p>
+  以前スラドがリンク先のドメインを表示してるのを見て便利かもなーと思いました。<br>
+  ただ自分で使う場合に地の文に出すのはちょっと……となって、ならツールチップ使えばいいんじゃねと考えて作ってみました。
+</p>
+<p>
+  <a href="/demo/2012/domain-tooltip/">ツールチップにリンク先のドメインを表示する</a>
+</p>
+<p>
+  <a href="/download/2012/domain-tooltip.zip" download>サンプルファイルをダウンロード</a>
+</p>
+<p>
+  さすがに装飾を施したツールチップは邪魔なのでブラウザデフォルトのものを使うことにしました。つまり<code>title</code>属性を作って入れていきます。<br>
+  じゃあ最初から<code>title</code>属性があるものはどうするんだ、となるので、そっちには初期の文字列の直後に改行を入れて、その後にドメイン名を表示することにしました。
+</p>
+<p>
+  一応、内部リンクを除くために<span class="path">http</span>から始まるURLのみにしています。正規表現は適当なので使うなら上手いことやってください。<br>
+  同様の理由で除外ドメインを指定できるようにもしました。
+</p>
+<p>
+  HTMLとCSS はあんまり関係ないので、jQuery部分だけを書いておきます。
+</p>
+<pre><code class="language-javascript">jQuery(function ($) {
+
+  var exclude, excheck, domaincheck;
+
+  // 除外設定
+  exclude = ['www.bing.com', 'www.yahoo.co.jp'];
+  // 除外判定
+  excheck = function (domain) {
+    // 除外ドメインに *マッチしない* 場合に-1を返す
+    return $.inArray(domain, exclude);
+  };
+  // ドメインを抜き出すのに使う正規表現
+  domaincheck = /^https?:\/\/([0-9a-zA-Z\.\-_]+\.[0-9a-z]+)\/?.*$/;
+
+  // 指定セレクタ内のhref属性を持つa要素
+  $('#target').find('a[href]').each(function () {
+
+    var defaulttip, url, tip, urlmatch;
+
+    // title属性に入っている文字列
+    defaulttip = $(this).attr('title');
+    // href属性に入っている文字列 (リンク先 URL)
+    url = $(this).attr('href');
+    // title属性に何か書かれていたら、その直後に改行を追加する
+    tip = defaulttip ? defaulttip + '\u000A' : '';
+    // リンク先URLからドメイン部分を前に指定した正規表現でチェック
+    // マッチしたら配列に、しなければnullになる
+    urlmatch = url.match(domaincheck);
+
+    // URLがドメインチェックでマッチしている場合
+    if (urlmatch) {
+      // ドメイン名
+      var domain = urlmatch[1];
+      // ドメイン名を除外判定する
+      // 除外判定されなかったら -1 が返ってくる
+      if (excheck(domain) &lt; 0) {
+        // ドメイン名を [] で囲って、前に作った tip に追加
+        tip = tip + '[' + domain + ']';
+        // title属性に入れる
+        $(this).attr('title', tip);
+      }
+    }
+
+  });
+
+});</code></pre>

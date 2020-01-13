@@ -1,0 +1,107 @@
+<script type="application/x-yaml">
+title: "box-shadowを使うときの注意点"
+description: "box-shadowですが、使ってみるといくつか気になる点があったのでメモしておきます。"
+slug: considerations-when-using-the-box-shadow
+published: 2010-07-05T14:34:20+09:00
+updated: 2011-03-09T09:34:53+09:00
+category: webdev
+</script>
+
+<p>
+  CSS3から消えたり復活したりの<code>box-shadow</code>ですが、使ってみると気になる点があったのでメモしておきます。
+</p>
+<p>
+  キャプチャ画像はIE以外のブラウザ（Windows版）です。<br>
+  IE 9は入れてないのでどうなるか分かりません。
+</p>
+<p>
+  テスト表示に使ったのは以下。
+</p>
+<p>
+  <a href="/demo/2010/considerations-when-using-the-box-shadow/demo.html">box-shadowを使うときの注意点 DEMO</a>
+</p>
+<section>
+  <h2>親要素に<code>overflow: auto</code>が指定されている場合のスクロールバーの扱い</h2>
+  <p>
+    タイトルだけでは上手く説明できないのですが、<code>overflow:auto</code>が指定された要素の子孫要素に<code>box-shadow</code>が指定されている場合、親要素からはみ出るドロップシャドウ部分をどのように表示するか、ということです。<br>
+    ……コードとキャプチャ画像を見てもらったほうが早いですね。
+  </p>
+  <pre><code class="language-html">&lt;div id=&quot;outer&quot;&gt;
+  &lt;div id=&quot;shadow1&quot;&gt;box-shadow&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+  <pre><code class="language-css">#outer {
+  padding: 10px 0;
+  border: 1px solid #666;
+  overflow: auto;
+}
+
+#shadow1 {
+  box-shadow: 0 0 10px rgba(0, 0, 0, .6);
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, .6);
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .6);
+}</code></pre>
+  <p>
+    重要でない部分は省いていますが、これを各ブラウザで表示すると以下のようになります。
+  </p>
+  <figure>
+    <img src="/images/2010/considerations-when-using-the-box-shadow/1.png" width="620" height="590" alt="親要素にoverflow: autoが指定されている場合のスクロールバーの扱いの比較画像">
+  </figure>
+  <p>
+    スクロールバーが出るのがFirefoxとOperaで、<code>overflow: hidden</code>同様になるのがChromeとSafariです。
+  </p>
+  <p>
+    このコードでは<code>div</code>の子要素ですが、<code>body</code>の子要素などで発生すると余計なスクロールバーが表示されてしまうので見た目があまりよくないです。<br>
+    対策としては<code>box-shadow</code>した要素の親要素に<code>overflow: hidden</code>するとかですね。<br>
+   <code>body</code>の場合はどうしたもんですかね。一番簡単なのは<code>div</code>とかでラッピングすることですが、特に必要ない要素を増やすことになっちゃいますしね……。
+  </p>
+</section>
+<section>
+  <h2><code>box-shadow: inset</code>と<code>border-radius</code>を指定しているときのGoogle Chromeの表示</h2>
+  <p>
+    これはタイトル通りですね。<br>
+   <code>box-shadow: inset</code>と<code>border-radius</code>の両方が指定されている場合、Chromeで影の部分がはみでてしまいます。<br>
+    各ブラウザの比較は次の通り。
+  </p>
+  <figure>
+    <img src="/images/2010/considerations-when-using-the-box-shadow/2.png" width="620" height="440"  alt="box-shadow: insetとborder-radiusを指定いているときの比較画像">
+  </figure>
+  <p>
+    ちなみに、これのコードはこんな感じです。<br>
+    境目が分かりやすいように赤いボーダーを指定していますが、なくても同じです。
+  </p>
+  <pre><code class="language-html">&lt;div id=&quot;shadow2&quot;&gt;box-shadow inset &amp;amp; border-radius&lt;/div&gt;</code></pre>
+  <pre><code class="language-css">#shadow2 {
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, .6);
+  -moz-box-shadow: inset 0 0 10px rgba(0, 0, 0, .6);
+  -webkit-box-shadow: inset 0 0 10px rgba(0, 0, 0, .6);
+  border: 1px solid #f00;
+  border-radius: 20px;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+}</code></pre>
+  <p>
+    ちょっと調べてみたところ、これは結構前からある現象というかバグのようですね。<br>
+    以下のリンク先に色々書いていました。
+  </p>
+  <p>
+    <a href="http://code.google.com/p/chromium/issues/detail?id=25334">Issue 25334 - chromium - inset -webkit-box-shadow not adhering to -webkit-border-radius - Project Hosting on Google Code</a>
+  </p>
+  <p>
+    こちらを読む限りでは、このバグはWindowsとLinuxで発生するようです。<br>
+    Macでは問題なく表示される模様。
+  </p>
+  <p>
+    これはもう<code>box-shadow</code>に<code>inset</code>を指定しないようにするしか対策はないですね。
+  </p>
+  <p>
+    フォームとかに指定するのに便利なので早く直るといいですねえ。
+  </p>
+  <ins datetime="2011-03-09T09:32:52+09:00">
+    <hr>
+    <p>
+      Windows版Chrome 10.0.648.127で修正されているのを確認しました。<br>
+      これで一安心ですね。
+    </p>
+  </ins>
+</section>

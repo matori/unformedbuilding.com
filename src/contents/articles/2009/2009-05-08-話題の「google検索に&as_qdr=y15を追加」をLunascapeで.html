@@ -1,0 +1,42 @@
+<script type="application/x-yaml">
+title: "話題の「google検索に&as_qdr=y15を追加」をLunascapeで"
+description: "IDEA*IDEAで紹介されていたGoogle検索のオプションをLunascapeでやってみました。"
+slug: google-serch-option-lunascape-ver
+published: 2009-05-08T03:14:28+09:00
+updated: 2011-05-18T14:26:30+09:00
+category: misc
+</script>
+
+<p>
+  <a href="http://www.ideaxidea.com/archives/2009/05/useful_google_search_options.html">Google検索の「&#038;as_qdr=y15」オプションが便利だぞ
+    - IDEA*IDEA ～ 百式管理人のライフハックブログ ～</a>
+</p>
+<p>
+  こちらで紹介されて話題になっているGoogle検索のオプション。<br>
+  Firefoxはもちろん、Opera、Sleipnirでも使えるようにしたという記事をいくつも見かけたのですけど、Lunascape版は見つからないですね。<br>
+  「これくらいすぐできるだろ」ってことなのかな。
+</p>
+<p>
+  それはともかく、自分でできないかと思って色々試してみた結果、Lunascapeの検索バーからもできるようになりまた。<br>
+  Lunascape用のGoogle検索じゃなくて、普通のGoogle検索になるけど仕方ないよね。<br>
+  Lunascape用のだと普通にURLに「&#038;as_qdr=y15」を追加しても、更新日付が見れなかったから……。<br>
+  それはともかく、俺のやった方法を紹介しますよ。
+</p>
+<p>
+  まず、Lunascape のサイドバーに設定タブを出して、検索エンジンの箇所を右クリック。<br>
+  「新規検索エンジンの追加」で、URLの項目に
+</p>
+<pre><kbd>http://www.google.co.jp/search?as_qdr=y15&hl=ja&lr=lang_ja&q=&lt;utf-8&gt;</kbd></pre>
+<p>
+  を入力。<br>
+  これで日本語サイトの検索ができます。<br>
+  Web全体検索にするには
+</p>
+<pre><kbd>http://www.google.co.jp/search?as_qdr=y15&q=&lt;utf-8&gt;</kbd></pre>
+<p>
+  を入力すればOK。<br>
+  <code>y15</code>の部分は好きに変えたらいいんじゃないかと。
+</p>
+<p>これはおまけですが、LunascapeのGoogle検索を<span class="path">s.luna.tv</span>じゃなくて<span class="path">google.co.jp</span>にするには、さきほどと同様に新規検索エンジンのURLの欄に</p>
+<pre><kbd>http://www.google.co.jp/search?q=&lt;utf-8&gt;</kbd></pre>
+<p>を入力するといいよ！</p>

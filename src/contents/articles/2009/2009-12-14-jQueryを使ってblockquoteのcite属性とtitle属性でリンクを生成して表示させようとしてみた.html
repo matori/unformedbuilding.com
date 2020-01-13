@@ -1,0 +1,144 @@
+<script type="application/x-yaml">
+title: "jQueryを使ってblockquoteのcite属性とtitle属性でリンクを生成して表示させようとしてみた"
+description: "jQueryを使ってblockquote要素のcite属性をリンクにするスクリプトを素人ながら書いてみました。"
+slug: blockquote-and-jquery
+published: 2009-12-14T22:36:01+09:00
+updated: 2011-05-18T14:33:09+09:00
+category: webdev
+</script>
+
+<p>
+  個人的に<code>blockquote</code>要素はそれ単体で十分と思っているんですが、引用元がパッと見て分からないのが困り物。<br>
+  ブラウザによってはプロパティで見れたりしますが、見る人に手間をかけさせることになります。<br>
+  CSSの<code>:before</code>や<code>:after</code>擬似要素と<code>content</code>プロパティで表示させるという手もあるにはありますが、これはこれで出力されたテキストが選択できないんですね（Operaはできます）。<br>
+  結局、HTMLを書くときにこっちでリンクすることになるわけですが、これがまた面倒くさい。
+</p>
+<p>
+  こういうときこそJavaScriptの出番じゃないかと思って、jQueryを使って<code>blockquote</code>要素の<code>cite</code>属性をリンクにするスクリプトを素人ながら書いてみました。<br>
+  アンカーテキストは<code>title</code>属性の値を利用します。
+</p>
+<ins datetime="2010-09-30T00:14:38+09:00">
+  <p>
+    <b>2010年9月30日 追記：</b><br>
+    <a href="/articles/jquery-prettyquote-js/">jQueryプラグインを作成しましたので、こちらをどうぞ。</a>
+  </p>
+</ins>
+<section>
+  <h2>基本マークアップと出力方法</h2>
+  <p>
+    まず、基本となる<code>blockquote</code>のマークアップ。
+  </p>
+  <pre><code class="language-html">&lt;blockquote cite=&quot;URI&quot; title=&quot;引用元タイトルなど&quot;&gt;
+  &lt;p&gt;引用文&lt;/p&gt;
+&lt;/blockquote&gt;</code></pre>
+  <p>
+    この引用文の直後にリンクを表示させたい。<br>
+    あとでCSSでスタイル指定をすることも考えて、以下のようにしたいと思います。
+  </p>
+  <pre><code class="language-html">&lt;div class=&quot;quote&quot;&gt;
+  &lt;blockquote cite=&quot;URI&quot; title=&quot;引用元タイトルなど&quot;&gt;
+    &lt;p&gt;引用文&lt;/p&gt;
+  &lt;/blockquote&gt;
+  &lt;a href=&quot;cite属性の値&quot; class=&quot;cite&quot;&gt;title属性の値&lt;/a&gt;
+&lt;/div&gt;</code></pre>
+  <p>
+    引用元の文書がWeb上にあるのならこれでいいと思います。<br>
+    書籍の場合はリンクするわけにもいかないので、以下のようにしたい。
+  </p>
+  <pre><code class="language-html">&lt;div class=&quot;quote&quot;&gt;
+  &lt;blockquote cite=&quot;URI&quot; title=&quot;引用元タイトルなど&quot;&gt;
+    &lt;p&gt;引用文&lt;/p&gt;
+  &lt;/blockquote&gt;
+  &lt;span class=&quot;cite&quot;&gt;title属性の値&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+  <p>
+    また、引用元がWeb上のテキストであろうと書籍であろうと、<code>title</code>属性がない場合は<code>cite</code>属性の値を代わりに表示したいと思います。
+  </p>
+</section>
+<section>
+  <h2>jQueryを使ったスクリプトを書いてみる</h2>
+  <p>
+    リンクを表示させたいだけなら以下ので十分だと思います。
+  </p>
+  <pre><code class="language-javascript">jQuery(function ($) {
+  $('blockquote').each(function () {
+
+    // blockquoteをdivで囲む
+    $(this).wrap('&lt;div class=&quot;quote&quot;&gt;&lt;/div&gt;');
+
+    // title属性とcite属性の値を変数に代入
+    var title = $(this).attr('title');
+    var cite = $(this).attr('cite');
+
+    // blcokquote の直後にリンクを生成
+    $(this).after('&lt;a href=&quot;' + cite + '&quot; class=&quot;cite&quot;&gt;' + title + '&lt;/a&gt;');
+
+  });
+});</code></pre>
+  <p>
+    しかしこれでは<code>cite</code>属性があろうとなかろうとリンクを生成してしまうし、引用元が書籍の場合に困ります。<br>
+    また、<code>title</code>属性のみの場合にも困ったことになっちゃいます。
+  </p>
+  <p>
+    いろいろやっているうちに出来上がったものが以下。
+  </p>
+  <pre><code class="language-javascript">jQuery(function ($) {
+  $('blockquote').each(function () {
+
+    // blockquoteをdivで囲む
+    $(this).wrap('&lt;div class=&quot;quote&quot;&gt;&lt;/div&gt;');
+
+    // title属性とcite属性の値を変数に代入
+    var title = $(this).attr('title');
+    var cite = $(this).attr('cite');
+
+    // cite属性の値をurlとurn:isbnに分ける
+    var url = $(this).filter('[cite^=http]').attr('cite');
+    var isbn = $(this).filter('[cite^=urn:isbn]').attr('cite');
+
+    // cite属性値がurlの場合
+    if (cite === url) {
+      if (title != '') { // title属性が空じゃない(存在する)場合
+        $(this).after('&lt;a href=&quot;' + cite + '&quot; class=&quot;cite&quot;&gt;' + title + '&lt;/a&gt;');
+      } else {
+        $(this).after('&lt;a href=&quot;' + cite + '&quot; class=&quot;cite&quot;&gt;' + cite + '&lt;/a&gt;');
+      }
+    }
+
+    // cite属性値がurn:isbnの場合
+    else if (cite === isbn) {
+      if (title != '') { // title属性が空じゃない場合
+        $(this).after('&lt;span class=&quot;cite&quot;&gt;' + title + '&lt;/span&gt;');
+      } else {
+        $(this).after('&lt;span class=&quot;cite&quot;&gt;' + cite + '&lt;/span&gt;');
+      }
+    }
+
+    // cite属性が空、且つ、title属性が空じゃない場合
+    else if ((cite === '') &amp;&amp; (title != '')) {
+      $(this).after('&lt;span class=&quot;cite&quot;&gt;' + title + '&lt;/span&gt;');
+    }
+    // cite属性とtitle属性のどちらも存在しない場合は何もしない
+  });
+});</code></pre>
+</section>
+<p>
+  それにしても、こんなに条件分岐まみれでいいんだろうか。<br>
+  もっとスマートなコードに出来る気がする。<br>
+  でも今の実力じゃこれが限界。<br>
+  もっとできるようになったら直すかもしれない。
+</p>
+<section>
+  <h2>チェンジログ（2010年8月5日）</h2>
+  <pre><code class="language-javascript">// cite属性の値をurlとurn:isbnに分ける
+var url = $('blockquote[cite^=http]').attr('cite');
+var isbn = $('blockquote[cite^=urn:isbn]').attr('cite');</code></pre>
+  <p>この部分を</p>
+  <pre><code class="language-javascript">// cite属性の値をurlとurn:isbnに分ける
+var url = $(this).filter('[cite^=http]').attr('cite');
+var isbn = $(this).filter('[cite^=urn:isbn]').attr('cite');</code></pre>
+  <p>
+    に修正。<br>
+    <a href="http://w3g.jp/">上田さん</a>、ご指摘ありがとうございました。
+  </p>
+</section>

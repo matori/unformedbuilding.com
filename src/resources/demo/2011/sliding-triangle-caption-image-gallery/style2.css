@@ -1,0 +1,104 @@
+html, body, h1, ul, li, img, a {
+  margin : 0;
+  padding: 0;
+  border : 0;
+}
+
+html {
+  background: #fff;
+}
+
+body {
+  font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", sans-serif;
+}
+
+h1 {
+  margin     : 30px 0;
+  color      : #202020;
+  font-size  : 36px;
+  font-weight: normal;
+  font-family: serif;
+  line-height: 1;
+  text-align : center;
+}
+
+.gallery {
+  margin     : 30px auto;
+  padding-top: 1px;
+  width      : 805px;
+  background : #fff;
+  box-shadow : 0 0 5px rgba(0, 0, 0, 0.4);
+  list-style : none;
+}
+
+.gallery:after {
+  clear  : both;
+  display: block;
+  content: "";
+}
+
+.gallery li {
+  float   : left;
+  position: relative; /* 追加 */
+  margin  : 0 0 1px 1px;
+  width   : 200px;
+  height  : 200px;
+  overflow: hidden;
+}
+
+.gallery a {
+  display        : block;
+  /*position       : relative;*/
+  width          : 100%;
+  height         : 100%;
+  text-decoration: none;
+}
+
+.caption {
+  position                : absolute;
+  left                    : 0;
+  top                     : 0;
+  z-index                 : 99;
+  width                   : 100%;
+  height                  : 100%;
+  background              : -webkit-linear-gradient(left bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) 50%, transparent 50%, transparent);
+  background              : -moz-linear-gradient(left bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) 50%, transparent 50%, transparent);
+  background              : -ms-linear-gradient(left bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) 50%, transparent 50%, transparent);
+  background              : -o-linear-gradient(left bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) 50%, transparent 50%, transparent);
+  background              : linear-gradient(left bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) 50%, transparent 50%, transparent);
+  color                   : #e0e0e0;
+  -webkit-transform-origin: right bottom;
+  -webkit-transform       : rotate(-45deg);
+  -webkit-transition      : all 300ms cubic-bezier(0.175, 0.885, 0.320, 1.275);
+  -moz-transform-origin   : right bottom;
+  -moz-transform          : rotate(-45deg);
+  -moz-transition         : all 300ms cubic-bezier(0.175, 0.885, 0.320, 1.275);
+  -ms-transform-origin    : right bottom;
+  -ms-transform           : rotate(-45deg);
+  -ms-transition          : all 300ms cubic-bezier(0.175, 0.885, 0.320, 1.275);
+  -o-transform-origin     : right bottom;
+  -o-transform            : rotate(-45deg);
+  -o-transition           : all 300ms cubic-bezier(0.175, 0.885, 0.320, 1.275);
+  transform-origin        : right bottom;
+  transform               : rotate(-45deg);
+  transition              : all 300ms cubic-bezier(0.175, 0.885, 0.320, 1.275);
+  opacity                 : 0;
+  pointer-events          : none;
+}
+
+.gallery a:hover + .caption {
+  -webkit-transform: rotate(0deg);
+  -moz-transform   : rotate(0deg);
+  -ms-transform    : rotate(0deg);
+  -o-transform     : rotate(0deg);
+  transform        : rotate(0deg);
+  opacity          : 1
+}
+
+.caption > span {
+  position   : absolute;
+  left       : 10px;
+  bottom     : 10px;
+  font-size  : 16px;
+  text-shadow: -1px -1px 0 #000;
+}

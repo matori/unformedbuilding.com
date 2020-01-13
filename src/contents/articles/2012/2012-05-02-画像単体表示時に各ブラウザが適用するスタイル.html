@@ -1,0 +1,228 @@
+<script type="application/x-yaml">
+title: "画像単体表示時に各ブラウザが適用するスタイル"
+description: "ブラウザで画像ファイルを単体で開いたとき、ブラウザによって表示の仕方が違っているので、画像表示ページのCSSを調べてみました。"
+slug: default-style-for-image-only-page-on-each-browsers
+published: 2012-05-02T16:45:42+09:00
+updated: 2012-05-02T16:45:42+09:00
+category: webdev
+</script>
+
+<p>
+  ブラウザで画像ファイルを単体で開いたとき、ブラウザによって表示の仕方が違っていたのが気になったので、画像表示ページのCSSを調べてみました。<br>
+  なかなか面白かったですし、何かの参考になるかもしれません。
+</p>
+<section>
+  <h2>Google Chrome &amp; Safari</h2>
+  <p>
+    Chrome 20.0.1115.1 dev-mとSafari 5.1.5で調査。
+  </p>
+  <ul>
+    <li>画像は表示領域の左上にぴったりと表示される。</li>
+    <li>画像が表示領域内に収まりきらない場合は縮小して全体表示。</li>
+  </ul>
+  <p>
+    スタイルは各要素に<code>style</code>属性で直接指定されます。
+  </p>
+  <pre><code class="language-css">body {
+  margin: 0px;
+}
+
+img {
+  -webkit-user-select: none;
+  cursor             : -webkit-zoom-in; /* 縮小表示時 */
+}</code></pre>
+</section>
+<section>
+  <h2>Firefox</h2>
+  <p>
+    Firefox 12.0とAurora 14.0a2 (2012-05-01)で調査。
+  </p>
+  <ul>
+    <li>表示領域は暗い感じに塗りつぶされ、画像は表示領域の中央に配置される。</li>
+    <li>背景はFirefox 12では単色だが、Aurora 14.0a2では画像が使われている。</li>
+    <li>画像が表示領域内に収まりきらない場合は縮小して全体表示。</li>
+  </ul>
+  <p>
+    また、<code>head</code>要素内に
+  </p>
+  <pre><code class="language-html">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width; height=device-height;&quot;&gt;</code></pre>
+  <p>
+    が指定されています。
+  </p>
+  <p>
+    スタイルは<span class="path">resource://gre/res/TopLevelImageDocument.css</span>に記述されていますが、必要に応じて画像に<code>style</code>属性で<code>cursor: -moz-zoom-in</code>,
+    <code>cursor: -moz-zoom-out</code>が直接指定されます。
+  </p>
+  <pre><code class="language-css">/* Firefox 12 */
+@media not print {
+  body {
+    background-color: #222;
+    margin          : 0;
+  }
+
+  img {
+    color     : #eee;
+    text-align: center;
+    position  : absolute;
+    margin    : auto;
+    top       : 0;
+    right     : 0;
+    bottom    : 0;
+    left      : 0;
+  }
+}
+
+/* Aurora 14.0a2 (2012-05-01) */
+@media not print {
+
+  /* background-colorプロパティが削除されている */
+  body {
+    margin: 0;
+  }
+
+  /* colorプロパティが削除されている */
+  img {
+    text-align: center;
+    position  : absolute;
+    margin    : auto;
+    top       : 0;
+    right     : 0;
+    bottom    : 0;
+    left      : 0;
+  }
+}
+
+/* ここは同じ */
+@media print {
+  img {
+    display: block;
+  }
+}</code></pre>
+  <p>
+    Aurora 14.0a2 (2012-05-01)ではもう1つCSSが読み込まれています。<br>
+    これは<span class="path">chrome://global/skin/TopLevelImageDocument.css</span>です。<br>
+    スキンでカスタムできるようにするための変更なんでしょうかね。
+  </p>
+  <pre><code class="language-css">@media not print {
+  body {
+    background: #222 url(data:image/png;base64,...);
+  }
+
+  img {
+    color: #eee;
+  }
+}</code></pre>
+  <p>
+    このData URI画像ですが、背景色をあわせるとこんな感じの88×88のPNG画像です。ノイズっぽいあれですね。<br>
+    めっちゃ拡大すれば見えると思いますｗ
+  </p>
+  <figure>
+    <img src="data:image/png;base64,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" width="88" height="88" alt="" style="background-color:#222;background-clip:content-box">
+  </figure>
+  <p>
+    この画像の中央配置方法については「<a href="/articles/firefox-style-center-middle-aligned-css/">Firefoxで使われている上下左右中央配置のスタイルシート</a>」という記事を書きましたので、よろしければどうぞ。
+  </p>
+</section>
+<section>
+  <h2>Opera</h2>
+  <p>
+    Opera 11.62とOpera Next 12.00 betaで調査。<br>
+    中身はたぶんどっちも一緒。
+  </p>
+  <ul>
+    <li>画像は表示領域のエッジから若干の余白を取った上で中央配置。</li>
+    <li>画像が表示領域内に収まりきらない場合は縮小して全体表示。</li>
+  </ul>
+  <p>
+    基本となるCSSファイルと<code>style</code>要素でスタイル指定をしています。<br>
+    CSSファイルは<span class="path">opera:style/image.css</span>にあります。
+  </p>
+  <p>
+    <code>style</code>要素ですが、<code>media</code>属性に<code>(max-width: 画像本来の幅[px]), (max-height: 画像本来の高さ[px])</code>が指定されます。
+  </p>
+  <p>
+    まずは基本のCSSファイルの中身から。
+  </p>
+  <pre><code class="language-css">html {
+  background-color: hsl(0, 0%, 98%);
+  display         : table;
+  width           : 100%;
+  height          : 100%;
+}
+
+img {
+  display: block;
+  margin : auto;
+}
+
+body {
+  margin        : 0;
+  padding       : 8px;
+  display       : table-cell;
+  vertical-align: middle;
+}
+
+@media projection, tv, handheld {
+  html {
+    background-color: black;
+  }
+
+  body {
+    background-color: hsl(0, 0%, 39%);
+  }
+
+  img {
+    background-color: hsl(0, 0%, 98%);
+  }
+}</code></pre>
+  <p>
+    次に<code>style</code>要素内の指定。多分画像の大きさで変更とかはないと思います。
+  </p>
+  <pre><code class="language-css">body.contain {
+  position: absolute;
+  margin  : 0;
+  top     : 0;
+  left    : 0;
+  bottom  : 0;
+  right   : 0;
+}
+
+body.contain &gt; img {
+  width        : 100%;
+  height       : 100%;
+  -o-object-fit: contain;
+  cursor       : zoom-in;
+}
+
+body.zoom &gt; img {
+  cursor: zoom-out;
+}</code></pre>
+  <p>
+    背景は完全な白ではないんですねー。というかまさかのHSL指定。<br>
+    デバイスによって背景色を変えているのが特徴的です。
+  </p>
+  <p>
+    画像の中央配置ですが、<code>body</code>を表示領域全てを覆うようにして、その上で<code>display: table-cell</code>と<code>vertical-align: middle</code>で垂直方向のセンタリングを、<code>img</code>要素に<code>display: block</code>と<code>margin: auto</code>で水平方向へのセンタリングを行っているようです。
+  </p>
+  <p>
+    <code>body</code>要素の<code>contain</code>クラス名は、画像が全表示状態のときに使われます。小さい画像や縮小表示時ですね。<br>
+    また、<code>object-fit</code>プロパティを使って画像の表示上の大きさを調整しています。<br>
+    このプロパティの仕様は「<a href="http://dev.w3.org/csswg/css3-images/#the-object-fit">CSS Image Values and Replaced Content Module Level 3 – 5.5. Sizing Objects: the ‘object-fit’ property</a>」にあります。
+  </p>
+</section>
+<section>
+  <h2>Internet Explorer</h2>
+  <p>
+    Internet Explorer 9.0で調査。
+  </p>
+  <ul>
+    <li>画像は表示領域のエッジから余白を取った上で、左上にフィットするように配置。</li>
+    <li>画像が表示領域内に収まらない場合は縮小表示。</li>
+  </ul>
+  <p>
+    特にスタイルは指定されていませんでした。<br>
+    ただし画像が収まりきらないときは他のブラウザと同じように縮小表示され、カーソルもズームイン・ズームアウト用のものが表示されます。<br>
+    ですがブラウザの調査ツールではどこで指定されているのか分かりませんでした……。<br>
+    残念ながらCSSとかJSではどうにもできなさそうです。
+  </p>
+</section>

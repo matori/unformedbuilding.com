@@ -1,0 +1,414 @@
+<script type="application/x-yaml">
+title: "［翻訳］これからHTMLとCSSを学び始める君へ"
+description: "この記事は『Stack Overflow』に投稿されたuser553944による質問と、Boldewynによる最も評価されていた回答を翻訳したものです。 "
+slug: for-html-css-beginners
+published: 2011-07-12T09:54:06+09:00
+updated: 2011-07-12T09:54:06+09:00
+category: webdev
+</script>
+
+<p>
+  この記事は『<a href="http://stackoverflow.com/">Stack Overflow</a>』に投稿された、<a href="http://stackoverflow.com/users/553944/user553944">user553944</a>による質問「<a href="http://stackoverflow.com/q/4744906">Would you recommend starting from HTML5 &amp; CSS3 for beginners?</a>」と、<a href="http://stackoverflow.com/users/113195/boldewyn">Boldewyn</a>による<a href="http://stackoverflow.com/questions/4744906/would-you-recommend-starting-from-html5-css3-for-beginners/4746056#4746056">最も評価されていた回答</a>を翻訳したものです。
+</p>
+<p>
+  翻訳は完全ではありませんし、だいぶ意訳している部分がありますので、ぜひ原文もご参照ください。
+</p>
+<p>
+  また『Stack Overflow』の質問・投稿は<a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported</a>ですので、この記事も同様のライセンスで公開しています。
+</p>
+<section>
+  <h2>user553944による質問</h2>
+  <p>
+    私はウェブデザイン・開発の世界に入りたいと考えているミドルスクールの学生です。
+  </p>
+  <p>
+    私は小さいころからウェブ（を使うこと）に興味を持っていましたが、今は“作る”側になりたいと思っています。<br>
+    ウェブデザインと開発について調べてみて、スクリプト言語よりも先にマークアップ言語から学び始めたほうがいいと思いました。<br>
+    そこで、新しいHTML5/CSS3から始めるべきか、それともまずは現行バージョンのHTML/CSSを着実にやるべきか、迷っています。<br>
+    HTML5/CSS3は、初心者は避けほうがいいですか？　どれから始めるかは特に問題ではありませんか？
+  </p>
+  <p>
+    また、お勧めのHTML(5)/CSS(3)に関する良書、またはウェブサイトを教えていただけたら嬉しいです。
+  </p>
+  <p>
+    前もってお礼を申し上げます :)
+  </p>
+</section>
+<section>
+  <h2>Boldewynによる回答</h2>
+  <section>
+    <h3>まずは簡単なものから始めよう</h3>
+    <p>
+      ほとんどの場合（初めて学ぶ場合は特に）、HTML4はHTML5の一部であり、またCSS2とCSS3も同様です。<br>
+      ですので、初めは“古い”技術から学ぶことをお勧めします。なぜなら、HTML5とCSS3の仕様は古いバージョンより多岐に渡っているからです。<br>
+      （参考：<a href="http://blog.whatwg.org/html-is-the-new-html5">&quot;HTML&quot; is the new &quot;HTML5&quot;</a>）
+    </p>
+    <p>
+      HTML5のチュートリアルには別の問題があります。<br>
+      HTML5は穏やかな春の朝の雛菊のように突然現れました。それ自体はいいことです。<br>
+      しかし、初心者（またはその可能性が高い人）向けなのか、HTML5はどう違うかと学びたがっている(X)HTMLの経験者向けなのか、そういったドキュメントの違いをあなたのようなルーキーが判断するのは難しいと思います。<br>
+      HTML5への入門は、HTML4のチュートリアルよりも混乱する可能性が高いです。<br>
+      （HTML3とHTML4の場合では、テーブルレイアウト・<code>font</code>タグ・既に議論されたようなものといった実例を除けば、 2つの間に大きな違いはありませんでした）
+    </p>
+  </section>
+  <section>
+    <h3>私の場合</h3>
+    <p>
+      学習方法は人それぞれですので、私がウェブ開発で歩んできた過程をまとめておきます。
+    </p>
+    <ul>
+      <li>
+        <p>
+          私は物理学部に入るまで、ウェブ開発にこれといった興味はありませんでしたが、しばらくして「自分のブラウザ用にカスタマイズされたスタートページがあると便利だな」と思いました。<br>
+          それは2004年のことで、iGoogleはまだありませんでした。<br>
+          そう、そこなのです！　まずは小さなプロジェクトを作り、そこから始めるのです。
+        </p>
+      </li>
+      <li>
+        <p>
+          幸運なことに、ドイツ語圏にはSelfHTMLというHTMLを始めるための素晴らしいリソースがあったのです。<br>
+          ただ、残念ながらSelfHTMLはサイトが復活してからほとんど更新がないので、英語対応のクオリティは分かりません。<br>
+          ですが、どうか前述の<a href="http://w3fools.com/">W3Schools</a>を使わないでください。<br>
+          そのサイトではなく、また仕様書とは別のHTMLの優れたチュートリアルをまとめておきます（以下を参照のこと）。<br>
+          《訳註：W3Schoolsリンク先はW3Foolsです。「前述の」は他の回答のことです》
+        </p>
+      </li>
+      <li>
+        <p>
+          自分のブラウザ用のスタートページが完成したあと、私は自分が所属するRPGグループのホームページを作りました。それは複数のHTMLページからできていました。<br>
+          そのときに私は1つのスタイルシートで複数のHTMLページに適用できるCSSというものを知りました。<br>
+          これは、それまで溜めてきた多くのファイル構造について私が考え始めた最初の地点でした（「どのフォルダにどのファイルがあるか」という観点から）。
+        </p>
+      </li>
+      <li>
+        <p>
+          またそれとは別に、その他の技術をたくさん学ばなければならないことに気づくと思います。
+        </p>
+        <ul>
+          <li>私は、自分たちのグループ用のプライベートエリアがほしかったので、HTTP認証について学びました。</li>
+          <li>サブディレクトリにファイルを置くことで、URLと相対/絶対パスの重要性を早く学べます。</li>
+          <li>
+            私はFAQコンテンツのために、質問をクリックすることで非表示になっている回答を表示させるというものを使いたいと思いました。<br>
+            これは私にとってJavaScriptのスタート地点でした。“本物の”で基本的なJavaScriptと、ググってコピペしただけはないjQueryスニペット（当時それはPrototypeでしたけども）を学んだことで、現在、私はとても恩恵を受けています。
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>
+          次のステップは、静的なHTMLからサーバー上で生成されるものに移行することです。<br>
+          私はPHPとMySQLの非常に良い初心者コースを取り（私見ですが、サーバーサイドの技術を始めるのにもっともシンプルな方法だと思います）、大学内でPHPの使えるちょっとしたウェブスペースを得ることができました。<br>
+          “Hello World”は、当時のRPGサイトにとって、いいゲストブックでした。<br>
+          （まあ現在では、あなたはDisqusにリンクを投げるだけで済む話です）
+        </p>
+      </li>
+      <li>
+        <p>
+          今や私はチュートリアルとリファレンスの最先端にまでやってきました。そして、最初は本当に覗き見だけだった仕様書を読み始めました。<br>
+          それはPHPのマニュアルから始まり、HTML4の仕様書、W3CのCSS2の仕様における CSSプロパティの定義、その他色々と読み進めていきました。<br>
+          後知恵ですが、強調したいもう1つのポイントがあります。<br>
+          できるだけ早く仕様書を読むようにしてください。まだ理解できない部分があるでしょうが、仕様書より良いソースはありません。
+        </p>
+      </li>
+      <li>
+        <p>
+          それから後は、少なくともちょっとした注意、しかし時には基本的な理解を必要とする、多くの新しい技術を常に学び続けることです。<a href="http://ja.wikipedia.org/wiki/Document_Object_Model">DOM</a>,
+          <a href="http://ja.wikipedia.org/wiki/Common_Gateway_Interface">CGI</a>,
+          <a href="http://ja.wikipedia.org/wiki/Scalable_Vector_Graphics">SVG</a>,
+          <a href="http://ja.wikipedia.org/wiki/Xml">XML</a>,
+          <a href="http://ja.wikipedia.org/wiki/Xhtml#HTML.E3.81.A8.E3.81.AE.E7.9B.B8.E9.81.95.E7.82.B9">XHTMLとHTMLの相違点</a>,
+          <a href="http://ja.wikipedia.org/wiki/%E6%AD%A3%E8%A6%8F%E8%A1%A8%E7%8F%BE">正規表現</a>,
+          <a href="http://ja.wikipedia.org/wiki/Python">Python</a>,
+          <a href="http://en.wikipedia.org/wiki/Rewrite_engine">mod_rewrite</a>,
+          <a href="http://ja.wikipedia.org/wiki/Nginx">nginx</a>,
+          <a href="http://ja.wikipedia.org/wiki/XSL_Transformations">XSLT</a>,
+          <a href="http://ja.wikipedia.org/wiki/Portable_Document_Format">PDF</a>,
+          <a href="http://ja.wikipedia.org/wiki/RSS">RSS</a>,
+          <a href="http://ja.wikipedia.org/wiki/Resource_Description_Framework">RDF</a>,
+          <a href="http://ja.wikipedia.org/wiki/Bash">Bash</a>,
+          <a href="http://ja.wikipedia.org/wiki/Secure_Shell">SSH</a>,
+          <a href="http://ja.wikipedia.org/wiki/Git">Git</a>,
+          <a href="http://ja.wikipedia.org/wiki/Subversion">SVN</a>,
+          <a href="http://en.wikipedia.org/wiki/Cross-site_scripting">XSS</a>,
+          <a href="http://ja.wikipedia.org/wiki/Unicode">Unicode</a>,
+          <a href="http://en.wikipedia.org/wiki/Web_Fonts">Web Fonts</a>,
+          <a href="http://ja.wikipedia.org/wiki/Dublin_Core">Dublin Core</a>,
+          <a href="http://ja.wikipedia.org/wiki/JavaScript_Object_Notation">JSON</a>,
+          <a href="http://ja.wikipedia.org/wiki/SQLite">SQLite</a>, &#8230;（リンク先は全てWikipediaです）<br>
+          《訳註：一部を除いて日本語版Wikipediaのリンクに変更してあります》
+        </p>
+      </li>
+      <li>
+        <p>
+          最終的に、あなたは何らかを専門とする必要に迫られるでしょう。<br>
+          その範囲はざっと見ただけでも「私はデザイナーだ。手に負えないようなコードには二度と触らない」というものから「B2B JSONはJBossとHibernate以来の最高のものだ。このためにPhotoshopを必要としないのは素晴らしい」というものまであります。<br>
+          私は未だにできるだけ多くの範囲で最新の情報を得るために、シンプルなアプローチを続けていますが、このやりかたは長くは続かないと予想できます。今から5年未満のうちに（今日でも）、あなたは以下のような職務記述書をみつけるでしょう。<br>
+          “<code>canvas</code>デベロッパー”、“マルチメディアマークアップストラテジスト”、“クロスプラットフォームユーザエクスペリエンスの専門家”、“レガシーなFlashコードとテーブルベースのHTMLメールテンプレートのスペシャリスト”、“オフラインキャッシュセキュリティの達人”、“ウェブストレージデータベース技術者”などなど。<br>
+          しかし、あなたが主に興味を持っている分野で少なくとも基本的な理解を持っていることは、新しいアイディアとアプローチのために、あなたが柔軟な対応ができるようにしてくれるでしょう。<br>
+          そしてより重要なことは、古くて試されてきたアイディアと問題へのアプローチ方法だとあなたが考えいるものは、本当は新しいものだということです。
+        </p>
+      </li>
+    </ul>
+    <p>
+      HTMLとCSS の他にも学ぶことが山ほどあると言われたことで、がっかりしないでください。<br>
+      それらの技術はクールなものを作るための、すぐ身近にあるチャンスとテクノロジーのワンダーランドだと私は思っています。
+    </p>
+  </section>
+  <section>
+    <h3>注意すること</h3>
+    <p>
+      問題なのは、間違ったリソースから学ぶことです。
+      よく分からないことがあったら、ここStack Overflowで尋ねてみることをお勧めします。<br>
+      （<a href="http://chat.stackoverflow.com/">chat.stackoverflow.com</a> に招待するともっといいかもしれません）
+    </p>
+    <p>
+      これは個人的な警告ですが、WYSIWYGやDreamweaverのようなエディタから手を離してください。IDEやコード補完機能のあるエディタを使うべきです（Eclipseなど）。<br>
+      私は違う道のりを歩みましたが（GoLiveから<a href="http://notepad-plus-plus.org/">Notepad++</a>を経て、最終的には<a href="http://www.vim.org/">Vim</a>に行き着きました）、それは好みの問題です。<br>
+      しかし、私が使うべきだと言っているソフトウェアが、あなたから何かを隠したり、はっきりと指定しなくても自動で何かを作ってくれるものだという考えを少しでも持っているのなら、その考えは捨て去ってください。
+    </p>
+    <p>
+      基本的な選び方は、ファイルのエンコード方法（ISO-8859-1, UTF-8, &#8230;）と UTF-8ファイルに<a href="http://ja.wikipedia.org/wiki/%E3%83%90%E3%82%A4%E3%83%88%E3%82%AA%E3%83%BC%E3%83%80%E3%83%BC%E3%83%9E%E3%83%BC%E3%82%AF">BOM</a>を付加するかどうかを選択できることです。
+    </p>
+  </section>
+  <section>
+    <h3>お勧めのウェブサイト</h3>
+    <p>
+      もう一度言いますが、この後に挙げるリソースのどれかで混乱してしまったとしても気を落とさないでください。<br>
+      次に挙げるリンク集はプロが普段からリファレンスとして使っているものなのですから。
+    </p>
+    <section>
+      <h4>基礎</h4>
+      <dl>
+        <dt><a href="http://www.w3.org/">W3.org</a></dt>
+        <dd>
+          HTMLとCSSの標準化組織です。
+        </dd>
+        <dt><a href="https://developer.mozilla.org/">developer.mozilla.org</a></dt>
+        <dd>
+          Firefoxを作っている組織Mozillaによる開発者向けリソースです。<br>
+          HTML/CSSとウェブ開発における最先端の素晴らしいチュートリアルがあります。<br>
+          個人的な意見ですが、現在オンラインで見ることのできるベストなJavaScriptリファレンスです。
+        </dd>
+        <dt><a href="http://msdn.microsoft.com/library/aa155133.aspx">msdn.microsoft.com</a></dt>
+        <dd>
+          マイクロソフトのHTML/CSSドキュメントです。
+        </dd>
+        <dt><a href="http://developer.apple.com/library/safari/navigation/">Safari Reference Library</a></dt>
+        <dd>
+          AppleとSafari中心ですが、色々と良い文書があります。
+        </dd>
+        <dt>
+          <a href="http://dev.opera.com/articles/view/1-introduction-to-the-web-standards-cur/">Opera Web Curriculum</a>
+        </dt>
+        <dd>
+          Opera Web Curriculumは重要な技術がよくまとまっています。
+        </dd>
+        <dt><a href="http://validator.w3.org/">Validator</a></dt>
+        <dd>
+          Validatorはコードのエラーをチェックしてくれます。<br>
+          これはW3Cが公開していて、ウェブ開発者のツールボックスの中で最も重要なものの1つです。
+        </dd>
+      </dl>
+    </section>
+    <section>
+      <h4>チュートリアル</h4>
+      <dl>
+        <dt><a href="http://html5boilerplate.com/">HTML5 Boilerplate</a></dt>
+        <dd>
+          HTML5やjQueryなどをベースとするウェブサイトとウェブアプリケーションを素早く構築できるようにすることを目指すプロジェクトです。<br>
+          多くのベストプラクティスがバンドルされているので、ソースコードを読み通すだけの価値があります。
+        </dd>
+        <dt><a href="http://www.alistapart.com/">A List Apart</a></dt>
+        <dd>
+          ウェブ開発者とその関係者へ向けて公開されている文書です。<br>
+          便利で重要な方法と、HTMLとCSSを仕事としている人へのプラクティスが数多く公開されています。
+        </dd>
+        <dt><a href="http://diveintohtml5.org/">Dive Into HTML5</a></dt>
+        <dd>
+          同じ名前の書籍に付随するウェブサイトです。<br>
+          HTML5を教えることを目標としているので、入門者がついていくのは難しいかもしれません。<br>
+          しかし、内容は良く書かれていて、正確です。
+        </dd>
+        <dt><a href="http://csszengarden.com/">CSS Zen Garden</a></dt>
+        <dd>
+          “CSS ベースのデザインでどれほどの外観のものができるかというデモンストレーション”<br>
+          このサイトは、HTML4とCSS2の驚くべき例を見せてくれます。</dd>
+        <dt><a href="http://24ways.org/">24 Ways</a></dt>
+        <dd>
+          ウェブ開発者のアドベントカレンダーで、有名人による素晴らしい記事が年に24個のパックとして公開されています。
+        </dd>
+      </dl>
+    </section>
+    <section>
+      <h4>概説など</h4>
+      <dl>
+        <dt><a href="http://www.quirksmode.org/">quirksmode.org</a></dt>
+        <dd>
+          ブラウザと互換性テストを主な内容とするサイトです。<br>
+          あなたのページがFirefox, IE, Operaで全て違って見える場合は、ここを訪れるべきです。
+        </dd>
+        <dt><a href="http://www.w3.org/History.html">History of the WWW</a></dt>
+        <dd>
+          ウェブの初期（1995年まで）はどのように過ぎたかというW3Cの概論で、良い読み物です。
+        </dd>
+        <dt><a href="http://zvon.org/">zvon.org</a></dt>
+        <dd>
+          “リファレンス”と“チュートリアル”のセクションで、ついていくのが大変ではありますが、かなり正確なものを見ることができるでしょう。
+        </dd>
+        <dt><a href="http://www.useit.com/alertbox/">Jacob Nielsen’s Alertbox</a></dt>
+        <dd>
+          Jacob Nielsenによるユーザビリティ研究の巨大なセットを提供しています。
+        </dd>
+        <dt><a href="http://joshduck.com/periodic-table.html">Periodic Table of HTML Elements</a></dt>
+        <dd>
+          HTML5の全要素をとても上手く直感的に表示しています。
+        </dd>
+        <dt><a href="http://www.cssplay.co.uk/">CSSPlay</a></dt>
+        <dd>
+          Stu Nichollsによる多くの最新CSSトリックの実験場です。
+        </dd>
+      </dl>
+    </section>
+    <section>
+      <h4>仕様書</h4>
+      <dl>
+        <dt><a href="http://www.w3.org/TR/">w3.org/TR</a></dt>
+        <dd>W3Cの元にある全仕様リストです（大部分はXML, HTML, CSSに関連したもの）。</dd>
+        <dt><a href="http://www.w3.org/TR/html4/">w3.org/TR/html4</a></dt>
+        <dd>
+          全ての要素と属性が説明されている、HTML4の公式仕様です。<br>
+          関連：<a href="http://www.whatwg.org/">whatwg.org</a>は、W3CにXHTML2をやめさせてHTML5に移行するように強制した裏切り者です。彼らの多くはブラウザベンダーです。
+        </dd>
+        <dt><a href="http://www.w3.org/TR/CSS2/">w3.org/TR/CSS2</a></dt>
+        <dd>
+          CSS 2.1の公式仕様です。
+        </dd>
+        <dt><a href="http://www.faqs.org/rfcs/rfc1738.html">RFC 1738</a></dt>
+        <dd>
+          URLがどのように構成されているかの定義です。
+        </dd>
+        <dt><a href="http://www.faqs.org/rfcs/rfc1945.html">RFC 1945</a></dt>
+        <dd>
+          インターネット上でページを提供する伝送プロトコルであるHTTP 1.0の定義です。<br>
+          また、<a href="http://www.faqs.org/rfcs/rfc2616.html">RFC 2616</a>はその後継であるHTTP 1.1の定義です。
+        </dd>
+        <dt><a href="http://www.ecma-international.org/publications/standards/Ecma-262.htm">ECMAScript Specification</a>
+        </dt>
+        <dd>
+          ECMAScriptはJavaScriptの標準化されたバージョンの名前です。はっきり言って、私はほとんど読んだことがありません。たいていの場合は<a href="https://developer.mozilla.org/en/JavaScript/Reference">the reference on mozilla.org</a>を使っています。<br>
+          <a href="https://developer.mozilla.org/en/DOM">DOMについても同様です</a>。公式仕様はW3Cにありますが、暗黒時代のNetscapeとIEはそれぞれ独自実装をしていました。
+        </dd>
+        <dt><a href="http://php.net/">php.net</a></dt>
+        <dd>
+          PHPの公式ドキュメントがあるページです。
+        </dd>
+        <dt><a href="http://unicode.org/">Unicode Consortium</a></dt>
+        <dd>
+          あなたがASCIIの世界から離れて多言語を扱うようになれば、必然的にUTF-8とUnicodeと付き合うことになるでしょう。<br>
+          できるだけ早くそれらと仲良くなるといいでしょう。
+        </dd>
+      </dl>
+    </section>
+    <section>
+      <h4>その他</h4>
+      <dl>
+        <dt><a href="http://www.smashingmagazine.com/">Smashing Magazine</a></dt>
+        <dd>
+          ウェブデザインやフロントエンド開発についての興味深い記事を読むことができます。
+        </dd>
+        <dt><a href="http://jsfiddle.net/">jsFiddle</a></dt>
+        <dd>
+          HTML, CSS, JavaScriptを試して、すぐに結果を見ることができるサイトです。<br>
+          テストしたり、ちょっとしたスニペットを共有するには最適です（例えばStack Overflowでの質問のときなど）。
+        </dd>
+        <dt><a href="http://www.apachefriends.org/en/xampp.html">XAMPP</a></dt>
+        <dd>
+          WindowsやMac OSXでApache（ウェブサーバー）, MySQL, PHP環境を簡単に構築できます。
+        </dd>
+        <dt><a href="http://microformats.org/">Microformats.org</a></dt>
+        <dd>
+          これは少し高度なものです。マイクロフォーマットはマシンと人間の両方に分かりやすいデータを一度に表示しようとするものです。<br>
+          それがどういう方法で達成されようとしているかを見ることでHTMLの要素と属性がどのように使われるべきかを多く学ぶことができます。
+        </dd>
+        <dt><a href="http://cssresetr.com/">CSS Resetr</a></dt>
+        <dd>
+          2007年以降、CSSリセットはとても流行っています。これらは、ブラウザが要素に適用するデフォルトのスタイル（たとえば<code>h1</code>要素の大きくて太いテキストとマージン）のほとんどを取り去るスタイルシートです。<br>
+          CSS Resetrでは有名なリセットCSSを試すことができます。<br>
+          CSSルールがどの要素に影響を与えるかという素晴らしい見識を得られるかもしれませんので、リストアップしました。
+        </dd>
+        <dt><a href="http://www.fontsquirrel.com/fontface/generator">FontSquirrel @font-face generator</a></dt>
+        <dd>
+          CSS2.1の<code>@font-face</code>プロパティで遊ぶには良い方法です。ソースを見てみるとインスピレーションが湧いてきます。<br>
+          またこれとは別に、制作物に<a href="http://www.google.com/webfonts">Google WebFonts Directory</a>を使うのもいいでしょう。
+        </dd>
+        <dt><a href="http://caniuse.com/">When can I use&#8230;</a></dt>
+        <dd>
+          CSS3とその他最新のプロパティ、サポートしているブラウザのバージョンの表があります。
+        </dd>
+        <dt><a href="http://getfirebug.com/">Firebug</a></dt>
+        <dd>
+          Firefoxで開発を行うなら、このアドオンなしではいけません。私を（そして多くの人たちを）信じてください。
+        </dd>
+        <dt><a href="http://www.webtypography.net/">The Elements of Typographic Style Applied To The Webd</a></dt>
+        <dd>
+          “The Elements of Typographic Style”（Robert Bringhurstの著作。ぜひ読むことをお勧めします）の知識とヒントをCSSとウェブテクノロジーに適用することに関することが書かれているウェブサイトです。
+        </dd>
+      </dl>
+    </section>
+    <section>
+      <h4>Stack Overflowの質問と回答</h4>
+      <ul>
+        <li><a href="http://stackoverflow.com/q/1034758">What are the best web design sites?</a></li>
+      </ul>
+    </section>
+  </section>
+  <section>
+    <h3>書籍</h3>
+    <p>
+      実のところ、私はHTMLとCSSを勉強するために本を買ったことはありません。<br>
+      しかし、HTML4とCSS2は新しいHTML5/CSS3よりも量の少ないものです。
+    </p>
+    <p>
+      書籍なら、オライリーから出版されているものを強くお勧めします。<br>
+      私が持っている多くのオライリーの本（bash, Python, XSLT, &#8230;）は、全てが良く書かれていて、技術的に正確なものです。
+    </p>
+    <section>
+      <h4>他のユーザーによるお勧め書籍</h4>
+      <ul>
+        <li>
+          <a href="http://www.abookapart.com/products/html5-for-web-designers">HTML5 For Web Designers</a> by Jeremy Keith
+        </li>
+        <li>
+          <a href="http://www.abookapart.com/products/css3-for-web-designers">CSS3 For Web Designers</a> by Dan Cederholm
+        </li>
+        <li>
+          <a href="http://www.sitepoint.com/books/jquery1/">jQuery: Novice to Ninja</a> by Earle Castledine, Craig Sharkie
+        </li>
+        <li>
+          <a href="http://www.manning.com/reiersol/">PHP in Action</a> by Dagfinn Reiersol, Marcus Baker and Chris Shiflett
+        </li>
+        <li><a href="http://meyerweb.com/eric/books/smashing/">Smashing CSS</a> by Eric A. Meyer</li>
+        <li>
+          <a href="http://dmdthebook.com/books/volume-2/">The Web Designer’s Idea Book Volume 2</a> by Patrick McNeil
+        </li>
+        <li><a href="http://alinawheeler.com/">Designing Brand Identity</a> by Alina Wheeler</li>
+      </ul>
+    </section>
+  </section>
+
+  <section>
+    <h3>最後に</h3>
+    <p>
+      私は常に新しいことを学び、向上し、既に学んだ技術の知識を深めています。<br>
+      もしあなたがHTMLとCSSを学び始め、真剣に取り組むなら、多くの問題に突き当たるでしょう。<br>
+      何の手がかりもなく、それが何をしているのか、正しいかどうかと、コードを見ることでしょう。<br>
+      しばらくしたら、セキュリティとその穴について経験するでしょう（それが大きなものではなく、クレジットカードの詳細に関わるようなものでないことを願っています ;-)）。
+    </p>
+    <p>
+      しかし、油断せず、すぐに「ソースを見る」メニューを使うことを習慣にし、質問するようにしましょう（ここStack Overflowや面白いブログ記事のコメント欄、Google検索）。<br>
+      そうすれば、その情報を経験している世界への道を築く人々のトップになれるでしょう。
+    </p>
+    <p>
+      これで終わりです。楽しんでね！
+    </p>
+  </section>
+</section>

@@ -1,0 +1,26 @@
+@mixin text($scale: 0, $need-line-height: true) {
+  $scale: $scale * -1;
+  $font-size: get-font-scale($config-fs-scale-base + $scale);
+  $line-height: $font-size + $config-line-gap;
+  font-size: rem($font-size);
+  @if $need-line-height {
+    line-height: strip-unit($line-height / $font-size);
+  }
+}
+
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+@mixin supports-subgrid {
+  @supports (grid-template-columns: subgrid) {
+    @content;
+  }
+}

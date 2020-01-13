@@ -1,0 +1,85 @@
+<script type="application/x-yaml">
+title: "Topsy Social Modulesを使ってオリジナルニュースウィジェット"
+description: "TopsyのSocial Modulesに何か他の使い道はないものかと思ってやってみました。"
+slug: original-news-widget-with-topsy-social-modules
+published: 2011-06-07T13:56:34+09:00
+updated: 2020-01-07T17:57:49+09:00
+category: webdev
+</script>
+
+<p>
+  TopsyのSocial Modulesに何か他の使い道はないものかと思ってやってみました。
+</p>
+<p>
+  Social Modulesのカスタマイズに関しては、以前書いた「<a href="/articles/about-topsy-widget/">Topsyウィジェットの設定について</a>」をご確認ください。
+</p>
+<p>
+  このウィジェットではTopsyの検索コマンドがそのまま使えるので、それを利用してニュース配信みたいなことができるんじゃないかなーと思いました。<br>
+  気になる記事を見かけたらTwitterにポストして、それを拾ったTopsyからリンクを引っ張ってくるという感じです。
+</p>
+<del datetime="2020-01-07T17:57:49+09:00">
+  <p>サンプル</p>
+</del>
+<ins datetime="2020-01-07T17:57:49+09:00">
+  <p>（この段落に実際に動作するウィジェットがありましたが、Topsyは2015年12月16日にサービスを終了したため、ウィジェットを削除しました）</p>
+</ins>
+<!--
+<div id="topsy_search_widget">
+  <script type="text/javascript">
+  var topsy_settings = {
+    width: '620',
+    height: '480',
+    title: 'まとりにゅーす',
+    query: 'from:ub_pnr',
+    display_query: '',
+    data_type: 'links',
+    shell_color: '#101010',
+    shell_bg_color: '#eaeaea',
+    results_color: '#303030',
+    results_bg_color: '#fff',
+    link_color: '#08c',
+    show_nick: true,
+    nick: '@ub_pnr',
+    allow_lang: 'any'
+  }
+  </script>
+  <script type="text/javascript" src="http://cdn.topsy.com/search-widget/2.0/widget-loader.js"></script>
+</div>
+-->
+<p>これのコードは以下のようになっています。</p>
+<pre><code class="language-html">&lt;div id=&quot;topsy_search_widget&quot;&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+var topsy_settings = {
+  width            : '620',
+  height           : '480',
+  title            : 'まとりにゅーす',
+  query            : 'from:ub_pnr',
+  display_query    : '',
+  data_type        : 'links',
+  shell_color      : '#101010',
+  shell_bg_color   : '#eaeaea',
+  results_color    : '#303030',
+  results_bg_color : '#fff',
+  link_color       : '#08c',
+  show_nick        : true,
+  nick             : '@ub_pnr',
+  allow_lang       : 'any'
+}
+&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;http://cdn.topsy.com/search-widget/2.0/widget-loader.js&quot;&gt;&lt;/script&gt;
+&lt;/div&gt;</code></pre>
+<p>
+  <code>data_type</code>を<code>'tweets'</code>に変更すれば、そのときのツイートをそのまま表示できます。<br>
+  記事にちょっとコメントつけてツイートするなら、こっちのほうがいいかもしれません。<br>
+  また、自分のブログへのリンクを載せたくない場合は、<code>query</code>を<code>'from:ub_pnr -unformedbuilding.com'</code>などのようにします。
+</p>
+<p>
+  検索コマンドについては下記を参照してください。
+</p>
+<p>
+  <a href="http://topsy.com/operators">Topsy - Search Operators</a>
+</p>
+<p>
+  ときどき拾い漏れがあったりしますが、ブログパーツ的なものとしてならそれなりに使えるんじゃないかなーと思います。<br>
+  そうそう、先日公開されたTopsyの新しい機能「<a href="http://analytics.topsy.com/">Social analytics</a>」ですが、思ったより遊べる感じなので何かに使えないかと考えていますｗ
+</p>

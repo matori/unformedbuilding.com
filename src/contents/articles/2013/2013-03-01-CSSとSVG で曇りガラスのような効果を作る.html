@@ -1,0 +1,213 @@
+<script type="application/x-yaml">
+title: "CSSとSVGで曇りガラスのような効果を作る"
+description: "以前似たようなものを書きましたが、Firefoxのみを対象としたものでした。今回はできるだけ多くのブラウザに対応したものを作ってみます。"
+slug: frosted-glass-effect-with-css-and-svg
+published: 2013-03-01T17:40:02+09:00
+updated: 2020-01-11T23:17:52+09:00
+category: webdev
+</script>
+
+<p>
+  2011年の9月に「<a href="/articles/glass-effect-with-css-and-svg-filter/">CSSとSVG filterでガラスっぽい効果をつける</a>」というのを書きましたが、これはFirefoxのみを対象としたものでした。<br>
+  そこで今回はできるだけ多くのブラウザに対応したものを作ってみます。
+</p>
+<section>
+  <h2>完成品</h2>
+  <p>
+    <a href="/demo/2013/frosted-glass-effect/">Frosted glass effect with CSS &amp; SVG</a>
+  </p>
+  <ins datetime="2020-01-11T23:17:52+09:00">
+    <figure>
+      <picture>
+        <source srcset="/images/2013/frosted-glass-effect-with-css-and-svg/result@2x.jpg" media="(min-width: 696px) and (min-resolution: 1.5dppx)">
+        <img src="/images/2013/frosted-glass-effect-with-css-and-svg/result.jpg" width="880" height="574" alt="デモページのキャプチャ画像">
+      </picture>
+    </figure>
+  </ins>
+  <del datetime="2020-01-11T23:17:52+09:00">
+    <p>
+      背景画像には<a href="http://www.flickr.com/photos/wetfoto/">WetFoto.com</a>による<a href="http://www.flickr.com/photos/wetfoto/8428679125/">#246 Wetlook with Beautiful Brunette in
+      Leggings and Jacket. Girl in black jacket, white wetlook leggings and skirt in boots, get wet fully clothed in the sea.</a>を使用しています（リンク先はFlickrです）。<br>
+      この画像は<a href="http://creativecommons.org/licenses/by-nc-sa/2.0/deed.en">CC BY-NC-SA 2.0</a>でライセンスされています。
+    </p>
+  </del>
+  <ins datetime="2020-01-11T23:17:52+09:00">
+    <p>
+      背景画像には<a href="https://www.flickr.com/photos/beryl_snw/">Beryl Chan</a>による「<a href="https://www.flickr.com/photos/beryl_snw/18446271560">Bunny - Rainy</a>」を使用しています（リンク先はFlickrです）。<br>
+      この画像はパブリックドメインです。
+    </p>
+  </ins>
+  <p>
+    デスクトップブラウザはIE 10, Firefox 19, Chrome 25, Opera 12.14で期待通りに表示されます。<br>
+    IE 8, 9はぼかし効果なしです。IE 7以下向けには書いていないので未確認。<br>
+    Safari 6は未確認。
+  </p>
+  <p>
+    モバイルブラウザはAndroid 4.1で確認したところ、Firefox 19, Opera Mobile 12.1で期待通りに表示されます。<br>
+    Chrome for Android 25はぼかし効果はかかるものの、<code>background-position: fixed</code>の挙動がおかしくてちゃんと表示できません。<br>
+    Android Browserではぼかし効果なしで表示されます。<br>
+    Mobile Safariは未確認。
+  </p>
+  <p>
+    完成コードの主な部分は次のようになっています。
+  </p>
+  <pre><code class="language-html">&lt;div class=&quot;header glass&quot;&gt;
+  &lt;!--[if lt IE 9]&gt;
+    &lt;div class=&quot;legacy-ie-fix&quot;&gt;&lt;/div&gt;
+  &lt;![endif]--&gt;
+  &lt;h1&gt;WET&lt;/h1&gt;
+&lt;/div&gt;</code></pre>
+  <pre><code class="language-css">html {
+  background-image: url(&quot;bg.jpg&quot;);
+  background-position: center bottom;
+  background-attachment: fixed;
+  background-size: cover;
+  height: 100%;
+  font-size: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+.glass {
+  position: relative;
+  border-bottom: 1px solid;
+  border-bottom-color: #ccc;
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.glass::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  background-image: url(&quot;data:image/svg+xml,(SVG Image Data URI)&quot;), url(&quot;bg.jpg&quot;);
+  background-position: center bottom;
+  background-attachment: fixed;
+  background-size: cover;
+  content: &quot;&quot;;
+  filter: url(&quot;data:image/svg+xml,(SVG Filter Data URI)#blur&quot;);
+  -webkit-filter: blur(5px);
+  filter: blur(5px);
+}
+
+.glass .legacy-ie-fix {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  -ms-filter: &quot;progid:DXImageTransform.Microsoft.Alpha(opacity=20)&quot;;
+}
+
+.glass h1 {
+  position: relative;
+  margin: 0;
+  color: #fff;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 200px;
+  font-weight: normal;
+  font-family: &quot;Megrim&quot;, sans-serif;
+  line-height: 1.2;
+  text-align: center;
+  -ms-filter: &quot;progid:DXImageTransform.Microsoft.Alpha(opacity=50)&quot;;
+}
+
+@media only screen {
+  .glass h1 {
+    -ms-filter: &quot;none&quot;;
+  }
+}</code></pre>
+  <p>
+    CSSの部分で「SVG Image Data URI」と書かれているものは次のようなSVGです。
+  </p>
+  <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot; version=&quot;1.1&quot; width=&quot;1600&quot; height=&quot;1066&quot;&gt;
+  &lt;defs&gt;
+    &lt;filter id=&quot;blur&quot;&gt;
+      &lt;feGaussianBlur stdDeviation=&quot;5&quot;/&gt;
+    &lt;/filter&gt;
+  &lt;/defs&gt;
+  &lt;image xlink:href=&quot;http://unformedbuilding.com/demo/2013/frosted-glass-effect/bg.jpg&quot; width=&quot;1600&quot; height=&quot;1066&quot; filter=&quot;url(#blur)&quot;/&gt;
+&lt;/svg&gt;</code></pre>
+  <p>
+    「SVG Filter Data URI」と書かれているものはこれ。前のものから<code>image</code>要素を消したものですね。
+  </p>
+  <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; version=&quot;1.1&quot;&gt;
+  &lt;defs&gt;
+    &lt;filter id=&quot;blur&quot;&gt;
+      &lt;feGaussianBlur stdDeviation=&quot;5&quot;/&gt;
+    &lt;/filter&gt;
+  &lt;/defs&gt;
+&lt;/svg&gt;</code></pre>
+</section>
+<section>
+  <h2>解説みたいなもの</h2>
+  <p>
+    基本的には以前作ったものと同じなんですが、複数のブラウザに対応するためにやったことについて説明してみます。
+  </p>
+  <p>
+    まず、フィルタ効果と対応ブラウザについて。
+  </p>
+  <ul>
+    <li>IE 8～9: なし</li>
+    <li>IE 10: SVG Filter</li>
+    <li>Firefox 19: SVG Filter, HTMLへのSVG Filter</li>
+    <li>Chrome 25: CSS Filter (-webkit-filter)</li>
+    <li>Opera 12.14: SVG Filter</li>
+  </ul>
+  <p>
+    IE 9以下にはDX Filterがありますが、ぼかし効果の挙動がよく分からないので諦めました。
+  </p>
+  <p>
+    <code>.glass::before</code>の部分。<br>
+    <code>background-image</code>に<span class="path">bg.jpg</span>を読み込んでフィルタをかけたSVGと<span class="path">bg.jpg</span>を指定している理由について。
+  </p>
+  <p>
+    はじめはこのSVGだけで大丈夫だと思っていたんですが、CSSで読み込むSVGの外部リソースはセキュリティの関係上FirefoxとChromeでは無視されます。IE 9, 10とOperaは大丈夫。<br>
+    これがどうなるのかというと、FirefoxとChromeでは何もない透明なSVGが読み込まれます。IE 10とOperaでは、画像にフィルタをかけたSVG画像が読み込まれます（IE 9はフィルタなし）。
+  </p>
+  <p>
+    複数指定の<code>background-image</code>は書いた順に上位のレイヤーとなるので、IE 9, 10とOperaでは2つ目の指定<code>url(&quot;bg.jpg&quot;)</code>は最初に読み込んだSVGに覆い隠されて見えなくなります。<br>
+    そして<code>image</code>要素が無視されるFirefoxとChromeでは、2つ目の画像が表示されます（実際には透明なSVG画像が上にかぶさってますが）。
+  </p>
+  <p>
+    IE 10とOperaは読み込むSVGでフィルタを適用済み、且つCSSからフィルタをかけることができません。<br>
+    FirefoxはData URIとして読み込んだSVGフィルタを適用し、背景画像をぼかします。<br>
+    Chromeも同様にCSSフィルタを適用します。
+  </p>
+  <p>
+    以上がモダンブラウザへの対応です。<br>
+    あくまでも現状での動作なので、IE 11でSVGの外部リソースが無視されるようになったりしたらアウトです。
+  </p>
+  <p>
+    次はIE 8への対応。<br>
+    IE 8は<code>rgba()</code>指定に対応していないので、DX Filterによる不透明度指定でそれっぽくしておきます。<br>
+    ただし、DX Filterは擬似要素に適用できませんので、IE 8向けに空の<code>div</code>を作ってあげます。他のブラウザに影響を与えないようにコンディショナルコメントによる指定も行います。<br>
+    また、IE 8はダブルコロンの擬似要素セレクタに対応していないので、<code>.glass::before</code>の部分にあるルールセットを無視しますが、あんまり関係ないのでそのままで。<br>
+    あとは他のブラウザと似たような感じになるように背景色と不透明度調整のフィルタをかけます。
+  </p>
+  <p>
+    <code>.glass h1</code>の部分ですが、文字を半透明にするためにここでもDX Filterを使っています。<br>
+    が、これは IE 9も解釈してしまうので、その直後にIE 9では取り消すよう指定を行います。<br>
+    IE 8が<code>@media</code>の<code>only</code>キーワードを解釈しないことを利用して<code>-ms-filter</code>の指定を取り消します。
+  </p>
+  <p>
+    他の仕組みはほとんど前と同じなのでそちらを参照してください。
+  </p>
+</section>
+<ins datetime="2020-01-11T23:17:52+09:00">
+  <hr>
+  <p>
+    <b>2020年1月11日 追記：</b><br>
+    当初「<a href="https://www.flickr.com/photos/wetfoto/8428679125/">#246 Wetlook with Beautiful Brunette in Leggings and Jacket. Girl in black jacket, white wetlook leggings and skirt in boots, get wet fully clothed in the sea.</a>」という写真を使っており、記事の公開時点では、その画像は<a href="https://creativecommons.org/licenses/by-nc-sa/2.0/deed.ja">CC BY-NC-SA 2.0</a>でライセンスされていました。<br>
+    しかし、現在ではAll rights reservedに変更されているため、デモで使用している画像と、記事内の画像を差し替えました。
+  </p>
+</ins>

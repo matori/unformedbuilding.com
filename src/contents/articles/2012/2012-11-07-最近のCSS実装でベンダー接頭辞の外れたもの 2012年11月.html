@@ -1,0 +1,116 @@
+<script type="application/x-yaml">
+title: "最近のCSS実装でベンダー接頭辞の外れたもの 2012年11月"
+description: "Firefox 16、Opera 12.10、そしてInternet Explorer 10がリリースされましたので、ベンダー接頭辞が外れたものを紹介します。"
+slug: css-unprefixed-2012-11
+published: 2012-11-07T13:38:03+09:00
+updated: 2012-11-07T19:49:11+09:00
+category: webdev
+</script>
+
+<p>
+  Firefox 16、Opera 12.10、そしてInternet Explorer 10がリリースされました（Windows 7のIE 10はまだですが）。<br>
+  その中で、CSSのベンダー接頭辞が外れたものをまとめてみます。<br>
+</p>
+<section>
+  <h2>CSS Gradients</h2>
+  <p>
+    <code>liner-gradient()</code>, <code>repeating-linear-gradient()</code>, <code>radial-gradient()</code>, <code>repeating-radial-gradient()</code>の4つ。
+  </p>
+  <ul>
+    <li>IE 10から。標準構文。IE 9以下はCSSグラデーションに対応していない。</li>
+    <li>Firefox 16から。標準構文。<code>-moz-</code>付きのは古い構文扱い。</li>
+    <li>Opera 12.10から。標準構文。<code>-o-</code>付きのは古い構文扱い。</li>
+    <li>Chrome、Safari は<code>-webkit-</code>が必要。古い構文。</li>
+  </ul>
+</section>
+<section>
+  <h2>CSS Transforms</h2>
+  <p>
+    <code>transform</code>, <code>transform-style</code>, <code>transform-origin</code>, <code>perspective</code>, <code>perspective-origin</code>, <code>backface-visibility</code>の6つ。
+  </p>
+  <ul>
+    <li>IE 10から。IE 9（2Dのみ）は<code>-ms-</code>が必要。</li>
+    <li>Firefox 16から。</li>
+    <li>Opera 12.10から。2D Transformsのみ。12.10時点で3D Transformsは未対応。</li>
+    <li>Chrome、Safariは<code>-webkit-</code>が必要。</li>
+  </ul>
+</section>
+<section>
+  <h2>CSS Transitions</h2>
+  <p>
+    <code>transition</code>, <code>transitoin-property</code>, <code>transition-duration</code>, <code>transition-timing-function</code>, <code>transition-delay</code>の5つ。
+  </p>
+  <ul>
+    <li>IE 10から。IE 9以下はCSS Transitions に対応していない。</li>
+    <li>Firefox 16から。</li>
+    <li>Opera 12.10から。</li>
+    <li>Chrome、Safariは<code>-webkit-</code>が必要。</li>
+  </ul>
+</section>
+<section>
+  <h2>CSS Animations</h2>
+  <p>
+    <code>animation</code>, <code>animation-name</code>, <code>animation-duration</code>, <code>animation-delay</code>, <code>animation-timing-function</code>, <code>animation-iteration-count</code>, <code>animation-direction</code>, <code>animation-play-state</code>, <code>animation-fill-mode</code>の9つと<code>@keyframes</code>ルール。
+  </p>
+  <ul>
+    <li>IE 10から。IE 9以下は CSS Animationsに対応していない。</li>
+    <li>Firefox 16から。</li>
+    <li>Opera 12.10から。</li>
+    <li>Chrome、Safariは<code>-webkit-</code>が必要。</li>
+  </ul>
+</section>
+<section>
+  <h2>CSS Flexible Box</h2>
+  <p>
+    <code>display: flex;</code>, <code>display: inline-flex;</code>と<code>flex-direction</code>, <code>flex-wrap</code>, <code>flex-flow</code>, <code>order</code>, <code>flex</code>, <code>flex-grow</code>, <code>flex-shrink</code>, <code>flex-basis</code>の8つ。
+  </p>
+  <ul>
+    <li>IE 10は<code>-ms-</code>が必要。古い構文（<code>-ms-flexbox</code>）。IE 9以下はFlexible Boxに対応していない。</li>
+    <li>
+      <del datetime="2012-11-07T17:15:28+09:00">
+        Firefox 16は<code>-moz-</code>が必要。古い構文（<code>-moz-box</code>）。標準構文でunprefixedはFirefox 18か19っぽい。
+      </del>
+      <ins datetime="2012-11-07T17:15:28+09:00">
+        Firefox 18で実装されるかどうかは分からないようです。<br>
+        （参考：<a href="http://myakura.hatenablog.com/entry/2012/10/01/003413">http://myakura.hatenablog.com/entry/2012/10/01/003413</a>）
+      </ins>
+      <ins datetime="2012-11-07T19:49:11+09:00">
+        <br>
+        Firefox 16は<code>display: -moz-box</code>が実装されていますが、現在のものとはかなり異なる構文なので注意が必要です。
+      </ins>
+    </li>
+    <li>Opera 12.10から。標準構文。12.00 以下はFlexible Boxに対応していない。</li>
+    <li>
+      Chrome devだと標準構文に<code>-webit-</code>つけたもの（<code>-webkit-flex</code>）。
+      <ins datetime="2012-11-07T17:15:28+09:00">
+        <br>
+        安定版でも大丈夫だそうです。
+      </ins>
+    </li>
+    <li>Safari 6では実装されていないようだ。</li>
+  </ul>
+</section>
+<section>
+  <h2><code>font-feature-settings</code>プロパティ</h2>
+  <ul>
+    <li>IE 10から。IE 9以下は対応していない。</li>
+    <li>Firefoxは<code>-moz-</code>が必要。</li>
+    <li>Operaは未対応。</li>
+    <li>Chromeは<code>-webkit-</code>が必要。</li>
+    <li>Safariは未対応。</li>
+  </ul>
+</section>
+<section>
+  <h2><code>calc()</code>関数</h2>
+  <ul>
+    <li>IE 9から。</li>
+    <li>Firefox 16から。</li>
+    <li>Operaは未対応。</li>
+    <li>Chrome、Safariは<code>-webkit-</code>が必要。</li>
+  </ul>
+</section>
+<hr>
+<p>
+  モバイルブラウザは自分で調べてね！<br>
+  間違っていたり、何か抜けているものがあったら教えてください。
+</p>

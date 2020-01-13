@@ -1,0 +1,56 @@
+<script type="application/x-yaml">
+title: ":window-inactive擬似クラスとanimation-play-state"
+description: "ブラウザウィンドウが非アクティブになったらアニメーションを停止したいという話です。"
+slug: window-inactive-and-animation-play-state
+published: 2012-03-07T15:17:16+09:00
+updated: 2012-03-07T15:17:16+09:00
+category: webdev
+</script>
+
+<p>
+  まあタイトル通りなんですが、ブラウザウィンドウが非アクティブになったらアニメーションを停止したいという話です。
+</p>
+<p>
+  今はFirefoxをメインに使っているんですが、要素をアニメーションさせたりするとChromeやSafariに比べて結構な負荷がかかるのです。<br>
+  アニメーション回数を無限に指定していると、それを表示しているタブが最前面にある限り、ウィンドウがアクティブであろうとなかろうとアニメーションは続きます。<br>
+  当然、起動しているのはFirefoxだけではないですから、実行中の他のアプリにも影響が出ます。<br>
+  それをせめて違うウィンドウを見ているときだけでも上手いことできないかと思ったわけです。
+</p>
+<p>
+  そこで<code>:-moz-window-inactive</code>擬似クラスで対応することにしました。<br>
+  サンプルは以下です。Firefox 10で確認できます。<br>
+  アニメーションしているのを確認したらウィンドウからフォーカスを外してみてください。
+</p>
+<p>
+  <a href="/demo/2012/window-inactive-and-animationsample/">ウィンドウが非アクティブになったらアニメーションを一時停止する</a>
+</p>
+<p>
+  <a href="/download/2012/window-inactive-and-animationsample.zip" download>サンプルをダウンロード</a></p>
+<p>
+  サンプルには回転と色との2種類のアニメーションが実行されています。<br>
+  対象は<code>.sphere</code>と<code>.circle</code>です。
+</p>
+<pre><code class="language-css">.sphere:-moz-window-inactive,
+.circle:-moz-window-inactive {
+  -moz-animation-play-state: paused;
+}</code></pre>
+<p>
+  これを追加することによって、ウィンドウが非アクティブになったらアニメーションを一時停止するようになります。<br>
+  再度アクティブになったら、アニメーションは停止した時点から再開されます。
+</p>
+<p>
+  特定の要素ではなく、全てのアニメーションを停止するなら
+</p>
+<pre><code class="language-css">:-moz-window-inactive {
+  -moz-animation-play-state: paused;
+}</code></pre>
+<p>
+  とでも指定しておくといいんじゃないでしょうか。
+</p>
+<p>
+  <code>:window-inactive</code>擬似クラス自体はWebkitにもあるのですが、<code>::selection</code>と<code>::-webkit-scrollbar</code>関係にしか使えないっぽいです。
+</p>
+<p>
+  FlashアニメーションをSVG + CSS Animationsに変換して表示するようなサンプルを見ていると、こういった指定をすることで状況によっては見る側の負担を減らせるかもしれないなーと思ったりしてます。<br>
+  もちろん、<code>:window-inactive</code>に限らず、他の方法でも。
+</p>

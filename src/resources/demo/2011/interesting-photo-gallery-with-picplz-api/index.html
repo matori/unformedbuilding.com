@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Interesting Photo Gallery w/ picplz API</title>
+<link rel="stylesheet" type="text/css" media="screen" href="reset.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script type="text/javascript" src="jquery.tmpl.min.js"></script>
+<script type="text/javascript" src="script.js"></script>
+</head>
+<body>
+
+<div id="header">
+  <h1>Interesting Photo Gallery w/ picplz API</h1>
+</div>
+
+<div id="gallery">
+  <!--
+    ここにサムネイルのギャラリーが入る
+    ul > li > a > img
+  -->
+  <div id="loader">
+    <!-- ローディング画像 -->
+    <img src="ajax-loader.gif" alt="loading..." />
+  </div>
+  <div id="more">
+    <!-- 更に画像を読みこむためのボタン -->
+    <a href="#">more pic please!</a>
+  </div>
+</div><!-- // #gallery -->
+
+<!-- 表示領域全体を覆う -->
+<div id="view-layer"></div>
+
+<!-- 拡大画像や詳細を入れる -->
+<div id="view-container">
+  <div id="view-content"><!-- ここにに入る --></div>
+  <a href="#" class="close">&#x2716;</a><!-- 閉じるボタン -->
+</div>
+
+</body>
+</html>

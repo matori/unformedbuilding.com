@@ -1,0 +1,179 @@
+<script type="application/x-yaml">
+title: "スクロールバーをデザインする::-webkit-scrollbarに関しての覚え書き"
+description: "Webkit系ブラウザで利用できる::-webkit-scrollbar擬似要素に関する覚え書きです。スクロールバーをデザインするときに使います。"
+slug: learn-about-webkit-scrollbar
+published: 2011-01-17T14:13:28+09:00
+updated: 2011-05-25T16:24:32+09:00
+category: webdev
+</script>
+
+<p>
+  Google Chrome、Safari、Lunascape Webkitなど、Webkit系ブラウザで利用できる<code>::-webkit-scrollbar</code>擬似要素に関する覚え書きです。<br>
+  これはその名の通り、スクロールバーをデザインするときに使います。
+</p>
+<p>
+  基本的な説明はSafariのブログに書かれていますので、そちらを参考にしました。<br>
+  また、この記事で説明に使っているキャプチャ画像は、Safariのデモページのものです。
+</p>
+<p>
+  <a href="http://webkit.org/blog/363/styling-scrollbars/">Surfin’ Safari - Blog Archive &raquo; Styling Scrollbars</a>
+</p>
+<section>
+  <h2>スクロールバーのパーツを構成する擬似要素</h2>
+  <p>
+    これらを指定するときにはWebkit用のベンダープレフィクス<code>-webkit-</code>を忘れないようにしましょう。
+  </p>
+  <dl>
+    <dt><code>::-webkit-scrollbar</code></dt>
+    <dd>
+     <code>width</code>で縦スクロールバーの幅、<code>height</code>で横スクロールバーの高さを指定します。<br>
+      パーセント指定も可能です。<br>
+      スクロールバーは後述するbuttonとtrackで構成されます。
+    </dd>
+    <dt><code>::-webkit-scrollbar-button</code></dt>
+    <dd>
+      Windowsの場合だとスクロールバーの一番上と一番下にでる、クリックすることで少しだけスクロールできるボタンです。
+    </dd>
+    <dt><code>::-webkit-scrollbar-track</code></dt>
+    <dd>
+      trackは、track-pieceとthumbで構成されます。
+    </dd>
+    <dt><code>::-webkit-scrollbar-track-piece</code></dt>
+    <dd>
+      track部分で、thumbの上下にあるエリアです。
+    </dd>
+    <dt><code>::-webkit-scrollbar-thumb</code></dt>
+    <dd>
+      track部分にある、移動するパーツです。
+    </dd>
+    <dt><code>::-webkit-scrollbar-corner</code></dt>
+    <dd>
+      縦スクロールバーと横スクロールバーの間にあるエリアで、両方のスクロールバーが表示されるとき、またはresizerが表示されるときに使用されます。
+    </dd>
+    <dt><code>::-webkit-resizer</code></dt>
+    <dd>
+      Webkitブラウザでテキストエリアの右下に出てくる、リサイズ可能であることを示すエリアです。<br>
+      <code>resize</code>プロパティに<code>both</code>, <code>vertical</code>, <code>horaizontal</code>が指定されている要素に使用されます。
+    </dd>
+  </dl>
+  <p>
+    簡単ではありますが、図で表すと以下のようになります。<br>
+    この場合、resizerはcorner内にある斜めのストライプ模様になります。
+  </p>
+  <figure>
+    <img src="/images/2011/learn-about-webkit-scrollbar/1.png" width="620" height="247" alt="">
+  </figure>
+</section>
+<section>
+  <h2>擬似クラスについて</h2>
+  <p>
+    上記の擬似要素の後に指定できる擬似クラスです。
+  </p>
+  <dl>
+    <dt><code>:horizontal</code></dt>
+    <dd>
+      横スクロールバーに適用されます。
+    </dd>
+    <dt><code>:vertical</code></dt>
+    <dd>
+      縦スクロールバーに適用されます。
+    </dd>
+    <dt><code>:decrement</code></dt>
+    <dd>
+      buttonとtrack-pieceに適用される擬似クラスです。「decrement」は「減少」という意味ですね。<br>
+      スクロール位置が減少されるbuttonとtrack-pieceかどうかを示します。<br>
+      縦スクロールバーの上方向、横スクロールバーの左方向です。
+    </dd>
+    <dt><code>:increment</code></dt>
+    <dd>
+      「増加」という意味。<br>
+     <code>:decrement</code>の逆です。
+    </dd>
+    <dt><code>:start</code></dt>
+    <dd>buttonとtrack-pieceに適用される擬似クラスです。<br>
+      オブジェクトがthumbより前にあるかどうかを示します。
+    </dd>
+    <dt><code>:end</code></dt>
+    <dd>
+     <code>:start</code>の逆で、オブジェクトがthumbより後にあるかどうかを示します。
+    </dd>
+    <dt><code>:double-button</code></dt>
+    <dd>
+      buttonとtrack-pieceに適用される擬似クラスです。<br>
+      これは、buttonがスクロールバーの同じ端にあるペアのbuttonの1つであるかを判断するのに使用します。<br>
+      track-pieceに使用する場合には、track-pieceがペアのbuttonに接するかどうかを示します。
+    </dd>
+    <dt><code>:single-button</code></dt>
+    <dd>
+      buttonとtrack-pieceに適用される擬似クラスです。<br>
+      これは、buttonがスクロールバーの端にある単独のものであるかを判断するのに使用します。<br>
+      track-pieceに使用する場合には、track-pieceが1つのbuttonに接するかどうかを示します。
+    </dd>
+    <dt><code>:no-button</code></dt>
+    <dd>
+      track-pieceに適用される擬似クラスで、track-pieceがスクロールバーの一番端まであるかどうか（スクロールバーの端にbuttonが存在しない）を示します。
+    </dd>
+    <dt><code>:corner-present</code></dt>
+    <dd>
+      スクロールバーの全てのパーツに適用される擬似クラスです。<br>
+      スクロールバーのcornerが存在するかどうかを示します。
+    </dd>
+    <dt><code>:window-inactive</code></dt>
+    <dd>
+      スクロールバーの全てのパーツに適用される擬似クラスです。<br>
+      スクロールバーが表示されているウィンドウがアクティブであるかどうかを示します。<br>
+      （補足で、開発版では<code>::selection</code>にも適用できるよ、とか、この擬似クラスに関する予定も書かれています。詳しくは原文参照）
+    </dd>
+  </dl>
+  <p>
+    また、上記の擬似クラス以外にも、<code>:hover</code>, <code>:active</code>, <code>:enabled</code>, <code>:disabled</code>といった擬似クラスが指定できます。<br>
+    特定部分を非表示にするには<code>display: none</code>を指定します。
+  </p>
+  <p>
+    上記を当てはめると以下のようになります。
+  </p>
+  <figure>
+    <img src="/images/2011/learn-about-webkit-scrollbar/2.png" width="620" height="190" alt="">
+  </figure>
+  <figure>
+    <img src="/images/2011/learn-about-webkit-scrollbar/3.png" width="620" height="190" alt="">
+  </figure>
+  <p>
+    その他の擬似クラスなどについては、Safariのページにあるデモで確認してみてください。<br>
+    HTMLソースにCSSも書かれています。
+  </p>
+</section>
+<section>
+  <h2>参考サイト</h2>
+  <dl>
+    <dt>
+      <a href="http://webkit.org/blog/363/styling-scrollbars/">Surfin’ Safari - Blog Archive &raquo; Styling Scrollbars</a>
+    </dt>
+    <dd>
+      各擬似要素・擬似クラスの説明とデモページ。
+    </dd>
+    <dt>
+      <a href="http://almaer.com/blog/creating-custom-scrollbars-with-css-how-css-isnt-great-for-every-task">Creating custom scrollbars with CSS; How CSS isn’t great for every task on Dion Almaer’s Blog</a>
+    </dt>
+    <dd>
+     <code>::-webkit-scrollbar</code>についての解説。<br>
+      コメント欄で「画像はData URIを使うといいよ！」みたいなやり取りがあります。
+    </dd>
+    <dt>
+      <a href="http://less.carbonfairy.org/post/597327393/webkit-scrollbar">less - ::-webkit-scrollbarをページ全体のスクロールバーに適用する</a>
+    </dt>
+    <dd>
+      ページ全体に適用する際の注意点など。
+    </dd>
+  </dl>
+</section>
+<p>
+  書いてみて思ったのは、指定がすごくややこしいということ。<br>
+  使いこなすには何回か作ってみないといけないですね……。<br>
+  CSS3で色々指定できるので画像を使わなくてもボタンとリサイザー以外はそれなりのものが作れます。<br>
+ <code>-webkit-gradient</code>, <code>-webkit-border-radius</code>などですね。<br>
+</p>
+<p>
+  あと、デフォルトのスクロールバーを変更されることに強い抵抗を覚える方もいますので、使いどころは考えたほうがいいかもしれません。<br>
+  個人的にはニュースティッカーとか、ブログのサイドバーにちょこっとあるくらいだと可愛いんじゃないかなーと思います。
+</p>

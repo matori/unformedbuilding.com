@@ -1,0 +1,136 @@
+<script type="application/x-yaml">
+title: "datalist要素"
+description: "テキストボックスに入力するとき、ユーザーに入力候補を表示してあげることのできる要素です。"
+slug: datalist-element
+published: 2012-07-03T12:13:59+09:00
+updated: 2012-07-06T16:20:58+09:00
+category: webdev
+</script>
+
+<p>
+  テキストボックスに入力するとき、ユーザーに入力候補を表示してあげることのできる要素です。<br>
+  個人的には早く普及するといいなと思っています。
+</p>
+<p>
+  <a href="http://www.w3.org/TR/html5/the-datalist-element.html">4.10.10 The datalist element — HTML5</a>
+</p>
+<section>
+  <h2>ブラウザの対応状況</h2>
+  <dl>
+    <dt>Internet Explorer</dt>
+    <dd>
+      IE 10から対応。<a href="http://msdn.microsoft.com/en-us/library/hh772925(v=vs.85)">datalist object (Internet Explorer)</a>
+    </dd>
+    <dt>Mozilla Firefox</dt>
+    <dd>
+      Firefox 4から対応。<a href="https://developer.mozilla.org/en/HTML/Element/datalist">datalist - MDN</a>
+    </dd>
+    <dt>Google Chrome</dt>
+    <dd>
+      Chrome 20から。<a href="http://trac.webkit.org/changeset/114545">Changeset 114545 – WebKit</a>このへんかなあ。<br>
+      「<a href="http://updates.html5rocks.com/2012/04/datalist-landed-in-Chrome-Canary">datalist landed in Chrome Canary - HTML5Rocks Updates</a>」に、Canaryで使えるようになったときの告知もある。
+    </dd>
+    <dt>Safari</dt>
+    <dd>
+      まだ。たぶん次のSafari 5.2ですかね。
+    </dd>
+    <dt>Opera</dt>
+    <dd>
+      一番古いのはOpera 9かな？ <a href="http://www.opera.com/docs/specs/opera9/">Opera 9 のサポートするウェブ標準ならびに仕様</a>
+    </dd>
+  </dl>
+</section>
+<section>
+  <h2>試してみる</h2>
+  <p>
+    では実際に試してみましょうか。<br>
+    まあ前のセクションでのリンク先（MDNとかHTML5Rocks）にもデモはあるんですが……。
+  </p>
+  <p>
+    とりあえずMDNにあるのと同じもの。
+  </p>
+  <pre><code class="language-html">&lt;input type=&quot;text&quot; list=&quot;browsers&quot; /&gt;
+&lt;datalist id=&quot;browsers&quot;&gt;
+  &lt;option value=&quot;Internet Explorer&quot;&gt;Internet Explorer&lt;/option&gt;
+  &lt;option value=&quot;Mozilla Firefox&quot;&gt;Mozilla Firefox&lt;/option&gt;
+  &lt;option value=&quot;Google Chrome&quot;&gt;Google Chrome&lt;/option&gt;
+  &lt;option value=&quot;Apple Safari&quot;&gt;Apple Safari&lt;/option&gt;
+  &lt;option value=&quot;Opera&quot;&gt;Opera&lt;/option&gt;
+&lt;/datalist&gt;</code></pre>
+  <p>
+    <a href="/demo/2012/datalist-element/1.html">datalist要素 デモ</a>
+  </p>
+  <p>
+    このように、<code>datalist</code>要素に指定した<code>id</code>属性の値を、<code>input</code>要素の<code>list</code>属性に指定することで、サジェスト機能を使用できます。
+  </p>
+  <p>
+    <s><code>datalist</code>のいいところは、候補のテキストの中にある文字列なら、文字列の先頭でなくても判別してくれることです。<br>
+      試しに「<kbd>ex</kbd>」とか入れてみると分かりやすいです。</s>
+    <ins datetime="2012-07-06T16:18:36+09:00">
+      <br>
+      Firefoxだけみたいです。OperaとChromeではできませんでした。
+    </ins>
+  </p>
+  <p>
+    また、個人的に最も素晴らしいと思っているのは、日本語の候補もちゃんと出てくれることです。
+  </p>
+  <pre><code class="language-html">&lt;input type=&quot;text&quot; list=&quot;fruits&quot; /&gt;
+&lt;datalist id=&quot;fruits&quot;&gt;
+  &lt;option value=&quot;りんご&quot;&gt;りんご&lt;/option&gt;
+  &lt;option value=&quot;みかん&quot;&gt;みかん&lt;/option&gt;
+  &lt;option value=&quot;ぶどう&quot;&gt;ぶどう&lt;/option&gt;
+  &lt;option value=&quot;さくらんぼ&quot;&gt;さくらんぼ&lt;/option&gt;
+  &lt;option value=&quot;オレンジ&quot;&gt;オレンジ&lt;/option&gt;
+  &lt;option value=&quot;シークヮーサー&quot;&gt;シークヮーサー&lt;/option&gt;
+  &lt;option value=&quot;パイナップル&quot;&gt;パイナップル&lt;/option&gt;
+  &lt;option value=&quot;桃&quot;&gt;桃&lt;/option&gt;
+  &lt;option value=&quot;柚子&quot;&gt;柚子&lt;/option&gt;
+  &lt;option value=&quot;枇杷&quot;&gt;枇杷&lt;/option&gt;
+&lt;/datalist&gt;</code></pre>
+  <p>
+    <a href="/demo/2012/datalist-element/2.html">datalist要素と日本語の候補</a>
+  </p>
+  <p>
+    と、このように便利なわけですが、セレクトボックスの替わりに使えるかというと、それはまた別だと思います。<br>
+    セレクトボックスは、制作者側が用意したものしか選択できませんが、<code>datalist</code>要素で候補を出せるとはいえ、こちらは<code>input</code>要素です。任意の文字列を入れることもできます。<br>
+    JavaScriptやHTMLフォームバリデーションで頑張ればいいのかもしれませんが、そもそもの用途が違います。<br>
+    <code>datalist</code>はあくまでも入力候補の選択肢であるということです。
+  </p>
+  <p>
+    本音を言うと、セレクトボックスでも日本語入力でジャンプしたいんですけどね……。
+  </p>
+</section>
+<section>
+  <h2>非対応ブラウザへのフォールバック</h2>
+  <p>
+    仕様では<code>datalist</code>要素は表示されない、ということになっています。<br>
+    なので、対応していないブラウザでは普通の<code>input</code>要素となります。
+  </p>
+  <p>
+    どうしても似た機能を提供したければ、先ほどのリンクにあるHTML5Rocksのフォールバック方法が参考になるかと思います。
+  </p>
+  <pre><code class="language-html">&lt;datalist id=&quot;browsers-fallback&quot;&gt;
+  ご利用のブラウザを選択してください
+  &lt;select&gt;
+    &lt;option value=&quot;Internet Explorer&quot;&gt;Internet Explorer&lt;/option&gt;
+    &lt;option value=&quot;Mozilla Firefox&quot;&gt;Mozilla Firefox&lt;/option&gt;
+    &lt;option value=&quot;Google Chrome&quot;&gt;Google Chrome&lt;/option&gt;
+    &lt;option value=&quot;Apple Safari&quot;&gt;Apple Safari&lt;/option&gt;
+    &lt;option value=&quot;Opera&quot;&gt;Opera&lt;/option&gt;
+  &lt;/select&gt;
+  &lt;br /&gt;
+  選択肢になければ、こちらにご記入ください
+&lt;/datalist&gt;
+&lt;input type=&quot;text&quot; list=&quot;browsers-fallback&quot; /&gt;</code></pre>
+  <p>
+    <a href="/demo/2012/datalist-element/3.html">datalist要素のフォールバック</a>
+  </p>
+  <p>
+    若干面倒ではありますが……。<br>
+    <a href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills#datalist">一応、Polyfillはあるにはあるみたいです</a>。
+  </p>
+</section>
+<p>
+  個人的なサイトならもう使ってもいいかなーと思ってますが、あんまりフォーム作ることがないのでまだ使ったことはないです。<br>
+  機会があったら実装してみようと思います。
+</p>

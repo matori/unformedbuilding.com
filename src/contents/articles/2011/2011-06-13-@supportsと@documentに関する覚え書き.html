@@ -1,0 +1,178 @@
+<script type="application/x-yaml">
+title: "@supports @documentに関する覚え書き"
+description: "CSS Conditional Rules Module Level 3にあるFeature queriesとDocument queriesの簡単な説明です。"
+slug: css3-at-suports-and-at-document
+published: 2011-06-13T17:25:10+09:00
+updated: 2011-06-13T18:07:53+09:00
+category: webdev
+</script>
+
+<p>
+  「CSS Conditional Rules Module Level 3」にあるFeature queriesとDocument queriesの簡単な説明と覚え書きです。<br>
+  Media-specific style sheets（<code>@media</code>）は色んなところで解説されてるのでここではやりません。
+</p>
+<p>
+  この記事を書いている時点で、「CSS Conditional Rules Module Level 3」はEditor’s Draft 7 June 2011が最新版ですので、それに従って説明したいと思います。<br>
+  内容は今後アップデートされるでしょうし、これはあくまでも簡単な覚え書きですので、ぜひ原文もご参照ください。
+</p>
+<p>
+  <a href="http://dev.w3.org/csswg/css3-conditional/">CSS Conditional Rules Module Level 3</a>
+</p>
+<section>
+  <h2>Feature queries: the &#8216;<code>@supports</code>&#x2019; rule</h2>
+  <p>
+    <code>@supports</code>ルールは、ユーザーエージェントがCSSの<code>プロパティ: 値</code>をサポートするかどうかをテストする条件付きグループのルールです。<br>
+    <code>@supports</code>の文法はMedia Queriesに似ていますが、条件によってはより複雑になります。
+  </p>
+  <p>
+    例として<code>display: flexbox</code>がサポートされている場合の指定は以下のようになります。
+  </p>
+  <pre><code class="language-css">@supports ( display: flexbox ) {
+  body, #navigation, #content {
+    display: flexbox;
+  }
+  #navigation {
+    background: blue;
+    color: white;
+  }
+  #article {
+    background: white;
+    color: black;
+  }
+}</code></pre>
+  <p>
+    逆に<code>display: flexbox</code>がサポートされていない場合に適用するには以下のようになります。
+  </p>
+  <pre><code class="language-css">@supports not ( display: flexbox ) {
+  body {
+    width: 100%;
+    height: 100%;
+    background: white;
+    color: black;
+  }
+  #navigation {
+    width: 25%;
+  }
+  #article {
+    width: 75%;
+  }
+}</code></pre>
+  <p>
+    次の例は<code>box-shadow</code>がベンダープレフィックスも含め、サポートされているかどうかを示します。<code>box-shadow</code>がサポートされている場合にはシャドウと文字色が指定されます。
+  </p>
+  <pre><code class="language-css">@supports ( box-shadow: 2px 2px 2px black ) or
+          ( -moz-box-shadow: 2px 2px 2px black ) or
+          ( -webkit-box-shadow: 2px 2px 2px black ) or
+          ( -o-box-shadow: 2px 2px 2px black ) {
+  .outline {
+    color: white;
+    box-shadow: 2px 2px 2px black;
+    -moz-box-shadow: 2px 2px 2px black;
+    -webkit-box-shadow: 2px 2px 2px black;
+    -o-box-shadow: 2px 2px 2px black;
+  }
+}</code></pre>
+  <p>
+    <code>and</code>と<code>or</code>の混乱を避けるために、カンマまたはスペースを使用して明示的にする必要があります。<br>
+    同様に、<code>and</code>, <code>or</code>と<code>not</code>は優先順位の混乱を避けるために演算子を括弧でくくる必要があります。
+  </p>
+  <p>
+    たとえば、次のような指定はinvalidとなります。
+  </p>
+  <pre><code class="language-css">@supports (transition-property: color) or
+          (animation-name: foo) and
+          (transform: rotate(10deg)) {
+  /* ... */
+}</code></pre>
+  <p>
+    これは次のように書かなければなりません。
+  </p>
+  <pre><code class="language-css">@supports ((transition-property: color) or
+           (animation-name: foo)) and
+          (transform: rotate(10deg)) {
+  /* ... */
+}
+
+@supports (transition-property: color) or
+          ((animation-name: foo)) and
+           (transform: rotate(10deg))) {
+  // ...
+}</code></pre>
+</section>
+<section>
+  <h2>Document queries: the ‘<code>@document</code>’ rule</h2>
+  <p>
+    <code>@document</code>ルールは、ドキュメントURLによってスタイルが適用される条件付きグループのルールです。スタイルシート、ユーザースタイルシート、全体ではなく一部のページにのみ適用するスタイルシートに使用できます。<br>
+    <code>@document</code>ルールの条件は、カンマでセパレートされたURL matching functionsリストで、これらの関数のいずれかがtrueと判定された場合に条件がtrueと評価されます。
+  </p>
+  <section>
+    <h3>&lt;url&gt;</h3>
+    <p>
+      <code>url()</code>関数は正確なURLマッチング関数です。<br>
+      指定されたURLがドキュメントのURLと正確に一致するとき、条件はtrueと評価されます。<br>
+    </p>
+    <p>
+      たとえば、<span class="path">http://www.w3.org/Style/CSS/</span>上の<code>summary</code>要素に適用する場合は以下のようになります。これは他のページには適用されません。
+    </p>
+    <pre><code class="language-css">@document url(&quot;http://www.w3.org/Style/CSS/&quot;) {
+  summary {
+    background: yellow;
+    color: black;
+  }
+}</code></pre>
+  </section>
+  <section>
+    <h3>url-prefix(&lt;string&gt;)</h3>
+    <p>
+      <code>url-prefix()</code>関数はURL接頭辞にマッチングする関数です。<br>
+      ドキュメントURLが引数のinitial substringを含んでいる場合trueと評価されます。これはURLと引数が一致している場合もtrueと評価されます。<br>
+      引数が空の文字列の場合は、全てのドキュメントがtrueと評価されます。
+    </p>
+    <p>
+      次の例は<span class="path">http://www.w3.org/Style/CSS/</span>と<span class="path">http://www.w3.org/Style/CSS/Test</span>上にあるsummary要素に適用され、<span class="path">http://www.w3.org/</span>や<span class="path">http://www.example.com/Style/CSS/</span>には適用されません。
+    </p>
+    <pre><code class="language-css">@document url-prefix(&quot;http://www.w3.org/Style/CSS/&quot;) {
+  summary {
+    background: yellow;
+    color: black;
+  }
+}</code></pre>
+  </section>
+  <section>
+    <h3>domain(&lt;string&gt;)</h3>
+    <p>
+      <code>domain()</code>関数は、ドメインにマッチングする関数です。<br>
+      （すいませんこの辺の説明は原文を参照してください）
+    </p>
+    <p>
+      以下の例では<span class="path">http://www.w3.org/Style/CSS/</span>, <span class="path">http://w3.org/Style/CSS/</span>,
+      <span class="path">http://lists.w3.org/Archives/Public/www-style/</span>のページ上で<code>body</code>要素のフォントサイズが変更されますが、<span class="path">http://www.example.com/Style</span>では適用されません。
+    </p>
+    <pre><code class="language-css">@document domain(&quot;w3.org&quot;) {
+  body {
+    font-size: 16px ! important;
+  }
+}</code></pre>
+  </section>
+  <section>
+    <h3>regexp(&lt;string&gt;)</h3>
+    <p>
+      <code>&lt;string&gt;</code>はJavaScriptのパターンと一致する必要があります。<br>
+      マッチングが失敗したとき、CSS構文エラーにはなりません。また、CSS構文エラーのエラーハンドリングは行われません。
+    </p>
+    <p>
+      （正規表現についての説明は原文を参照してください）
+    </p>
+    <p>
+      <span class="path">http://www.w3.org/TR/2011/PR-CSS2-20110412/</span>といったページの<code>body</code>要素のフォントサイズを変更する場合の例です。
+    </p>
+    <pre><code class="language-css">@document regexp(&quot;http://www.w3.org/TR/\\d{4}/[^/]*-CSS2-\\d{8}/&quot;) {
+  body {
+    font-size: 20px ! important;
+  }
+}</code></pre>
+    <p>
+      正規表現内のバックスラッシュは<code>\\</code>のようにCSSエスケープしなければなりません。
+    </p>
+  </section>
+</section>

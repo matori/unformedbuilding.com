@@ -1,0 +1,171 @@
+<script type="application/x-yaml">
+title: "要素内容に依存する幅の指定について"
+description: "要素内容に依存する幅の指定であるmin-content, max-content, fit-contentについてのメモです。"
+slug: css-intrinsic-width
+published: 2013-04-15T12:56:04+09:00
+updated: 2013-05-02T17:09:40+09:00
+category: webdev
+</script>
+
+<p>
+  要素内容に依存する幅の指定についてのメモです。<br>
+  これらは「<a href="http://dev.w3.org/csswg/css-box/">CSS basic box model（草案）</a>」に記載されており、<a href="https://developer.mozilla.org/ja/docs/CSS/width">MDNのページに分かりやすく説明されています</a>。
+</p>
+<p>
+  本来、これらは幅だけでなく高さの指定にも使えるようなのですが、まだ実装されていませんので確認できません。<br>
+  2013年4月現在、幅の指定として使えるブラウザはFirefoxとGoogle Chromeです。Safariでは動くんですかね。最新版ないから分かりません。
+</p>
+<dl>
+  <dt><code>available</code> or <code>fill-available</code></dt>
+  <dd>
+    包含ブロックから該当要素のマージン、ボーダー、パディングのサイズを引いた幅。<br>
+    現在、Firefoxは<code>-moz-available</code>、Chromeは<code>-webkit-fill-available</code>で動作します。
+  </dd>
+  <dt><code>max-content</code></dt>
+  <dd>
+    ややこしい計算式があるんですが、とりあえずは該当要素が取りうる最大の幅として覚えておけばいいかと。
+  </dd>
+  <dt><code>min-content</code></dt>
+  <dd>
+    同様に、該当要素が取りうる最小の幅として覚えておけばいいかと。
+  </dd>
+  <dt><code>fit-content</code></dt>
+  <dd>
+    <code>max(‘min-content’, min(‘max-content’, ‘available’))</code>ということなので、<code>max-content</code>と<code>available</code>を比較して小さい幅、そしてそれと<code>min-content</code>を比較して大きい幅となります。
+  </dd>
+</dl>
+<p>
+  実際に試してみます。まだ<code>-moz-</code>と<code>-webkit-</code>が必要なので、使う場合は忘れずに。<br>
+  スクリーンショットはFirefox 20でのものです。
+</p>
+<p>
+  <a href="/demo/2013/intrinsic-width/1.html">min-content, max-content, fit-content 1</a>
+</p>
+<figure>
+  <img src="/images/2013/css-intrinsic-width/1.png" width="620" height="400" alt="">
+</figure>
+<pre><code class="language-html">&lt;div class=&quot;box&quot;&gt;
+  &lt;p class=&quot;min&quot;&gt;Lorem ipsum dolor sit amet&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;box&quot;&gt;
+  &lt;p class=&quot;max&quot;&gt;Lorem ipsum dolor sit amet&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;box&quot;&gt;
+  &lt;p class=&quot;fit&quot;&gt;Lorem ipsum dolor sit amet&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+<pre><code class="language-css">.box {
+  margin: 0.5em auto 1em;
+  padding: 0.5em 1em;
+  width: 400px;
+  background: #aaa;
+}
+
+.box p {
+  margin: 0;
+  padding: 0.5em 1em;
+  background: #faa;
+}
+
+.min {
+  width: min-content;
+}
+
+.max {
+  width: max-content;
+}
+
+.fit {
+  width: fit-content;
+}
+</code></pre>
+<p>
+  これでは<code>max-content</code>と<code>fit-content</code>の違いが分からないのでもうちょっと文章を長くしてみましょう。
+</p>
+<p>
+  <a href="/demo/2013/intrinsic-width/2.html">min-content, max-content, fit-content 2</a>
+</p>
+<figure>
+  <img src="/images/2013/css-intrinsic-width/2.png" width="620" height="640" alt="min-content, max-content, fit-content サンプル 2">
+</figure>
+<p>
+  違いが分かるでしょうか？
+</p>
+<p>
+  で、これは何が便利なの、ってところですが。<br>
+  人によって使い道は様々でしょうが、そこそこ実用的かなと思うものを考えてみました。
+</p>
+<p>
+  まずは<code>min-content</code>から。<br>
+  画像とキャプションの幅を揃え、水平中央配置します。画像の幅が決まっているなら最初から<code>px</code>単位で指定とかすればいいんですが、どんなサイズの画像が入るか分からない場合などに使えます。<br>
+  最大値が必要なら<code>max-width</code>に数値で入れておくといいです。
+</p>
+<p>
+  <a href="/demo/2013/intrinsic-width/min-content.html">画像サイズ依存のキャプション幅</a>
+</p>
+<figure>
+  <img src="/images/2013/css-intrinsic-width/min-content.png" width="620" height="560" alt="min-contentを使った画像サイズ依存のキャプション幅の例">
+</figure>
+<pre><code class="language-html">&lt;figure&gt;
+  &lt;img src=&quot;...&quot; alt=&quot;&quot; /&gt;
+  &lt;figcaption&gt;
+    Lorem ipsum dolor sit amet...
+  &lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+<pre><code class="language-css">figure {
+  margin: 1em auto;
+  width: -webkit-min-content;
+  width: -moz-min-content;
+  width: min-content;
+}</code></pre>
+<p>
+  <code>max-content</code>では、<code>float</code>を使った横並びメニューのセンタリングが簡単にできます。<br>
+  「Flexbox使えば？」って話ではあるんですが、それはそれということで。
+</p>
+<p>
+  <a href="/demo/2013/intrinsic-width/max-content.html">横並びメニューのセンタリング</a>
+</p>
+<figure>
+  <img src="/images/2013/css-intrinsic-width/max-content.png" width="620" height="230" alt="max-contentを使った横並びメニューのセンタリング例">
+</figure>
+<pre><code class="language-html">&lt;ul&gt;
+  &lt;li&gt;Lorem&lt;/li&gt;
+  &lt;li&gt;ipsum&lt;/li&gt;
+  &lt;li&gt;dolor&lt;/li&gt;
+  &lt;!-- ... --&gt;
+&lt;/ul&gt;</code></pre>
+<pre><code class="language-css">ul {
+  margin: 1em auto;
+  padding: 0.5em;
+  background-color: #aaa;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+
+ul::after {
+  display: block;
+  clear: both;
+  content: &quot;&quot;;
+}
+
+li {
+  float: left;
+  padding: 0.5em 1em;
+  background-color: #aaf;
+  list-style-type: none;
+}
+
+li:nth-child(even) {
+  background-color: #afa;
+}</code></pre>
+<p>
+  <code>fit-content</code>は……<code>max-content</code>を使いたいけど親要素より大きなサイズにはしたくないときなんかに便利なんじゃないでしょうか。<br>
+  いい例が思いつかなかったのでサンプルはありません。
+</p>
+<p>
+  それと、Webkit系ブラウザには<code>intrinsic</code>という<code>fit-content</code>っぽい動きをするキーワードがあります。これはChromeでも確認できます。試してみたところ、Android 4.1のブラウザでも動きました。<ins datetime="2013-05-02T17:07:02+09:00">2.2でも動作を確認しました。</ins><br>
+  <code>min-intrinsic</code>というのもあるようなのですが、実際に使えるのかどうか分かりません。試してみても効いてる気がしないんですよね……。<br>
+  MDNにはWebkitの<code>intrinsic</code>は<code>max-content</code>の古いものだと書かれていましたが、「<a href="https://bugs.webkit.org/show_bug.cgi?id=38919">Bug 38919 – Add support for fit-content etc</a>」を見た感じだと<code>fit-content</code>と同じように扱ってるっぽいですね。
+</p>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>複数背景のレイヤー DEMO 2</title>
+<style>
+#box {
+  margin             : 50px;
+  padding            : 0;
+  border             : 0;
+  width              : 400px;
+  height             : 400px;
+  background-color   : #eee8d5;
+  background-image   : url(red.png),
+                       url(violet.png),
+                       url(cyan.png),
+                       url(green.png);
+  background-position: left top,
+                       right top,
+                       left bottom,
+                       right bottom,
+                       center center; /* 余剰 */
+  background-repeat  : repeat-x,
+                       repeat-y,
+                       no-repeat;
+                       /* ここには repeat-x が適用される */
+}
+</style>
+</head>
+<body>
+
+<div id="box"></div>
+
+</body>
+</html>

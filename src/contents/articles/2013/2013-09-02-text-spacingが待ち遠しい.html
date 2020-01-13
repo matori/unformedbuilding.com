@@ -1,0 +1,170 @@
+<script type="application/x-yaml">
+title: "text-spacingが待ち遠しい"
+description: "日英数が混在する文章や、括弧などの約物のスペース調整などで特に効果を発揮するtext-spacingプロパティを覗いてみた。"
+slug: css-text-spacing-can-not-wait
+published: 2013-09-02T17:22:49+09:00
+updated: 2020-01-12T02:30:23+09:00
+category: webdev
+</script>
+
+<p>
+  日本語文中の英数で日本語の文字との間に半角スペースを入れるか入れないかという話があります。検索すると色々議論されていたりして面白いです。<br>
+  このブログでは場所によって半角スペースを入れたり入れなかったりしていますが<ins datetime="2020-01-12T02:30:23+09:00">（2020年1月追記：現在は入れていません）</ins>、『<a href="http://www.w3.org/TR/jlreq/ja/">日本語組版処理の要件</a>』に合わせてユーザーエージェントがいい感じに処理してほしいなーとか思います。
+</p>
+<p>
+  そこで「それCSSでできるよ」と言える（ようになるかもしれない）プロパティを紹介してみます。
+</p>
+<section>
+  <h2><code>text-spacing</code></h2>
+  <p>
+    これがまさに日英数が混在する文章で、英語や数字と日本語の間に4分の1スペースを自動で追加したり、全角括弧で生じる大きなスペースをトリムしたりできるプロパティです。
+  </p>
+  <p>
+    <code>text-spacing</code>は元々<code>text-trim</code>と<code>text-autospace</code>という別々のプロパティを統合したものです。これは<a href="http://www.w3.org/TR/2011/WD-css3-text-20110901/#changes">2011年9月1日版のチェンジログ</a>に載っています。<br>
+    <a href="http://lists.w3.org/Archives/Public/public-html-ig-jp/2011Apr/0028.html">統合に至る経緯の簡単な説明</a>も見ておくと面白いかもしれません。
+  </p>
+  <p>
+    このプロパティは「<a href="http://www.w3.org/TR/css3-text/">CSS Text Module Level 3</a>」にあったんですが、<a href="http://www.w3.org/TR/2012/WD-css3-text-20120119/#changes">2012年1月19日版</a>で削除され、「<a href="http://dev.w3.org/csswg/css-text-4/#text-spacing">CSS Text Level 4</a>」に移されました。
+  </p>
+  <p>
+    2013年9月現在、このプロパティを実装しているブラウザは残念ながらありません。<br>
+    ですが、予習としてプロパティの値を簡単にまとめてみます。<br>
+    詳しいことは仕様を見たほうが確実です（括弧はどの文字のことなのか、とか……）。
+  </p>
+  <p>
+    構文は次のようになっています。
+  </p>
+  <pre><code class="language-text">normal | none |
+[ trim-start | space-start ] ||
+[ trim-end | space-end | allow-end ] ||
+[ trim-adjacent | space-adjacent ] ||
+no-compress || ideograph-alpha || ideograph-numeric || punctuation</code></pre>
+  <p>
+    <code>normal</code>, <code>none</code>の場合は、そのキーワードのみを指定できます。それ以外の場合は次のものを順不同で少なくとも1つは指定。
+  </p>
+  <ul>
+    <li><code>trim-start</code>と<code>space-start</code>のどれか1つ</li>
+    <li><code>trim-end</code>と<code>space-end</code>と<code>allow-end</code>のどれか1つ</li>
+    <li><code>trim-adjacent</code>と<code>space-adjacent</code>のどれか1つ</li>
+    <li><code>no-compress</code></li>
+    <li><code>ideograph-alpha</code></li>
+    <li><code>ideograph-numeric</code></li>
+    <li><code>punctuation</code></li>
+  </ul>
+  <dl>
+    <dt><code>normal</code></dt>
+    <dd>
+      基本動作。<code>space-start allow-end trim-adjacent</code>と同等。
+    </dd>
+    <dt><code>none</code></dt>
+    <dd>
+      <code>text-spacing</code>による見た目を全て無効にする。全角文字は全角幅グリフとしてセットされる。
+    </dd>
+    <dt><code>space-start</code></dt>
+    <dd>
+      行頭にある全角開き括弧を全角幅グリフとしてセットする（全角括弧の半分の空白スペースをそのままにする）。
+    </dd>
+    <dt><code>trim-start</code></dt>
+    <dd>
+      行頭にある全角開き括弧を半角幅グリフとしてセットする（全角括弧の半分の空白スペースをトリムする）。
+    </dd>
+    <dt><code>space-end</code></dt>
+    <dd>
+      行末にある全角閉じ括弧を全角幅グリフとしてセットする。
+    </dd>
+    <dt><code>trim-end</code></dt>
+    <dd>
+      行末にある全角閉じ括弧を半角幅グリフとしてセットする。
+    </dd>
+    <dt><code>allow-end</code></dt>
+    <dd>
+      行末揃えする以外に収まらない場合、行末にある全角閉じ括弧を半角幅グリフとしてセットする。そうでなければ括弧を全角幅グリフとしてセットする。
+    </dd>
+    <dt><code>space-adjacent</code></dt>
+    <dd>
+      行頭ではない全角開き括弧、行末ではない全角閉じ括弧を全角幅グリフとしてセットする。
+    </dd>
+    <dt><code>trim-adjacent</code></dt>
+    <dd>
+      約物間のスペースを折りたたむ。<a href="http://dev.w3.org/csswg/css-text-4/#fullwidth-collapsing">詳細はこちらから</a>。
+    </dd>
+    <dt><code>ideograph-alpha</code></dt>
+    <dd>
+      表意文字と非表意文字との間に<span class="frac">1/4em</span>分のおまけスペースを作成する。
+    </dd>
+    <dt><code>ideograph-numeric</code></dt>
+    <dd>
+      表意文字と非表意数字グリフとの間に<span class="frac">1/4em</span>分のおまけスペースを作成する。
+    </dd>
+    <dt><code>punctuation</code></dt>
+    <dd>
+      言語固有の表記規則によって必要とされる、句読点の周りの改行禁止おまけスペースを作成する。現在のところフランス語でのみ有効だが、将来的には他の言語の規則も追加される可能性がある。
+    </dd>
+    <dt><code>no-compress</code></dt>
+    <dd>
+      テキストの間隔を圧縮しない場合があります……と書かれています。詳しいことは『日本語組版処理の要件』の「<a href="http://www.w3.org/TR/jlreq/ja/#line_adjustment">行の調整処理</a>」を見るといいでしょう。
+    </dd>
+  </dl>
+  <p>
+    「いま使えないんじゃーねー」という方もいるかと思いますが、英数と日本語の間のスペースを調整するだけなら、古くからInternet Explorerが<code>text-autospace</code>を実装していますので、<code>text-autospace</code>についても。
+  </p>
+  <section>
+    <h3><code>text-autospace</code></h3>
+    <p>
+      <code>-ms-text-autospace</code>で指定します。<br>
+      ただ、元はIEの独自実装だか先行実装だかで、IE 7以下では<code>-ms-</code>なしにする必要があります。<br>
+    </p>
+    <p>
+      仕様はMSDNの「<a href="http://msdn.microsoft.com/en-us/library/ms531164(VS.85).aspx">-ms-text-autospace property (Internet Explorer)</a>」をどうぞ。<br>
+      W3Cにあるものだと1999年の「<a href="http://www.w3.org/TR/1999/WD-i18n-format-19990127/#a6-7">International Layout in CSS</a>」にあるものが一番古いんでしょうか。
+    </p>
+    <pre><code class="language-text">none | ideograph-alpha || ideograph-numeric || ideograph-parenthesis || ideograph-space</code></pre>
+    <p>
+      <code>text-spacing</code>の元なので、指定できる値は似ています。
+    </p>
+    <dl>
+      <dt><code>none</code></dt>
+      <dd>
+        初期値。特に何も行わず、おまけスペースなども追加されません。
+      </dd>
+      <dt><code>ideograph-alpha</code></dt>
+      <dd>
+        表意文字と非表意文字との間におまけスペースを追加します。
+      </dd>
+      <dt><code>ideograph-numeric</code></dt>
+      <dd>
+        表意文字と数字との間におまけスペースを追加します。
+      </dd>
+      <dt><code>ideograph-parenthesis</code></dt>
+      <dd>
+        表意文字と半角括弧との間におまけスペースを追加します。
+      </dd>
+      <dt><code>ideograph-space</code></dt>
+      <dd>
+        表意文字と表意文字との間にある半角スペースの幅を広げます。
+      </dd>
+    </dl>
+    <p>
+      デモページを作ってみたのでInternet Explorerで見てみてください。
+    </p>
+    <p>
+      <a href="/demo/2013/text-autospace/">-ms-text-autospace</a>
+    </p>
+    <p>
+      ちゃんと表示されていれば次のようになります。
+    </p>
+    <figure>
+      <img src="/images/2013/css-text-spacing-can-not-wait/result.png" width="620" height="715" alt="text-autospaceデモのスクリーンショット">
+    </figure>
+    <p>
+      半角スペースを手動入力することによって、音声読み上げソフトの読み上げがおかしくなる可能性も考えると、こうやって見た目だけ調整してくれるのは本当に素晴らしいですね。
+    </p>
+  </section>
+</section>
+<p>
+  <code>text-spacing</code>がLevel 4になったので好きに使えるようになるのはまだまだ先な気がしますが、他にも<code>hanging-punctuation</code>や<code>text-justify</code>などを使ってウェブページ上でも好みの文字組みができるようになることを考えると今から楽しみになりませんか？
+</p>
+<p>
+  参考リンク：<br>
+  <a href="http://momdo.s35.xrea.com/web-html-test/CSS3-memo/-ms-text-autospace.html">-ms-text-autospace；文字間の間隔制御 - CSS3ウェブブラウザ実装メモ - 血統の森 web実験小屋</a>
+</p>

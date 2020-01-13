@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <title>Random Geometric Pattern Background with SVG</title>
+  <style type="text/css">
+  body {
+    margin: 0;
+    background: #fff;
+  }
+  </style>
+</head>
+<body>
+
+<script type="text/javascript">
+(function () {
+
+  window.addEventListener('load', function () {
+    geometricPatternBG({
+      apexes: [0, 3, 4],
+      count: 30,
+      radius: { min: 20, max: 60 },
+      rgb: { min: 160, max: 240 },
+      fillOpacity: 0.3,
+      strokeWidth: 1,
+      strokeOpacity: 0.5
+    })
+  }, false)
+
+  function geometricPatternBG (userSettings) {
+
+    var defaultSettings = {
+      apexes: 0, // 0:circle, 3:triangle, 4:square, ...
+      count: 30,
+      radius: { min: 30, max: 100 },
+      rgb: { min: 150, max: 250 },
+      fillOpacity: 0.2,
+      strokeWidth: 1,
+      strokeOpacity: 0.3
+    }
+
+    var options = userSettings || defaultSettings
+
+    var view = {
+      width: window.innerWidth,
+      height: window.innerHeight
+    }
+
+    var fnc = {
+
+      createSVG: function (tagName) {
+        return document.createElementNS('http://www.w3.org/2000/svg', tagName)
+      },
+
+      getRandomNumber: function (min, max, integer) {
+        var num = Math.random() * (max - min)
+        if (integer) {
+          num = Math.floor(num)
+        }
+        return num + min
+      },
+
+      getRandomRGB: function (min, max) {
+        var channels = []
+        for (var i = 0; i < 3; i++) {
+          channels.push(this.getRandomNumber(min, max, true))
+        }
+        return 'rgb(' + channels.join(',') + ')'
+      },
+
+      setAttributes: function (element, object) {
+        for (var z in object) {
+          if (object.hasOwnProperty(z)) {
+            element.setAttribute(z, object[z])
+          }
+        }
+        return element
+      },
+
+      setStyles: function (element, object) {
+        for (var n in object) {
+          if (object.hasOwnProperty(n)) {
+            element.style[n] = object[n]
+          }
+        }
+        return element
+      }
+    }
+
+    var makeFigure = {
+
+      circle: function (coordinateX, coordinateY, radius, color) {
+
+        var circle = fnc.createSVG('circle')
+
+        circle = fnc.setAttributes(circle, {
+          'cx': coordinateX,
+          'cy': coordinateY,
+          'r': radius,
+          'fill': color,
+          'stroke': color,
+          'fill-opacity': options.fillOpacity,
+          'stroke-width': options.strokeWidth,
+          'stroke-opacity': options.strokeOpacity
+        })
+
+        return circle
+      },
+
+      polygon: function (apexes, coordinateX, coordinateY, radius, color) {
+
+        var polygon = fnc.createSVG('polygon')
+
+        var centralAngleRad = (Math.PI * 2) / apexes
+        var rotateAngleRad = fnc.getRandomNumber(0, 180, true) * Math.PI / 180
+        var apexCoordinates = []
+
+        for (var i = 0; i < apexes; i++) {
+          var x = Math.cos(centralAngleRad * i + rotateAngleRad) * radius + coordinateX
+          var y = Math.sin(centralAngleRad * i + rotateAngleRad) * radius + coordinateY
+
+          apexCoordinates.push(x + ',' + y)
+        }
+
+        polygon.setAttribute('points', apexCoordinates.join(' '))
+
+        polygon = fnc.setAttributes(polygon, {
+          'fill': color,
+          'stroke': color,
+          'fill-opacity': options.fillOpacity,
+          'stroke-width': options.strokeWidth,
+          'stroke-opacity': options.strokeOpacity
+        })
+
+        return polygon
+      }
+    }
+
+    var svg = fnc.createSVG('svg')
+
+    for (var i = 0; i < options.count; i++) {
+
+      var apx = Math.floor(options.apexes)
+
+      if (Array.isArray(options.apexes)) {
+        var rand = fnc.getRandomNumber(0, options.apexes.length, true)
+        apx = Math.floor(options.apexes[rand])
+      }
+
+      var baseX = fnc.getRandomNumber(0, view.width)
+      var baseY = fnc.getRandomNumber(0, view.height)
+      var radius = fnc.getRandomNumber(options.radius.min, options.radius.max)
+      var color = fnc.getRandomRGB(options.rgb.min, options.rgb.max)
+
+      var figure
+
+      if (apx > -1 && apx < 3) {
+        figure = makeFigure.circle(baseX, baseY, radius, color)
+      } else if (apx > 2) {
+        figure = makeFigure.polygon(apx, baseX, baseY, radius, color)
+      }
+
+      svg.appendChild(figure)
+    }
+
+    svg.setAttribute('viewBox', [0, 0, view.width, view.height].join(' '))
+
+    svg = fnc.setStyles(svg, {
+      display: 'block',
+      position: 'fixed',
+      zIndex: -1,
+      width: '100%',
+      height: '100%'
+    })
+
+    document.getElementsByTagName('body')[0].appendChild(svg)
+  }
+})()
+</script>
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+<script type="application/x-yaml">
+title: "Next/PrevやNewer/Olderみたいなナビゲーションの呼び方について"
+description: "Next/Prevみたいなナビゲーションのことを何と呼ぶのか分からないと書いてみたらリプライを頂けましたので紹介します。"
+slug: next-prev-navigation-what-are-you-calling
+published: 2011-04-13T16:29:55+09:00
+updated: 2011-04-13T17:22:09+09:00
+category: webdev
+</script>
+
+<p>
+  Next/PrevやNewer/Olderみたいなナビゲーションのことを何と呼ぶのか分からなかったのでTwitterで書いてみたら、リプライを頂けました。
+</p>
+<figure>
+  <blockquote cite="https://twitter.com/ub_pnr/status/58055466797895680">
+    <p>
+      Next/Prev みたいなナビゲーションって ページャー？ ページング？ ページネーション？ ページナビ？ なんていうのかな。
+    </p>
+  </blockquote>
+  <figcaption>
+    <cite>@ub_pnr <a href="https://twitter.com/ub_pnr/status/58055466797895680">https://twitter.com/ub_pnr/status/58055466797895680</a></cite>
+  </figcaption>
+</figure>
+<p>
+  個人的にですが、各人が呼びやすいように呼んでるというイメージがあって、Next/Prev、Newer/Olderというタイプなのか、[Prev]&#8230;[2][3][4]&#8230;[Next]みたいなタイプなのか、どっちのことを言っているかすぐには分からないことが多いんですね。<br>
+  （一応、話の流れで分かりますが）
+</p>
+<p>
+  今回、リプライをくれた方々のツイートを紹介してみます。
+</p>
+<figure>
+  <blockquote cite="https://twitter.com/turusuke/status/58055914070089729">
+    <p>
+      <a href="https://twitter.com/ub_pnr">@ub_pnr</a> 僕はよくページャーってよんでますが、ページングもページネーションも聞きますね…
+    </p>
+  </blockquote>
+  <figcaption>
+    <cite>@turusuke <a href="https://twitter.com/turusuke/status/58055914070089729">https://twitter.com/turusuke/status/58055914070089729</a></cite>
+  </figcaption>
+</figure>
+<figure>
+  <blockquote cite="https://twitter.com/glatyou/status/58056026540355584">
+    <p>
+      <a href="https://twitter.com/ub_pnr">@ub_pnr</a> ページネーションってよく言いますね。ページャも聞きます。
+    </p>
+  </blockquote>
+  <figcaption>
+    <cite>@glatyou <a href="https://twitter.com/glatyou/status/58056026540355584">https://twitter.com/glatyou/status/58056026540355584</a></cite>
+  </figcaption>
+</figure>
+<figure>
+  <blockquote cite="https://twitter.com/5509/status/58057228346863616">
+    <p>
+      <a href="https://twitter.com/ub_pnr">@ub_pnr</a> Prev/Nextはページナビゲーション、&lt;1234&gt;みたいなのをページングって呼んでますけど正解はわかりません
+    </p>
+  </blockquote>
+  <figcaption>
+    <cite>@5509 <a href="https://twitter.com/5509/status/58057228346863616">https://twitter.com/5509/status/58057228346863616</a></cite>
+  </figcaption>
+</figure>
+<figure>
+  <blockquote cite="https://twitter.com/holydesign/status/58058279632384001">
+    <p>
+      <a href="https://twitter.com/ub_pnr">@ub_pnr</a> Neighborsとかじゃ駄目ですかね？<br>
+      CakePHPのリンク作成するやつとかはそうなってるみたいです。<br>
+      <a href="http://mick.blog16.jp/index.php/main/2008/10/02/cakephp1.2_findneighbors">http://bit.ly/fW3MGP</a>
+    </p>
+  </blockquote>
+  <figcaption>
+    <cite>@holydesign <a href="https://twitter.com/holydesign/status/58058279632384001">https://twitter.com/holydesign/status/58058279632384001</a></cite>
+  </figcaption>
+</figure>
+<figure>
+  <blockquote cite="https://twitter.com/ginpei_jp/status/58079364369223680">
+    <p>
+      <a href="https://twitter.com/ub_pnr">@ub_pnr</a> 半年くらい前に同じ話をtwitterに振った事がありますｗ　結局自分の場合は、PEAR::Pagerに倣ってpagerと呼ぶようになりました。
+    </p>
+  </blockquote>
+  <figcaption>
+    <cite>@ginpei_jp <a href="https://twitter.com/ginpei_jp/status/58079364369223680">https://twitter.com/ginpei_jp/status/58079364369223680</a></cite>
+  </figcaption>
+</figure>
+<p>
+  やっぱり人によって違うなーと思っていましたが、「Neighbors」は分かりやすいと思いました。<br>
+  「お隣さん」なので、1つ前か1つ後ってことになりますしね。
+</p>
+<p>
+  Next/Prev、Newer/OlderをNeighbors-navigation（ネイバーズナビゲーション）としておけば、&#8230;[2][3][4]&#8230;みたいなタイプと両方あるときにHTMLのクラス名とか、JavaScriptで作るときとか、混乱しにくくなっていいんじゃないかと思います。<br>
+</p>
+<p>
+  自分は両方あると途中でどっちがどっちか分からなくなる人なので……。
+</p>
+<p>
+  あと、普段使っているライブラリとか言語とかを指針に決めるのもいいアイディアだと思いました。
+</p>
+<p>
+  リプライくれた方々、どうもありがとうございました。
+</p>

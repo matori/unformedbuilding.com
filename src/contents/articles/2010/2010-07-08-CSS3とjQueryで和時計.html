@@ -1,0 +1,254 @@
+<script type="application/x-yaml">
+title: "CSS3とjQueryで和時計"
+description: "和時計は日の出・日の入を利用した不定時法なのですが、これは見た目が和時計風になるだけです。"
+slug: css3-wadokei-with-jquery
+published: 2010-07-08T15:52:59+09:00
+updated: 2011-05-18T14:32:13+09:00
+category: webdev
+</script>
+
+<p>
+  すいません、タイトルはちょっと嘘です。<br>
+  和時計は日の出と日の入を利用した不定時法なのですが、これは見た目が和時計風になるだけです。<br>
+  午前0時が子の刻、午前2時が丑の刻という感じです。
+</p>
+<p>
+  マークアップには<code>ol</code>を使っています。<br>
+  それと、これは遊びで作ったものなので実際に使うのはやめておいたほうがいいと思います。
+</p>
+<p>
+  とりあえず完成品のデモをどうぞ。
+</p>
+<p>
+  <a href="/demo/2010/css3-wadokei-with-jquery/demo1.html">CSS3とjQueryで和時計 DEMO</a>
+</p>
+<p>
+  <a href="/download/2010/css3-wadokei-with-jquery-demo.zip" download>デモファイルをダウンロード</a>
+</p>
+<section>
+  <h2>最初に作ったもの</h2>
+  <p>
+    『<a href="http://jsdo.it/">jsdo.it</a>』で書いたもの。Webkit専用。<br>
+    見た目の指定のみなので動きません。
+  </p>
+  <p>
+    <a href="http://jsdo.it/ub-pnr/code1">CSS3 で和時計 - jsdo.it - share JavaScript, HTML5 and CSS</a>
+  </p>
+</section>
+<section>
+  <h2>作り直して動くようにしたもの</h2>
+  <section>
+    <h3>HTML</h3>
+    <p>
+      HTML部分は単純です。
+    </p>
+    <pre><code class="language-html">&lt;div id=&quot;wadokei&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;ne&quot;&gt;&lt;span&gt;子&lt;/span&gt;&lt;/li&gt;
+    &lt;li id=&quot;ushi&quot;&gt;&lt;span&gt;丑&lt;/span&gt;&lt;/li&gt;
+    &lt;li id=&quot;tora&quot;&gt;&lt;span&gt;寅&lt;/span&gt;&lt;/li&gt;
+    &lt;li id=&quot;u&quot;&gt;&lt;span&gt;卯&lt;/span&gt;&lt;/li&gt;
+    &lt;li id=&quot;tatsu&quot;&gt;&lt;span&gt;辰&lt;/span&gt;&lt;/li&gt;
+    &lt;li id=&quot;mi&quot;&gt;&lt;span&gt;巳&lt;/span&gt;&lt;/li&gt;
+    &lt;li id=&quot;uma&quot;&gt;&lt;span&gt;午&lt;/span&gt;&lt;/li&gt;
+    &lt;li id=&quot;hitsuji&quot;&gt;&lt;span&gt;未&lt;/span&gt;&lt;/li&gt;
+    &lt;li id=&quot;saru&quot;&gt;&lt;span&gt;申&lt;/span&gt;&lt;/li&gt;
+    &lt;li id=&quot;tori&quot;&gt;&lt;span&gt;酉&lt;/span&gt;&lt;/li&gt;
+    &lt;li id=&quot;inu&quot;&gt;&lt;span&gt;戌&lt;/span&gt;&lt;/li&gt;
+    &lt;li id=&quot;i&quot;&gt;&lt;span&gt;亥&lt;/span&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;</code></pre>
+  </section>
+  <section>
+    <h3>CSS</h3>
+    <p>Firefox, Chrome, Safari, Operaに対応するために、それぞれの指定を追加していきます。</p>
+    <pre><code class="language-css">/* 時計の外枠のボーダーと外枠の色 */
+#wadokei {
+  position: relative; /* :before :after の absolute 用 */
+  margin: 0 auto;
+  padding: 5px;
+  border: 1px solid #666;
+  border-radius: 166px;
+  -moz-border-radius: 166px;
+  -webkit-border-radius: 166px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+  width: 322px;
+  height: 322px;
+  background-color: #222;
+  font-family: serif;
+}
+
+/* 時計の針 */
+#wadokei:before {
+  display: block;
+  position: absolute;
+  top: 50px;
+  left: 165px; /* 中心にくるように#wadokeiのwidthを考えながら調整する */
+  z-index: 1; /* ないとみえなくなる */
+  width: 2px;
+  height: 111px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, .4);
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, .4);
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, .4);
+  background: #000;
+  content: &quot;&quot;;
+}
+
+/* 時計の針の根元。:beforeとほとんど同じ */
+#wadokei:after {
+  display: block;
+  position: absolute;
+  top: 161px;
+  left: 161px;
+  z-index: 2;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  width: 10px;
+  height: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, .4);
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, .4);
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, .4);
+  background: #c00;
+  content: &quot;&quot;;
+}
+
+/* 時計の内側 */
+#wadokei ol {
+  position: relative; /* liがabsoluteになるので */
+  margin: 0;
+  padding: 0;
+  border: 1px solid #999;
+  border-radius: 160px;
+  -moz-border-radius: 160px;
+  -webkit-border-radius: 160px;
+  list-style: none;
+  width: 320px;
+  height: 320px;
+  background-color: #fff;
+  background-image: -webkit-gradient(radial, center center, 20, center center, 150, from(#fff), color-stop(95%, #eaeaea), to(#e0e0e0));
+}
+
+/* 文字盤 */
+#wadokei ol &gt; li {
+  position: absolute; /* リストを全部同じ場所に */
+  top: 150px;
+  left: 10px;
+  width: 150px;
+  font-size: 20px;
+  transform-origin: 100% 50%;
+  -moz-transform-origin: 100% 50%;
+  -webkit-transform-origin: 100% 50%;
+  -o-transform-origin: 100% 50%;
+}
+
+/* 各時刻の文字 */
+#ne {
+  transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+}
+
+/*
+  長いので省略。
+  上と同じ指定を各文字に指定していく。
+  1文字あたり30degをプラスする。
+*/
+
+/* 文字を回転させる */
+#wadokei li &gt; span {
+  display: inline-block;
+  transform: rotate(270deg);
+  -moz-transform: rotate(270deg);
+  -webkit-transform: rotate(270deg);
+  -o-transform: rotate(270deg);
+}</code></pre>
+    <p>
+      かなり長いですが、ほとんどは各ブラウザ用の指定ですね。<br>
+     <code>li</code>要素を<code>rotate</code>するときの回転場所の基準はちゃんと指定しないとおかしなことになります。
+    </p>
+    <p>
+      文字を回転させる箇所ですが、<code>li</code>が回転していない時点では文字が上を向いているので、内側に向くように<code>rotate</code>させてやればいいだけです。
+    </p>
+    <p>
+      文字の位置は360を12で割って、30度ずつずらして配置します。
+    </p>
+  </section>
+  <section>
+    <h3>jQuery</h3>
+    <p>
+      時計を動かします。<br>
+      このコードは<a href="http://css-tricks.com/">CSS-Tricks</a>を参考にしました。
+    </p>
+    <p>
+      <a href="http://css-tricks.com/css3-clock/">Old School Clock with CSS3 and jQuery | CSS-Tricks</a>
+    </p>
+    <pre><code class="language-javascript">jQuery(function($) {
+
+  setInterval( function() {
+    var hours = new Date().getHours();
+    var degree = hours * -15;
+    var rotate = 'rotate(' + degree + 'deg)';
+    $('#wadokei &gt; ol').css({
+      '-moz-transform': rotate,
+      '-webkit-transform': rotate,
+      '-o-transform': rotate
+    });
+  }, 1000);
+
+});</code></pre>
+    <p>
+      時間を取得して、時間に<code>-15</code>をかけて、それをCSSに入れているだけです。<br>
+      これを1秒おきに繰り返します。
+    </p>
+  </section>
+  <p>
+    これで一応完成です。<br>
+    1時間おきに15度ずつ文字盤が動く時計ができあがりました。<br>
+  </p>
+  <p>
+    <a href="/demo/2010/css3-wadokei-with-jquery/demo1.html">CSS3とjQueryで和時計 DEMO</a>
+  </p>
+</section>
+<section>
+  <h2>文字盤が回るときにアニメーションさせてみる</h2>
+  <p>
+    jQueryの<code>animate</code>でできそうですが、できないですね。<br>
+    探してみたらプラグインがあったのでそれを使いました。
+  </p>
+  <p>
+    <a href="http://www.zachstronaut.com/posts/2009/08/07/jquery-animate-css-rotate-scale.html">jQuery Patch: Animate CSS Rotation and Scale - zachstronaut</a>
+  </p>
+  <p>
+    それと、せっかくなので<a href="http://gsgd.co.uk/sandbox/jquery/easing/">jQuery Easing Plugin</a>も使ってみました。<br>
+    HTMLの<code>head</code>内で各プラグインを読み込みます。<br>
+    CSSは同じ。
+  </p>
+  <pre><code class="language-javascript">jQuery(function($) {
+
+  setInterval( function() {
+    var hours = new Date().getHours();
+    var degree = hours * -15 + 'deg';
+    $('#wadokei &gt; ol').animate({rotate: degree}, 1000, 'easeOutElastic');
+  }, 1000);
+
+});</code></pre>
+  <p>
+    このAnimate CSS Rotation and ScaleプラグインはOperaに対応していないようです。<br>
+    なのでデモページもFirefox, Chrome, Safariのみ対応です。
+  </p>
+  <p>
+    <a href="/demo/2010/css3-wadokei-with-jquery/demo2.html">CSS3とjQueryで和時計（アニメーション版） DEMO</a>
+  </p>
+  <p>
+    1時間に1回しか動かないものにアニメーション指定する必要があるかどうかは疑問ですが、こんな感じです。
+  </p>
+</section>
+<p>
+  かなり説明が足りてないような気がしますが、これで終わりです。<br>
+  正直、こんな面倒くさいことするくらいなら画像を使ったほうが早いし見た目もいいです。<br>
+  まあ最初に言ったとおり、お遊びということで。
+</p>

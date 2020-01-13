@@ -1,0 +1,74 @@
+<script type="application/x-yaml">
+title: "samp要素にスクリーンショットを使うことについて"
+description: "HTMLのsamp要素はプログラムやシステムの出力を表します。そこでCSSの実行結果スクリーンショットをマークアップしてもいいのではないかと思ったわけです。"
+slug: html-samp-element-and-screenshot
+published: 2012-09-06T12:02:21+09:00
+updated: 2012-09-06T12:02:21+09:00
+category: webdev
+</script>
+
+<p>
+  HTMLの<code>samp</code>要素について。<br>
+  この要素はプログラムやコンピュータシステムの出力を表すとなっています。
+</p>
+<figure>
+  <blockquote cite="http://www.w3.org/TR/html5/the-samp-element.html">
+    <p>
+      The<code>samp</code>element represents (sample) output from a program or computing system.
+    </p>
+  </blockquote>
+  <figcaption>
+    <cite><a href="http://www.w3.org/TR/html5/the-samp-element.html">4.6.13 The samp element — HTML5</a></cite>
+  </figcaption>
+</figure>
+<p>
+  ということはCSSの実行結果なんかのスクリーンショット画像を<code>samp</code>要素でマークアップしてもいいのではないかと思ったわけです。
+</p>
+<pre><code class="language-html">&lt;pre&gt;&lt;code&gt;
+body {
+  color: red;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;samp&gt;&lt;img src=&quot;ss.png&quot; alt=&quot;ページ全体の文字が赤くなりました。&quot; /&gt;&lt;/samp&gt;&lt;/p&gt;</code></pre>
+<p>
+  こんな感じですか。<br>
+  で、それをTwitterで書いていたら意見をもらいました。
+</p>
+<figure>
+  <blockquote cite="https://twitter.com/terkel/status/243531914257002496">
+    <p>
+      スクリーンショットは実行結果というよりそれを恣意的に切り取って編集したものなので、&quot;output from a program or computing system&quot; とは言いがたい気がする。
+    </p>
+  </blockquote>
+  <figcaption>
+    <cite>@terkel <a href="https://twitter.com/terkel/status/243531914257002496">https://twitter.com/terkel/status/243531914257002496</a></cite>
+  </figcaption>
+</figure>
+<figure>
+  <blockquote cite="https://twitter.com/terkel/status/243533620025896960">
+    <p>
+      スクリーンショットは編集者が画像編集ソフトとかで作ったもので、“Hello world” みたいにシステムが吐いたものではない、ってとこかな? やっぱ基本 figure または p とかがいい気がする。
+    </p>
+  </blockquote>
+  <figcaption>
+    <cite>@terkel <a href="https://twitter.com/terkel/status/243533620025896960">https://twitter.com/terkel/status/243533620025896960</a></cite>
+  </figcaption>
+</figure>
+<p>
+  途中で人の手が加わったのでコンピュータからの出力結果とは言えないということですね。<br>
+  なるほど。
+</p>
+<p>
+  そもそも、出力されたものをキャプチャしてアップロードしたものは<em>出力結果そのもの</em>なのかという話になってきます。
+</p>
+<p>
+  結局どうなんだってことですけど。<br>
+  ゆるく考えればセーフ、厳密に考えたらアウトっぽいです。<br>
+  なんかこれは仕様の一文をどう解釈するかの問題のような気もするので、個人の意見としておいたほうがいいかと思います。すみません。
+</p>
+<p>
+  「書かれてないけど実はそういうのも決まってるんだぜ」的なのがありましたら是非教えてほしいです。探してはみたんですが全然見つからなくて……。
+</p>
+<p>
+  指摘のあったように、実際には無難に<code>p</code>や<code>figure</code>になりそうです。
+</p>

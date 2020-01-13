@@ -1,0 +1,336 @@
+<script type="application/x-yaml">
+title: "picplzのAPIを使ってギャラリーを作ってみた"
+description: "写真SNSのpicplzのAPIが公開されていましたので、それを使ってギャラリーを作ってみました。"
+slug: interesting-photo-gallery-with-picplz-api
+published: 2011-06-02T14:43:41+09:00
+updated: 2020-01-07T17:48:03+09:00
+category: webdev
+</script>
+
+<ins datetime="2020-01-07T17:48:03+09:00">
+  <p>
+    <b>2020年1月7日 追記：</b><br>
+    picplzは2012年7月3日に閉鎖されましたので、この記事のデモはもはや動きません。
+  </p>
+  <hr>
+</ins>
+<p>
+  写真にフィルタをかけてアップロードできる写真SNSのpicplzですが、2月にAPIが公開されていましたので、それを使ってギャラリーを作ってみました。
+</p>
+<p>
+  <a href="http://sites.google.com/site/picplzapi/">picplz API</a>
+</p>
+<p>
+  今回はpicplzのinterestingにある画像を一覧表示します。<br>
+  いやまあ直接見に行けばいいってのは分かってますけどねｗ<br>
+  デモとダウンロードは以下からどうぞ。<br>
+  IE 8以降なら普通に見れると思います。
+</p>
+<p>
+  <a href="/demo/2011/interesting-photo-gallery-with-picplz-api/">Interesting Photo Gallery w/ picplz API</a>
+</p>
+<p>
+  <a href="/download/2011/interesting-photo-gallery-with-picplz-api.zip" download>デモファイルをダウンロード</a>
+</p>
+<p>
+  まずはHTMLから。<br>
+  必要な要素をそのまま記述しておきます。
+</p>
+<pre><code class="language-html">&lt;div id=&quot;gallery&quot;&gt;
+  &lt;!--
+    ここにサムネイルのギャラリーが入る
+    ul &gt; li &gt; a &gt; img
+  --&gt;
+  &lt;div id=&quot;loader&quot;&gt;
+    &lt;!-- ローディング画像 --&gt;
+    &lt;img src=&quot;ajax-loader.gif&quot; alt=&quot;loading...&quot; /&gt;
+  &lt;/div&gt;
+  &lt;div id=&quot;more&quot;&gt;
+    &lt;!-- 更に画像を読みこむためのボタン --&gt;
+    &lt;a href=&quot;#&quot;&gt;more pic please!&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;&lt;!-- // #gallery --&gt;
+
+&lt;!-- 表示領域全体を覆う --&gt;
+&lt;div id=&quot;view-layer&quot;&gt;&lt;/div&gt;
+
+&lt;!-- 拡大画像や詳細を入れる --&gt;
+&lt;div id=&quot;view-container&quot;&gt;
+  &lt;div id=&quot;view-content&quot;&gt;&lt;!-- ここにに入る --&gt;&lt;/div&gt;
+  &lt;a href=&quot;#&quot; class=&quot;close&quot;&gt;&amp;#x2716;&lt;/a&gt;&lt;!-- 閉じるボタン --&gt;
+&lt;/div&gt;</code></pre>
+<p>
+  jQueryで追加してもいいんですけど、めんどくさくなってきたので直接書きました。<br>
+  次はCSSですが、特に変わったことはしていませんので、デモページのを見るなりダウンロードして確認するなりしてください。<br>
+  ちなみに、<code>text-shadow</code>の<code>0 0 0 transparent</code>はChrome対策です。
+</p>
+<p>
+  ではjQueryを使って書いていきます。<br>
+  説明はコメントでやります。
+</p>
+<pre><code class="language-javascript">jQuery(function ($) {
+  // ここにコードを書いていきます。
+});
+</code></pre>
+<p>お約束を書いたら、まずは各種変数を。</p>
+<pre><code class="language-javascript">// 設定
+var o = {
+  perPage   : 24,     // 1回のロード毎の画像取得数
+  thumbSize : '100s', // 56, 64, 75, 100, 200
+  picSize   : '400r'  // 150, 320, 400, 640, 1024
+}
+
+// セレクタを変数に入れておく
+var $gallery       = $('#gallery'),
+    $loader        = $('#loader').children('img'),
+    $more          = $('#more').children('a');
+    $viewLayer     = $('#view-layer'),
+    $viewContainer = $('#view-container'),
+    $viewContent   = $('#view-content'),
+    $closeButton   = $viewContainer.children('a.close');
+
+var lastPicId,      // last_pic_id 用
+    clickCount = 0; // ロードした回数の管理
+    maxCount   = Math.ceil(240 / o.perPage) - 1; // ロードできる回数の最大値
+
+// サムネイルリスト用
+var $imageList = $('&lt;ul/&gt;').prependTo($gallery);</code></pre>
+<p>
+  <code>o.thumbSize</code>とかの<code>s</code>は正方形、<code>r</code>は最長サイズです。<br>
+  ロードできる回数というのは、このAPIで取れる画像は240枚までなので、呼び出し回数を先に決めておきます。
+</p>
+<p>
+  次はデータを取得する部分。
+</p>
+<pre><code class="language-javascript">// 画像を取得する
+function loadImages(last) {
+
+  // パラメータ
+  var ajaxData = {
+    type          : 'interesting',
+    pic_page_size : o.perPage,
+    pic_formats   : o.thumbSize + ',' + o.picSize
+  };
+
+  // last_pic_id を持っていたら(2回目以降)パラメータに追加する
+  if (last) {
+    ajaxData.last_pic_id = last;
+  }
+
+  // API からデータを取得する
+  $.ajax({
+    url      : 'http://api.picplz.com/api/v2/feed.json',
+    dataType : 'jsonp',
+    data     : ajaxData,
+    success  : function (data) {
+                 getPics(data);
+               }
+  });
+}</code></pre>
+<p>
+  パラメータなどはAPIドキュメントを見てください。<br>
+  <code>last_pic_id</code>を指定してAPI叩くと、その画像の続きから取得できます。
+</p>
+<p>
+  次はデータ取得が成功したときの処理です。
+</p>
+<pre><code class="language-javascript">// データ取得後
+function getPics(d) {
+
+  // ローディング画像を表示
+  $loader.show();
+
+  // last_pic_idを変数に格納(上書きしていく)
+  lastPicId = d.value.last_pic_id;
+
+  var images = d.value.pics,  // 画像データの配列
+      count  = 0,             // 画像の枚数管理
+      limit  = images.length; // 画像の配列の要素数
+
+  $.each(images, function (i, p) {
+
+    // 各種データ
+    var img = {
+      pageUrl  : 'http://picplz.com' + p.url,
+      thumbUrl : p.pic_files['100s'].img_url,
+      largeUrl : p.pic_files['400r'].img_url,
+      caption  : p.caption ? p.caption : '(Untitled)',
+      date     : convertTime(p.date),
+      count    : {
+        pv       : p.view_count,
+        like     : p.like_count,
+        comment  : p.comment_count
+      },
+      creator  : {
+        userName    : p.creator.username,
+        displayName : p.creator.display_name,
+        iconUrl     : p.creator.icon.url,
+        following   : p.creator.following_count,
+        follower    : p.creator.follower_count
+      }
+    }
+
+    // 画像をロードする
+    $('&lt;img/&gt;').load(function () {
+
+      // カウントを1つ増やす
+      ++count;
+
+      // 画像のロードが終わったらli要素を作る
+      makeList($(this), img);
+
+      // 最後の画像だったら、ロード完了後にリストを全て表示
+      if(count === limit) {
+        showThumbs();
+      }
+    }).attr({
+      src   : img.thumbUrl,
+      alt   : img.caption,
+      title : img.caption
+    });
+  });
+}</code></pre>
+<p>
+  サムネイル画像は、画像のロードが終わってから表示するようにしています。<br>
+  ここでは画像のデータをまとめておいて、それを引数として関数に渡しています。<br>
+</p>
+<p>
+  次は画像のロードが終わったときに使う関数を作ります。
+</p>
+<pre><code class="language-javascript">// 画像のロードが終わったらli要素を作って$imageListに追加する
+function makeList(e, t) {
+
+  // リンクを作る&amp;イベント
+  var $anchor = $('&lt;a/&gt;').attr('href', t.largeUrl)
+                         .click(function (e) {
+                           viewImage(e, t)
+                         });
+
+  // 上で作ったimg要素をリンクに追加
+  e.appendTo($anchor);
+
+  // ul要素に追加するli要素(フェードイン用に一旦非表示に)
+  $('&lt;li/&gt;').hide().append($anchor).appendTo($imageList);
+
+}
+
+// サムネイルを全て表示する
+function showThumbs() {
+
+  // ローディング画像を非表示に
+  $loader.fadeOut(100);
+
+  // ロード回数が最大値になったらmoreを消す
+  if(clickCount === maxCount) {
+    $more.parent().fadeOut(function () {
+      $(this).remove();
+    });
+  }
+
+  // リストをフェードイン表示
+  $imageList.children().fadeIn();
+}</code></pre>
+<p>
+  ここまで終わって、サムネイル一覧が表示されるようになりました。<br>
+  次はサムネイルをクリックしたときの処理です。
+</p>
+<pre><code class="language-javascript">// サムネイルをクリックしたときの動作
+function viewImage(e, pic) {
+
+  // リンク動作を無効にする
+  e.preventDefault();
+
+  // 前に表示したものを消す
+  $viewContent.empty();
+
+  // 書き出すHTMLのテンプレート
+  var markup = '(長いので省略します)';
+
+  // テンプレートに設定
+  $.template(&quot;viewDetail&quot;, markup);
+
+  // テンプレートとデータを結びつけて、$viewContentに追加する
+  $.tmpl(&quot;viewDetail&quot;, pic).appendTo($viewContent);
+
+  // レイヤーと画像詳細のdivをフェードイン
+  $viewLayer.fadeIn(600);
+  $viewContainer.fadeIn(600);
+}
+</code></pre>
+<p>
+  ここではjQuery Templatesを使って書き出すHTMLを作っています。<br>
+  使わなくてもできますが、めんどくさかったので……。
+</p>
+<pre><code class="language-javascript">// 閉じるボタンやレイヤーのブランク部分をクリックしたときの処理
+function closeView(e) {
+  e.preventDefault();
+  $viewLayer.fadeOut(300);
+  $viewContainer.fadeOut(300);
+}
+
+// Unix timeを読めるように変換
+function convertTime(u) {
+
+  // 数字が1桁の場合にゼロパディングする
+  function paddingZero(n) {
+    return n &gt; 9 ? n : '0' + n;
+  }
+
+  var t = new Date(u * 1000);
+  t.setTime(t.getTime() + (60 * 60 * 1000));
+
+  var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  // 整形
+  var year  = t.getFullYear(),
+      month = months[t.getMonth()],
+      date  = paddingZero(t.getDate()),
+      hour  = paddingZero(t.getHours()),
+      min   = paddingZero(t.getMinutes()),
+      sec   = paddingZero(t.getSeconds());
+
+  var pubdate = month + ' ' + date + ', ' + year + ' ' + hour + ':' + min + ':' + sec;
+
+  return pubdate;
+}</code></pre>
+<p>
+  拡大画像を閉じるための処理ですね。<br>
+  あと、picplz APIでは画像の投稿時刻がUNIX timeで書かれているので、それを人間にも読めるように書き換えています。
+</p>
+<ins datetime="2011-06-03T08:10:42+09:00">
+  <p>
+    <b>2011年6月3日 追記：</b><br>
+    日付の処理は置換を使っていましたが、変更しました。
+  </p>
+</ins>
+<pre><code class="language-javascript">// moreをクリックしたときの動作
+$more.click(function (e) {
+  e.preventDefault();
+
+  // ロード回数を1つ増やす
+  clickCount++;
+
+  // last_pic_idを指定して再度取得
+  loadImages(lastPicId);
+});
+
+// レイヤーと閉じるボタンのクリック動作
+$viewLayer.click(function (e) {
+  closeView(e);
+});
+$closeButton.click(function (e){
+  e.preventDefault();
+  closeView(e);
+});</code></pre>
+<p>
+  <code>$more</code>をクリックしたら、また画像を取ってくるようにしています。<br>
+  残りの2つは画像の詳細を閉じる動作です。
+</p>
+<pre><code class="language-javascript">// ページを開いた直後に行う取得処理
+loadImages();</code></pre>
+<p>
+  ページを開いた直後と書いてますが、ドキュメントの読み込みが完了したときですね。
+</p>
+<p>
+  以上で終わりです。お疲れ様でした。
+</p>

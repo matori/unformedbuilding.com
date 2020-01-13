@@ -1,0 +1,126 @@
+<script type="application/x-yaml">
+title: "IE 7以下で背景画像が表示されない場合の対処法"
+description: "Internet Explorer 7以下で背景画像が表示されなくなるといったもの。その原因となった部分と対処法。"
+slug: ie-background-image
+published: 2010-08-30T21:38:30+09:00
+updated: 2011-05-25T16:23:02+09:00
+category: webdev
+</script>
+
+<p>
+  IEで変な現象が起きてしまったのでメモ。<br>
+  Internet Explorer 7以下で背景画像が表示されなくなるといったもの。<br>
+  その原因となった部分と対処法。
+</p>
+<section>
+  <h2>背景が表示されなくなったページ</h2>
+  <p>
+    こういうページを作ってました。
+  </p>
+  <p>
+    <a href="/demo/2010/ie-background-image/demo.html">背景画像が表示されなかったページ</a>
+  </p>
+  <p>
+    このページの「タイトル」と書かれている部分ですね。<br>
+    （実際に作ったページとは画像を変更しています）
+  </p>
+  <p>
+    この部分のHTMLとCSSは以下。
+  </p>
+  <pre><code class="language-html">&lt;div id=&quot;main&quot;&gt;
+  &lt;div class=&quot;article&quot;&gt;
+    &lt;div class=&quot;head&quot;&gt;
+      &lt;h2&gt;タイトル&lt;/h2&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;body&quot;&gt;
+      &lt;p&gt;テキスト。テキスト。テキス...&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+  <pre><code class="language-css">/* ここが表示されない */
+#main .article .head {
+  background: url(img/mainhead.png) bottom left no-repeat;
+}
+
+#main .article .head h2 {
+  padding: 6px 50px 6px 0;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+}</code></pre>
+  <p>
+    あと、このページには<a href="http://meyerweb.com/eric/tools/css/reset/">Eric Meyer Reset CSS</a>を少しいじったものを使っています。<br>
+    今回重要なのはこの部分。
+  </p>
+  <pre><code class="language-css">body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+}</code></pre>
+</section>
+<section>
+  <h2>対処法</h2>
+  <p>
+    何で表示されないのか検索しても分からなかったのでTwitterで書いたところ、<a href="https://twitter.com/GeckoTang">@GeckoTang</a>さんが色々と見つけてくださいました。<br>
+    ほんと、毎回ありがとうございます。
+  </p>
+  <section>
+    <h3>原因となった部分</h3>
+    <p>
+      最終的に、リセット用のCSSに書かれている1行を削除、または変更することで対処できました。<br>
+      変更箇所は以下。
+    </p>
+    <pre><code class="language-css">body, div, span, applet... {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent; /* ここを削除 */
+}</code></pre>
+    <p>
+      どうも<code>* { background: transparent; }</code>と同様のコードがあって、ショートハンドプロパティの<code>background</code>を省略ありで使った場合に背景画像が消えてしまうようです。<br>
+      これを修正するには<code>background: transparent</code>を削除するか、<code>background-color: transparent</code>と指定します。
+    </p>
+  </section>
+  <section>
+    <h3>該当要素部分のみ修正する場合</h3>
+    <p>
+      リセットCSSではなく、該当要素部分のCSSを変更して対処する場合です。<br>
+      ここでは
+    </p>
+    <pre><code class="language-css">#main .article .head {
+  background: url(img/mainhead.png) bottom left no-repeat;
+}</code></pre>
+    <p>
+      の部分になります。
+    </p>
+    <p>
+      ここのhasLayoutをtrueにしてやると、ちゃんと背景画像が表示されます。<br>
+      具体的には<code>zoom: 1</code>を指定してやるとかですね。<br>
+     <code>width</code>や<code>height</code>を指定してもOKです。
+    </p>
+    <p>
+      また、<code>border</code>を指定することでも解決します。
+    </p>
+    <p>
+      他には<code>background</code>プロパティを省略せず、全部書くことで背景画像が表示されます。<br>
+      今回の場合は
+    </p>
+    <pre><code class="language-css">#main .article .head {
+  background: #fff url(img/mainhead.png) bottom left no-repeat;
+}</code></pre>
+    <p>
+      となります。<br>
+      ただ、<code>transparent</code>ではダメでした。
+    </p>
+  </section>
+</section>
+<p>
+  どうしてこういうことが起きるのかは分かりませんが、<code>background: transparent</code>を使う場合には注意が必要ですね。
+</p>

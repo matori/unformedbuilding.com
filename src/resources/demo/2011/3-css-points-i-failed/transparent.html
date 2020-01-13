@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<title>transparent</title>
+<style type="text/css">
+  body {
+    margin    : 0;
+    background: #fff;
+  }
+
+  div {
+    margin    : 30px auto;
+    padding   : 30px 0;
+    border    : 1px solid #cfcfcf;
+    width     : 600px;
+    text-align: center;
+  }
+
+  code {
+    font       : 14px/1 "Menlo", "Monaco", "Consolas", monospace;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  .gradient-1 {
+    background: -webkit-linear-gradient(top, transparent, #268bd2);
+    background: -moz-linear-gradient(top, transparent, #268bd2);
+    background: -ms-linear-gradient(top, transparent, #268bd2);
+    background: -o-linear-gradient(top, transparent, #268bd2);
+    background: linear-gradient(top, transparent, #268bd2);
+  }
+
+  .gradient-2 {
+    background: -webkit-linear-gradient(top, rgba(38, 139, 210, 0), #268bd2);
+    background: -moz-linear-gradient(top, rgba(38, 139, 210, 0), #268bd2);
+    background: -ms-linear-gradient(top, rgba(38, 139, 210, 0), #268bd2);
+    background: -o-linear-gradient(top, rgba(38, 139, 210, 0), #268bd2);
+    background: linear-gradient(top, rgba(38, 139, 210, 0), #268bd2);
+  }
+</style>
+</head>
+<body>
+
+<div class="gradient-1">
+  <code>background: linear-gradient(top, transparent, #268bd2);</code>
+</div>
+
+<div class="gradient-2">
+  <code>background: linear-gradient(top, rgba(38, 139, 210, 0), #268bd2);</code>
+</div>
+
+</body>
+</html>

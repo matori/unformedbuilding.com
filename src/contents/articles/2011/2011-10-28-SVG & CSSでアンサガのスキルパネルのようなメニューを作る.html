@@ -1,0 +1,259 @@
+<script type="application/x-yaml">
+title: "SVG & CSSでアンサガのスキルパネルのようなメニューを作る"
+description: "「SVGにチャレンジ！ 第1回」です。インラインSVGを使って「アンリミテッド：サガ」というゲームのスキルパネル風のメニューを作ります。"
+slug: unlimited-saga-style-panel-menu-with-svg-and-css
+published: 2011-10-28T11:55:15+09:00
+updated: 2011-10-28T11:55:15+09:00
+category: webdev
+</script>
+
+<p>
+  「SVGにチャレンジ！ 第1回」です。第2回があるかは分かりません。<br>
+  インラインSVGを使って『アンリミテッド：サガ』というゲームのスキルパネル風のメニューを作ります。
+  実物は「<kbd>アンリミテッドサガ スキルパネル</kbd>」とかで画像検索してみてください。
+</p>
+<p>
+  このスクエアさんの『アンリミテッド：サガ』というゲームがすごく好きでですね……以前からこれをウェブページとして作ってみたいと思っていたんですよ。<br>
+  クリッカブルマップとかも考えましたが、あれあまり好きじゃない。<br>
+  というわけでSVGでやることにしました。拡大しても綺麗ですしね！
+</p>
+<p>
+  <a href="/demo/2011/unlimited-saga-style-panel-menu-with-svg-and-css/">Unlimited Saga Style Panel Menu with SVG &amp; CSS</a>
+</p>
+<p>
+  <a href="/download/2011/unlimited-saga-style-panel-menu-with-svg-and-css.zip" download>デモファイルをダウンロード</a>
+</p>
+<p>
+  表示確認で一番期待通りに表示できたのは、Firefox 7とChrome 16 devです。<br>
+  IE 9とSafari 5.1は、transitionしません。IE 9には最初からないですけど、Safariはよく分かりません。<br>
+  Operaですが、Opera 11はインラインSVG未対応なので表示できません。Opera 12 alphaでは一応表示はされます。
+</p>
+<p>
+  とりあえず、完成品は次のような感じになります。スクリーンショットはFirefox 7です。
+</p>
+<figure>
+  <img src="/images/2011/unlimited-saga-style-panel-menu-with-svg-and-css/result.png" width="620" height="550" alt="Unlimited Saga Style Panel Menu with SVG &amp; CSS スクリーンショット">
+</figure>
+<p>
+  色が変わっている部分はマウスオーバー中です。
+</p>
+<p>
+  タイトル部分は本題じゃないですが、あれもSVGで作ってあります。<br>
+  使っているフォントは『ドットコロン』さんの<a href="http://www.dotcolon.net/font/font.php?id=2">Tenderness</a>です。<br>
+  それをInkscapeでカーニングしたりサイズ調整して、パスに変換しました。
+</p>
+<p>
+  今回はインラインSVGを使うので、最初に普通のHTMLを書きます。
+</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot; /&gt;
+&lt;title&gt;Unlimited Saga Style Panel Menu with SVG &amp;amp; CSS&lt;/title&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;screen&quot; href=&quot;style.css&quot; /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h1&gt;&lt;!-- ここにタイトル --&gt;&lt;/h1&gt;
+
+&lt;div id=&quot;svg-container&quot;&gt;
+  &lt;!-- ここにパネル --&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>
+  コメントした部分にSVGを書いていきます。CSSは最後です。<br>
+  ではパネル部分を作っていきます。
+</p>
+<pre><code class="language-xml">&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot;
+     xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;
+     version=&quot;1.1&quot;
+     width=&quot;484&quot; height=&quot;466&quot;
+     viewBox=&quot;0 0 484 466&quot; preserveAspectRatio=&quot;xMinYMin meet&quot;
+     id=&quot;panels&quot;&gt;
+  &lt;!-- ここに中身を書いていく --&gt;
+&lt;/svg&gt;</code></pre>
+<p>
+  <code>width</code>や<code>height</code>は最初に大きめに作って、最後に実際に作ったものを見て変更しました。とりあえず今回はこのサイズです。<br>
+  <code>viewBox</code>と<code>preserveAspectRatio</code>は大きさが変更されたときにアスペクト比を保つために指定していますが……まだちゃんと分かっていないのでおかしいかもしれません。
+</p>
+<p>
+  次はメインとなる六角形を作ります。<br>
+  これは流石に手書きできないので、Inkscapeで作りました。大きさは後で楽しやすいように、横160pxと縦184.75pxに調整しています。<br>
+</p>
+<pre><code class="language-xml">&lt;polygon id=&quot;hexagon&quot; points=&quot;...&quot; /&gt;</code></pre>
+<p>
+  Inkscapeはパスで出力しますが、せっかくのなので<code>polygon</code>要素に書き換えました。<br>
+  これを使いまわすので<code>defs</code>要素に入れておきます。
+</p>
+<pre><code class="language-xml">&lt;svg&gt;&lt;!-- 長いので属性などは省略します --&gt;
+  &lt;defs&gt;
+    &lt;polygon id=&quot;hexagon&quot; points=&quot;...&quot; /&gt;
+  &lt;/defs&gt;
+&lt;/svg&gt;</code></pre>
+<p>
+  他にも、2回以上使うものを同様に作っていきます。<br>
+  グラデーションとアイコンですね。
+</p>
+<pre><code class="language-xml">&lt;!-- 放射状グラデーション --&gt;
+&lt;radialGradient id=&quot;flash&quot; gradientUnits=&quot;userSpaceOnUse&quot;
+                cx=&quot;80&quot; cy=&quot;92.375&quot; r=&quot;80&quot;&gt;
+  &lt;stop offset=&quot;0%&quot; stop-color=&quot;#fff&quot; stop-opacity=&quot;0.45&quot; /&gt;
+  &lt;stop offset=&quot;100%&quot; stop-color=&quot;#fff&quot; stop-opacity=&quot;0&quot; /&gt;
+&lt;/radialGradient&gt;
+
+&lt;!-- アイコン --&gt;
+&lt;path id=&quot;icon-wordpress&quot; d=&quot;...&quot; /&gt;
+&lt;path id=&quot;icon-twitter&quot; d=&quot;...&quot; /&gt;
+...</code></pre>
+<p>
+  グラデーションですが、RGBAが使えないので、<code>stop-opacity</code>を使って不透明度を変更します。<br>
+  これはパネルの上に重ねて使うために作りました。<br>
+  アイコンはInkscapeで出力したパスを使っています。<br>
+  アイコンのサイズは、横または縦が最大で60pxになるように調整しました。
+</p>
+<p>
+  できあがったものを配置していきます。<br>
+  次のコードは<code>defs</code>要素の後に書きます。
+</p>
+<pre><code class="language-xml">&lt;g id=&quot;inner-box&quot;&gt;
+  &lt;g id=&quot;line1&quot; transform=&quot;translate(81, 0)&quot;&gt;
+    &lt;g id=&quot;panel1&quot; class=&quot;item blog&quot;&gt;
+      &lt;a xlink:href=&quot;...&quot;&gt;
+        &lt;g&gt;
+          &lt;use xlink:href=&quot;#hexagon&quot; x=&quot;0&quot; y=&quot;0&quot; class=&quot;bgcolor&quot; /&gt;
+          &lt;use xlink:href=&quot;#hexagon&quot; x=&quot;0&quot; y=&quot;0&quot;
+               fill=&quot;url(#flash)&quot; class=&quot;overlay&quot; /&gt;
+        &lt;/g&gt;
+        &lt;g&gt;
+          &lt;use xlink:href=&quot;#icon-wordpress&quot; x=&quot;49&quot; y=&quot;61.375&quot; class=&quot;pressed&quot; /&gt;
+          &lt;use xlink:href=&quot;#icon-wordpress&quot; x=&quot;50&quot; y=&quot;62.375&quot; class=&quot;icon&quot; /&gt;
+        &lt;/g&gt;
+      &lt;/a&gt;
+    &lt;/g&gt;&lt;!-- // panel1 --&gt;
+    &lt;g id=&quot;panel2&quot; class=&quot;item twitter&quot; transform=&quot;translate(162,0)&quot;&gt;
+      &lt;!-- ... --&gt;
+    &lt;/g&gt;&lt;!-- // #panel2 --&gt;
+  &lt;/g&gt;&lt;!-- // #line1 --&gt;
+  &lt;!-- ... --&gt;
+&lt;/g&gt;&lt;!-- // #inner-box --&gt;</code></pre>
+<p>
+  <code>g#inner-box</code>は特に必要はないです。自分が見やすくするために使っています。<br>
+  六角形が上から順に2個-3個-2個と並ぶので、<code>g#line(n)</code>のようにグループ化しました。<br>
+  また、各パネルも上から順に<code>g#panel(n)</code>という感じでグループ化しています。
+</p>
+<p>
+  <code>&lt;a xlink:href=&quot;...&quot;&gt;...&lt;/a&gt; </code>はリンクです。
+</p>
+<p>
+  <code>a</code>要素の個要素、<code>g</code>が2つありますが、1つ目は六角形、2つ目はアイコンです。<br>
+  <code>use</code>要素で最初に作った六角形を使い、その直後に同様に六角形を置いて、そちらには<code>fill=&quot;url(#flash)&quot;</code>で塗りつぶし色にグラデーションを指定しています。<br>
+  <code>fill</code>を指定していない1つ目の六角形は、この時点では黒いままです。
+</p>
+<p>
+  アイコンのグループ。<br>
+  アイコンのパスを2回使っているのは、レタープレス風の効果を出すためです。<br>
+  最初はフィルタでやろうとしたんですが、SVGを直接開いたときのOperaでしか上手く表示できなかったので……。<br>
+  <code>pressed</code>というクラス名が付いているものを、本来の位置（中心）より上と左に1pxずらすことでそれっぽく見せています。<br>
+  これはCSSの<code>text-shadow</code>でレタープレスやるときなんかと同じです。<br>
+  アイコンの配置は、各アイコンごとに割り算と引き算で出しました。
+</p>
+<p>
+  また、<code>line(n)</code>や<code>panel(n)</code>といったグループは<code>transform=&quot;translate(x, y)&quot;</code>で位置を調整します。<br>
+  計算方法が分からなかったので、実際に見ながらやりました。数学というか算数がよく分からないんですよ……。
+</p>
+<p>
+  次にCSSを書いていきます。<br>
+  塗りつぶし色などはSVGに直接書いてもよかったんですが、CSSの方が慣れているので、できそうなものはCSSで指定しています。
+</p>
+<pre><code class="language-css">html, body, div, h1 {
+  margin : 0;
+  padding: 0;
+  border : 0;
+}
+
+body {
+  background: #fff;
+}
+
+@media screen and (max-width: 500px) {
+  body {
+	margin: 0 10px;
+  }
+}
+
+h1,
+#svg-container {
+  width    : 484px;
+  max-width: 100%;
+}
+
+h1 {
+  margin: 20px auto;
+}
+
+.logo {
+  fill: #073642;
+}
+
+#svg-container {
+  margin: 0 auto 20px;
+}
+
+#title {
+  width: 100%;
+}
+
+#panels {
+  display: block;
+  width  : 100%;
+}
+
+.bgcolor {
+  fill: #efefef;
+}
+
+.overlay,
+.icon,
+.pressed {
+  pointer-events: none;
+}
+
+.icon {
+  fill: #bfbfbf;
+}
+
+.pressed {
+  fill        : #000;
+  fill-opacity: 0.4;
+}
+
+.bgcolor,
+.icon {
+  transition: all 300ms linear;
+}
+
+.blog:hover .bgcolor {
+  fill: #dc322f;
+}
+
+/* 残り6つのパネルの色 */
+
+.item:hover .icon {
+  fill: #fff;
+}</code></pre>
+<p>
+  パネルにマウス乗せたときにパネルの色が変わるのは、最初はSVGアニメーションでやろうとしてたんですが、まだよく分からなかったので CSS Transitionsを使いました。<br>
+  <code>pointer-events: none</code>が指定されていますが、これは念のためです。<br>
+  メディアクエリとか<code>max-width: 100%</code>とかは、SVG部分をFluid Imageのようにしたかったからです。
+</p>
+<hr>
+<p>
+  毎度のように説明不足な感がありますが、これで終わりです。<br>
+  というかまだ分からないことも多いので説明するのも難しいです。
+</p>
+<p>
+  本当はツールチップとかも作りたかったんですが、とりあえず今回はこれでいいかなーと。<br>
+  初めてにしては頑張れたと思いますｗ
+</p>

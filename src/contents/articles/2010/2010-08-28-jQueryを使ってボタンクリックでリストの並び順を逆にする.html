@@ -1,0 +1,49 @@
+<script type="application/x-yaml">
+title: "jQueryを使ってボタンクリックでリストの並び順を逆にする"
+description: "切り替えボタンを押すとリストの並び順を逆にするだけのスクリプトを書いてみました。"
+slug: reverse-order-with-jquery
+published: 2010-08-28T11:20:43+09:00
+updated: 2011-05-18T14:31:59+09:00
+category: webdev
+</script>
+
+<p>
+  切り替えボタンを押すとリストの並び順を逆にするだけのスクリプトを書いてみました。<br>
+  分かりやすくするためにリストを使っていますが、他の要素でも問題ないと思います。
+</p>
+<p>
+  ブログのコメント欄を作っているときにコメントの並び順を新着順にしてくれと言われて作ったんですが、ブログのコメントって普通は投稿順（古い順ね）に並んでいるから違和感があったんですね。<br>
+  それで「どうせなら閲覧者が切り替えできるようにすればいいんじゃね？」って考えて、これを作ることにしました。
+</p>
+<p>
+  まず、一番最初に作ったもの。<br>
+  これは『<a href="http://jsdo.it/">jsdo.it</a>』で書きました。
+</p>
+<p>
+  <a href="http://jsdo.it/ub-pnr/fWT6">クリックでリストの並び順を逆に - jsdo.it - share JavaScript, HTML5 and CSS</a>
+</p>
+<p>
+  HTMLは普通のリストですね。<br>
+  jQuery部分ですが、<code>ol#reversible</code>の子要素を<code>toArray()</code>で配列にし、<code>reverse()</code>で逆順に。<br>
+  そして<code>ol#reversible</code>の子要素をいったん空にして、<code>append()</code>でさっき作った逆順のリストを追加しています。
+</p>
+<p>
+  最初は<code>get()</code>して<code>reverse()</code>して<code>for</code>でやるのかなーって思ってたんですが、アドバイスを頂けたのでそちらを参考にしつつ作りました。
+</p>
+<p>
+  それと、あとからちょっとだけコードを追加したものが以下。
+</p>
+<p>
+  <a href="/demo/2010/reverse-order-with-jquery/demo.html">jQueryを使ってボタンクリックでリストの並び順を逆にする DEMO</a>
+</p>
+<p>
+  <a href="/download/2010/reverse-order-with-jquery-demo.zip" download>デモファイルをダウンロード</a>
+</p>
+<p>
+  こっちはボタンのテキストがちょっと変わるだけですｗ<br>
+  本当にそれだけ。
+</p>
+<p>
+  これらをベースに作っていけばいいかな、と。<br>
+  アドバイスしてくださった<a href="https://twitter.com/GeckoTang">@GeckoTang</a>、<a href="https://twitter.com/wokamoto">@wokamoto</a>、お二人ともありがとうございました。
+</p>

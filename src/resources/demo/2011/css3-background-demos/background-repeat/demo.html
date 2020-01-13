@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>background-repeat DEMO</title>
+<style>
+body {
+	font-family: "Arial", sans-serif;
+}
+
+div {
+	float           : left;
+  margin          : 50px 5px;
+  width           : 160px;
+  height          : 160px;
+  background-image: url(repeat-bg.png);
+  font-size       : 20px;
+  line-height     : 160px;
+  text-align      : center;
+  text-shadow     : 1px 1px 1px #fff, 1px -1px 1px #fff, -1px 1px 1px #fff, -1px -1px 1px #fff;
+}
+
+#box-1 {
+  background-repeat: repeat;
+}
+
+#box-2 {
+  background-repeat: space;
+}
+
+#box-3 {
+  background-repeat: round;
+}
+</style>
+</head>
+<body>
+
+<div id="box-1">repeat</div>
+<div id="box-2">space</div>
+<div id="box-3">round</div>
+
+</body>
+</html>

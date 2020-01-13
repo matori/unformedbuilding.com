@@ -1,0 +1,112 @@
+<script type="application/x-yaml">
+title: "CSS Marquee"
+description: "marquee要素ってありますよね。非推奨になってしまいましたが、今回はそれをCSSで実装しているブラウザでの使い方を書いてみたいと思います。"
+slug: css-marquee
+published: 2011-05-12T12:21:12+09:00
+updated: 2020-01-07T16:24:23+09:00
+category: webdev
+</script>
+
+<ins datetime="2020-01-07T16:24:23+09:00">
+  <p>
+    <b>2020年1月7日 追記：</b><br>
+    この指定方法はもはや動作しません。
+  </p>
+  <hr>
+</ins>
+<p>
+  懐かしいと思う人もいるかもしれませんが、<code>marquee</code>要素ってありますよね。非推奨になってしまいましたが、あの動きはCSS3に受け継がれています。<br>
+  今回はそれを実装しているブラウザでの使い方を書いてみたいと思います。<br>
+  CSS3としての仕様は以下のリンクからどうぞ。
+</p>
+<p>
+  <a href="http://www.w3.org/TR/css3-marquee/">CSS Marquee Module Level 3</a>
+</p>
+<p>
+  独自実装しているブラウザはWebkitとOperaですが、独自実装のため、W3Cの仕様とは異なっていたりします。
+</p>
+<p>
+  今回のデモはこちらです。<br>
+  Webkit系のブラウザとOperaで見てみてください。
+</p>
+<p>
+  <a href="/demo/2011/marqueeeeeeeeeeeeeeee/">CSS3 marquee DEMO</a>
+</p>
+<p>
+  まず、Operaから……といきたいところですが、これたぶん携帯の指定と同じですよね。<br>
+  一応説明します。
+</p>
+<p>
+  <code>display: -wap-marquee</code>でマーキーできます。<br>
+  マーキーのプロパティは次のようになります。
+</p>
+<dl>
+  <dt><code>-wap-marquee-dir</code></dt>
+  <dd>
+    <code>rtl</code>を指定すると右から左へ。<code>ltr</code>だと左から右へ。
+  </dd>
+  <dt><code>-wap-marquee-loop</code></dt>
+  <dd>
+    ループ回数。<br>
+    数字か<code>infinite</code>を指定する。
+  </dd>
+  <dt><code>-wap-marquee-speed</code></dt>
+  <dd>
+    動く速度。<br>
+    <code>fast</code>, <code>normal</code>, <code>slow</code>のどれか。
+  </dd>
+  <dt><code>-wap-marquee-style</code></dt>
+  <dd>
+    マーキーのスタイル。<br>
+    <code>alternate</code>, <code>scroll</code>, <code>slide</code>のどれか。<br>
+    <code>alternate</code>は向きが交互に変わる。<br>
+    <code>scroll</code>, <code>slide</code>の違いは多分W3Cのと一緒。
+  </dd>
+</dl>
+<p>
+  次はWebkitの指定。<br>
+  まず、<code>overflow</code>, <code>overflow-x</code>, <code>overflow-y</code>に<code>-webkit-marquee</code>を指定します。<br>
+  これでデフォルトの動きは実現できますが、Operaのと同様にオプションみたいなものがあります。
+<dl>
+  <dt><code>-webkit-marquee-direction</code></dt>
+  <dd>
+    方向ですね。
+    <ul>
+      <li><code>auto</code>: デフォルト</li>
+      <li><code>ahead</code>: 順方向（上下）</li>
+      <li><code>reverse</code>: 逆方向（上下）</li>
+      <li><code>forwards</code>: 順方向（左右）</li>
+      <li><code>backwards</code>: 逆方向（左右）</li>
+      <li><code>up</code>: 下から上</li>
+      <li><code>down</code>: 上から下</li>
+      <li><code>right</code>: 左から右</li>
+      <li><code>left</code>: 右から左</li>
+    </ul>
+    <code>ahead</code>, <code>reverse</code>, <code>forwards</code>, <code>backwards</code>は文書の文字方向に依存。<br>
+    <code>up</code>, <code>down</code>, <code>left</code>, <code>right</code>は見た目そのまま。
+  </dd>
+  <dt><code>-webkit-marquee-increment</code></dt>
+  <dd>
+    一度に移動する距離。<br>
+    <code>large</code>, <code>normal</code>, <code>small</code>のどれか。
+  </dd>
+  <dt><code>-webkit-marquee-repetition</code></dt>
+  <dd>
+    ループ回数。<br>
+    数字か<code>infinite</code>を指定する。
+  </dd>
+  <dt><code>-webkit-marquee-speed</code></dt>
+  <dd>
+    動く速度。<br>
+    <code>fast</code>, <code>normal</code>, <code>slow</code>もしくは、<code>distans/time</code>（例：<code>10px/s</code>） のように指定する。<br>
+    ただ、<code>distans/time</code>のほうは指定しても無視されてるっぽい（2011年05月12日時点）。
+  </dd>
+  <dt><code>-webkit-marquee-style</code></dt>
+  <dd>
+    マーキーのスタイル。<br>
+    <code>alternate</code>, <code>scroll</code>, <code>slide</code>, <code>none</code>のどれか。<br>
+    <code>alternate</code>は向きが交互に変わる。<br>
+    <code>scroll</code>, <code>slide</code>の違いはW3Cのと一緒。<br>
+    <code>none</code>はそのまま。マーキーが停止する。
+  </dd>
+</dl>

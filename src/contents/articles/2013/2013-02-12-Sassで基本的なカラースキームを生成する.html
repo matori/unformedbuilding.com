@@ -1,0 +1,67 @@
+<script type="application/x-yaml">
+title: "Sassで基本的なカラースキームを生成する"
+description: "最近は配色を決めるときに、ColorHexaを使っているのですが、コピペするのが面倒なのでSassの変数にまとめています。"
+slug: generating-color-scheme-with-sass
+published: 2013-02-12T16:02:56+09:00
+updated: 2020-01-11T22:35:24+09:00
+category: webdev
+</script>
+
+<p>
+  最近は配色を決めるときに、<a href="https://www.colorhexa.com/">ColorHexa</a>を参考によく使っているのですが、CSS書く時にいちいちコピペするのが面倒なのでSassの変数にまとめています。<br>
+  必要なものだけここからコピペして、分かりやすい名前の変数に入れたりして使っています。
+</p>
+<p>
+  被ってる部分は実際にはいちいち指定してません。こういう配色だと分かりやすくするために念のため書いています。
+</p>
+<pre><code class="language-scss">// 基本とする色
+$color-base: #0088cc;
+
+// 色相回転の基準角度
+$hue-step: 30deg;
+
+// 補色
+$color-complementary: adjust-hue($color-base, 180deg);
+
+// Analogous
+$color-analogous-primary: $color-base;
+$color-analogous-secondary-A: adjust-hue($color-base, -$hue-step);
+$color-analogous-secondary-B: adjust-hue($color-base, $hue-step);
+
+// Split Complementary
+$color-split-complementary-primary: $color-base;
+$color-split-complementary-secondary-A: adjust-hue($color-complementary, -$hue-step);
+$color-split-complementary-secondary-B: adjust-hue($color-complementary, $hue-step);
+
+// Triadic
+$color-triadic-primary: $color-base;
+$color-triadic-secondary-A: adjust-hue($color-base, -120deg);
+$color-triadic-secondary-B: adjust-hue($color-base, 120deg);
+
+// Tetradic
+$color-tetradic-primary: $color-base;
+$color-tetradic-primary-complemantary: $color-complementary;
+$color-tetradic-secondary: adjust-hue($color-base, -$hue-step * 2);
+$color-tetradic-secondary-complemantary: adjust-hue($color-tetradic-secondary, 180deg);</code></pre>
+<p>
+  このまま使うとこんな感じになります。<br>
+  <ins datetime="2020-01-11T22:35:24+09:00">
+    <a href="/demo/2013/sass-color-scheme/">生成された色の見本</a><br>
+  </ins>
+  <a href="https://www.colorhexa.com/0088cc">#0088cc hex color（比較用）</a>
+</p>
+<!--
+<div style="margin-bottom:1.6em;">
+  <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/ub_pnr/JhvjE/embedded/result,css,html"
+          allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+</div>
+-->
+<p>
+  そのまま使うにはあれですけど、目安として。<br>
+  他にシェードやティントの関数を作っておくと便利です。
+</p>
+<hr>
+<p>
+  <b>追記：</b><br>
+  補色は<code>complement()</code>でOKでしたね……。忘れてました。
+</p>

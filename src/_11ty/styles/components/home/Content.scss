@@ -1,0 +1,19 @@
+.Content-heading {
+  @include text(3);
+  margin-top: get-lines(2);
+  margin-bottom: get-lines(1);
+  font-weight: 600;
+}
+
+.Content-link {
+}
+
+.Content-description {
+  @include text(0);
+  margin-top: get-lines(1);
+  margin-bottom: get-lines(1);
+}
+
+.Content-children {
+  padding-left: 2rem;
+}

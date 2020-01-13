@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Lato Test</title>
+<style type="text/css">
+  @import url(http://fonts.googleapis.com/css?family=Lato:400,400italic,700,700italic);
+  body {
+    font-family: "Meiryo", sans-serif;
+  }
+  .test {
+    font-family: "Lato", "Meiryo", sans-serif;
+  }
+  h1 {
+    line-height: 1.4;
+  }
+  p {
+    line-height: 1.6;
+  }
+</style>
+<script type="text/javascript">
+  function changefont () {
+    var b = document.getElementsByTagName('body')[0],
+        c = b.className;
+    if(c) {
+      b.className = '';
+    } else {
+      b.className = 'test';
+    }
+  }
+</script>
+</head>
+<body class="test">
+
+<button onclick="changefont()">Lato &amp; メイリオ ⇔ メイリオ</button>
+
+<h1>WebStorm / PhpStorm から Sass をコンパイルする</h1>
+<p class="bold">
+WebStorm &amp; PhpStorm という IDE があるのですが、この IDE は Sass(SCSS) をサポートしていて、ハイライトなんかもしてくれます。<br />
+ただ .scss ファイルをコンパイルするのにコマンドプロンプト立ち上げるのめんどくさいなーと思ってなんとかできないか調べてみました。
+</p>
+<p>以前リンク集でも紹介したのですが、参考にしたのはこの記事です。</p>
+<p><a href="http://www.rtuin.nl/2011/04/easy-sass-compilation-in-webstorm-phpstorm/" rel="external">Easy SASS compilation in WebStorm / PhpStorm | Richard Tuin&#8217;s mindspins</a></p>
+<p>ただ、これの通りにやっても上手くいかなくて、前回は諦めましたが、今回は上手くいったのでやり方をメモしておきます。</p>
+<p>
+まずは Ruby と Sass をインストールして、Sass が使える状態にします。インストール方法なんかは検索すればいっぱいでてきます。<br />
+準備ができたら WebStorm(PhpStorm) の設定をします。
+</p>
+<p>
+Settings &gt; External Tools と進んで、[Add] ボタンをクリック。<br />
+ダイアログが出てくるので、そこに入力していきます。
+</p>
+<p style="font-size: 14px;">
+Name はツールの名前。適当に Sass Compile とか付けとけばいいんじゃないでしょうか。<br />
+Group はツールのグループ。カテゴリーみたいなものなので適当でいいと思います。<br />
+Description は説明文。<br />
+Menu は、このツールをどこに表示するかというもの。とりあえず全部チェックしといて後で外せばいいです。<br />
+Open Console はツール実行時に IDE のコンソールを表示するかどうか。<br />
+Synchronize ～～ はよく分からないですが。とりあえずチェックしときます。
+</p>
+<p>そして Program の欄には、Sass へのパスを入力します。</p>
+<pre class="code"><code class="language-plain">C:\Ruby\bin\sass.bat</code></pre>
+<p>
+C ドライブ直下に Ruby 入れてたらこんな感じになります。<br />
+フォルダツリーで探せるのでそっちでも見たほうが分かりやすいかもしれません。
+</p>
+<p>
+次は Parameters ですが、ここに変換するファイルやオプションを指定します。<br />
+単純にツールの実行時にコンパイルしたいだけなら次のような感じです。
+</p>
+<pre class="code"><code class="language-plain">&quot;$FilePath$&quot;:&quot;$FileDir$\$FileNameWithoutExtension$.css&quot;</code></pre>
+<p>
+コマンドプロンプトでやるときとほとんど一緒です。<br />
+$FilePath$ とかそういうのが気になったら入力欄の右にあるものから意味を調べてください。
+</p>
+<p><code>compressed</code> オプションを渡したい場合はこんな感じ。</p>
+<pre class="code"><code class="language-plain">--style compressed &quot;$FilePath$&quot;:&quot;$FileDir$\$FileNameWithoutExtension$.css&quot;</code></pre>
+<p>
+で、最後、Working Directory の欄。<br />
+最初にあげた参考サイトでは $ProjectFileDir$ となっていましたが、そうではなくて、Ruby の場所を入力します。
+</p>
+<pre class="code"><code class="language-plain">C:\Ruby\bin</code></pre>
+<p>同じプロジェクト内に Ruby と Sass があったら $ProjectFileDir$ でもいいのかもしれません。試してないですけど。</p>
+<p>
+サイドバーのファイルを右クリックとか、タブ上で右クリックしてツールを選択すれば実行され、その状態はコンソールで確認できます。<br />
+同じツールをもう一度繰り返す場合には、コンソールの [Run] を押せば OK です。
+</p>
+<p>これで少しは楽できるかなーと思います。</p>
+</body>
+</html>

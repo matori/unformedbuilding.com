@@ -1,0 +1,80 @@
+<script type="application/x-yaml">
+title: "コンテンツをループスライドするjQueryプラグイン「jQuery.simpleLoopSlider.js」"
+description: "先日作ったスライダーですが、せっかくなのでプラグインにしてみました。よかったら使ってください。"
+slug: jquery-simple-loop-slider-js
+published: 2011-03-10T16:22:41+09:00
+updated: 2011-05-18T14:29:29+09:00
+category: webdev
+</script>
+
+<p>
+  <a href="/articles/jquery-simple-loop-slider/">先日作ったループスライダー</a>ですが、せっかくなのでプラグインにしてみました。<br>
+  よかったら使ってください。<br>
+  IE 6でも動くと思います。
+</p>
+<p>
+  <a href="/demo/2011/jquery-simple-loop-slider-js/">jQuery.simpleLoopSlider.js DEMO</a>
+</p>
+<p>
+  <a href="/download/2011/jQuery.simpleLoopSlider.js.zip" download>jQuery.simpleLoopSlider.js ダウンロード</a>
+</p>
+<p>
+  ライセンスはMITです。
+</p>
+<section>
+  <h2>使い方</h2>
+  <p>
+    まず、<span class="path">jQuery.js</span>と<span class="path">jquery.simpleloopslider.js</span>を読み込ませ、任意の要素に適用します。
+  </p>
+  <pre><code class="language-html">&lt;script type=&quot;text/javascript&quot; src=&quot;jquery.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;jquery.simpleloopslider.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+$(function () {
+  $('#myslider').simpleLoopSlider();
+});
+&lt;/script&gt;</code></pre>
+  <p>
+    スライダー部分のHTMLは以下のようにします。<br>
+   <code>.sls-container</code>の子要素は<code>div</code>じゃなくても同じサイズの要素が入っていればOKです。
+  </p>
+  <pre><code class="language-html">&lt;div id=&quot;myslider&quot;&gt;
+  &lt;div class=&quot;sls-view&quot;&gt;
+    &lt;div class=&quot;sls-container&quot;&gt;
+      &lt;div&gt;&lt;img src=&quot;image1.jpg&quot; alt=&quot;&quot; /&gt;&lt;/div&gt;
+      &lt;div&gt;&lt;img src=&quot;image2.jpg&quot; alt=&quot;&quot; /&gt;&lt;/div&gt;
+      ...
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+</section>
+<section>
+  <h2>オプション</h2>
+  <p>
+    いくつかオプションがあって、デフォルトでは以下のようになっています。
+  </p>
+  <pre><code class="language-javascript">{
+  controller: true,    // 前・次へ移動するボタンを表示するかどうか
+  pagination: true,    // ページネーションを表示するかどうか
+  autoSlide : true,    // 自動スタート、自動スライドをするかどうか
+  interval  : 3000,    // 自動スライド時のスライド間隔(ミリ秒)
+  duration  : 300,     // スライドアニメーションの早さ(ミリ秒)
+  easing    : 'linear' // スライドアニメーションのイージング
+};
+</code></pre>
+  <p>オプションは次のように使います。</p>
+  <pre><code class="language-javascript">$(function () {
+  $('#myslider').simpleLoopSlider({
+    controller: false,
+    interval  : 5000,  // 5秒
+    duration  : 250
+  });
+});</code></pre>
+  <p>
+    デモページにいくつか例を書いておいたので参考にしてください。<br>
+    easingについては、easingプラグインと併用すれば色々指定できます。<br>
+    また、自動スライド時にコンテンツにマウスを乗せると自動スライドは一時停止します。
+  </p>
+  <p>
+    CSS部分はデモを参考にして指定してみてください。
+  </p>
+</section>

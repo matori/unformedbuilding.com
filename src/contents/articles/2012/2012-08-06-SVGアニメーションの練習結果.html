@@ -1,0 +1,300 @@
+<script type="application/x-yaml">
+title: "SVGアニメーションの練習結果"
+description: "SVGアニメーションの練習をしていたので、後から見直してなぜこうなったのか分かるように記録しておきます。"
+slug: practice-of-svg-animation
+published: 2012-08-06T14:03:43+09:00
+updated: 2012-08-06T14:03:43+09:00
+category: webdev
+
+</script>
+
+<p>
+  SVGアニメーションの練習をしていたので、後から見直してなぜこうなったのか分かるように記録しておきます。
+</p>
+<ins datetime="2020-01-10T23:08:01+09:00">
+  <p>
+    <a href="/demo/2012/practice-of-svg-animation">SVGアニメーションの練習</a>
+  </p>
+</ins>
+<!--
+<div style="margin-bottom: 1em">
+  <script type="text/javascript" src="http://jsdo.it/blogparts/aswk/js?width=618&amp;height=618"></script>
+</div>
+-->
+<pre><code class="language-xml">&lt;!--
+  アニメーションしたときに消えてしまわないように
+  overflow=&quot;visible&quot;を指定している
+--&gt;
+&lt;svg viewBox=&quot;0 0 512 512&quot; overflow=&quot;visible&quot; class=&quot;hex&quot;&gt;
+
+  &lt;!-- 同じ図形を使いまわすのでdefs要素内で定義しておく --&gt;
+  &lt;defs&gt;
+
+    &lt;!--
+      アニメーションにwidthを使いたいので
+      symbol要素で新しいviewBoxを作成する
+    --&gt;
+    &lt;symbol id=&quot;symbolTrapezoid&quot; fill=&quot;#ff7a7a&quot;&gt;
+      &lt;!-- 各辺にある台形 --&gt;
+      &lt;polygon id=&quot;trapezoid&quot;
+               points=&quot;140.8125,56.46875 128.03125,78.625 383.96875,78.625 371.1875,56.46875&quot;/&gt;
+    &lt;/symbol&gt;
+
+    &lt;!-- 六角形 --&gt;
+    &lt;polygon id=&quot;hexagon&quot;
+             points=&quot;0,256 128,34.297497 384,34.297497 512,256 384,477.7025 128,477.7025&quot;/&gt;
+  &lt;/defs&gt;
+
+  &lt;!--
+    図形全体を入れるグループ
+    図形自体を回転させるアニメーションはここに指定する
+  --&gt;
+  &lt;g id=&quot;animateHexagon&quot;&gt;
+
+    &lt;!-- アニメーションが1周したら初期状態に戻す --&gt;
+    &lt;set id=&quot;resetRotate&quot;
+         attributeName=&quot;transform&quot;
+         attributeType=&quot;rotate&quot;
+         to=&quot;0, 256, 256&quot;
+         begin=&quot;moveUpTop.end&quot;/&gt;
+
+    &lt;!-- 最初の回転（120度） --&gt;
+    &lt;animateTransform id=&quot;rotate120&quot;
+                      attributeName=&quot;transform&quot; type=&quot;rotate&quot;
+                      from=&quot;0, 256, 256&quot; to=&quot;120, 256, 256&quot;
+                      begin=&quot;showTop.end + 0.5s&quot; dur=&quot;0.3s&quot;
+                      repeatCount=&quot;1&quot; fill=&quot;freeze&quot;
+                      calcMode=&quot;spline&quot; keyTimes=&quot;0;1&quot;
+                      keySplines=&quot;0.6 0 0 0.4&quot;/&gt;
+
+    &lt;!-- 2回目の回転（120度から240度へ） --&gt;
+    &lt;animateTransform id=&quot;rotate240&quot;
+                      attributeName=&quot;transform&quot; type=&quot;rotate&quot;
+                      from=&quot;120, 256, 256&quot; to=&quot;240, 256, 256&quot;
+                      begin=&quot;rotate120.end + 0.5s&quot; dur=&quot;0.3s&quot;
+                      repeatCount=&quot;1&quot; fill=&quot;freeze&quot;
+                      calcMode=&quot;spline&quot; keyTimes=&quot;0;1&quot;
+                      keySplines=&quot;0.6 0 0 0.4&quot;/&gt;
+
+    &lt;!-- 内側と外側の六角形のグループ --&gt;
+    &lt;g id=&quot;hexagonGroup&quot;&gt;
+      &lt;use xlink:href=&quot;#hexagon&quot; fill=&quot;#ffcccc&quot;/&gt;
+      &lt;!-- 内側は縮小する --&gt;
+      &lt;use xlink:href=&quot;#hexagon&quot; fill=&quot;#ffa3a3&quot;
+           transform=&quot;translate(256, 256) scale(0.7) translate(-256, -256)&quot;/&gt;
+    &lt;/g&gt;
+
+    &lt;!-- 各辺にある台形のグループ --&gt;
+    &lt;g id=&quot;trapezoidGroup&quot; class=&quot;trapezoid&quot;&gt;
+
+      &lt;!-- 左上辺（アニメーションの起点） --&gt;
+      &lt;use xlink:href=&quot;#symbolTrapezoid&quot; width=&quot;0&quot;
+           transform=&quot;rotate(300, 256, 256)&quot;&gt;
+
+        &lt;!--
+          アニメーションスタート
+          表示直後とアニメーションが1周してから1秒後にセット
+        --&gt;
+        &lt;animate id=&quot;showLeftTop&quot;
+                 attributeName=&quot;width&quot;
+                 from=&quot;128.03125&quot; to=&quot;383.96875&quot;
+                 begin=&quot;0s;moveUpTop.end + 1s&quot; dur=&quot;0.5s&quot;
+                 repeatCount=&quot;1&quot; calcMode=&quot;paced&quot;/&gt;
+
+        &lt;!-- 下辺の表示アニメーションが終了したらフェードアウト --&gt;
+        &lt;animate id=&quot;fadeOutLeftTop&quot;
+                 attributeName=&quot;fill-opacity&quot;
+                 from=&quot;1&quot; to=&quot;0&quot;
+                 begin=&quot;showBottom.end&quot; dur=&quot;0.1s&quot;
+                 repeatCount=&quot;1&quot; calcMode=&quot;paced&quot;/&gt;
+
+        &lt;!-- 下辺の表示アニメーションが終了するまでwidthをキープ --&gt;
+        &lt;set id=&quot;keepWidthLeftTop&quot;
+             attributeName=&quot;width&quot;
+             to=&quot;383.96875&quot;
+             begin=&quot;showLeftTop.end&quot; end=&quot;fadeOutLeftTop.end&quot;/&gt;
+
+        &lt;!-- フェードアウトしてから2周目に入るまで透明状態をキープ --&gt;
+        &lt;set id=&quot;keepOpacityLeftTop&quot;
+             attributeName=&quot;fill-opacity&quot;
+             to=&quot;0&quot;
+             begin=&quot;fadeOutLeftTop.end&quot; end=&quot;showLeftTop.begin&quot;/&gt;
+      &lt;/use&gt;
+
+      &lt;!--
+        上辺
+        左上辺・右上辺・下辺のフェードアウトが終わったら表示する
+      --&gt;
+      &lt;use xlink:href=&quot;#symbolTrapezoid&quot; width=&quot;0&quot;&gt;
+
+        &lt;!-- 下辺のフェードアウトが終了したらアニメーション開始 --&gt;
+        &lt;animate id=&quot;showTop&quot;
+                 attributeName=&quot;width&quot;
+                 from=&quot;128.03125&quot; to=&quot;383.96875&quot;
+                 begin=&quot;fadeOutBottom.end&quot; dur=&quot;0.5s&quot;
+                 repeatCount=&quot;1&quot; calcMode=&quot;paced&quot;/&gt;
+
+        &lt;!-- 図形全体が2度回転し終わったらフェードアウト --&gt;
+        &lt;animate id=&quot;fadeOutTop&quot;
+                 attributeName=&quot;fill-opacity&quot;
+                 from=&quot;1&quot; to=&quot;0&quot;
+                 begin=&quot;rotate240.end + 0.5s&quot; dur=&quot;0.1s&quot;
+                 repeatCount=&quot;1&quot; calcMode=&quot;paced&quot;/&gt;
+
+        &lt;!-- フェードアウトと同時に上方向（図形の外方向）に向かって移動 --&gt;
+        &lt;animateTransform id=&quot;moveUpTop&quot;
+                          attributeName=&quot;transform&quot; type=&quot;translate&quot;
+                          additive=&quot;sum&quot;
+                          from=&quot;0, 0&quot; to=&quot;0, -50&quot;
+                          begin=&quot;rotate240.end + 0.5s&quot; dur=&quot;0.1s&quot;
+                          repeatCount=&quot;1&quot; calcMode=&quot;paced&quot;/&gt;
+
+        &lt;!-- 2回目の上辺フェードアウトが終了するまでwidthをキープ --&gt;
+        &lt;set id=&quot;keepWidthTop&quot;
+             attributeName=&quot;width&quot;
+             to=&quot;383.96875&quot;
+             begin=&quot;showTop.end&quot; end=&quot;fadeOutTop.end&quot;/&gt;
+
+        &lt;!-- 2回目の上辺フェードアウトが終了するまで透明状態をキープ --&gt;
+        &lt;set id=&quot;keepOpacityTop&quot;
+             attributeName=&quot;fill-opacity&quot;
+             to=&quot;0&quot;
+             begin=&quot;fadeOutTop.end&quot; end=&quot;showTop.begin&quot;/&gt;
+
+        &lt;!-- 2回目の上辺フェードアウトが終了したら位置を元に戻す --&gt;
+        &lt;set id=&quot;resetTranslateTop&quot;
+             attributeName=&quot;transform&quot;
+             attributeType=&quot;translate&quot;
+             to=&quot;0, 0&quot;
+             begin=&quot;fadeOutTop.end&quot;
+             end=&quot;showTop.begin&quot;/&gt;
+      &lt;/use&gt;
+
+      &lt;!-- 右上辺（基本的には左上辺と同じ） --&gt;
+      &lt;use xlink:href=&quot;#symbolTrapezoid&quot; width=&quot;0&quot;
+           transform=&quot;rotate(60, 256, 256)&quot;&gt;
+        &lt;animate id=&quot;showRightTop&quot;
+                 attributeName=&quot;width&quot;
+                 from=&quot;128.03125&quot; to=&quot;383.96875&quot;
+                 begin=&quot;showLeftTop.end&quot; dur=&quot;0.5s&quot;
+                 repeatCount=&quot;1&quot; calcMode=&quot;paced&quot;/&gt;
+        &lt;animate id=&quot;fadeOutRightTop&quot;
+                 attributeName=&quot;fill-opacity&quot;
+                 from=&quot;1&quot; to=&quot;0&quot;
+                 begin=&quot;showBottom.end&quot; dur=&quot;0.1s&quot;
+                 repeatCount=&quot;1&quot; calcMode=&quot;paced&quot;/&gt;
+        &lt;set id=&quot;keepWidthRightTop&quot;
+             attributeName=&quot;width&quot;
+             to=&quot;383.96875&quot;
+             begin=&quot;showRightTop.end&quot; end=&quot;fadeOutRightTop.end&quot;/&gt;
+        &lt;set id=&quot;keepOpacityRightTop&quot;
+             attributeName=&quot;fill-opacity&quot;
+             to=&quot;0&quot;
+             begin=&quot;fadeOutRightTop.end&quot; end=&quot;showRightTop.begin&quot;/&gt;
+      &lt;/use&gt;
+
+      &lt;!-- 右下辺（基本的には上辺と同じ） --&gt;
+      &lt;use xlink:href=&quot;#symbolTrapezoid&quot; width=&quot;0&quot;
+           transform=&quot;rotate(120, 256, 256)&quot;&gt;
+        &lt;animate id=&quot;showRightBottom&quot;
+                 attributeName=&quot;width&quot;
+                 from=&quot;128.03125&quot; to=&quot;383.96875&quot;
+                 begin=&quot;fadeOutBottom.end&quot; dur=&quot;0.5s&quot;
+                 repeatCount=&quot;1&quot; calcMode=&quot;paced&quot;/&gt;
+        &lt;animate id=&quot;fadeOutRightBottom&quot;
+                 attributeName=&quot;fill-opacity&quot;
+                 from=&quot;1&quot; to=&quot;0&quot;
+                 begin=&quot;rotate240.end + 0.5s&quot; dur=&quot;0.1s&quot;
+                 repeatCount=&quot;1&quot; calcMode=&quot;paced&quot;/&gt;
+        &lt;animateTransform id=&quot;moveRightBottom&quot;
+                          attributeName=&quot;transform&quot; type=&quot;translate&quot;
+                          additive=&quot;sum&quot;
+                          from=&quot;0, 0&quot; to=&quot;0, -50&quot;
+                          begin=&quot;rotate240.end + 0.5s&quot; dur=&quot;0.1s&quot;
+                          repeatCount=&quot;1&quot; calcMode=&quot;paced&quot;/&gt;
+        &lt;set id=&quot;keepWidthRightBottom&quot;
+             attributeName=&quot;width&quot;
+             to=&quot;383.96875&quot;
+             begin=&quot;showRightBottom.end&quot; end=&quot;fadeOutRightBottom.end&quot;/&gt;
+        &lt;set id=&quot;keepOpacityRightBottom&quot;
+             attributeName=&quot;fill-opacity&quot;
+             to=&quot;0&quot;
+             begin=&quot;fadeOutRightBottom.end&quot; end=&quot;showRightBottom.begin&quot;/&gt;
+      &lt;/use&gt;
+
+      &lt;!-- 下辺（基本的には左上辺と同じ） --&gt;
+      &lt;use xlink:href=&quot;#symbolTrapezoid&quot; width=&quot;0&quot;
+           transform=&quot;rotate(180, 256, 256)&quot;&gt;
+        &lt;animate id=&quot;showBottom&quot;
+                 attributeName=&quot;width&quot;
+                 from=&quot;128.03125&quot; to=&quot;383.96875&quot;
+                 begin=&quot;showRightTop.end&quot; dur=&quot;0.5s&quot;
+                 repeatCount=&quot;1&quot; calcMode=&quot;paced&quot;/&gt;
+        &lt;animate id=&quot;fadeOutBottom&quot;
+                 attributeName=&quot;fill-opacity&quot;
+                 from=&quot;1&quot; to=&quot;0&quot;
+                 begin=&quot;showBottom.end&quot; dur=&quot;0.1s&quot;
+                 repeatCount=&quot;1&quot; calcMode=&quot;paced&quot;/&gt;
+        &lt;set id=&quot;keepWidthBottom&quot;
+             attributeName=&quot;width&quot;
+             to=&quot;383.96875&quot;
+             begin=&quot;showBottom.end&quot; end=&quot;fadeOutBottom.end&quot;/&gt;
+        &lt;set id=&quot;keepOpacityBottom&quot;
+             attributeName=&quot;fill-opacity&quot;
+             to=&quot;0&quot;
+             begin=&quot;fadeOutBottom.end&quot; end=&quot;showBottom.begin&quot;/&gt;
+      &lt;/use&gt;
+
+      &lt;!-- 左下辺（基本的には上辺と同じ） --&gt;
+      &lt;use xlink:href=&quot;#symbolTrapezoid&quot; width=&quot;0&quot;
+           transform=&quot;rotate(240, 256, 256)&quot;&gt;
+        &lt;animate id=&quot;showLeftBottom&quot;
+                 attributeName=&quot;width&quot;
+                 from=&quot;128.03125&quot; to=&quot;383.96875&quot;
+                 begin=&quot;fadeOutBottom.end&quot; dur=&quot;0.5s&quot;
+                 repeatCount=&quot;1&quot; calcMode=&quot;paced&quot;/&gt;
+        &lt;animate id=&quot;fadeOutLeftBottom&quot;
+                 attributeName=&quot;fill-opacity&quot;
+                 from=&quot;1&quot; to=&quot;0&quot;
+                 begin=&quot;rotate240.end + 0.5s&quot; dur=&quot;0.1s&quot;
+                 repeatCount=&quot;1&quot; calcMode=&quot;paced&quot;/&gt;
+        &lt;animateTransform id=&quot;moveLeftBottom&quot;
+                          attributeName=&quot;transform&quot; type=&quot;translate&quot;
+                          additive=&quot;sum&quot;
+                          from=&quot;0, 0&quot; to=&quot;0, -50&quot;
+                          begin=&quot;rotate240.end + 0.5s&quot; dur=&quot;0.1s&quot;
+                          repeatCount=&quot;1&quot; calcMode=&quot;paced&quot;/&gt;
+        &lt;set id=&quot;keepWidthLeftBottom&quot;
+             attributeName=&quot;width&quot;
+             to=&quot;383.96875&quot;
+             begin=&quot;showLeftBottom.end&quot; end=&quot;fadeOutLeftBottom.end&quot;/&gt;
+        &lt;set id=&quot;keepOpacityLeftBottom&quot;
+             attributeName=&quot;fill-opacity&quot;
+             to=&quot;0&quot;
+             begin=&quot;fadeOutLeftBottom.end&quot; end=&quot;showLeftBottom.begin&quot;/&gt;
+      &lt;/use&gt;
+
+    &lt;/g&gt;&lt;!-- 台形グループ --&gt;
+  &lt;/g&gt;&lt;!-- 図形全体のグループ --&gt;
+
+&lt;/svg&gt;</code></pre>
+<p>
+  アニメーションの開始と完了イベントを<code>animate</code>要素の<code>begin</code>, <code>end</code>属性に指定することでアニメーション持続時間が一部変更されても修正する場所があまり増えないようにしたかったんですが、ややこしくなってしまいました。<br>
+  あと、全体的にコードの見通しが悪くて、メンテしやすいものを目指したはずが全く逆のものになってしまいました。
+</p>
+<p>
+  下記の記事で、このアニメーションの動きと似たサンプルが使われていますので、併せて読むとよいかと思います。<br>
+  勉強になりました。
+</p>
+<p>
+  <a href="http://defghi1977-onblog.blogspot.jp/2012/08/svg_5.html">ゲームミュージックと生存確認をかねた画期的な: svgアニメーションを分かりやすくプログラムするには</a>
+</p>
+<p>
+  アニメーション自体はやりたかった動きを実現できたので概ね満足ですが、見やすい・管理しやすいコードとという点ではいまいちでした。<br>
+  もっと色々やってみないとですね。
+</p>
+<hr>
+<p>
+  当初『アサシン クリード リベレーション』というゲームで使われているアブスターゴ社（ゲーム内企業）のロゴを使ったローディングアニメーションを目指していたんですが、座標の計算が面倒くさくて今回のようなものになりました……。<br>
+  誰か作ってください。
+</p>

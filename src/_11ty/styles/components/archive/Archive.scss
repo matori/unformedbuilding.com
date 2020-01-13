@@ -1,0 +1,62 @@
+.Archive {
+}
+
+.Archive-heading {
+  @include text(3);
+  margin-top: get-lines(2);
+  margin-bottom: get-lines(1);
+  font-weight: 600;
+}
+
+.Archive-year {
+  @include text(1);
+  margin-top: get-lines(2);
+  margin-bottom: get-lines(1);
+  font-weight: 600;
+}
+
+.Archive-list {
+  margin-top: get-lines(1);
+  margin-bottom: get-lines(1);
+  padding-left: 0;
+  list-style-type: none;
+
+  @include supports-subgrid {
+    display: grid;
+    grid-template-areas: "date title";
+    grid-template-columns: max-content 1fr;
+  }
+}
+
+.Archive-item {
+  @include text(0);
+  display: flex;
+  align-items: baseline;
+
+  @include supports-subgrid {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: subgrid;
+    column-gap: 1rem;
+  }
+}
+
+.Archive-date {
+  color: var(--fg-weak);
+  white-space: nowrap;
+
+  @include supports-subgrid {
+    grid-area: date;
+  }
+}
+
+.Archive-link {
+  margin-left: 1rem;
+  word-break: break-word;
+  font-feature-settings: "halt";
+
+  @include supports-subgrid {
+    grid-area: title;
+    margin-left: 0;
+  }
+}

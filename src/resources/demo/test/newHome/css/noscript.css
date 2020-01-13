@@ -1,0 +1,69 @@
+#page-header {
+  position: fixed;
+  width: 100%;
+  background: #fff;
+}
+
+#main-nav {
+  position: fixed;
+  top: 130px;
+}
+
+#main-nav a:hover {
+  border-bottom-color: transparent;
+  background-image: -webkit-gradient(linear, left, from(#fff), to(#f0f0f0));
+  background-image: -webkit-linear-gradient(left, #fff, #f0f0f0);
+  background-image: -moz-linear-gradient(left, #fff, #f0f0f0);
+  background-image: -o-linear-gradient(left, #fff, #f0f0f0);
+  background-image: linear-gradient(left, #fff, #f0f0f0);
+  color: #333;
+}
+
+.ie #main-nav a:hover {
+  background: #f0f0f0;
+}
+
+#main-nav a:before {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-width: 0 18px 18px 0;
+  border-style: solid;
+  border-color: transparent #fff transparent transparent;
+  content: "";
+}
+
+#main-nav a:after {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-width: 18px 18px 0 0;
+  border-style: solid;
+  border-color: transparent #fff transparent transparent;
+  content: "";
+}
+
+#container {
+  position: static;
+  float: left;
+  margin: 130px 0 30px 220px;
+  border: 1px solid #dadada;
+  width: 400px;
+  height: 400px;
+  overflow: hidden;
+  background: #f3f3f3;
+}
+
+.content {
+  height: 400px;
+}
+
+#page-footer {
+  clear: left;
+}

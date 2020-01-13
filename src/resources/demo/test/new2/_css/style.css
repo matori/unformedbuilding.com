@@ -1,0 +1,216 @@
+/* Reset Stylesheet Based on
+   html5doctor.com Reset Stylesheet
+   http://html5doctor.com/html-5-reset-stylesheet/
+-----------------------------------------------------*/
+
+/*
+html5doctor.com Reset Stylesheet
+v1.6.1
+Last Updated: 2010-09-17
+Author: Richard Clark - http://richclarkdesign.com 
+Twitter: @rich_clark
+*/
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font-weight: normal;
+  vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { 
+  display: block;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+input, select {
+  vertical-align: middle;
+}
+
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+
+
+/* Styles
+-----------------------------------------------------*/
+
+@font-face {
+  font-family: "JosefinSansStdLight";
+  src: url("./fonts/JosefinSansStd-Light-webfont.eot");
+  src: url("./fonts/JosefinSansStd-Light-webfont.eot?iefix") format("eot"),
+       url("./fonts/JosefinSansStd-Light-webfont.woff") format("woff"),
+       url("./fonts/JosefinSansStd-Light-webfont.ttf") format("truetype"),
+       url("./fonts/JosefinSansStd-Light-webfont.svg#webfontSFfvv2vL") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+html {
+  background: #fafafa;
+}
+
+body {
+  color: #303030;
+  font-size: 13px;
+  font-family: "Helvetiva", "Arial", "\0030e1\0030a4\0030ea\0030aa", "Meiryo", sans-serif;
+  line-height: 1;
+  text-align: center;
+}
+
+#page {
+  margin: 0 auto;
+  width: 99%;
+  max-width: 1000px;
+  text-align: left;
+}
+
+#container {
+  width: 100%;
+}
+
+#container:after {
+  display: block;
+  clear: both;
+  content: "";
+}
+
+#main {
+  float: left;
+  margin-right: -300px;
+  width: 100%;
+}
+
+#content {
+  margin-right: 300px;
+  padding-right: 3%;
+}
+
+#sidebar {
+  float: right;
+  width: 300px;
+}
+
+#page-header {
+  padding: 40px 10% 60px;
+}
+
+#page-header h1 {
+  font-size: 42px;
+  font-family: "JosefinSansStdLight", "Lucida Sans", sans-serif;
+}
+
+#page-footer {
+  padding: 10px 1%;
+  border-top: 1px solid #ccc;
+  line-height: 1.6;
+}
+
+.post {
+  margin-bottom: 60px;
+}
+
+.post-header h1 {
+  margin-left: 22.39%;
+  padding: 10px 1.495%;
+  font-size: 18px;
+  line-height: 1.4;
+  text-shadow: 1px 1px 0 #fafafa, 2px 2px 0 #dadada;
+}
+
+.post-header .meta {
+  margin-top: -2px;
+  padding: 8px 0;
+  background: #eaeaea;
+}
+
+.post-header .meta time {
+  display: block;
+  width: 14.927%;
+  overflow: hidden;
+  color: #666;
+  font-size: 12px;
+  line-height: 1;
+  text-align: right;
+  text-shadow: 1px 1px 0 #fff;
+  white-space: nowrap;
+}
+
+.post-body {
+  margin-top: -26px;
+  margin-left: 15.674%;
+  padding: 20px 1.495% 10px;
+  padding-left: 8.211%;
+  -webkit-border-radius: 80px 0 0 0 / 40px 0 0 0;
+  -moz-border-radius: 80px 0 0 0 / 40px 0 0 0;
+  border-radius: 80px 0 0 0 / 40px 0 0 0;
+  background: #fafafa;
+}
+
+/* IE7 fix */
+
+.ie7 .post-header h1 {
+  margin-left: 15%;
+  padding: 10px 1%;
+}
+
+.ie7 .post-header .meta time {
+  width: 14%;
+}
+
+.ie7 .post-body {
+  margin-top: -26px;
+  margin-left: 12%;
+  padding: 20px 1% 10px 4%;
+}
+
+/* IE8 fix */
+
+.ie8 .post-header .meta time {
+  width: 14%;
+}
+
+.sidebar-content {
+  margin-bottom: 30px;
+}
+
+.sidebar-content h2 {
+  padding: 10px 3.5% 8px;
+  border-bottom: 2px solid #eaeaea;
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.sidebar-content > div {
+  padding: 20px 3.5% 10px;
+  line-height: 1.6;
+}
+
+.sidebar-content.ad > div {
+  padding: 17px 3.5% 7px;
+}
+
+.sidebar-content.ad li {
+  position: relative;
+  float: left;
+  margin: 3px;
+  padding: 3px;
+  border: 1px solid #ccc;
+  width: 125px;
+  height: 125px;
+  overflow: hidden;
+  line-height: 1;
+  vertical-align: bottom;
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>背景色の範囲 DEMO</title>
+<style>
+div {
+	float           : left;
+  margin          : 50px 10px;
+  padding         : 5px;
+  border          : 5px dashed #000;
+  width           : 100px;
+  height          : 100px;
+  background-color: #859900;
+  background-image: url(red.png),
+                    url(violet.png),
+                    url(cyan.png);
+  background-repeat: no-repeat;
+}
+
+#box-1 {
+  background-clip  : border-box;
+}
+#box-2 {
+  background-clip  : border-box, padding-box, padding-box;
+}
+#box-3 {
+  background-clip  : border-box, padding-box, content-box;
+}
+</style>
+</head>
+<body>
+
+<div id="box-1"></div>
+<div id="box-2"></div>
+<div id="box-3"></div>
+
+</body>
+</html>

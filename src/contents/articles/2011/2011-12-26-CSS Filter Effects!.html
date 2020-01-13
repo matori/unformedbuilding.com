@@ -1,0 +1,218 @@
+<script type="application/x-yaml">
+title: "CSS Filter Effects!"
+description: "CSS Filter Effectsの紹介をしてみたいと思います。"
+slug: css-filter-effects
+published: 2011-12-26T02:40:59+09:00
+updated: 2012-01-06T12:18:34+09:00
+category: webdev
+</script>
+
+<p>
+  「CSS Filter Effects」の紹介をしてみたいと思います。<br>
+  現在、このプロパティはWebkit nightlyとGoogle Chrome Canaryで使うことができます。たぶんdevとかにももうすぐ来るんじゃないでしょうか。
+</p>
+<p>
+  <a href="https://dvcs.w3.org/hg/FXTF/raw-file/tip/filters/index.html#FilterProperty">Filter Effects 1.0 - 5. The ‘filter’ property</a>
+</p>
+<p>
+  2011年12月16日版を参考に書いていきたいと思います。<br>
+  サンプルページは以下です。
+</p>
+<p>
+  <a href="/demo/2011/css-filter-effects/">CSS Filter Effects Sample</a>
+</p>
+<p>
+  このサンプルの画像は、通常だと次のように表示されます。
+</p>
+<figure>
+  <img src="/images/2011/css-filter-effects/normal.png" width="620" height="222" alt="CSS Filter Effectsサンプルのスクリーンショット（フィルタなし）">
+</figure>
+<p>
+  左側がjpg画像で、右側はハートの外側が透過されているpng画像です。<br>
+  これにフィルタをかけていきます。
+</p>
+<p>
+  なお、スクリーンショットはWindows版Google Chrome 18.0.982.0 canaryで表示したときのものです。
+</p>
+<p>
+  このプロパティをWebkitで使う場合は<code>-webkit-filter</code>のように記述します。<br>
+  値はフィルタ関数を使います。これは空白区切りにより複数指定できます。
+</p>
+<section>
+  <h2><code>grayscale()</code></h2>
+  <p>
+    グレースケールにするフィルタです。<br>
+    <code>0%</code>から<code>100%</code>の値を指定できます。<br>
+    <code>0%</code>の場合は何も変化しません。<code>100%</code>では完全なグレースケールになります。<br>
+    パラメータが省略された場合は<code>100%</code>として扱われます。
+  </p>
+  <p>
+    言い方が変かもしれませんが、<code>100%</code>を<code>1</code>とした形式でも記述できます。<br>
+    例：<code>grayscale(1)</code><br>
+    これはこれ以降のものでも同様です。
+  </p>
+  <p>
+    サンプルに<code>grayscale()</code>を指定するとこうなります。
+  </p>
+  <figure>
+    <img src="/images/2011/css-filter-effects/grayscale.png" width="620" height="222" alt="CSS Filter Effectsサンプルのスクリーンショット（グレースケール）">
+  </figure>
+</section>
+<section>
+  <h2><code>sepia()</code></h2>
+  <p>
+    セピア色にするフィルタです。<br>
+    指定などはグレースケールと一緒です。
+  </p>
+  <p>サンプルに<code>sepia()</code>を指定するとこうなります。</p>
+  <figure>
+    <img src="/images/2011/css-filter-effects/sepia.png" width="620" height="222" alt="CSS Filter Effectsサンプルのスクリーンショット（セピア）">
+  </figure>
+</section>
+<section>
+  <h2><code>saturate()</code></h2>
+  <p>
+    彩度を変化させます。<br>
+    値には<code>0%</code>から指定できます。<code>0%</code>では彩度がなくなり、<code>100%</code>の場合は何も変化しません。<br>
+    また、<code>100%</code>より大きな値を指定できます。<br>
+    パラメータが省略された場合には<code>100%</code>として扱われます。
+  </p>
+  <p>
+    サンプルに<code>saturate(50%)</code>を指定するとこうなります。
+  </p>
+  <figure>
+    <img src="/images/2011/css-filter-effects/saturate.png" width="620" height="222" alt="CSS Filter Effectsサンプルのスクリーンショット（彩度）">
+  </figure>
+</section>
+<section>
+  <h2><code>hue-rotate()</code></h2>
+  <p>
+    <a href="http://ja.wikipedia.org/wiki/%E8%89%B2%E7%9B%B8">色相環</a>を回転させます。<br>
+    値は角度で指定します。<code>0deg</code>の場合は変化しません。<br>
+    パラメータが省略された場合には<code>0deg</code>として扱われます。
+  </p>
+  <p>
+    サンプルに<code>hue-rotate(180deg)</code>を指定するとこうなります。
+  </p>
+  <figure>
+    <img src="/images/2011/css-filter-effects/hue-rotate.png" width="620" height="222" alt="CSS Filter Effectsサンプルのスクリーンショット（色相環回転）">
+  </figure>
+</section>
+<section>
+  <h2><code>invert()</code></h2>
+  <p>
+    色反転を行います。<br>
+    <code>0%</code>から<code>100%</code>の値を指定できます。<br>
+    <code>0%</code>の場合は何も変化しません。<code>100%</code>では完全な反転となります。<br>
+    パラメータが省略された場合は<code>100%</code>として扱われます。
+  </p>
+  <p>
+    サンプルに<code>invert()</code>を指定するとこうなります。
+  </p>
+  <figure>
+    <img src="/images/2011/css-filter-effects/invert.png" width="620" height="222" alt="CSS Filter Effectsサンプルのスクリーンショット（色反転）">
+  </figure>
+</section>
+<section>
+  <h2><code>opacity()</code></h2>
+  <p>
+    不透明度を変化させます。<br>
+    <code>0%</code>から<code>100%</code>の値を指定できます。<br>
+    <code>0%</code>の場合は完全な透明になります。<code>100%</code>の場合は変化しません。<br>
+    パラメータが省略された場合は<code>100%</code>として扱われます。
+  </p>
+  <p>
+    サンプルに<code>opacity(50%)</code>を指定するとこうなります。
+  </p>
+  <figure>
+    <img src="/images/2011/css-filter-effects/opacity.png" width="620" height="222" alt="CSS Filter Effectsサンプルのスクリーンショット（不透明度）">
+  </figure>
+</section>
+<section>
+  <h2><code>brightness()</code></h2>
+  <p>
+    明度を変化させます。<br>
+    値は<code>0%</code>から指定できます。<code>0%</code>では完全に真っ黒になり、<code>100%</code>の場合は何も変化しません。<br>
+    また、<code>100%</code>より大きな値を指定できます。<br>
+    パラメータが省略された場合には<code>100%</code>として扱われます。
+  </p>
+  <p>
+    サンプルに<code>brightness(20%)</code>を指定するとこうなります。
+  </p>
+  <figure>
+    <img src="/images/2011/css-filter-effects/brightness.png" width="620" height="222" alt="CSS Filter Effectsサンプルのスクリーンショット（明度）">
+  </figure>
+</section>
+<section>
+  <h2><code>contrast()</code></h2>
+  <p>
+    コントラストを変化させます。<br>
+    値は<code>0%</code>から指定できます。<code>0%</code>では完全に真っ黒になり、<code>100%</code>の場合は何も変化しません。<br>
+    また、<code>100%</code>より大きな値を指定できます。<br>
+    パラメータが省略された場合には<code>100%</code>として扱われます。
+  </p>
+  <p>
+    サンプルに<code>contrast(200%)</code>を指定するとこうなります。
+  </p>
+  <figure>
+    <img src="/images/2011/css-filter-effects/contrast.png" width="620" height="222" alt="CSS Filter Effectsサンプルのスクリーンショット（コントラスト）">
+  </figure>
+</section>
+<section>
+  <h2><code>blur()</code></h2>
+  <p>
+    ぼかします。<br>
+    値には半径を指定します。これにはCSSの長さの単位が使えます。パーセンテージは使えません。<br>
+    パラメータがない場合には<code>0</code>が使われます。
+  </p>
+  <p>
+    サンプルに<code>blur(3px)</code>を指定するとこうなります。
+  </p>
+  <figure>
+    <img src="/images/2011/css-filter-effects/blur.png" width="620" height="222" alt="CSS Filter Effectsサンプルのスクリーンショット（ぼかし）">
+  </figure>
+</section>
+<section>
+  <h2><code>drop-shadow()</code></h2>
+  <p>
+    ドロップシャドウを適用します。<br>
+    指定形式はCSSの&<code>lt;shadow&gt;</code>形式ですが、<code>inset</code>は指定できません。
+  </p>
+  <p>
+    サンプルに<code>drop-shadow(rgba(0, 0, 0, 0.7) 3px 3px 6px)</code>を指定するとこうなります。
+  </p>
+  <figure>
+    <img src="/images/2011/css-filter-effects/drop-shadow.png" width="620" height="222" alt="CSS Filter Effectsサンプルのスクリーンショット（ドロップシャドウ）">
+  </figure>
+</section>
+<p>
+  かなり駆け足な感じですが、以上です。<br>
+  他にも<code>custom()</code>関数とかありますが、使えるかどうか分からないので書きませんでした。<br>
+  （使い方もよく分からないので……）
+</p>
+<p>
+  ものにもよるでしょうが、Firefoxの場合はCSSにSVG Filterを使うことで似たようなことはできると思います。<br>
+  また、フィルタはIEでも独自のものができますね。IE 10で使えるかどうかは分かりませんが。<br>
+  しばらくは遊びで使う分にはいいんじゃないかなー思っています。色々できそうですしね。<br>
+</p>
+<p>
+  最後に、参考になりそうなリンクをまとめておきます。
+</p>
+<ul>
+  <li>
+    <a href="https://dvcs.w3.org/hg/FXTF/raw-file/tip/filters/index.html#FilterProperty">Filter Effects 1.0 - 5. The ‘filter’ property</a>（仕様）
+  </li>
+  <li>
+    <a href="http://updates.html5rocks.com/2011/12/CSS-Filter-Effects-Landing-in-WebKit">CSS Filter Effects Landing in WebKit - HTML5Rocks Updates</a>
+  </li>
+  <li>
+    <a href="http://jsdo.it/GeckoTang/sdkT">CSS3 Filter Effects DEMO - jsdo.it - Share JavaScript, HTML5 and CSS</a>
+  </li>
+  <li>
+    <a href="http://girliemac.com/blog/2011/12/21/quick-fun-css3-filter-effects/">Quick Fun: CSS3 Filter Effects &laquo; GirlieMac! Blog</a>
+  </li>
+  <li>
+    <a href="http://net.tutsplus.com/tutorials/html-css-techniques/say-hello-to-css3-filters/">Say Hello to CSS3 Filters | Nettuts+</a>
+  </li>
+  <li><a href="http://davidwalsh.name/css-filters">CSS Filters</a> (David Walsh Blog)</li>
+</ul>

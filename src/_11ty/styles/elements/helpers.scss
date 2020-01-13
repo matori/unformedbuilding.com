@@ -1,0 +1,71 @@
+// margin
+.m0 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+// table
+.tableWrapper {
+  margin-top: get-lines(1);
+  margin-bottom: get-lines(1);
+  overflow: auto;
+
+  table {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+.stickyRowHeader {
+  tr > :first-child {
+    position: sticky;
+    left: 0;
+  }
+}
+
+// text alignment
+.alignEnd {
+  text-align: right;
+}
+
+.alignCenter {
+  text-align: center;
+}
+
+// text
+.path {
+  color: var(--fg-highlight);
+  font-family: var(--ff-mono);
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.frac {
+  font-feature-settings: "frac";
+}
+
+// amazon associate link block
+//
+// <figure class="amazon">
+//   <a href="https://www.amazon.co.jp/o/ASIN/{ASIN_CODE}/{TRACK_ID}">
+//     <img src="http://images-jp.amazon.com/images/P/{ASIN_CODE}.09.LZZZZZZZ" width="..." height="..." alt="...">
+//   </a>
+//  <figcaption>
+//    <a href="https://www.amazon.co.jp/o/{ASIN_CODE}/{TRACK_ID}">...</a>
+//  </figcaption>
+// </figure>
+.amazon {
+  display: grid;
+  grid-template-columns: fit-content(calc(30% - 0.5rem)) auto;
+  column-gap: 1rem;
+
+  &::before {
+    @include text(-2);
+    content: "Amazon.co.jp";
+    grid-column-start: 1;
+    grid-column-end: 3;
+    color: var(--fg-weak);
+  }
+}

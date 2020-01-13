@@ -1,0 +1,15 @@
+:root {
+  --bg-base: #{$color-bg-base};
+  --bg-secondary: #{$color-bg-secondary};
+  --bg-tertiary: #{$color-bg-tertiary};
+  --fg-base: #{$color-fg-base};
+  --fg-link: #{$color-fg-link};
+  --fg-visited: #{$color-fg-visited};
+  --fg-active: #{$color-fg-active};
+  --fg-weak: #{$color-fg-weak};
+  --fg-highlight: #{$color-fg-highlight};
+  --border-focus: #{$color-border-focus};
+  --border-thick: #{$color-border-thick};
+  --border-thin: #{$color-border-thin};
+  --ff-mono: menlo, monospace, serif;
+}

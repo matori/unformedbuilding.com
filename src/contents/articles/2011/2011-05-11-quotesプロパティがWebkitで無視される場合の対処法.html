@@ -1,0 +1,104 @@
+<script type="application/x-yaml">
+title: "quotesプロパティがWebkitで無視される場合の対処法"
+description: "Webkit系ブラウザでquotesプロパティが無視されてしまいますが、対策はできるのでやり方を説明します。"
+slug: css-quotes-property-on-webkit
+published: 2011-05-11T14:37:38+09:00
+updated: 2011-05-11T14:48:54+09:00
+category: webdev
+</script>
+
+<p>
+  SafariなどのWebkit系ブラウザで、<code>q</code>要素などに使われる<code>quotes</code>プロパティが無視されてしまいます。<br>
+  なぜ対応していないのか分かりませんが、対策はできるのでやり方を説明します。
+</p>
+<p>
+  とりあえずデモページをご覧ください。
+</p>
+<p>
+  <a href="/demo/2011/css-quotes-property-test/">CSS quotes property test</a>
+</p>
+<p>
+  Safariで見ると、最初のデモで引用符が全て<code>&quot;</code>（ダブルクオート）になっているのが分かるかと思います（Safari 5.0.5で確認しました）。<br>
+  同じくWebkitのGoogle ChromeではChrome 12.0.742.30 dev-mの時点で正しく適用されています。
+</p>
+<p>
+  最初のデモのCSSは以下のようになっています。
+</p>
+<pre><code class="language-css">#test1 q {
+  quotes: &quot;「&quot; &quot;」&quot; &quot;『&quot; &quot;』&quot;;
+}
+
+#test1 q:before {
+  content: open-quote;
+}
+
+#test1 q:after {
+  content: close-quote;
+}</code></pre>
+<p>
+  本来ならこれでいいはずなんですが、できません。<br>
+  Webkit付属の検査ツールで見てみると、指定していることすら無視されているようです。<br>
+  検査ツールのユーザー・エージェント・スタイルシートでは、<code>:before</code>, <code>:after</code>にダブルクオートが指定されているのが確認できます。
+</p>
+<p>
+  そこで、対策方法ですが、2番目のデモ「対策済みの指定 1」をご覧ください。<br>
+  ここではちゃんとかぎ括弧が表示されていると思います。
+</p>
+<p>
+  CSSは以下のようになっています。
+</p>
+<pre><code class="language-css">#test2 {
+  quotes: &quot;「&quot; &quot;」&quot; &quot;『&quot; &quot;』&quot;;
+}
+
+#test2 q:before {
+  content: &quot;「&quot;;
+  content: open-quote;
+}
+
+#test2 q:after {
+  content: &quot;」&quot;;
+  content: close-quote;
+}
+
+#test2 q q:before {
+  content: &quot;『&quot;;
+  content: open-quote;
+}
+
+#test2 q q:after {
+  content: &quot;』&quot;;
+  content: close-quote;
+}</code></pre>
+<p>
+  簡単に説明すると、<code>quotes</code>プロパティとその指定<code>open-quote</code>/<code>close-quote</code>が無視されるのを利用して、<code>:before</code>,
+  <code>:after</code>擬似要素の部分に<code>content</code>プロパティで使いたい引用符を指定しています。<br>
+  その次に他のブラウザ用に本来の指定である<code>open-quote</code>/<code>close-quote</code>で上書きします。<br>
+  ネストされている場合の指定も同様にします。
+</p>
+<p>
+  これで対策完了ですが、こういう指定するなら「<code>quotes</code>とか<code>open-quote</code>,
+  <code>close-quote</code>はいらないんじゃない？」と思われそうなので、そういう指定を「対策済みの指定 2」でやってみました。
+</p>
+<pre><code class="language-css">#test3 q:before {
+  content: &quot;「&quot;;
+}
+
+#test3 q:after {
+  content: &quot;」&quot;;
+}
+
+#test3 q q:before {
+  content: &quot;『&quot;;
+}
+
+#test3 q q:after {
+  content: &quot;』&quot;;
+}</code></pre>
+<p>
+  ……結果は同じですね。
+</p>
+<p>
+  でも、本来の方法を考えると、2番目のを使っておいて対応したらいらない部分を削除するほうがいいかなーと思います。<br>
+  「そもそも<code>q</code>なんて使わないよ」とか「そういうのは標準でいい」っていうのなら気にしなくていいです。ただ、リセットCSSなんかには引用符を消す指定が入っていたりするのでそこは注意したほうがいいかもしれませんね。
+</p>

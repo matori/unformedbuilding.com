@@ -1,0 +1,1283 @@
+<script type="application/x-yaml">
+title: "CSS Transformsについてのメモ"
+description: "CSS Transformsをちゃんと理解したかったので調べてみました。自分が分かる範囲で説明してみたいと思います。"
+slug: learn-about-css-transforms
+published: 2012-01-24T15:58:11+09:00
+updated: 2012-03-05T10:23:37+09:00
+category: webdev
+</script>
+
+<p>
+  既に色々なデモページが作られていたり、実用されていたりするCSS Transformsですが、ちゃんと理解したかったので調べてみました。<br>
+  まだそんなに自信はありませんが、以前よりは理解できた気がします。<br>
+  というわけなので、自分が分かる範囲で説明してみたいと思います。
+</p>
+<p>
+  CSS Transformsは2Dと3Dとで別になっていますが、<a href="http://standards.mitsue.co.jp/archives/001536.html">将来的には SVG Transforms と合わせて一つの仕様になるそうです</a>。<br>
+  今はまだ別々なので、それぞれにリンクをしておきます。括弧内は現時点での最新の日付です。
+</p>
+<ul>
+  <li>WD: <a href="http://www.w3.org/TR/css3-2d-transforms/">CSS 2D Transforms</a>（2011/12/15）</li>
+  <li>ED: <a href="http://dev.w3.org/csswg/css3-transforms/">CSS Transforms</a>（2011/11/28）</li>
+</ul>
+<ul>
+  <li>WD: <a href="http://www.w3.org/TR/css3-3d-transforms/">CSS 3D Transforms Module Level 3</a>（2009/03/20）</li>
+  <li>ED: <a href="http://dev.w3.org/csswg/css3-3d-transforms/">CSS 3D Transforms</a>（2011/03/21）</li>
+</ul>
+<ins datetime="2012-03-05T01:22:04+00:00">
+  <p>新しくなった仕様が出ていましたので、リンクを追加しておきます。最新版へのリンクです。</p>
+  <p class="link"><a href="http://www.w3.org/TR/css3-transforms/">CSS Transforms</a>
+  </p>
+</ins>
+<p>
+  記事内容に若干の不安があるので、他力本願で申し訳ないですが間違っていたら教えていただけると助かります。
+</p>
+<section>
+  <h2>CSS 2D Transforms</h2>
+  <section>
+    <h3><code>transform</code>プロパティ</h3>
+    <p>
+      どのような変形を行うかを指定します。指定はTransform関数で行います。<br>
+      関数は空白区切りにより複数指定できます。<br>
+      各関数は指定した順に適用されます。
+    </p>
+    <p>
+      初期値は<code>none</code>です。
+    </p>
+    <section>
+      <h4><code>translate(tx, ty)</code></h4>
+      <p>
+        <code>translate()</code>では、要素の移動を行います。<br>
+        1つ目のパラメータでX方向への移動距離、2つ目のパラメータでY方向への移動距離を指定します。<br>
+        2つ目のパラメータ<code>ty</code>が省略された場合、<code>ty</code>は<code>0</code>として計算されます。<br>
+        指定には<a href="http://www.w3.org/TR/css3-values/#lengths">&lt;length&gt;</a>形式、または<a href="http://www.w3.org/TR/css3-values/#percentages">&lt;percentage&gt;</a>を使用します。
+      </p>
+      <p>
+        以下はサンプルです。<br>
+        灰色の部分が変形適用前のもの、赤い部分が適用後のものとなります。
+      </p>
+      <p>
+        <a href="/demo/2012/css-transforms/2d/2d-translate.html">transform: translate() sample</a>
+      </p>
+      <pre><code class="language-css">.sample1 {
+  transform: translate(0);
+}
+
+.sample2 {
+  transform: translate(20px);
+}
+
+.sample3 {
+  transform: translate(20px, 20px);
+}</code></pre>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/2d-translate.png" width="620" height="190" alt="">
+        <figcaption>デモ「transform: translate() sample」実行結果</figcaption>
+      </figure>
+      <section>
+        <h5><code>translateX()</code>, <code>translateY()</code></h5>
+        <p>
+          <code>translate()</code>を個別に指定する関数です。<br><code>translateX()</code>はX方向へ、<code>translateY()</code>はY方向への移動距離を指定します。
+        </p>
+      </section>
+    </section>
+    <section>
+      <h4><code>scale(sx, sy)</code></h4>
+      <p>
+        要素の拡大縮小を行います。<br>
+        1つ目のパラメータでX方向の比率を、2つ目のパラメータでY方向の比率を指定します。<br>
+        2つ目のパラメータ<code>sy</code>が省略された場合、<code>sy</code>は1つ目のパラメータ<code>sx</code>と同じ値として計算されます。<br>
+        また、指定には<a href="http://www.w3.org/TR/css3-values/#numbers">&lt;number&gt;</a>形式を使用します。
+      </p>
+      <p>
+        <a href="/demo/2012/css-transforms/2d/2d-scale.html">transform: scale() sample</a>
+      </p>
+      <pre><code class="language-css">.sample1 {
+  transform: scale(0);
+}
+
+.sample2 {
+  transform: scale(1.2);
+}
+
+.sample3 {
+  transform: scale(1.2, 0.8);
+}</code></pre>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/2d-scale.png" width="620" height="200" alt="">
+        <figcaption>デモ「transform: scale() sample」実行結果</figcaption>
+      </figure>
+      <section>
+        <h5><code>scaleX()</code>, <code>scaleY()</code></h5>
+        <p>
+          <code>scale()</code>を個別に指定する関数です。<br>
+          <code>scaleX()</code>でX方向、<code>scaleY()</code>でY方向の比率を指定します。<br>
+          仮に<code>scaleX()</code>しか指定されていない場合、残る<code>scaleY()</code>の値は<code>1</code>となります。これは逆の場合でも同じです。
+        </p>
+      </section>
+    </section>
+    <section>
+      <h4><code>rotate()</code></h4>
+      <p>
+        要素を回転させます。回転の方向は時計回りです。<br>
+        回転の中心点は<code>transform-origin</code>（後述）プロパティで指定されたポイントとなります。<br>
+        パラメータは1つだけで、<a href="http://www.w3.org/TR/css3-values/#angles">&lt;angle&gt;</a>形式で指定します。
+      </p>
+      <p>
+        <a href="/demo/2012/css-transforms/2d/2d-rotate.html">transform: rotate() sample</a>
+      </p>
+      <pre><code class="language-css">.sample1 {
+  transform: rotate(0);
+}
+
+.sample2 {
+  transform: rotate(15deg);
+}
+
+.sample3 {
+  transform: rotate(-15deg);
+}</code></pre>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/2d-rotate.png" width="620" height="204" alt="">
+        <figcaption>デモ「transform: rotate() sample」実行結果</figcaption>
+      </figure>
+    </section>
+    <section>
+      <h4><code>skewX()</code>, <code>skewY()</code></h4>
+      <p>
+        要素を傾斜させます。<br>
+        <code>skewX()</code>はX軸に沿って指定された分の傾斜を与えます。同様に、<code>skewY()</code>はY軸に沿います。<br>
+        パラメータは1つだけで、<a href="http://www.w3.org/TR/css3-values/#angles">&lt;angle&gt;</a>形式で指定します。
+      </p>
+      <p>
+        <a href="/demo/2012/css-transforms/2d/2d-skew.html">transform: skewX() &amp; transform: skewY() sample</a>
+      </p>
+      <pre><code class="language-css">.sample1 {
+  transform: skewX(0);
+}
+
+.sample2 {
+  transform: skewX(15deg);
+}
+
+.sample3 {
+  transform: skewY(15deg);
+}</code></pre>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/2d-skew.png" width="620" height="210" alt="">
+        <figcaption>デモ「ransform:skewX() &amp; transform: skewY()」実行結果</figcaption>
+      </figure>
+    </section>
+    <section>
+      <h4><code>matrix(a, b, c, d, e, f)</code></h4>
+      <p>
+        行列を使用して変形を指定します。これ1つで上記の指定をまとめて行うこともできます。<br>
+        非常にややこしいのでCSSしか書かない人が使う機会は少ないかもしれませんが、JavaScriptで変形を操作するときには必要になってきたりします。CSS で<code>rotate()</code>や<code>scale()</code>などを使って書いたとしても、JavaScriptから<code>transform</code>の値を取得すると、この<code>matrix()</code>になるからです。
+      </p>
+      <p>
+        この関数には6つのパラメータがあり、変形なしの状態だと<code>matrix(1, 0, 0, 1, 0, 0)</code>となります。
+      </p>
+      <p>
+        使用される行列は3×3ですが、うち3つは固定です。
+      </p>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/2d-matrix1.png" width="110" height="92" alt="matrix()関数の行列">
+      </figure>
+      <p>
+        変形なしの状態の行列はこうなります。
+      </p>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/2d-matrix2.png" width="107" height="92" alt="matrix()関数の行列の初期値">
+      </figure>
+      <p>
+        この行列が何をするのかですが、この行列を使って座標を算出します。<br>
+        要素の4つの頂点（要素は矩形なので）を、それぞれ<code>(X, Y, 1)</code>とし、これを行列に乗算して座標を出します。
+      </p>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/2d-matrix-coordinate-1.png" width="170" height="92" alt="2D Transforms 行列の計算 1">
+      </figure>
+      <p>
+        これを計算します。
+      </p>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/2d-matrix-coordinate-2.png" width="490" height="92" alt="2D Transforms 行列の計算 2">
+      </figure>
+      <p>
+        この<code>x’</code>と<code>y’</code>が変形後の座標になります。<br>
+        これを各頂点ごとに行い、それぞれの結果に応じて要素の頂点の座標を移動することで変形が行われます。
+      </p>
+      <p>
+        たとえば、100×100の要素を<code>translate(10, 20)</code>すると、次のようになります。<br>
+        上から順に、左上、右上、左下、右下の頂点です。
+      </p>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/2d-matrix-coordinate-3.png" width="289" height="422" alt="2D Transforms 行列の計算 3 - 座標の算出">
+      </figure>
+      <p>
+        次に、ここまで出てきた関数を行列に変換してみます。
+      </p>
+      <section>
+        <h5><code>translate()</code>から<code>matrix()</code>へ</h5>
+        <p>
+          <code>translate(tx, ty)</code>は<code>matrix(1, 0, 0, 1, tx, ty)</code>で表せます。<br>
+          <code>translateX(tx)</code>, <code>translateY(ty)</code>でも同様です。
+        </p>
+        <figure>
+          <img src="/images/2012/learn-about-css-transforms/2d-matrix-translate.png" width="115" height="92" alt="translate()をmatrix()で表す">
+        </figure>
+      </section>
+      <section>
+        <h5><code>scale()</code>から<code>matrix()</code>へ</h5>
+        <p>
+          <code>scale(sx, sy)</code>は<code>matrix(sx, 0, 0, sy, 0, 0)</code>で表せます。<br>
+          <code>scaleX(sx)</code>, <code>scaleY(sy)</code>でも同様です。
+        </p>
+        <figure>
+          <img src="/images/2012/learn-about-css-transforms/2d-matrix-scale.png" width="127" height="92" alt="scale()をmatrix()で表す">
+        </figure>
+      </section>
+      <section>
+        <h5><code>rotate()</code>から<code>matrix()</code>へ</h5>
+        <p>
+          <code>rotate(a)</code>は<code>matrix(cos(a), sin(a), -sin(a), cos(a), 0, 0)</code>で表せます。<br>
+          <code>a</code>は角度で、度数法（degree）ではなく弧度法（radian）で指定します。<br>
+          たとえば<code>90deg</code>の場合、<code>90 * π / 180 = 1.570796325 [rad]</code>となります。
+        </p>
+        <figure>
+          <img src="/images/2012/learn-about-css-transforms/2d-matrix-rotate.png" width="207" height="92" alt="rotate()をmatrix()で表す">
+        </figure>
+      </section>
+      <section>
+        <h5><code>skewX()</code>, <code>skewY()</code>から<code>matrix()</code>へ</h5>
+        <p>
+          <code>skewX(a)</code>は<code>matrix(1, 0, tan(a), 1, 0, 0)</code>で表せます。<br>
+          <code>a</code>は<code>rotate()</code>のときと同じです。
+        </p>
+        <figure>
+          <img src="/images/2012/learn-about-css-transforms/2d-matrix-skewx.png" width="151" height="92" alt="skewX()をmatrix()で表す">
+        </figure>
+        <p>
+          また、<code>skewY(a)</code>は<code>matrix(1, tan(a), 0, 1, 0, 0)</code>で表せます。
+        </p>
+        <figure>
+          <img src="/images/2012/learn-about-css-transforms/2d-matrix-skewy.png" width="151" height="92" alt="skewY()をmatrix()で表す">
+        </figure>
+      </section>
+      <section>
+        <h5>複数指定されている場合</h5>
+        <p>
+          仮に、<code>rotate(30deg) scale(2) translate(10px, 10px)</code>といった指定があったとしましょう。<br>
+          この場合には、次のようになります。<br>
+          （四捨五入しています）
+        </p>
+        <figure>
+          <img src="/images/2012/learn-about-css-transforms/2d-matrix3.png" width="620" height="140" alt="rotate(30deg) scale(2) translate(10px, 10px) から matrix() へ">
+        </figure>
+        <p>
+          <code>matrix()</code>でまとめて指定すると<code>matrix(1.73205, 1, -1, 1.73205, 7.32051, 27.32051)</code>となります。<br>
+          計算方法はめんどくさいので行列の乗算の方法を調べてください。<br>
+          計算するだけなら「<a href="http://web2.0calc.com/">Web 2.0 scientific calculator</a>」などを使うと楽です。
+        </p>
+        <p>
+          実際に試して見ましょう。
+        </p>
+        <p>
+          <a href="/demo/2012/css-transforms/2d/2d-matrix-test1.html">transform: matrix() sample 1</a>
+        </p>
+        <pre><code class="language-css">.sample1 {
+  transform: rotate(30deg) scale(2) translate(10px, 10px);
+}
+
+.sample2 {
+  transform: matrix(1.73205, 1, -1, 1.73205, 7.32051, 27.32051);
+}</code></pre>
+        <figure>
+          <img src="/images/2012/learn-about-css-transforms/2d-matrix-test1.png" width="620" height="344" alt="">
+          <figcaption>デモ「transform: matrix() sample 1」の実行結果</figcaption>
+        </figure>
+        <p>
+          これを重ねてみます。
+        </p>
+        <p>
+          <a href="/demo/2012/css-transforms/2d/2d-matrix-test2.html">transform: matrix() sample 2</a>
+        </p>
+        <figure>
+          <img src="/images/2012/learn-about-css-transforms/2d-matrix-test2.png" width="620" height="430" alt="">
+          <figcaption>デモ「transform: matrix() sample 2」の実行結果</figcaption>
+        </figure>
+      </section>
+    </section>
+  </section>
+  <section>
+    <h3><code>transform-origin</code>プロパティ</h3>
+    <p>
+      <code>transform-origin</code>では、変形の原点を指定できます。<br>
+      指定には、<a href="http://www.w3.org/TR/css3-values/#percentages">&lt;percentage&gt;</a>と<a href="http://www.w3.org/TR/css3-values/#lengths">&lt;length&gt;</a>、キーワードが使えます。<br>
+      キーワードは、水平方向の場合<code>left</code>, <code>center</code>, <code>right</code>で、垂直方向の場合は<code>top</code>, <code>center</code>, <code>bottom</code>となります。
+    </p>
+    <p>
+      値が1つしかない場合、2つ目の値は<code>center</code>として扱われます。
+    </p>
+    <p>
+      値が2つの場合、その値がキーワードでなければ、1つ目の値は水平方向、2つ目の値は垂直方向のものとして扱われます。<br>
+      &lt;percentage&gt;と&lt;length&gt;は、要素のボーダーボックスの左上隅からのオフセットを表します。
+    </p>
+    <p>
+      値が3つ、または4つの場合、&lt;percentage&gt;や&lt;length&gt;の前にキーワードが先行する必要があります。<br>
+      たとえば、<code>transform-origin: bottom 10px right 20px</code>は、垂直方向が要素の下端から10px、水平方向が右端から20pxの位置になります。値が3つしかない場合、未指定のオフセットは<code>0</code>であるとみなされます。
+    </p>
+    <p>
+      正の値は、ボーダーボックスの端から内側へのオフセットを、負の値はボーダーボックスの端から外側へのオフセットを表します。
+    </p>
+    <p>
+      このプロパティの初期値は<code>50% 50%</code>です。
+    </p>
+    <p>
+      次のサンプルは、赤い部分を<code>transform: rotate(15deg)</code>し、<code>transform-origin</code>の値を変更したものです。
+    </p>
+    <p>
+      <a href="/demo/2012/css-transforms/2d/2d-transform-origin.html">transform-origin sample</a>
+    </p>
+    <pre><code class="language-css">.sample1 {
+  transform-origin: 50% 50%;
+}
+
+.sample2 {
+  transform-origin: 0 0;
+}
+
+.sample3 {
+  transform-origin: 50% -20px;
+}</code></pre>
+    <figure>
+      <img src="/images/2012/learn-about-css-transforms/2d-transform-origin.png" width="620" height="224" alt="">
+      <figcaption>デモ「transform-origin sample」の実行結果</figcaption>
+    </figure>
+  </section>
+  <p>
+    2D Transformsについては以上です。<br>
+    CSSアニメーションとの絡み、DOMでの扱いなどは仕様に載っていますので参照してください。
+  </p>
+</section>
+<section>
+  <h2>CSS 3D Transforms</h2>
+  <p>
+    Transformsを使うことで、要素を2次元または3次元へ移動・回転・スケール変更することができます。<br>
+    Perspective transformは、奥行きのある表現を可能にします。
+  </p>
+  <p>
+    3次元空間ではZ軸が追加され、その正の値はウィンドウからユーザー側に向かって伸びており、負の値はユーザー側からウィンドウに向かってより奥に伸びています。<br>
+    Z軸を真横から見た場合、ユーザー側が正の値、その逆が負の値となります。
+  </p>
+  <p>
+    ちょっと斜め上から見たらこんな感じです。文字が書かれているほうが負になります。<br>
+    （文字も回転しちゃってますが気にしないでください）
+  </p>
+  <figure>
+    <img src="/images/2012/learn-about-css-transforms/3d-axis.png" width="246" height="257" alt="">
+    <figcaption>CSS 3D Transformsで使われる3つの軸</figcaption>
+  </figure>
+  <p>
+    それと、ここから先で使うサンプルですが、変形の確認に使う基本のHTMLとCSSはこんな感じになっています。
+  </p>
+  <pre><code class="language-html">&lt;div class=&quot;drawing&quot;&gt;
+  &lt;h2&gt;...&lt;/h2&gt;
+  &lt;div class=&quot;box&quot;&gt;
+    &lt;div class=&quot;base&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;sample&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+  <pre><code class="language-css">.box {
+  position : relative;
+  width    : 200px;
+  transform: rotateX(-10deg) rotateY(-20deg);
+}
+
+.base,
+.base + div {
+  position: absolute;
+  top     : 50px;
+  left    : 50px;
+  width   : 100px;
+  height  : 100px;
+}</code></pre>
+  <p>
+    また、正面からだと変形したことが分かりにくいものもありますので、斜め上から見ているような感じにしていますが、画面上のほうにあるボタンで切り替えられます。<br>
+    軸も表示していますが、これも表示・非表示を切り替えられます。
+  </p>
+  <section>
+    <h3><code>transform</code>プロパティ</h3>
+    <p>
+      2D Transformsと同様、どのような変形を行うかを指定します。指定はTransform関数で行います。<br>
+      関数は空白区切りにより複数指定できます。<br>
+      また、各関数は指定した順に適用されます。
+    </p>
+    <p>
+      初期値は<code>none</code>です。
+    </p>
+    <section>
+      <h4><code>translate3d(tx, ty, tz)</code></h4>
+      <p>
+        3Dでの要素の移動を行います。<br>
+        指定には<a href="http://www.w3.org/TR/css3-values/#lengths">&lt;length&gt;</a>形式、または<a href="http://www.w3.org/TR/css3-values/#percentages">&lt;percentage&gt;</a>を使用しますが、Z方向では&lt;length&gt;のみが使用できます。
+      </p>
+      <p>
+        以下はサンプルです。<br>
+        灰色の部分が変形適用前のもの、赤い部分が適用後のものとなります。
+      </p>
+      <p>
+        <a href="/demo/2012/css-transforms/3d/3d-translate3d.html">transform: translate3d() sample</a>
+      </p>
+      <pre><code class="language-css">.sample1 {
+  transform: translate3d(20px, 0, 0);
+}
+
+.sample2 {
+  transform: translate3d(0, 20px, 0);
+}
+
+.sample3 {
+  transform: translate3d(0, 0, 50px);
+}</code></pre>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/3d-translate3d-1.png" width="620" height="237" alt="">
+        <figcaption>デモ「transform: translate3d() sample」の実行結果（斜め上から）</figcaption>
+      </figure>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/3d-translate3d-2.png" width="620" height="240" alt="">
+        <figcaption>デモ「transform: translate3d() sample」の実行結果（正面から）</figcaption>
+      </figure>
+      <section>
+        <h5><code>translateX(tx)</code>, <code>translateY(ty)</code>, <code>translateZ(tz)</code></h5>
+        <p>
+          移動を個別に指定します。<br>
+          <code>translateX(tx)</code>は<code>translate3d(tx, 0, 0)</code>と同じです。<br>
+          同様に、<code>translateY(ty)</code>は<code>translate3d(0, ty, 0)</code>と同じ、<code>translateZ(tz)</code>は<code>translate3d(0, 0, tz)</code>と同じになります。
+        </p>
+        <p>
+          パラメータには<a href="http://www.w3.org/TR/css3-values/#lengths">&lt;length&gt;</a>または<a href="http://www.w3.org/TR/css3-values/#percentages">&lt;percentage&gt;</a>ですが、<code>translateZ()</code>の場合&lt;percentage&gt;は使えません。
+        </p>
+      </section>
+    </section>
+    <section>
+      <h4><code>scale3d(sx, sy, sz)</code></h4>
+      <p>
+        3Dでの要素の拡大縮小を行います。指定には<a href="http://www.w3.org/TR/css3-values/#numbers">&lt;number&gt;</a>形式を使用します。
+      </p>
+      <p>
+        <a href="/demo/2012/css-transforms/3d/3d-scale3d-1.html">transform: scale3d() sample 1</a>
+      </p>
+      <pre><code class="language-css">.sample1 {
+  transform: scale3d(1.5, 1, 1);
+}
+
+.sample2 {
+  transform: scale3d(1, 1.5, 1);
+}
+
+.sample3 {
+  transform: scale3d(1, 1, 1.5);
+}</code></pre>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/3d-scale3d-1-1.png" width="" height="" alt="transform:scale3d() sample 1-1">
+        <figcaption>デモ「transform: scale3d() sample 1」の実行結果（斜め上から）</figcaption>
+      </figure>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/3d-scale3d-1-2.png" width="" height="" alt="transform:scale3d() sample 1-2">
+        <figcaption>デモ「transform: scale3d() sample 1」の実行結果（正面から）</figcaption>
+      </figure>
+      <p>
+        X方向、Y方向への比率が変化しているのが分かります。ですが、Z軸については何も変化していないように見えます。Z方向へ拡大するからといって、要素に厚みが出るわけではありません。<br>
+        では、Z方向へ拡大したものをY軸を中心に少し回転させてみましょう。<br>
+        （回転については次の次のセクションからやります）
+      </p>
+      <ol>
+        <li>回転のみで、比率の変化はなし</li>
+        <li>Z方向への拡大</li>
+        <li>X方向とZ方向への拡大</li>
+      </ol>
+      <p>
+        と、なっています。
+      </p>
+      <p>
+        <a href="/demo/2012/css-transforms/3d/3d-scale3d-2.html">transform: scale3d() sample 2</a>
+      </p>
+      <pre><code class="language-css">.sample1 {
+  transform: scale3d(1, 1, 1) rotateY(45deg);
+}
+
+.sample2 {
+  transform: scale3d(1, 1, 1.5) rotateY(45deg));
+}
+
+.sample3 {
+  transform: scale3d(1.5, 1, 1.5) rotateY(45deg);
+}</code></pre>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/3d-scale3d-2-1.png" width="620" height="253" alt="">
+        <figcaption>デモ「transform: scale3d() sample 2」の実行結果（斜め上から）</figcaption>
+      </figure>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/3d-scale3d-2-2.png" width="620" height="253" alt="">
+        <figcaption>デモ「transform: scale3d() sample 2」の実行結果（正面から）</figcaption>
+      </figure>
+      <p>
+        回転されたものが、Z方向にも変化しているのが分かります。<br>
+        <code>scale3d(1, 1, sz)</code>はZ方向に変化のある要素のZ方向の比率が変更される、ということです。
+      </p>
+      <section>
+        <h5><code>scaleX(sx)</code>, <code>scaleY(sy)</code>, <code>scaleZ(sz)</code></h5>
+        <p>
+          <code>scale3d()</code>の各パラメータを個別に指定する関数です。<br>
+          <code>scaleX(sx)</code>は<code>scale3d(sx, 1, 1)</code>と、<code>scaleY(sy)</code>は<code>scale3d(1, sy, 1)</code>と、<code>scaleZ(sz)</code>は<code>scale3d(1, 1, sz)</code>と同じになります。
+        </p>
+      </section>
+    </section>
+    <section>
+      <h4><code>rotate3d(x, y, z, a)</code></h4>
+      <p>
+        要素を3D回転させます。<br>
+        <code>x</code>, <code>y</code>, <code>z</code>で方向ベクトルを指定し、<code>a</code>で回転の角度を指定します。回転は時計回りに行われます。<br>
+        回転は<code>transform-origin</code>で指定したポイントを基準に行われまれ、角度の指定は
+        <a href="http://www.w3.org/TR/css3-values/#angles">&lt;angle&gt;</a>形式で記述します。
+      </p>
+      <p>
+        またこの関数は、<code>matrix3d(1+(1-cos(angle))*(x*x-1), -z*sin(angle)+(1-cos(angle))*x*y, y*sin(angle)+(1-cos(angle))*x*z, 0, z*sin(angle)+(1-cos(angle))*x*y, 1+(1-cos(angle))*(y*y-1), -x*sin(angle)+(1-cos(angle))*y*z, 0, -y*sin(angle)+(1-cos(angle))*x*z, x*sin(angle)+(1-cos(angle))*y*z, 1+(1-cos(angle))*(z*z-1), 0, 0, 0, 0, 1)</code>と等しくなります。
+      </p>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/3d-rotate3d-matrix.png" width="620" height="84" alt="rotate3d()の行列">
+      </figure>
+      <p>
+        <a href="/demo/2012/css-transforms/3d/3d-rotate3d.html">transform: rotate3d() sample</a>
+      </p>
+      <pre><code class="language-css">.sample1 {
+  transform: rotate3d(1, 0, 0, 45deg);
+}
+
+.sample2 {
+  transform: rotate3d(0, 1, 0, 45deg);
+}
+
+.sample3 {
+  transform: rotate3d(0, 0, 1, 45deg);
+}</code></pre>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/3d-rotate3d-1.png" width="620" height="237" alt="">
+        <figcaption>デモ「transform: rotate3d() sample」の実行結果（斜め上から）</figcaption>
+      </figure>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/3d-rotate3d-2.png" width="620" height="240" alt="">
+        <figcaption>デモ「transform: rotate3d() sample」の実行結果（正面から）</figcaption>
+      </figure>
+      <section>
+        <h5><code>rotateX(a)</code>, <code>rotateY(a)</code>, <code>rotateZ(a)</code></h5>
+        <p>
+          各ベクトルごとに回転を指定します。パラメータは&lt;angle&gt;形式で記述します。<br>
+          <code>rotate3d()</code>でまとめて指定しようとするとややこしいので、CSSを書く人はこちらをメインに使うことになるかと思います。
+        </p>
+        <p>
+          <code>rotateX(a)</code>では、<code>a</code>に指定された角度だけ、X軸を基準に要素を時計回りに回転させます。<br>
+          <code>rotateX(a)</code>は<code>rotate3d(1, 0, 0, a)</code>と同じ変形となります。
+        </p>
+        <p>
+          同様に<code>rotateY(a)</code>は<code>rotate3d(0, 1, 0, a)</code>と<code>rotateZ(a)</code>は<code>rotate3d(0, 0, 1, a)</code>と同じ変形となります。<br>
+          回転の基準となる軸もそれぞれY軸・Z軸となります。
+        </p>
+        <p>
+          回転の中心となるポイントは<code>transform-origin</code>で指定した座標になります。
+        </p>
+        <p>
+          <a href="/demo/2012/css-transforms/3d/3d-rotatexyz.html">transform: rotateX() rotateY() rotateZ() sample</a>
+        </p>
+        <pre><code class="language-css">.sample1 {
+  transform: rotateX(45deg);
+}
+
+.sample2 {
+  transform: rotateY(45deg);
+}
+
+.sample3 {
+  transform: rotateZ(45deg);
+}</code></pre>
+        <figure>
+          <img src="/images/2012/learn-about-css-transforms/3d-rotatexyz-1.png" width="620" height="237" alt="">
+          <figcaption>デモ「transform: rotateX() rotateY() rotateZ() sample」の実行結果（斜め上から）</figcaption>
+        </figure>
+        <figure>
+          <img src="/images/2012/learn-about-css-transforms/3d-rotatexyz-2.png" width="620" height="240" alt="">
+          <figcaption>デモ「transform: rotateX() rotateY() rotateZ() sample」の実行結果（正面から）</figcaption>
+        </figure>
+      </section>
+    </section>
+    <section>
+      <h4><code>skew(ax, ay)</code></h4>
+      <p>
+        要素を傾斜させます。<br>
+        1つ目のパラメータでX方向の、2つ目のパラメータでY方向の傾斜を指定します。<br>
+        2つ目のパラメータが指定されていない場合、<code>0</code>として扱われ、Y方向の変形は行われません。
+        パラメータは&lt;angle&gt;形式で記述します。
+      </p>
+      <p>
+        <a href="/demo/2012/css-transforms/3d/3d-skew.html">transform: skew() sample</a>
+      </p>
+      <pre><code class="language-css">.sample1 {
+  transform: skew(30deg, 0);
+}
+
+.sample2 {
+  transform: skew(0, 30deg);
+}
+
+.sample3 {
+  transform: skew(30deg, 30deg);
+}</code></pre>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/3d-skew-1.png" width="620" height="237" alt="">
+        <figcaption>デモ「transform: skew() sample」の実行結果（斜め上から）</figcaption>
+      </figure>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/3d-skew-2.png" width="620" height="240" alt="">
+        <figcaption>デモ「transform: skew() sample」の実行結果（正面から）</figcaption>
+      </figure>
+      <section>
+        <h5><code>skewX(a)</code>, <code>skewY(a)</code></h5>
+        <p>
+          要素の傾斜をX方向、Y方向と個別に指定する関数です。<br>
+          パラメータは&lt;angle&gt;形式で記述します。
+        </p>
+        <p>
+          <code>skewX(a)</code>は<code>skew(a, 0)</code>と<code>skewY(a)</code>は<code>skew(0, a)</code>と同じ変形となります。
+        </p>
+      </section>
+    </section>
+    <section>
+      <h4><code>perspective(d)</code></h4>
+      <p>
+        透視投影による指定をします。これを指定することにより、変形に遠近効果をつけることができます。遠くのものはより小さく、近くのものはより大きく、といった感じです。
+      </p>
+      <p>
+        仕組みとしては、視点のポイントから要素の4つの各頂点を線で結び、その線の<code>z=0</code>の位置に描画されるものがブラウザで閲覧する変形後の要素となります。<br>
+        たとえばZの位置が小さいほど、線同士が作る角度は狭くなるので、より小さく描画されます。<br>
+        この<code>perspective()</code>は<code>z=0</code>から視点ポイントまでの距離を指定します。
+      </p>
+      <p>
+        綺麗な図が描けなかったので真横からの図になりますが、次のような感じです。<br>
+        CSS Transformsでいうところの<code>translateZ()</code>だけを指定した要素で、結ばれている線は実際には頂点ごとに、つまり4本あると思ってください。<br>
+        「Z方向に対し正(負)の方向に移動した要素」自体の大きさは同じです。
+      </p>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/3d-perspective-0-1.png" width="620" height="408" alt="perspective()関数の仕組み：Z軸に対して正の方向に移動した要素は、本来の大きさより拡大されて表示される">
+      </figure>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/3d-perspective-0-2.png" width="620" height="408" alt="perspective()関数の仕組み：Z軸に対して負の方向に移動した要素は、本来の大きさより縮小されて表示される">
+      </figure>
+      <p>
+        関数の指定については&lt;length&gt;形式で記述するとなっていますが、px以外で指定しているものを見たことがないです……。<br>
+        数値の大小による見え方の違いですが、数値が小さいほど遠近感が強く、大きいほど遠近感が弱くなります。
+      </p>
+      <p>
+        指定する値は<code>0</code>より大きい値である必要があります。
+      </p>
+      <p>
+        また、<code>perspective()</code>が指定されていない場合、要素の各頂点から<code>z=0</code>への線が<code>z=0</code>に対して垂直になるように投影されます。
+      </p>
+      <p>
+        <a href="/demo/2012/css-transforms/3d/3d-perspective.html">transform: perspective() sample</a>
+      </p>
+      <pre><code class="language-css">.sample1 {
+  transform: translateZ(50px);
+}
+
+.sample2 {
+  transform: perspective(200px) translateZ(50px);
+}
+
+.sample3 {
+  transform: perspective(500px) translateZ(50px);
+}
+
+.sample4 {
+  transform: rotateY(45deg)
+}
+
+.sample5 {
+  transform: perspective(200px) rotateY(45deg)
+}
+
+.sample6 {
+  transform: perspective(500px) rotateY(45deg)
+}</code></pre>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/3d-perspective-1.png" width="620" height="507" alt="">
+        <figcaption>デモ「transform: perspective() sample」の実行結果（斜め上から）</figcaption>
+      </figure>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/3d-perspective-2.png" width="620" height="509" alt="">
+        <figcaption>デモ「transform: perspective() sample」の実行結果（正面から）</figcaption>
+      </figure>
+    </section>
+    <section>
+      <h4>
+        <code>matrix3d(a1, b1, c1, d1, a2, b2, c2, d2, a3, b3, c3, d3, a4, b4, c4, d4)</code>
+      </h4>
+      <p>
+        行列による指定を行います。この行列は座標変換を行うためのものです。<br>
+        座標変換のやり方はは2Dのときと同じです。
+      </p>
+      <p>
+        この関数は16個のパラメータがあり、変形なしの状態だと<code>matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)</code>となります。
+      </p>
+      <p>
+        <code>matrix3d()</code>では 4×4の次のような行列を使います。
+      </p>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/3d-matrix3d-1.png" width="167" height="116" alt="matrix3d()関数の行列">
+      </figure>
+      <p>
+        変形なしだとこうなります。
+      </p>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/3d-matrix3d-2.png" width="133" height="116" alt="matrix3d()関数の行列の初期値">
+      </figure>
+      <p>
+        ちなみに、<code>matrix(a, b, c, d, e, f)</code>を<code>matrix3d()</code>で表すと、<code>matrix3d(a, b, 0, 0, c, d, 0, 0, 0, 0, 1, 0, e, f, 0, 1)</code>となります。
+      </p>
+      <figure>
+        <img src="/images/2012/learn-about-css-transforms/3d-matrix3d-3.png" width="136" height="116" alt="matrix()関数をmatrix3d()関数で表す">
+      </figure>
+      <section>
+        <h5><code>translate3d()</code>から<code>matrix3d()</code>へ</h5>
+        <p>
+          <code>translate3d(tx, ty, tz)</code>は<code>matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, tx, ty, tz, 1)</code>で表せます。<br>
+          <code>translateX(tx)</code>は<code>translate3d(tx, 0, 0)</code>なので、同じように当てはめるといいです。これは<code>translateY(ty)</code>, <code>translateZ(tz)</code>でも同様です。
+        </p>
+        <figure>
+          <img src="/images/2012/learn-about-css-transforms/3d-matrix3d-translate3d.png" width="142" height="116" alt="translate3d()をmatrix3d()で表す">
+        </figure>
+      </section>
+      <section>
+        <h5><code>scale3d()</code>から<code>matrix3d()</code>へ</h5>
+        <p>
+          <code>scale3d(sx, sy, sz)</code>は<code>matrix3d(sx, 0, 0, 0, 0, sy, 0, 0, 0, 0, sz, 0, 0, 0, 0, 1)</code>で表せます。<br>
+          <code>scaleX(sx)</code>は<code>scale3d(sx, 1, 1)</code>なので、同じように当てはめるといいです。これは<code>scaleY(sy)</code>, <code>scaleZ(sz)</code>でも同様です。
+        </p>
+        <figure>
+          <img src="/images/2012/learn-about-css-transforms/3d-matrix3d-scale3d.png" width="163" height="116" alt="scale3d()をmatrix3d()で表す">
+        </figure>
+      </section>
+      <section>
+        <h5><code>rotate3d()</code>から<code>matrix3d()</code>へ</h5>
+        <p>
+          <code>rotate3d(x, y, z, a)</code>は、その関数の項目で書いたように<code>matrix3d(1+(1-cos(angle))*(x*x-1), -z*sin(angle)+(1-cos(angle))*x*y, y*sin(angle)+(1-cos(angle))*x*z, 0, z*sin(angle)+(1-cos(angle))*x*y, 1+(1-cos(angle))*(y*y-1), -x*sin(angle)+(1-cos(angle))*y*z, 0, -y*sin(angle)+(1-cos(angle))*x*z, x*sin(angle)+(1-cos(angle))*y*z, 1+(1-cos(angle))*(z*z-1), 0, 0, 0, 0, 1)</code>となります。
+        </p>
+        <figure>
+          <img src="/images/2012/learn-about-css-transforms/3d-matrix3d-rotate3d.png" width="620" height="84" alt="rotate3d()をmatrix3d()で表す">
+        </figure>
+      </section>
+      <section>
+        <h5><code>rotateX()</code>, <code>rotateY()</code>, <code>rotateZ()</code>から<code>matrix3d()</code>へ</h5>
+        <p>
+          これらを計算するときには、角度<code>a</code>をradianで計算します。<br>
+          2Dの<code>matrix()</code>でも触れましたが、degree<code>a</code>は<code>a * π / 180</code>でradianに変換できます。
+        </p>
+        <p>
+          <code>rotateX()</code>は<code>matrix3d(1, 0, 0, 0, 0, cos(a), sin(a), 0, 0, -sin(a), cos(a), 0, 0, 0, 0, 1)</code>となります。
+        </p>
+        <figure>
+          <img src="/images/2012/learn-about-css-transforms/3d-matrix3d-rotatex.png" width="234" height="116" alt="rotateX()をmatrix3d()で表す">
+        </figure>
+        <p>
+          <code>rotateY()</code>は<code>matrix3d(cos(a), 0, sin(a), 0, 0, 1, 0, 0, -sin(a), 0, cos(a), 0, 0, 0, 0, 1)</code>となります。
+        </p>
+        <figure>
+          <img src="/images/2012/learn-about-css-transforms/3d-matrix3d-rotatey.png" width="234" height="116" alt="rotateY()をmatrix3d()で表す">
+        </figure>
+        <p>
+          <code>rotateZ()</code>は<code>matrix3d(cos(a), sin(), 0, 0, -sin(a), cos(a), 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)</code>となります。
+        </p>
+        <figure>
+          <img src="/images/2012/learn-about-css-transforms/3d-matrix3d-rotatez.png" width="234" height="116" alt="rotateZ()をmatrix3d()で表す">
+        </figure>
+      </section>
+      <section>
+        <h5><code>skew()</code>から<code>matrix3d()</code>へ</h5>
+        <p>
+          <code>skew(ax, ay)</code>は、<code>matrix3d(1, tan(ay), 0, 0, tan(ax), 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)</code>となります。<br>
+          <code>skewX(ax)</code>, <code>skewY(ay)</code>で個別に指定するときも同様です。
+        </p>
+        <figure>
+          <img src="/images/2012/learn-about-css-transforms/3d-matrix3d-skew.png" width="242" height="116" alt="skew()をmatrix3d()で表す">
+        </figure>
+      </section>
+      <section>
+        <h5><code>perspective()</code>から<code>matrix3d()</code>へ</h5>
+        <p>
+          <code>perspective(d)</code>は、<code>matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, -1/d, 0, 0, 0, 1)</code>となります。
+        </p>
+        <figure>
+          <img src="/images/2012/learn-about-css-transforms/3d-matrix3d-perspective.png" width="150" height="116" alt="perspective()をmatrix3d()で表す">
+        </figure>
+      </section>
+    </section>
+  </section>
+  <section>
+    <h3><code>transform-origin</code>プロパティ</h3>
+    <p>
+      変形の原点を指定します。原点の座標は、要素の左上<code>(0, 0, 0)</code>からの距離となります。<br>
+      初期値は<code>50% 50% 0</code>です。
+    </p>
+    <p>
+      指定は2D Transformsのときと同様ですが、Z方向場合にはパーセンテージとキーワードは使用できません。
+    </p>
+    <p>
+      次のサンプルは、赤い部分を<code>transform: rotateY(45deg)</code>し、<code>transform-origin</code>の値を変更したものです。
+    </p>
+    <p>
+      <a href="/demo/2012/css-transforms/3d/3d-transform-origin.html">transform-origin sample</a>
+    </p>
+    <pre><code class="language-css">.sample1 {
+  transform-origin: 50% 0 0;
+}
+
+.sample2 {
+  transform-origin: 0 50% 0;
+}
+
+.sample3 {
+  transform-origin: 0 0 50px;
+}</code></pre>
+    <figure>
+      <img src="/images/2012/learn-about-css-transforms/3d-transform-origin.png" width="620" height="248" alt="">
+      <figcaption>デモ「transform-origin sample」の実行結果</figcaption>
+    </figure>
+  </section>
+  <section>
+    <h3><code>transform-style</code>プロパティ</h3>
+    <p>
+      このプロパティは、指定した子要素が3D空間上で平面として描画されるか、立体として表示されるかを指定します。
+    </p>
+    <p>
+      指定できる値は<code>flat</code>または<code>preserve-3d</code>で、初期値は<code>flat</code>です。<br>
+      <code>flat</code>を指定すると、3D空間上で平面として描画され、<code>preserve-3d</code>を指定すると、立体的に表示されます。
+    </p>
+    <p>
+      次のサンプルは、各サンプルの親要素に<code>transform-style</code>プロパティで<code>flat</code>, <code>preserve-3d</code>を指定したものです。
+    </p>
+    <p>
+      <a href="/demo/2012/css-transforms/3d/3d-transform-style.html">transform-style sample</a>
+    </p>
+    <figure>
+      <img src="/images/2012/learn-about-css-transforms/3d-transform-style.png" width="" height="" alt="transform-style sample">
+      <figcaption>デモ「transform-style sample」の実行結果</figcaption>
+    </figure>
+    <p>
+      <code>flat</code>を指定した1つ目の例ではZ方向のものも平面になっているのが分かります。
+    </p>
+  </section>
+  <section>
+    <h3><code>perspective</code>プロパティ</h3>
+    <p>
+      <code>transform</code>プロパティで使う<code>perspective()</code>関数と同じ意味です。<br>
+      違いは、<code>perspective()</code>関数が要素そのものの深度を指定するのに対し、この<code>perspective</code>プロパティでは、指定した要素の子要素全体の深度を指定することにあります。
+    </p>
+    <p>
+      同様に、指定には&lt;length&gt;形式を用い、<code>0</code>より大きい値を指定しなければなりません。
+    </p>
+  </section>
+  <section>
+    <h3><code>perspective-origin</code>プロパティ</h3>
+    <p>
+      <code>perspective</code>プロパティの視点ポイントの位置を指定します。値は2つあり、X方向Y方向の座標を指定します。<br>
+      値には<code>transform-origin</code>と同様に、&lt;percentage&gt;と&lt;length&gt;、キーワードが使えます。<br>
+      キーワードは、水平方向の場合<code>left</code>, <code>center</code>, <code>right</code>で、垂直方向の場合は<code>top</code>, <code>center</code>, <code>bottom</code>となります。<br>
+      <code>0 0</code>は要素の左上の座標です。
+    </p>
+    <p>
+      初期値は<code>50% 50%</code>です。
+    </p>
+    <p>
+      2つ目の値が省略され、1つ目の指定がキーワードでなければ、もう1つの値は<code>50%</code>として扱われます。<br>
+      1つ目がX方向のキーワードの場合は、Y方向は<code>50%</code>となり、Y方向のキーワードの場合はX方向が<code>50%</code>として扱われます。
+    </p>
+    <p>
+      仮に、Z軸の負の方向に移動した要素の親要素に<code>perspective</code>を指定し、<code>perspective-origin</code>のY方向の値を増やすと、次のような図になります。
+    </p>
+    <figure>
+      <img src="/images/2012/learn-about-css-transforms/3d-perspective-origin-0.png" width="620" height="420" alt="Z軸の負の方向に移動した要素の親要素にperspectiveプロパティで深度を指定し、perspective-originプロパティでY軸方向の値を増やすと、要素は本来の大きさより小さく、そして本来の位置より下のいちに表示される。">
+    </figure>
+    <p>
+      以下のサンプルは、赤い色のボックスが<code>transform: translateZ(-100px)</code>されたもので、全ての親要素に、<code>perspective: 500</code>が指定されており、さらに、親要素に<code>perspective-origin</code>がそれぞれ<code>50% 50%</code>, <code>0 0</code>, <code>100% 100%</code>と指定されたものです。
+    </p>
+    <p>
+      <a href="/demo/2012/css-transforms/3d/3d-perspective-origin.html">perspective-origin sample</a>
+    </p>
+    <figure>
+      <img src="/images/2012/learn-about-css-transforms/3d-perspective-origin-1.png" width="620" height="236" alt="">
+      <figcaption>デモ「perspective-origin sample」の実行結果（斜め上から）</figcaption>
+    </figure>
+    <p>
+      正面から見ると次のようになります。
+    </p>
+    <figure>
+      <img src="/images/2012/learn-about-css-transforms/3d-perspective-origin-2.png" width="620" height="238" alt="">
+      <figcaption>デモ「perspective-origin sample」の実行結果（正面から）</figcaption>
+    </figure>
+  </section>
+  <section>
+    <h3><code>backface-visibility</code>プロパティ</h3>
+    <p>
+      <code>backface-visibility</code>プロパティは、要素の裏側を表示するかどうかを指定するプロパティです。</p>
+    <p>
+      値には<code>hidden</code>と<code>visible</code>が使用可能で、初期値は<code>visible</code>となっています。<br>
+      <code>hidden</code>を指定すると、要素の表面が見えなくなった（たとえば<code>rotateY(180deg)</code>された）場合に、その要素は見えなくなります。<br>
+      <code>visible</code>の場合は、その要素を裏側から透かして見るような感じになります。
+    </p>
+    <p>
+      <code>transform: rotateY(180deg)</code>した要素の<code>backface-visibility</code>プロパティに、それぞれ<code>hidden</code>, <code>visible</code>を指定すると次のようになります。
+    </p>
+    <p>
+      <a href="/demo/2012/css-transforms/3d/3d-backface-visibility.html">backface-visibility sample</a>
+    </p>
+    <figure>
+      <img src="/images/2012/learn-about-css-transforms/3d-backface-visibility.png" width="620" height="236" alt="">
+      <figcaption>デモ「backface-visibility sample」の実行結果</figcaption>
+    </figure>
+  </section>
+</section>
+<section>
+  <h2><code>transform</code>プロパティでの注意点</h2>
+  <p>
+    このプロパティに指定する各関数ですが、指定するときは順番に注意したほうがいいかと思います。<br>
+    変形の最終的な座標は行列によって計算されるわけですが、仮に<code>transform: 関数A 関数B</code>という変形を行うとすると、<code>関数Aの行列 * 関数Bの行列</code>となり、そこから座標が計算されるということです。
+  </p>
+  <p>
+    基本的に行列の乗算には交換法則が成り立ちませんので、行列<code>A</code>と<code>B</code>があるとき、<code>A*B</code>と<code>B*A</code>は別物となります。
+  </p>
+  <p>
+    とりあえずは、<strong><code>transform</code>プロパティに指定する関数は書いた順に適用される</strong>、と覚えておけばいいと思います。
+  </p>
+</section>
+<section>
+  <h2>3Dでの回転について</h2>
+  <p>
+    上の関数の書き順にも関係してくるのですが、変形のない状態の場合、見た目の上ではX軸は左から右へ、Y軸は上から下へ、Z軸は奥から手前へ、と数値が増えていきます。<br>
+    ですが3D Transformsにおいて回転変形を行うと、その要素の各軸は回転に伴って移動します。たとえば、<code>rotateY(180deg)</code>すると、その要素は裏返したような状態になりますが、このときX軸は右から左へ、Z軸は手前から奥へ、となります。<br>
+    <code>transform: rotate(180deg)</code>したものを奥にあるように見せるには、<code>rotate(180deg) translateZ(100px)</code>とします。<code>translateZ(100px) rotate(180deg)</code>では手前側に移動した後に回転となるので、手前側にあるように見えます。<br>
+    <code>translateZ()</code>を先に書くなら、<code>translateZ(-100px) rotate(180deg)</code>とします。
+  </p>
+</section>
+<section>
+  <h2>回転する立方体を作ってみる</h2>
+  <p>
+    練習を兼ねてアニメーションしながら回転する立方体を作ってみます。<br>
+    まず、ベースとなる部分から。
+  </p>
+  <p>
+    実際にはプロパティごとに各ベンダープレフィクスが必要となりますが、記事内には書きません。<br>
+    あまり関係ない部分も省略しています。
+  </p>
+  <pre><code class="language-html">&lt;div class=&quot;drawing&quot;&gt;
+  &lt;div class=&quot;cube&quot;&gt;
+    &lt;div class=&quot;panel front&quot;&gt;1&lt;/div&gt;
+    &lt;div class=&quot;panel back&quot;&gt;2&lt;/div&gt;
+    &lt;div class=&quot;panel left&quot;&gt;3&lt;/div&gt;
+    &lt;div class=&quot;panel right&quot;&gt;4&lt;/div&gt;
+    &lt;div class=&quot;panel top&quot;&gt;5&lt;/div&gt;
+    &lt;div class=&quot;panel bottom&quot;&gt;6&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+  <pre><code class="language-css">
+.drawing {
+  width : 200px;
+}
+
+.cube {
+  position       : relative;
+  width          : 200px;
+  height         : 200px;
+  transform-style: preserve-3d;
+}
+
+.panel {
+  position   : absolute;
+  border     : 1px solid #f00;
+  width      : 200px;
+  height     : 200px;
+  box-sizing : border-box;
+}
+
+.front {
+  background: rgba(255, 0, 0, 0.7);
+}
+
+.back {
+  background: rgba(0, 0, 255, 0.7);
+}
+
+.left {
+  background: rgba(255, 255, 0, 0.7);
+}
+
+.right {
+  background: rgba(0, 255, 255, 0.7);
+}
+
+.top {
+  background: rgba(0, 255, 0, 0.7);
+}
+
+.bottom {
+  background: rgba(255, 0, 255, 0.7);
+}</code></pre>
+  <p>
+    3D変形させるのは<code>div.panel</code>の6つなので、<code>div.cube</code>に<code>transform-style: preserve-3d</code>を指定します。<br>
+    この時点では次のようになります。
+  </p>
+  <p>
+    <a href="/demo/2012/css-transforms/sample/cube-1.html">CSS Cube 1</a>
+  </p>
+  <figure>
+    <img src="/images/2012/learn-about-css-transforms/cube-1.png" width="620" height="220" alt="">
+    <figcaption>デモ「CSS Cube 1」の実行結果</figcaption>
+  </figure>
+  <p>
+    次に、各パネルを回転させ、立方体になったとき、表が外側に来るようにします。
+  </p>
+  <ul>
+    <li><code>.front</code>は最初から外を向いているので変更なし</li>
+    <li><code>.back</code>はY軸を中心に180度</li>
+    <li><code>.left</code>はY軸を中心に90度</li>
+    <li><code>.right</code>はY軸を中心に-90度</li>
+    <li><code>.top</code>はX軸を中心に90度</li>
+    <li><code>.bottom</code>はX軸を中心に-90度</li>
+  </ul>
+  <pre><code class="language-css">.front {
+  background: rgba(255, 0, 0, 0.7);
+}
+
+.back {
+  background: rgba(0, 0, 255, 0.7);
+  transform : rotateY(180deg);
+}
+
+.left {
+  background: rgba(255, 255, 0, 0.7);
+  transform : rotateY(90deg);
+}
+
+.right {
+  background: rgba(0, 255, 255, 0.7);
+  transform : rotateY(-90deg);
+}
+
+.top {
+  background: rgba(0, 255, 0, 0.7);
+  transform : rotateX(90deg);
+}
+
+.bottom {
+  background: rgba(255, 0, 255, 0.7);
+  transform : rotateX(-90deg);
+}</code></pre>
+  <p>
+    <a href="/demo/2012/css-transforms/sample/cube-2.html">CSS Cube 2</a>
+  </p>
+  <figure>
+    <img src="/images/2012/learn-about-css-transforms/cube-2-1.png" width="620" height="220" alt="">
+    <figcaption>デモ「CSS Cube 2」の実行結果</figcaption>
+  </figure>
+  <p>
+    正面からだとあまり変化がないように見えますが、ちょっと斜め上から見ると次のようになります。
+  </p>
+  <figure>
+    <img src="/images/2012/learn-about-css-transforms/cube-2-2.png" width="620" height="274" alt="">
+    <figcaption>デモ「CSS Cube 2」の実行結果（斜め上から見た場合）</figcaption>
+  </figure>
+  <p>
+    それでは、立方体にするために各パネルを移動します。<br>
+    前に説明したように、回転済みのものを移動するときには要素と共に回転した軸を考慮する必要があります。ここで、各パネルの表が外側を向くように回転させていますので、どのパネルも移動する方向はZ軸の正の方向になります。
+  </p>
+  <pre><code class="language-css">.front {
+  background: rgba(255, 0, 0, 0.7);
+  transform : translateZ(100px);
+}
+
+.back {
+  background: rgba(0, 0, 255, 0.7);
+  transform : rotateY(180deg) translateZ(100px);
+}
+
+.left {
+  background: rgba(255, 255, 0, 0.7);
+  transform : rotateY(90deg) translateZ(100px);
+}
+
+.right {
+  background: rgba(0, 255, 255, 0.7);
+  transform : rotateY(-90deg) translateZ(100px);
+}
+
+.top {
+  background: rgba(0, 255, 0, 0.7);
+  transform : rotateX(90deg) translateZ(100px);
+}
+
+.bottom {
+  background: rgba(255, 0, 255, 0.7);
+  transform : rotateX(-90deg) translateZ(100px);
+}</code></pre>
+  <p>
+    <a href="/demo/2012/css-transforms/sample/cube-3.html">CSS Cube 3</a>
+  </p>
+  <figure>
+    <img src="/images/2012/learn-about-css-transforms/cube-3-1.png" width="620" height="220" alt="">
+    <figcaption>デモ「CSS Cube 3」の実行結果</figcaption>
+  </figure>
+  <figure>
+    <img src="/images/2012/learn-about-css-transforms/cube-3-2.png" width="620" height="296" alt="">
+    <figcaption>デモ「CSS Cube 3」の実行結果（斜め上から見た場合）</figcaption>
+  </figure>
+  <p>
+    立方体ができました。<br>
+    それでは、これをアニメーションで回転させます。アニメーションの指定については、以前書いた「<a href="/articles/learn-about-css-animation/">CSSアニメーションの基礎</a>」を参考にしてもらえればと思います。
+  </p>
+  <pre><code class="language-css">.cube {
+  position       : relative;
+  width          : 200px;
+  height         : 200px;
+  transform-style: preserve-3d;
+  animation      : rotation 4s linear infinite;
+}
+
+...
+
+@keyframes rotation {
+
+  from {
+    transform: rotateY(0);
+  }
+
+  to {
+    transform: rotateY(360deg);
+  }
+
+}</code></pre>
+  <p>
+    <a href="/demo/2012/css-transforms/sample/cube-4.html">CSS Cube 4</a>
+  </p>
+  <figure>
+    <img src="/images/2012/learn-about-css-transforms/cube-4.png" width="620" height="220" alt="">
+    <figcaption>デモ「CSS Cube 4」の実行結果</figcaption>
+  </figure>
+  <p>
+    アニメーションができました。<br>
+    次は遠近感を出すためにPerspectiveを指定します。
+  </p>
+  <pre><code class="language-css">.cube {
+  position       : relative;
+  width          : 200px;
+  height         : 200px;
+  transform-style: preserve-3d;
+  perspective    : 500px;
+  animation      : rotation 4s linear infinite;
+}</code></pre>
+  <p>
+    <a href="/demo/2012/css-transforms/sample/cube-5.html">CSS Cube 5</a>
+  </p>
+  <figure>
+    <img src="/images/2012/learn-about-css-transforms/cube-5-1.png" width="620" height="270" alt="">
+    <figcaption>デモ「CSS Cube 5」の実行結果</figcaption>
+  </figure>
+  <figure>
+    <img src="/images/2012/learn-about-css-transforms/cube-5-2.png" width="620" height="" alt="">
+    <figcaption>デモ「CSS Cube 5」の実行結果（アニメーション開始後）</figcaption>
+  </figure>
+  <p>
+    何か変ですね。ではなぜこうなったのか考えてみます。
+  </p>
+  <p>
+    パネルが立方体を作るための変形（回転と移動）をする際、親要素で指定されたPerspectiveが加わります。それは全ての子要素から見て同じ位置であり、親要素の<code>z=0</code>から視点までの距離です。<br>
+    この親要素を回転させると、Z軸も一緒に回転するわけで、それ伴ってPerspectiveでの視点も移動します。子要素はその回転する視点に合わせてを変形するので、このようなことになってしまったと考えられます。
+  </p>
+  <p>
+    ではどうすればいいのかというと、<code>.cube</code>が回転する際にPerspectiveの視点が一緒に動いてしまわないようにすればいいのです。<br>
+    つまり、<code>.cube</code>の親、<code>.drawing</code>で<code>perspective</code>プロパティによる指定をしてしまえば、その視点は動かないわけですから、遠近感のある立方体ができあがるはずです。
+  </p>
+  <pre><code class="language-css">.drawing {
+  width      : 200px;
+  perspective: 500px;
+}
+
+.cube {
+  position       : relative;
+  width          : 200px;
+  height         : 200px;
+  transform-style: preserve-3d;
+  animation      : rotation 4s linear infinite;
+}</code></pre>
+  <p>
+    <a href="/demo/2012/css-transforms/sample/cube-6.html">CSS Cube 6</a>
+  </p>
+  <figure>
+    <img src="/images/2012/learn-about-css-transforms/cube-6-1.png" width="620" height="292" alt="">
+    <figcaption>デモ「CSS Cube 6」の実行結果</figcaption>
+  </figure>
+  <figure>
+    <img src="/images/2012/learn-about-css-transforms/cube-6-2.png" width="620" height="292" alt="">
+    <figcaption>デモ「CSS Cube 6」の実行結果（アニメーション開始後）</figcaption>
+  </figure>
+  <p>
+    期待通りの動きになりました。<br>
+    また、<code>transform</code>に<code>perspective()</code>関数で指定する場合には、回転の前に書かなければなりません。<br>
+    ここではキーフレームの指定の中にあります。
+  </p>
+  <pre><code class="language-css">/* CSS Cube 7（これは上手くいかない） */
+@keyframes rotation {
+
+  from {
+    transform: rotateY(0) perspective(500px);
+  }
+
+  to {
+    transform: rotateY(360deg) perspective(500px);
+  }
+
+}
+
+/* CSS Cube 8（期待通り） */
+@keyframes rotation {
+
+  from {
+    transform: perspective(500px) rotateY(0);
+  }
+
+  to {
+    transform: perspective(500px) rotateY(360deg);
+  }
+
+}</code></pre>
+  <p>
+    <a href="/demo/2012/css-transforms/sample/cube-7.html">CSS Cube 7</a>
+  </p>
+  <p>
+    <a href="/demo/2012/css-transforms/sample/cube-8.html">CSS Cube 8</a>
+  </p>
+  <p>
+    これで無事に回転する立方体が完成しました。<br>
+    もしパネルの裏面を表示したくなければ、<code>.panel</code>に<code>backface-visibility: hidden</code>を指定してください。
+  </p>
+  <p>
+    <a href="/demo/2012/css-transforms/sample/cube.html">CSS Cube</a>
+  </p>
+</section>
+<section>
+  <h2>最後に</h2>
+  <p>
+    いつものことですが、この記事を鵜呑みにせず、自分でも仕様を確認したり、実際に試してブラウザの調査ツールなどで調べてみたりしてください。<br>
+    仕様が変更されるかもしれませんし、そもそも記事に誤りがある可能性もあります。
+  </p>
+  <p>
+    最後まで読んでいただき、ありがとうございました。
+  </p>
+</section>

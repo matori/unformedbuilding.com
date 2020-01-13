@@ -1,0 +1,70 @@
+<script type="application/x-yaml">
+title: "box-shadowでグラデーションっぽいボーダーを作る"
+description: "CSS3のbox-shadowを使ってグラデーションっぽいボーダーを作ります。"
+slug: gradient-border-with-css3-box-shadow
+published: 2011-02-08T14:45:49+09:00
+updated: 2011-02-08T17:40:12+09:00
+category: webdev
+</script>
+
+<p>
+  CSS3の<code>box-shadow</code>を使ってグラデーションっぽいボーダーを作ります。
+</p>
+<p>
+  まず、<code>box-shadow</code>は、以下のような指定ができます。
+</p>
+<pre><code class="language-css">box-shadow: (horizontal offset) (vertical offset) (blur distance) (spread distance) (inset);</code></pre>
+<p>
+  これらを順に説明すると以下のようになります。
+</p>
+<ul>
+  <li>シャドウの水平方向オフセット</li>
+  <li>シャドウの垂直方向オフセット</li>
+  <li>ぼかし</li>
+  <li>広がり</li>
+  <li><code>inset</code>を指定するかどうか</li>
+</ul>
+<p>
+  詳しいことは以下のページに書いてあります。
+</p>
+<p>
+  <a href="http://www.w3.org/TR/css3-background/#the-box-shadow">CSS Backgrounds and Borders Module Level 3 - The ‘box-shadow’ property</a>
+</p>
+<p>
+  とりあえず、今回作ったのはこんな感じになっています。
+</p>
+<figure>
+  <img src="/images/2011/gradient-border-with-css3-box-shadow/result.png" width="620" height="200" alt="box-shadow でグラデーションっぽいボーダーを作る デモページのキャプチャ画像">
+</figure>
+<p>
+  <a href="/demo/2011/gradient-border/">box-shadowでグラデーションっぽいボーダーを作る デモページ</a>
+</p>
+<p>
+  指定は以下。
+</p>
+<pre><code class="language-css">#gradient-border {
+    box-shadow: 0 0 0  1px rgba(0, 0, 0, 0.1),
+                0 0 0  2px rgba(0, 0, 0, 0.1),
+                0 0 0  3px rgba(0, 0, 0, 0.1),
+                0 0 0  4px rgba(0, 0, 0, 0.1),
+                0 0 0  5px rgba(0, 0, 0, 0.1),
+                0 0 0  6px rgba(0, 0, 0, 0.1),
+                0 0 0  7px rgba(0, 0, 0, 0.1),
+                0 0 0  8px rgba(0, 0, 0, 0.1),
+                0 0 0  9px rgba(0, 0, 0, 0.1),
+                0 0 0 10px rgba(0, 0, 0, 0.1);
+}
+</code></pre>
+<p>
+  これにベンダープレフィクスつきの指定を加えたものです。
+</p>
+<p>
+  なぜこんな表示になるかは<code>box-shadow</code>の指定方法を見れば分かると思います。
+</p>
+<p>
+  おまけ。<br>
+  いっぱい指定すればこんなものも作れます。使い道はありません。
+</p>
+<p>
+  <a href="/demo/2011/gradient-border/demo2.html">box-shadowでグラデーションっぽいボーダーを作る デモ 2</a>
+</p>

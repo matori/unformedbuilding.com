@@ -1,0 +1,117 @@
+html {
+    background: url(img/background.png);
+}
+
+h1 {
+    margin: 40px auto;
+    text-align: center;
+}
+
+#bookshelf {
+    position: relative;
+    margin: 0 auto;
+    width: 660px;
+    height: 300px;
+    background: url(img/shelf.png) center 0 no-repeat;
+}
+
+.sls-view {
+    position: relative;
+    margin: 10px auto 0;
+    width: 480px;
+    height: 140px;
+    overflow: hidden;
+}
+
+.sls-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.sls-content {
+    position: relative;
+    float: left;
+    width: 480px;
+    height: 140px;
+}
+
+.sls-content ul {
+    list-style: none;
+}
+
+.sls-content ul:after {
+    display: block;
+    clear: both;
+    content: "";
+}
+
+.sls-content li {
+    position: relative;
+    float: left;
+    padding: 0 20px;
+    width: 80px;
+    height: 140px;
+}
+
+.sls-content li a {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.75);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.75);
+}
+
+.sls-content li img {
+    vertical-align: bottom;
+}
+
+.sls-pagination {
+    text-align: center;
+}
+
+.sls-pagination a {
+    display: inline-block;
+    margin: 0 10px;
+    width: 14px;
+    height: 15px;
+    background: url(img/pagination.png) 0 0 no-repeat;
+    outline: 0;
+}
+
+.sls-pagination a.current {
+    background-position: 0 -15px;
+}
+
+.sls-prev,
+.sls-next {
+    display: block;
+    position: absolute;
+    top: 80px;
+    width: 61px;
+    height: 65px;
+    overflow: hidden;
+    background: url(img/arrows.png) no-repeat;
+    text-indent: -9999px;
+    outline: 0;
+}
+
+.sls-prev {
+    left: 0;
+    background-position: 0 0;
+}
+
+.sls-prev:hover {
+    background-position: 0 -65px;
+}
+
+.sls-next {
+    right: 0;
+    background-position: -61px 0;
+}
+
+.sls-next:hover {
+    right: 0;
+    background-position: -61px -65px;
+}

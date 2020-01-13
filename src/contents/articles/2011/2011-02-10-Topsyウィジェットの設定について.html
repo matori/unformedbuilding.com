@@ -1,0 +1,229 @@
+<script type="application/x-yaml">
+title: "Topsyウィジェットの設定について"
+description: "いつの間にかTopsyにウィジェットができていたので試してみました。"
+slug: about-topsy-widget
+published: 2011-02-10T15:50:34+09:00
+updated: 2011-02-10T16:03:05+09:00
+category: webdev
+</script>
+
+<p>
+  いつの間にかTopsyにウィジェットができていたので試してみました。
+</p>
+<p>
+  Topsyで検索すると、検索結果の詳細ページの右側にウィジェットが表示されています。<br>
+  この下にお持ち帰りコードがあるので、ちょっと使うだけならそのまま貼ればOKです。<br>
+  たとえば、このブログへのTwitterでの反応の場合は、以下のページにあるものを使えばいいわけですね。
+</p>
+<p>
+  <a href="http://topsy.com/unformedbuilding.com/articles/learn-about-webkit-scrollbar/">Twitter Trackbacks for スクロールバーをデザインする ::-webkit-scrollbar に関しての覚え書き | Unformed Building [unformedbuilding.com] on Topsy.com</a>
+</p>
+<figure>
+  <img src="/images/2011/about-topsy-widget/example.png" width="320" height="453" alt="Topsyウィジェットの表示例">
+</figure>
+<p>
+  ちなみに、お持ち帰りコードはこんな感じのものが書かれています。<br>
+  （見づらいので整形してます）
+</p>
+<pre><code class="language-html">&lt;div id=&quot;topsy_search_widget&quot;&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+var topsy_settings = {
+    title          : 'Buzz on unformedbuilding.com',
+    query          : 'site:unformedbuilding.com',
+    height         : '600',
+    shell_bg_color : '#777',
+    display_query  : '',
+    allow_lang     : 'any',
+    show_bottom_ad : true
+};
+&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;http://cdn.topsy.com/search-widget/2.0/widget-loader.js&quot;&gt;&lt;/script&gt;
+&lt;/div&gt;</code></pre>
+<p>
+  で、お持ち帰りコードのすぐ近くにはカスタマイズ用リンクがあって「<a href="http://manage.topsy.com/widget/customize">Social Modules » Customize a social widget</a>」に移動できるんですが……アカウントを作らないといけないんですよね。しかも企業用っぽい。<br>
+  でも、お持ち帰り用でも企業用でも読み込むスクリプトは同じなので、同じようにカスタマイズはできるんですね。<br>
+  その設定一覧を簡単にではありますが説明してみます。
+</p>
+<p>
+  ウィジェット用スクリプトは<span class="path">http://cdn.topsy.com/search-widget/2.0/widget-loader.js</span>で、その内部でjQueryと<span class="path">http://cdn.topsy.com/social-modules/search/widget.js</span>を読み込んでいます。<br>
+  更に、<span class="path">widget.js</span>でTopsyのAPIを叩いて検索結果を出しています。
+</p>
+<p>
+  ウィジェットで設定できる値は<span class="path">widget.js</span>に書かれていて、デフォルトは以下のようになっています。
+</p>
+<pre><code class="language-javascript">{
+    width            : '300',
+    height           : '450',
+    title            : 'Topsy search',
+    query            : 'news',
+    display_query    : false,
+    data_type        : 'tweets',
+    infonly          : false,
+    shell_color      : '#ffffff',
+    shell_bg_color   : '#dd7700',
+    results_color    : '#555555',
+    results_bg_color : '#ffffff',
+    link_color       : '#336699',
+    sponsor          : 'topsy.com',
+    show_sponsor     : false,
+    show_bottom_ad   : false,
+    show_nick        : false,
+    auto_update      : false,
+    nick             : '@topsy',
+    apikey           : '0',
+    result_timeout   : 10000,
+    allow_lang       : 'en'
+};
+</code></pre>
+<p>
+  これを順に説明してみます。
+</p>
+<dl>
+  <dt><code>width</code></dt>
+  <dd>
+    ウィジェットの幅。
+  </dd>
+  <dt><code>height</code></dt>
+  <dd>
+    ウィジェットの高さ。
+  </dd>
+  <dt><code>title</code></dt>
+  <dd>
+    ウィジェットのタイトル。一番上のタイトルバーみたいなところに表示される。
+  </dd>
+  <dt><code>query</code></dt>
+  <dd>
+    検索クエリ。<br>
+    使えるオプションは「<a href="http://topsy.com/operators">Topsy - Search Operators</a>」を参照。
+  </dd>
+  <dt><code>display_query</code></dt>
+  <dd>
+    検索ボックスに表示する検索クエリ。<br>
+   <code>'news'</code>のように指定する。<code>false</code>だと検索クエリが表示されるみたい。
+  </dd>
+  <dt><code>data_type</code></dt>
+  <dd>
+    検索結果一覧の表示タイプ。<br>
+   <code>'tweets'</code>だとツイートを表示。短縮URLはそのまま表示される。<br>
+   <code>'links'</code>だとリンクのみ表示。リンク先タイトルがアンカーテキストになって、リンクの後にリンク先のドメインが表示される。
+  </dd>
+  <dt><code>infonly</code></dt>
+  <dd>
+    影響力のある人のツイートのみを表示するかどうか。<br>
+    影響力があるかどうかの基準は「<a href="http://corp.topsy.com/support/frequently-asked-questions/">FAQ | Topsy</a>」を参照。
+  </dd>
+  <dt><code>shell_color</code></dt>
+  <dd>
+    上部と下部にあるバー（Topsyのロゴ部分は除く）の文字色。タイトルとかね。
+  </dd>
+  <dt><code>shell_bg_color</code></dt>
+  <dd>
+   <code>shell_color</code>と同じ部分の背景色。<br>
+    グラデーションは勝手にかかるので、指定するのは1色のみ。
+  </dd>
+  <dt><code>results_color</code></dt>
+  <dd>
+    検索結果一覧の文字色。
+  </dd>
+  <dt><code>results_bg_color</code></dt>
+  <dd>
+    検索結果一覧の背景色。こっちもグラデーションは勝手にかかる。
+  </dd>
+  <dt><code>link_color</code></dt>
+  <dd>
+    検索結果一覧で使われるリンクの色。
+  </dd>
+  <dt><code>sponsor</code></dt>
+  <dd>
+    スポンサー。よく分からない。企業向け？
+  </dd>
+  <dt><code>show_sponsor</code></dt>
+  <dd>
+    スポンサーを表示するかどうか。<br>
+    表示すると検索ボックスのあるバーの下にバーが追加されます。
+  </dd>
+  <dt><code>show_bottom_ad</code></dt>
+  <dd>
+    広告を表示するかどうか。よく分からない。企業向け？<br>
+    とりあえず<code>false</code>にしておけばいいんじゃないかな。
+  </dd>
+  <dt><code>show_nick</code></dt>
+  <dd>
+    自分のツイッターアカウント（リンク付き）を表示するかどうか。<br>
+    表示すると検索ボックスのあるバーの下にバーが追加されます。<br>
+    （スポンサー表示と同じ場所）
+  </dd>
+  <dt><code>auto_update</code></dt>
+  <dd>
+    ウィジェットを一番下までスクロールしたときに自動更新するかどうか。<br>
+    なぜか<code>false</code>で自動更新ありになる。
+  </dd>
+  <dt><code>nick</code></dt>
+  <dd>
+    ツイッターアカウント。<br>
+    最初の<code>@</code>はあってもなくてもリンクは機能する。でも表示したときに分かりやすいから<code>@</code>付けておいたほうがいいかも。
+  </dd>
+  <dt><code>apikey</code></dt>
+  <dd>
+    よく分からない。多分アカウント取ってる企業向け。検索ログ取得かな？
+  </dd>
+  <dt><code>result_timeout</code></dt>
+  <dd>
+    何かのタイマーに使われてるけどちゃんと読んでない。デフォルトでいいと思う。
+  </dd>
+  <dt><code>allow_lang</code></dt>
+  <dd>
+    検索する言語。<br>
+   <code>'any'</code>, <code>'en'</code>, <code>'ja'</code>しか確認できなかった。
+  </dd>
+</dl>
+<p>
+  とりあえず、現在確認できたのはこれくらいです。<br>
+  せっかくなので自分のブログのウィジェットを作ってみました。
+</p>
+<!--
+<div id="topsy_search_widget" style="margin-bottom:1.6em;">
+  <script type="text/javascript">
+  var topsy_settings = {
+    width: '620',
+    height: '400',
+    title: 'Twitter で反応のあった記事',
+    query: 'site:unformedbuilding.com/articles',
+    display_query: false,
+    data_type: 'links',
+    shell_color: '#101010',
+    shell_bg_color: '#eaeaea',
+    results_color: '#303030',
+    results_bg_color: '#fff',
+    link_color: '#08c',
+    show_nick: true,
+    nick: '@ub_pnr',
+    allow_lang: 'any'
+  }
+  </script>
+  <script type="text/javascript" src="http://cdn.topsy.com/search-widget/2.0/widget-loader.js"></script>
+</div>
+-->
+<p>
+  指定は次のようにしました。
+</p>
+<pre><code class="language-javascript">var topsy_settings = {
+    width            : '620',
+    height           : '400',
+    title            : 'Twitterで反応のあった記事',
+    query            : 'site:unformedbuilding.com/articles',
+    display_query    : false,
+    data_type        : 'links',
+    shell_color      : '#101010',
+    shell_bg_color   : '#eaeaea',
+    results_color    : '#303030',
+    results_bg_color : '#fff',
+    link_color       : '#08c',
+    show_nick        : true,
+    nick             : '@ub_pnr',
+    allow_lang       : 'any'
+}</code></pre>
+<p>
+  このウィジェットを使う機会があるかどうかは分かりませんが、覚えておいてもいいかと思います。<br>
+  また、もっと詳しく知りたい人はアカウントを取ってみたり、スクリプトのコードを読んだりするといいんじゃないでしょうか。
+</p>

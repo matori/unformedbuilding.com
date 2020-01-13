@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>linear-gradient()</title>
+<style type="text/css" media="screen">
+.test1 {
+  background: -webkit-linear-gradient(to bottom, #f6f6f6, #c6c6c6);
+  background: -moz-linear-gradient(to bottom, #f6f6f6, #c6c6c6);
+  background: -ms-linear-gradient(to bottom, #f6f6f6, #c6c6c6);
+  background: -o-linear-gradient(to bottom, #f6f6f6, #c6c6c6);
+  background: linear-gradient(to bottom, #f6f6f6, #c6c6c6);
+}
+
+.test2 {
+  background: -webkit-linear-gradient(top, #f6f6f6, #c6c6c6);
+  background: -moz-linear-gradient(top, #f6f6f6, #c6c6c6);
+  background: -ms-linear-gradient(top, #f6f6f6, #c6c6c6);
+  background: -o-linear-gradient(top, #f6f6f6, #c6c6c6);
+  background: linear-gradient(top, #f6f6f6, #c6c6c6);
+}
+
+.test3 {
+  background: -webkit-linear-gradient(180deg, #f6f6f6, #c6c6c6);
+  background: -moz-linear-gradient(180deg, #f6f6f6, #c6c6c6);
+  background: -ms-linear-gradient(180deg, #f6f6f6, #c6c6c6);
+  background: -o-linear-gradient(180deg, #f6f6f6, #c6c6c6);
+  background: linear-gradient(180deg, #f6f6f6, #c6c6c6);
+}
+
+.test4 {
+  background: -webkit-linear-gradient(-90deg, #f6f6f6, #c6c6c6);
+  background: -moz-linear-gradient(-90deg, #f6f6f6, #c6c6c6);
+  background: -ms-linear-gradient(-90deg, #f6f6f6, #c6c6c6);
+  background: -o-linear-gradient(-90deg, #f6f6f6, #c6c6c6);
+  background: linear-gradient(-90deg, #f6f6f6, #c6c6c6);
+}
+
+pre {
+  padding: 5px;
+  border: 1px solid #a0a0a0;
+  font-size: 14px;
+  line-height: 1.4; 
+}
+
+code {
+  font-family: "Courier New", "Courier", monospace;
+}
+
+h1 {
+  text-align: center;
+}
+
+h2,
+pre {
+  margin-left: auto;
+  margin-right: auto;
+  width: 600px;
+}
+</style>
+<body>
+
+<h1>linear-gradient()</h1>
+
+<h2>keyword (new)</h2>
+<pre class="test1"><code>E {
+  background: -webkit-linear-gradient(to bottom, #f6f6f6, #c6c6c6);
+  background: -moz-linear-gradient(to bottom, #f6f6f6, #c6c6c6);
+  background: -ms-linear-gradient(to bottom, #f6f6f6, #c6c6c6);
+  background: -o-linear-gradient(to bottom, #f6f6f6, #c6c6c6);
+  background: linear-gradient(to bottom, #f6f6f6, #c6c6c6);
+}</code></pre>
+
+<h2>keyword (old)</h2>
+<pre class="test2"><code>E {
+  background: -webkit-linear-gradient(top, #f6f6f6, #c6c6c6);
+  background: -moz-linear-gradient(top, #f6f6f6, #c6c6c6);
+  background: -ms-linear-gradient(top, #f6f6f6, #c6c6c6);
+  background: -o-linear-gradient(top, #f6f6f6, #c6c6c6);
+  background: linear-gradient(top, #f6f6f6, #c6c6c6);
+}</code></pre>
+
+<h2>angle (new)</h2>
+<pre class="test3"><code>E {
+  background: -webkit-linear-gradient(180deg, #f6f6f6, #c6c6c6);
+  background: -moz-linear-gradient(180deg, #f6f6f6, #c6c6c6);
+  background: -ms-linear-gradient(180deg, #f6f6f6, #c6c6c6);
+  background: -o-linear-gradient(180deg, #f6f6f6, #c6c6c6);
+  background: linear-gradient(180deg, #f6f6f6, #c6c6c6);
+}</code></pre>
+
+<h2>angle (old)</h2>
+<pre class="test4"><code>E {
+  background: -webkit-linear-gradient(-90deg, #f6f6f6, #c6c6c6);
+  background: -moz-linear-gradient(-90deg, #f6f6f6, #c6c6c6);
+  background: -ms-linear-gradient(-90deg, #f6f6f6, #c6c6c6);
+  background: -o-linear-gradient(-90deg, #f6f6f6, #c6c6c6);
+  background: linear-gradient(-90deg, #f6f6f6, #c6c6c6);
+}</code></pre>
+</body>
+</html>

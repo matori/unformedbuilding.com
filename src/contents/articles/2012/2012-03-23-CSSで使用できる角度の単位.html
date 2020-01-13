@@ -1,0 +1,71 @@
+<script type="application/x-yaml">
+title: "CSSで使用できる角度の単位"
+description: "CSS Transformsの関数などで使われる、CSSで使用できる角度の単位についてのメモです。"
+slug: css-angle-units
+published: 2012-03-23T14:18:19+09:00
+updated: 2020-01-09T19:30:12+09:00
+category: webdev
+</script>
+
+<p>
+  <code>transform</code>の関数などで使われる、CSSで使用できる角度の単位についてのメモです。
+</p>
+<p>
+  <a href="http://www.w3.org/TR/css3-values/#angles">CSS Values and Units Module Level 3 - 6.1. Angles: the ‘&lt;angle&gt;’ type and ‘deg’, ‘grad’, ‘rad’, ‘turn’ units</a>
+</p>
+<section>
+  <h2>単位</h2>
+  <section>
+    <h3><code>deg</code></h3>
+    <p>
+      degree、<a href="http://ja.wikipedia.org/wiki/%E8%A7%92%E5%BA%A6#.E5.BA.A6.E6.95.B0.E6.B3.95">度数法</a>。<br>
+      360で円を一周するお馴染みの表し方。
+  </section>
+  <section>
+    <h3><code>grad</code></h3>
+    <p>
+      <a href="http://ja.wikipedia.org/wiki/%E3%82%B0%E3%83%A9%E3%83%BC%E3%83%89_(%E5%8D%98%E4%BD%8D)">グラード</a>。ゴン（gon）、グレード（grade）、グラディアン（gradian）とも。<br>
+      1直角を100とする単位。<br>
+      つまり<code>90deg</code>の<span class="frac">1/100</span>が<code>1grad</code>になる。<code>360deg</code>は<code>400grad</code>で表すことができる。
+    </p>
+  </section>
+  <section>
+    <h3><code>rad</code></h3>
+    <p>
+      <a href="http://ja.wikipedia.org/wiki/%E5%BC%A7%E5%BA%A6%E6%B3%95">ラジアン（radian）</a>。弧度法。<br>
+      <q cite="http://ja.wikipedia.org/wiki/%E5%BC%A7%E5%BA%A6%E6%B3%95">円周上でその円の半径と同じ長さの弧を切り取る2本の半径が成す角の値</q>だそうです。<br>
+      <code>360deg</code>は<code>2πrad</code>で表すことができる。<br>
+      degreeからの変換は<code>degree * π / 180</code>で行う。
+    </p>
+    <p>
+      <a href="http://www.w3.org/TR/2011/WD-css3-values-20110906/#angles">2011年9月6日版で<q cite="http://www.w3.org/TR/2011/WD-css3-values-20110906/#angles">Who is going to use this anyway?</q>とか言われてた</a>単位。
+    </p>
+  </section>
+  <section>
+    <h3><code>turn</code></h3>
+    <p>
+      1回転を1つの単位として扱う。<br>
+      <code>1turn</code>は<code>360deg</code>と等しい。
+    </p>
+  </section>
+</section>
+<section>
+  <h2>まとめ</h2>
+  <pre>1deg = 約1.1111111111grad = 約0.0174532925rad = 約0.0027777778turn
+90deg = 100grad = 約1.57079632679rad = 0.25turn
+180deg = 200grad = 約3.1415926536rad = 0.5turn
+360deg = 400grad = 約6.2831853072rad = 1turn</pre>
+  <p>
+    おまけ。コンバータ作ってみた。
+  </p>
+  <!--
+  <div>
+    <script type="text/javascript" src="http://jsdo.it/blogparts/ihO8/js?view=design"></script>
+  </div>
+  -->
+  <ins datetime="2020-01-09T19:30:12+09:00">
+    <p>
+      <a href="/demo/2012/css-angle-units-converter/">CSS Angle Units Converter</a>
+    </p>
+  </ins>
+</section>

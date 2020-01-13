@@ -1,0 +1,409 @@
+/* Reset Stylesheet Based on
+   html5doctor.com Reset Stylesheet
+   http://html5doctor.com/html-5-reset-stylesheet/
+-----------------------------------------------------*/
+
+/*
+html5doctor.com Reset Stylesheet
+v1.6.1
+Last Updated: 2010-09-17
+Author: Richard Clark - http://richclarkdesign.com 
+Twitter: @rich_clark
+*/
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font-weight: normal;
+  vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { 
+  display: block;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+input, select {
+  vertical-align: middle;
+}
+
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+
+img {
+  vertical-align: bottom;
+}
+
+.clearfix:after {
+  display: block;
+  clear: both;
+  content: "";
+}
+
+.ie7-below .clearfix {
+  zoom: 1;
+}
+
+/* Styles
+-----------------------------------------------------*/
+
+@font-face {
+  font-family: "JosefinSansStdLight";
+  src: url("./fonts/JosefinSansStd-Light-webfont.eot");
+  src: url("./fonts/JosefinSansStd-Light-webfont.eot?iefix") format("eot"),
+       url("./fonts/JosefinSansStd-Light-webfont.woff") format("woff"),
+       url("./fonts/JosefinSansStd-Light-webfont.ttf") format("truetype"),
+       url("./fonts/JosefinSansStd-Light-webfont.svg#webfontSFfvv2vL") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Tenderness";
+  src: url('./fonts/Tenderness-webfont.eot');
+  src: local('Tenderness'),
+       url('./fonts/Tenderness-webfont.eot?iefix') format('eot'),
+       url('./fonts/Tenderness-webfont.woff') format('woff'),
+       url('./fonts/Tenderness-webfont.ttf') format('truetype'),
+       url('./fonts/Tenderness-webfont.svg#webfontaYPTm82W') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+html {
+  background: #fff;
+}
+
+body {
+  color: #363636;
+  font-size: 13px;
+  font-family: "Helvetiva", "Arial", "\0030e1\0030a4\0030ea\0030aa", "Meiryo", sans-serif;
+  line-height: 1;
+  text-align: center;
+}
+
+#page {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 720px;
+  text-align: left;
+}
+
+.ie6-below #page {
+  width: 720px;
+}
+
+#page-header {
+  padding: 40px 0 60px;
+  font-family: "JosefinSansStdLight", "Helvetiva", "Arial", sans-serif;
+}
+
+#page-header h1 {
+  padding: 0 16px;
+  font-size: 48px;
+  text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+#page-header a {
+  color: #666;
+  text-decoration: none;
+}
+
+.global-nav {
+  position: relative;
+  top: -25px;
+  float: right;
+  padding-right: 18px;
+}
+
+.global-nav li {
+  display: inline-block;
+  margin-left: 20px;
+  font-size: 20px;
+}
+
+.ie7-below .global-nav li {
+  display: inline;
+  height: 20px;
+}
+
+.global-nav li a {
+  display: block;
+  padding: 2px;
+  border-bottom: 1px dotted #fff;
+}
+
+.global-nav li a:hover {
+  border-bottom-color: #666;
+}
+
+#content {
+  position: relative;
+}
+
+.archive-title {
+  position: absolute;
+  top: -40px;
+  left: 20px;
+  color: #666;
+  font-size: 14px;
+  font-family: "Helvetiva", "Arial", "\0030e1\0030a4\0030ea\0030aa", "Meiryo", sans-serif;
+}
+
+.post {
+  position: relative;
+  margin-bottom: 60px;
+  padding: 16px 20px 17px;
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  background: #f6f6f6;
+  background: -webkit-linear-gradient(top left, #fafafa, #f3f3f3);
+  background: -moz-linear-gradient(top left, #fafafa, #f3f3f3);
+  background: -o-linear-gradient(top left, #fafafa, #f3f3f3);
+  background: linear-gradient(top left, #fafafa, #f3f3f3);
+}
+
+.ie8-below .post {
+  border: 1px solid #eaeaea;
+}
+
+.post-header,
+.post-body,
+.post-footer {
+  margin-right: 160px;
+}
+
+.ie7-below .post-header {
+  margin-right: 0;
+  padding-right: 160px;
+}
+
+.post-header h1 {
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e0e0e0;
+  width: 100%;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.ie7-below .post-header h1 {
+  font-weight: bold;
+}
+
+.post-header h1 a {
+  color: #363636;
+  text-decoration: none;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.1em;
+}
+
+.post-header h1 a:hover {
+  color: #06a;
+}
+
+.post-header .meta {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1;
+  width: 130px;
+}
+
+.post-header .meta time,
+.post-header .meta span {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.post-header .meta span {
+  margin-bottom: 5px;
+}
+
+.post-header .meta a {
+  color: #868686;
+  text-decoration: none;
+}
+
+.post-header .meta a:hover {
+  color: #565656;
+  text-decoration: underline;
+}
+
+.post-body {
+  padding: 1.8em 0 0;
+  border-top: 1px solid #fff;
+}
+
+.post-footer {
+  padding-top: 17px;
+  border-top: 1px dotted #d0d0d0;
+}
+
+.tagged {
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.tagged a {
+  color: #666;
+  text-decoration: none;
+}
+
+.tagged a:hover {
+  color: #363636;
+  text-decoration: underline;
+}
+
+.page-nav {
+  position: relative;
+  margin-bottom: 60px;
+  height: 40px;
+}
+
+.page-nav a {
+  display: block;
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 40px;
+  overflow: hidden;
+  color: #fff;
+  background: #e6e6e6;
+  font-size: 72px;
+  line-height: 40px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.page-nav a:hover {
+  background: #c6c6c6;
+}
+
+.page-nav .newer {
+  left: 50%;
+}
+
+.page-nav .older {
+  left: 0;
+}
+
+.newer:before {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-width: 0 20px 20px 0;
+  border-style: solid;
+  border-color: transparent #fff transparent transparent;
+  width: 0;
+  height: 0;
+  content: "";
+}
+
+.newer:after {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-width: 20px 20px 0 0;
+  border-style: solid;
+  border-color: transparent #fff transparent transparent;
+  width: 0;
+  height: 0;
+  content: "";
+}
+
+
+.older:before {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-width: 0 0 20px 20px;
+  border-style: solid;
+  border-color: transparent transparent transparent #fff;
+  width: 0;
+  height: 0;
+  content: "";
+}
+
+.older:after {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-width: 20px 0 0 20px;
+  border-style: solid;
+  border-color: transparent transparent transparent #fff;
+  width: 0;
+  height: 0;
+  content: "";
+}
+
+.page-nav .to-top {
+  display: block;
+  position: absolute;
+  left: 50%;
+  z-index: 9;
+  margin-left: -20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  width: 40px;
+  height: 40
+  -webkit-box-shadow: 0 0 0 5px #fff;
+  -moz-box-shadow: 0 0 0 5px #fff;
+  box-shadow: 0 0 0 5px #fff;
+  color: transparent;
+  background: #e6e6e6;
+  font-size: 32px;
+  line-height: 36px;
+  text-align: center;
+}
+
+.ie8-below .page-nav .to-top {
+  display: none;
+}
+
+.ie6 .page-nav .to-top {
+  height: 32px;
+}
+
+.page-nav .to-top:hover {
+  color: #fff;
+}
+
+#page-footer {
+  padding-bottom: 20px;
+}
+
+#page-footer p {
+  line-height: 1.4;
+}
+
+#page-footer small {
+  color: #888;
+  font-size: 12px;
+}
+
+#page-footer a {
+  color: #888;
+}
+
+#page-footer a:hover {
+  color: #06a;
+}

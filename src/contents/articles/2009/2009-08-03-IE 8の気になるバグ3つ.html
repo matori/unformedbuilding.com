@@ -1,0 +1,106 @@
+<script type="application/x-yaml">
+title: "IE 8の気になるバグ3つ"
+description: "自分用のまとめ。発生するのはIE 8の標準モードのときのもの。"
+slug: ie8-3bugs
+published: 2009-08-03T22:30:35+09:00
+updated: 2011-05-18T14:25:28+09:00
+category: webdev
+</script>
+
+<p>
+  自分用のまとめ。ずっと気になっているものだけ。<br>
+  細かいところとかは色々あるんだろうけど、今のところはそんなに気にならないので放置。<br>
+  発生するのはIE 8の標準モードのときのもの。
+</p>
+<section>
+  <h2>文字の大きさが勝手に変わる……というかピクピク動く</h2>
+  <p>
+    <a href="http://freesoft.tvbok.com/sonota/ie8-fontsize.html">これってIE8のバグなんじゃね・・・？文字の大きさが勝手に変化するよ？｜ぼくんちのTV 別館</a>
+  </p>
+  <p>こちらのエントリーによると</p>
+  <blockquote cite="http://freesoft.tvbok.com/sonota/ie8-fontsize.html">
+    <ol>
+      <li>IE 8を使用。ブラウザのフォントにMS ゴシック、MS Pゴシック、MS 明朝、MS P明朝を指定している。<br>（メイリオでは発生しない。）</li>
+      <li>動く文字は、10.5px～11px。</li>
+      <li>javascriptが結構多用されている。</li>
+    </ol>
+  </blockquote>
+  <p>
+    WordPressの管理画面や、GoogleAdSenseでよく発生するのでかなり気になります。<br>
+    あまりにもウザイのでWordPressの管理画面はマルチバイトパッチ内にあるadmin.cssの
+  </p>
+  <pre><code class="language-css">body * {
+  font-style: normal !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+}</code></pre>
+  <p>を</p>
+  <pre><code class="language-css">body * {
+  font-style: normal !important;
+  font-family: "メイリオ", meiryo, Arial, Helvetica, sans-serif !important;
+}</code></pre>
+  <p>
+    に変更することで対処。<br>
+    でも自分のサイト以外はどうにもなんないからなあ……。
+  </p>
+</section>
+<section>
+  <h2>テキストエリアで勝手にスクロール</h2>
+  <p>
+    なんというか、テキストエリアでスクロールバーが出たあと、文字を入力するごとにスクロールバーが一番上まで戻るんですよね。<br>
+    入力を続行すると文字の位置と一番上をスクロールバーが激しく動く。<br>
+    これは本気で困ります。
+  </p>
+  <p>
+    <a href="http://i-njoy.net/blog/index.php?e=553">nJOY BLOG::IE8 「テキストエリアで勝手にスクロールするバグ」の回避方法</a>
+  </p>
+  <p>
+    こちらのページに検証と回避策があるんですだけど、どうもまだ条件が不確定のようで俺の環境では<code>width</code>を<code>px</code>指定しても発生しました。<br>
+    これもまたWordPressの投稿画面などで発生しまくってウザイことこの上ない。<br>
+    他のバグはまだ我慢できるが、こればっかりは許せない。<br>
+  </p>
+  <p>
+    自分のとこなら<code>head</code>要素内に
+  </p>
+  <pre><code class="language-html">&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=7&quot; /&gt;</code></pre>
+  <p>
+    を入れて、IE 7で表示させるという手もあるんだけど、それじゃ何のためにIE 8使ってるか分からない。<br>
+    閲覧者向けに入れるのはいいんだけど、管理者画面にまで入れる気にはならないよ……。<br>
+  </p>
+  <ins datetime="2011-02-17T16:04:48+09:00">
+    <p>
+      他の対処方法としては以下のものが挙げられます。<br>
+      試してみたところ、これらのどれかで直る可能性が高いかと。<br>
+      (それでも動きがぎこちないことはあります)
+    </p>
+    <ul>
+      <li><code>textarea</code>に<code>position:absolute;</code>を指定。</li>
+      <li><code>textarea</code>に<code>display:block;</code>を指定。</li>
+      <li>
+       <code>textarea</code>の<code>cols</code>属性値を修正する。<br>
+       <code>textarea</code>内に入力された1行あたりの文字数が<code>cols</code>の属性値を超えるとバグが発生するので、<code>cols</code>の値を大きくしておく。<br>
+        <a href="http://ginpen.com/">ギンペイさん</a>が『jsdo.it』でデモを作られていますので、そちらも見てみてください。<br>
+        <a href="http://jsdo.it/ginpei/mbNE">IEでtextarea入力中にスクロールバーがピコピコする問題の対処</a>
+      </li>
+    </ul>
+  </ins>
+</section>
+<section>
+  <h2>背景画像のずれが酷すぎる</h2>
+  <p>
+    他のブラウザでもCSSで指定した背景画像がずれることってのはたまにありますが、IE 8はあまりにも酷すぎる。<br>
+    例えば、有名なweb系ブログの投稿ボタンとかでも余裕でずれてます。<br>
+    他のブラウザなら綺麗に見えるのに。
+  </p>
+  <p>
+    <a href="http://css-happylife.com/log/bug/000743.shtml">IE8バグ？：a要素内に画像があってa要素に背景を指定した時に位置がずれる｜CSS HappyLife</a>
+  </p>
+  <p>
+    こちらに検証と解決策。コメントも必見。<br>
+    これは作成時に気をつけていれば何とかなるんですけど、見てるときにはどうにもならない。
+  </p>
+</section>
+<p>
+  いつも気になるのはこんなところ。<br>
+  こんなんでもIE 6, 7よりは遥かにマシだから使ってます。<br>
+  ただ、やっぱりテキストエリアのは致命的なんじゃないかと思います。早く直らないかな。
+</p>

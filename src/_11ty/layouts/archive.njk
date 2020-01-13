@@ -1,0 +1,34 @@
+{% extends "./_base.njk" %}
+
+{% set style = "archive.scss" %}
+
+{% block main %}
+  <main class="Page-main">
+    <section class="Archive">
+      <h2 class="Archive-heading">{{ title }}</h2>
+      {% for archive in collections.yearlyArchive %}
+        <section>
+          <h3 class="Archive-year">{{ archive.year }}年</h3>
+          <ul class="Archive-list">
+            {% for article in archive.articles %}
+              <li class="Archive-item">
+                <time
+                  datetime="{{ article.data.published | isoDate }}"
+                  class="Archive-date">
+                  {{ article.data.date | readableDate('MM月DD日') }}
+                </time>
+                <a href="{{ article.url }}" class="Archive-link">
+                  {{ article.data.title }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </section>
+      {% endfor %}
+    </section>
+  </main>
+{% endblock %}
+
+{% block footer %}
+  {% include "../includes/partials/footer.njk" %}
+{% endblock %}

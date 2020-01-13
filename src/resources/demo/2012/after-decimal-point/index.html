@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>CSS単位別小数点以下の扱い</title>
+<style type="text/css">
+  body {
+    font-family: "Arial", sans-serif;
+  }
+</style>
+</head>
+<body>
+
+<h1>CSS単位別小数点以下の扱い</h1>
+
+<h2>Percentage</h2>
+<ul class="f">
+  <li style="font-size: 1.555555555%">font-size: 1.5545555555%</li>
+</ul>
+
+<h2>Font-relative lengths</h2>
+<ul class="f">
+  <li style="font-size: 1.5555555555em">font-size: 1.5555555555em</li>
+  <li style="font-size: 1.5555555555ex">font-size: 1.5555555555ex</li>
+  <li style="font-size: 1.5555555555ch">font-size: 1.5555555555ch</li>
+  <li style="font-size: 1.5555555555rem">font-size: 1.5555555555rem</li>
+</ul>
+
+<h2>Viewport-percentage lengths</h2>
+<ul class="f">
+  <li style="font-size: 1.5555555555vw">font-size: 1.5555555555vw</li>
+  <li style="font-size: 1.5555555555vh">font-size: 1.5555555555vh</li>
+  <li style="font-size: 1.5555555555vm; font-size: 1.5555555555vmin">font-size: 1.5555555555vmin</li>
+  <li style="font-size: 1.5555555555vmax">font-size: 1.5555555555vmax</li>
+</ul>
+
+<h2>Absolute lengths</h2>
+<ul class="f">
+  <li style="font-size: 1.5555555555cm">font-size: 1.5555555555cm</li>
+  <li style="font-size: 1.5555555555mm">font-size: 1.5555555555mm</li>
+  <li style="font-size: 1.5555555555in">font-size: 1.5555555555in</li>
+  <li style="font-size: 1.5555555555px">font-size: 1.5555555555px</li>
+  <li style="font-size: 1.5555555555pt">font-size: 1.5555555555pt</li>
+  <li style="font-size: 1.5555555555pc">font-size: 1.5555555555pc</li>
+</ul>
+
+<h2>Angles</h2>
+<ul class="r">
+  <li style="-webkit-transform: rotate(1.5555555555deg); -ms-transform: rotate(1.5555555555deg); transform: rotate(1.5555555555deg)">transform: rotate(1.5555555555deg)</li>
+  <li style="-webkit-transform: rotate(1.5555555555grad); -ms-transform: rotate(1.5555555555grad); transform: rotate(1.5555555555grad)">transform: rotate(1.5555555555grad)</li>
+  <li style="-webkit-transform: rotate(1.5555555555rad); -ms-transform: rotate(1.5555555555rad); transform: rotate(1.5555555555rad)">transform: rotate(1.5555555555rad)</li>
+  <li style="-webkit-transform: rotate(1.5555555555turn); -ms-transform: rotate(1.5555555555turn); transform: rotate(1.5555555555turn)">transform: rotate(1.5555555555turn)</li>
+</ul>
+
+<h2>Times</h2>
+<ul class="t">
+  <li style="-webkit-animation-delay: 1.5555555555s; animation-delay: 1.5555555555s;">animation-delay: 1.5555555555s;</li>
+  <li style="-webkit-animation-delay: 1.5555555555ms; animation-delay: 1.5555555555ms;">animation-delay: 1.5555555555ms;</li>
+</ul>
+
+<h2>おまけ (Firefox は桁数で判断してるっぽいので)</h2>
+<ul class="f">
+  <li style="font-size: 1.5555555555px">font-size: 1.5555555555px</li>
+  <li style="font-size: 10.5555555555px">font-size: 10.5555555555px</li>
+  <li style="font-size: 100.5555555555px">font-size: 100.5555555555px</li>
+  <li style="font-size: 1000.5555555555px">font-size: 1000.5555555555px</li>
+  <li style="font-size: 10000.5555555555px">font-size: 10000.5555555555px</li>
+  <li style="font-size: 100000.5555555555px">font-size: 100000.5555555555px</li>
+  <li style="font-size: 1000000.5555555555px">font-size: 1000000.5555555555px</li>
+</ul>
+
+<script type="text/javascript">
+  (function () {
+    var a = document.querySelectorAll('.f > li');
+    for (var i = 0, iz = a.length; i < iz; ++i) {
+      var e1 = a[i];
+      var h1 = e1.innerHTML;
+      e1.innerHTML = h1 + ' (' + e1.style.fontSize + ')';
+    }
+  })();
+  (function () {
+    var a = document.querySelectorAll('.r > li');
+    var t;
+    if(a[0].style.msTransform) {
+      t = 'msTransform';
+    } else if(a[0].style.webkitTransform) {
+      t = 'webkitTransform';
+    } else {
+      t = 'transform';
+    }
+    for (var i = 0, iz = a.length; i < iz; ++i) {
+      var e1 = a[i];
+      var h1 = e1.innerHTML;
+      e1.innerHTML = h1 + ' (' + e1.style[t] + ')';
+    }
+  })();
+  (function () {
+    var a = document.querySelectorAll('.t > li');
+    var t;
+    if(a[0].style.webkitAnimationDelay) {
+      t = 'webkitAnimationDelay';
+    } else {
+      t = 'animationDelay';
+    }
+    for (var i = 0, iz = a.length; i < iz; ++i) {
+      var e1 = a[i];
+      var h1 = e1.innerHTML;
+      e1.innerHTML = h1 + ' (' + e1.style[t] + ')';
+    }
+  })();
+</script>
+</body>
+</html>

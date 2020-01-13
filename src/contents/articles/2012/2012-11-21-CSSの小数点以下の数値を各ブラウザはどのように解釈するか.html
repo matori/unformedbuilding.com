@@ -1,0 +1,425 @@
+<script type="application/x-yaml">
+title: "CSSの小数点以下の数値を各ブラウザはどのように解釈するか"
+description: "CSSで小数点以下を指定できる単位で、小数点以下の数値の扱いがブラウザごとに異なっているようなので、単位別にまとめてみました。"
+slug: after-the-decimal-point-in-css
+published: 2012-11-21T09:54:29+09:00
+updated: 2012-11-21T09:54:29+09:00
+category: webdev
+</script>
+
+<p>
+  CSSで小数点以下を指定できる単位で、小数点以下の数値の扱いがブラウザごとに異なっているようなので、単位別にまとめてみました。<br>
+  調査時の各ブラウザのバージョンですが、Internet Explorer 9 &amp; 10 (Windows 7), Firefox 17, Chrome 25 dev-m, Opera 12.10となっています。調査にはブラウザ付属の調査ツールを使いました。<br>
+  表が見づらいかもしれませんが、我慢してください。
+</p>
+<p>
+  なお、これはどうレンダリングされるかなどは考慮していません。<br>
+  その指定がどう解釈されるかだけを調べたものです。
+</p>
+<p>
+  指定した値についてですが、但し書きがない場合は<code>1.5555555555</code>です。
+</p>
+<section>
+  <h2>Percentage</h2>
+  <p>
+    フォントサイズをパーセンテージ指定。
+  </p>
+  <table class="nowrap stickyRowHeader">
+    <thead class="alignCenter">
+      <tr>
+        <td></td>
+        <th>IE 9</th>
+        <th>IE 10</th>
+        <th>Firefox</th>
+        <th>Chrome</th>
+        <th>Opera</th>
+      </tr>
+    </thead>
+    <tbody class="alignEnd">
+      <tr>
+        <th>%</th>
+        <td>1.55</td>
+        <td>1.55</td>
+        <td>1.55556</td>
+        <td>1.5555555555</td>
+        <td>1.56</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    IEは小数点以下第2位まで。それ以降は切り捨て。<br>
+    Firefoxは小数点以下第5位まで。第6位で四捨五入。第7位以降は無視（※記事の最後に<a href="#firefox-note">注意書き</a>があります）。<br>
+    Chromeは指定と同じ。<br>
+    Operaは小数点以下第2位まで。第3位で四捨五入。第4位以降は無視。
+  </p>
+</section>
+<section>
+  <h2>Font-relative lengths</h2>
+  <p>
+    フォントサイズをフォント相対値で指定。
+  </p>
+  <table class="nowrap stickyRowHeader">
+    <thead class="alignCenter">
+      <tr>
+        <td></td>
+        <th>IE 9</th>
+        <th>IE 10</th>
+        <th>Firefox</th>
+        <th>Chrome</th>
+        <th>Opera</th>
+      </tr>
+    </thead>
+    <tbody class="alignEnd">
+      <tr>
+        <th>em</th>
+        <td>1.55</td>
+        <td>1.55</td>
+        <td>1.55556</td>
+        <td>1.5555555555</td>
+        <td>1.56</td>
+      </tr>
+      <tr>
+        <th>ex</th>
+        <td>1.55</td>
+        <td>1.55</td>
+        <td>1.55556</td>
+        <td>1.5555555555</td>
+        <td>1.56</td>
+      </tr>
+      <tr>
+        <th>ch</th>
+        <td>1.55</td>
+        <td>1.55</td>
+        <td>1.55556</td>
+        <td>非対応</td>
+        <td>非対応</td>
+      </tr>
+      <tr>
+        <th>rem</th>
+        <td>1.55</td>
+        <td>1.55</td>
+        <td>1.55556</td>
+        <td>1.5555555555</td>
+        <td>1.56</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    対応しているものについてはパーセンテージと同じ。
+  </p>
+</section>
+<section>
+  <h2>Viewport-percentage lengths</h2>
+  <p>
+    フォントサイズをビューポート相対値で指定。
+  </p>
+  <table class="nowrap stickyRowHeader">
+    <thead class="alignCenter">
+      <tr>
+        <td></td>
+        <th>IE 9</th>
+        <th>IE 10</th>
+        <th>Firefox</th>
+        <th>Chrome</th>
+        <th>Opera</th>
+      </tr>
+    </thead>
+    <tbody class="alignEnd">
+      <tr>
+        <th>vw</th>
+        <td>1.55</td>
+        <td>1.55</td>
+        <td>非対応</td>
+        <td>1.5555555555</td>
+        <td>非対応</td>
+      </tr>
+      <tr>
+        <th>vh</th>
+        <td>1.55</td>
+        <td>1.55</td>
+        <td>非対応</td>
+        <td>1.5555555555</td>
+        <td>非対応</td>
+      </tr>
+      <tr>
+        <th>vmin (IE 9: vm)</th>
+        <td>1.55</td>
+        <td>1.55</td>
+        <td>非対応</td>
+        <td>1.5555555555</td>
+        <td>非対応</td>
+      </tr>
+      <tr>
+        <th>vmax</th>
+        <td>非対応</td>
+        <td>非対応</td>
+        <td>非対応</td>
+        <td>非対応</td>
+        <td>非対応</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    対応しているものについてはパーセンテージと同じ。
+  </p>
+</section>
+<section>
+  <h2>Absolute lengths</h2>
+  <p>
+    フォントサイズを絶対値で指定。
+  </p>
+  <table class="nowrap stickyRowHeader">
+    <thead class="alignCenter">
+      <tr>
+        <td></td>
+        <th>IE 9</th>
+        <th>IE 10</th>
+        <th>Firefox</th>
+        <th>Chrome</th>
+        <th>Opera</th>
+      </tr>
+    </thead>
+    <tbody class="alignEnd">
+      <tr>
+        <th>cm</th>
+        <td>1.555</td>
+        <td>1.555</td>
+        <td>1.55556</td>
+        <td>1.5555555555</td>
+        <td>1.56</td>
+      </tr>
+      <tr>
+        <th>mm</th>
+        <td>1.55</td>
+        <td>1.55</td>
+        <td>1.55556</td>
+        <td>1.5555555555</td>
+        <td>1.56</td>
+      </tr>
+      <tr>
+        <th>in</th>
+        <td>1.555</td>
+        <td>1.555</td>
+        <td>1.55556</td>
+        <td>1.5555555555</td>
+        <td>1.56</td>
+      </tr>
+      <tr>
+        <th>px</th>
+        <td>1.55</td>
+        <td>1.55</td>
+        <td>1.55556</td>
+        <td>1.5555555555</td>
+        <td>1.56</td>
+      </tr>
+      <tr>
+        <th>pt</th>
+        <td>1.555</td>
+        <td>1.555</td>
+        <td>1.55556</td>
+        <td>1.5555555555</td>
+        <td>1.56</td>
+      </tr>
+      <tr>
+        <th>pc</th>
+        <td>1.55</td>
+        <td>1.55</td>
+        <td>1.55556</td>
+        <td>1.5555555555</td>
+        <td>1.56</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    cm, in, ptについては、IEは小数点以下第3位まで。第4位以降は切り捨て。<br>
+    それ以外はパーセンテージと同じ。
+  </p>
+</section>
+<section>
+  <h2>Angles</h2>
+  <p>
+    <code>transform: rotate()</code>に各角度単位を指定。
+  </p>
+  <table class="nowrap stickyRowHeader">
+    <thead class="alignCenter">
+      <tr>
+        <td></td>
+        <th>IE 9</th>
+        <th>IE 10</th>
+        <th>Firefox</th>
+        <th>Chrome</th>
+        <th>Opera</th>
+      </tr>
+    </thead>
+    <tbody class="alignEnd">
+      <tr>
+        <th>deg</th>
+        <td>1.555556</td>
+        <td>1.555556</td>
+        <td>1.55556</td>
+        <td>1.5555555555</td>
+        <td>1.56</td>
+      </tr>
+      <tr>
+        <th>grad</th>
+        <td>1.555556</td>
+        <td>1.555556</td>
+        <td>1.55556</td>
+        <td>1.5555555555</td>
+        <td>1.4deg</td>
+      </tr>
+      <tr>
+        <th>rad</th>
+        <td>1.555556</td>
+        <td>1.555556</td>
+        <td>1.55556</td>
+        <td>1.5555555555</td>
+        <td>89.13deg</td>
+      </tr>
+      <tr>
+        <th>turn</th>
+        <td>1.555556</td>
+        <td>1.555556</td>
+        <td>1.55556</td>
+        <td>1.5555555555</td>
+        <td>560deg</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    IEが小数点以下第6位まで。第7位で四捨五入。第8位以降は無視。<br>
+    FirefoxとChrome はパーセンテージと同じ。<br>
+    Operaはなぜか全てdegに変換されたが、小数点以下の扱いはパーセンテージと同じっぽい。
+  </p>
+  <p>
+    IEはこれだけだと調査不足な感じがする……。
+  </p>
+</section>
+<section>
+  <h2>Times</h2>
+  <p>
+    <code>animation-delay</code>に各時間単位を指定。
+  </p>
+  <table class="nowrap stickyRowHeader">
+    <thead class="alignCenter">
+      <tr>
+        <td></td>
+        <th>IE 9</th>
+        <th>IE 10</th>
+        <th>Firefox</th>
+        <th>Chrome</th>
+        <th>Opera</th>
+      </tr>
+    </thead>
+    <tbody class="alignEnd">
+      <tr>
+        <th>s</th>
+        <td>非対応</td>
+        <td>1.55</td>
+        <td>1.55556</td>
+        <td>1.5555555555</td>
+        <td>1.56</td>
+      </tr>
+      <tr>
+        <th>ms</th>
+        <td>非対応</td>
+        <td>1.55</td>
+        <td>1.55556</td>
+        <td>1.5555555555</td>
+        <td>0s</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Opera以外はパーセンテージと同じ。<br>
+    Operaはs指定はパーセンテージと同じだがmsがsに変換された。<code>100ms</code>, <code>10ms</code>指定はそれぞれ<code>0.1s</code>, <code>0.01s</code>に変換されるのでミリ秒単位が使えないわけではないが、5ms以下のミリ秒は0sに変換される。まとめると0～5msが0sに、6～9msが0.01sとなる。
+  </p>
+</section>
+<section>
+  <h2 id="firefox-note">Firefoxでの注意点</h2>
+  <p>
+    数値をいじっていると、Firefoxは小数点以下の四捨五入ポイントが変わったりすることがあるのに気づきました。<br>
+    どうやら小数点以下第何位という解釈ではなく、数値の桁数で判断しているように見えます。<br>
+    下記の表ではフォントサイズをpx指定しましたが、Firefoxはどの単位でも同じようになります。<br>
+    （他のブラウザはそれぞれの単位を参照）
+  </p>
+  <table class="nowrap stickyRowHeader">
+    <thead class="alignCenter">
+      <tr>
+        <td></td>
+        <th>IE 9</th>
+        <th>IE 10</th>
+        <th>Firefox</th>
+        <th>Chrome</th>
+        <th>Opera</th>
+      </tr>
+    </thead>
+    <tbody class="alignEnd">
+      <tr>
+        <th>1.5555555555px</th>
+        <td>1.55</td>
+        <td>1.55</td>
+        <td>1.55556</td>
+        <td>1.5555555555</td>
+        <td>1.56</td>
+      </tr>
+      <tr>
+        <th>10.5555555555px</th>
+        <td>10.55</td>
+        <td>10.55</td>
+        <td>10.5556</td>
+        <td>10.5555555555</td>
+        <td>10.56</td>
+      </tr>
+      <tr>
+        <th>100.5555555555px</th>
+        <td>100.55</td>
+        <td>100.55</td>
+        <td>100.556</td>
+        <td>100.5555555555</td>
+        <td>100.56</td>
+      </tr>
+      <tr>
+        <th>1000.5555555555px</th>
+        <td>1000.55</td>
+        <td>1000.55</td>
+        <td>1000.56</td>
+        <td>1000.5555555555</td>
+        <td>1000.56</td>
+      </tr>
+      <tr>
+        <th>10000.5555555555px</th>
+        <td>10000.55</td>
+        <td>10000.55</td>
+        <td>10000.6</td>
+        <td>10000.5555555555</td>
+        <td>10000.56</td>
+      </tr>
+      <tr>
+        <th>100000.5555555555px</th>
+        <td>100000.55</td>
+        <td>100000.55</td>
+        <td>100001</td>
+        <td>100000.5555555555</td>
+        <td>100000.56</td>
+      </tr>
+      <tr>
+        <th>1000000.5555555555px</th>
+        <td>1000000.55</td>
+        <td>1000000.55</td>
+        <td>1000000</td>
+        <td>1000000.5555555555</td>
+        <td>1000000.56</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+<p>
+  チェックに使用したファイルはこちらです。
+</p>
+<p>
+  <a href="/demo/2012/after-decimal-point/">CSS単位別小数点以下の扱い</a>
+</p>
+<p>
+  誤りがありましたらご連絡ください。
+</p>

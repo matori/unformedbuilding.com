@@ -1,0 +1,154 @@
+<script type="application/x-yaml">
+title: "CSSの勉強中に困ったら"
+description: "CSSの勉強中に色々困ることが起きて検索するのですが、だいたい同じところに行き着くので自分用のリンク集も兼ねてまとめておきます。"
+slug: if-stuck-in-the-study-of-css
+published: 2012-07-02T18:02:50+09:00
+updated: 2012-07-02T18:02:50+09:00
+category: webdev
+</script>
+
+<p>
+  CSSの勉強中に色々困ることが起きて検索するのですが、だいたい同じところに行き着くので自分用のリンク集も兼ねてまとめておきます。
+</p>
+<section>
+  <h2>仕様を確認する</h2>
+  <p>
+    とりあえずW3Cを見に行った方が早い。<br>
+    そもそもプロパティや値について分かっていない場合はここで解決することが多い。
+  </p>
+  <dl>
+    <dt><a href="http://www.w3.org/Style/CSS/current-work">CSS current work &amp; how to participate</a></dt>
+    <dd>
+      現在の状況と仕様書の目次。
+    </dd>
+    <dt><a href="http://momdo.s35.xrea.com/web-html-test/CSS3-ja/">CSS3の日本語訳集 - 血統の森 web実験小屋</a></dt>
+    <dd>
+      日本語訳へのリンク集。
+    </dd>
+  </dl>
+  <p>
+    W3Cの目次から探すのが面倒なときはGoogleで「<kbd>w3.org プロパティ名</kbd>」で探すと早い。「<kbd>devs.w3.org</kbd>」と「<kbd>www.w3.org</kbd>」を分けて検索するのもいいと思う。
+  </p>
+</section>
+<section>
+  <h2>ブラウザの対応と実装</h2>
+  <p>
+    対応しているかどうかだけの場合は以下の2つのサイトで事足りる場合も多い。
+  </p>
+  <dl>
+    <dt><a href="http://caniuse.com/">When can I use… Support tables for HTML5, CSS3, etc</a></dt>
+    <dd>
+      対応状況表。まずここに調べに行くことが多い。
+    </dd>
+    <dt><a href="http://www.quirksmode.org/css/contents.html">CSS - Contents and compatibility</a></dt>
+    <dd>
+      有名なサイト。対応状況とサンプル。
+    </dd>
+  </dl>
+  <p>
+    「だいたいの対応状況は分かったけど実際のところどうなの？」となったら、各ブラウザのサイトに行く。
+  </p>
+  <dl>
+    <dt><a href="http://msdn.microsoft.com/en-us/library/ie/ms531209(v=vs.85).aspx">Cascading Style Sheets</a></dt>
+    <dd>
+      MSDNの「Internet Explorer Developer Center」にある、CSSリファレンス。<a href="http://msdn.microsoft.com/ja-jp/library/ie/ms531209(v=vs.85).aspx">日本語版（未翻訳多い）</a> と<a href="http://msdn.microsoft.com/ja-jp/library/cc351024(v=VS.85).aspx">古い版の日本語版</a>もある。<br>
+      対応バージョンが書かれていたりいなかったりする。そのうち更新されるといいなと思っている。
+    </dd>
+    <dt><a href="https://developer.mozilla.org/en/Mozilla_CSS_support_chart">Mozilla CSS support chart - MDN</a>
+    </dt>
+    <dd>
+      Mozillaの対応状況。<a href="https://developer.mozilla.org/ja/Mozilla_CSS_support_chart">日本語版</a>もある。個別に見たい場合は「<a href="https://developer.mozilla.org/en/CSS/CSS_Reference">CSS Reference</a>」から探すのもいい。<br>
+      MDNの各プロパティのリファレンスには他ブラウザの対応状況も載っていたりするのでとても便利。たぶん一番よく使っている。
+    </dd>
+    <dt>
+      <a href="http://developer.apple.com/library/safari/documentation/appleapplications/reference/safaricssref/Introduction.html">Safari CSS Reference: Introduction to Safari CSS Reference</a>
+    </dt>
+    <dd>
+      Safariのリファレンス。ちょっと見づらいけど詳しく載っている。
+    </dd>
+    <dt><a href="http://www.opera.com/docs/specs/">Opera: Opera PrestoでサポートされるWeb仕様</a></dt>
+    <dd>
+      面倒だけどサイドバーにあるPrestoのバージョンごとに調べるしかない。<br>
+      他にいいページあったら教えてほしいです……。
+    </dd>
+  </dl>
+</section>
+<section>
+  <h2>「これ対応されるの？」とか「これバグじゃね？」と思ったら</h2>
+  <p>
+    MozillaとWebkitはすぐ検索できる。<br>
+    IEは分からない……。
+  </p>
+  <dl>
+    <dt><a href="https://bugzilla.mozilla.org/">Bugzilla@Mozilla</a></dt>
+    <dd>
+      Firefoxならここで検索。「<kbd>CSS （問題の用語）</kbd>」みたいに検索すると大体は出てくる。
+    </dd>
+    <dt><a href="https://bugs.webkit.org/">WebKit Bugzilla</a></dt>
+    <dd>
+      Webkitならここ。検索の仕方も一緒。
+    </dd>
+    <dt><a href="http://productforums.google.com/forum/#!forum/chrome">Google Chrome Forum - Google グループ</a></dt>
+    <dd>
+      Chromeのユーザーフォーラム。バグの解決策が見つかることもある。
+    </dd>
+    <dt><a href="http://my.opera.com/community/forums/">My Opera - フォーラム</a></dt>
+    <dd>
+      調べたいソフトウェアのフォーラムから探す。
+    </dd>
+  </dl>
+  <p>
+    他には、たぶん「ググれ」が一番近道。<br>
+    適当な英語で検索しても結構見つかる。日本語で駄目だったら英語で検索する癖をつけておくと解決しやすい。
+  </p>
+  <dl>
+    <dt><a href="http://stackoverflow.com/">Stack Overflow</a></dt>
+    <dd>
+      超有名なQ&amp;Aサイト。ググった結果、ここに行き着くことも多い。
+    </dd>
+  </dl>
+  <p>
+    Twitterなどで「こうしたいけど上手くいかない」みたいなこと書いたら教えてもらえることもあるけど、まずは自分で調べる。<br>
+    リプライが来たらラッキー程度に思っておくべき。
+  </p>
+</section>
+<section>
+  <h2>ブラウザのブログ</h2>
+  <p>
+    普段からチェックしておくのもいいと思います。
+  </p>
+  <dl>
+    <dt><a href="http://blogs.msdn.com/b/ie/">IEBlog - Site Home - MSDN Blogs</a></dt>
+    <dd>
+      Internet Explorerのブログ。<a href="http://blogs.msdn.com/b/ie_ja/">IEBlog 日本語</a>もある。
+    </dd>
+    <dt><a href="http://blog.mozilla.org/">The Mozilla Blog</a></dt>
+    <dd>
+      <a href="http://mozilla.jp/blog/">日本語はこっち</a>。<br>
+      <a href="http://hacks.mozilla.org/">Mozilla Hacks</a>も。
+    </dd>
+    <dt><a href="http://chrome.blogspot.jp/">Google Chrome Blog</a></dt>
+    <dd>
+      Chromeはここ。<a href="http://googlechromereleases.blogspot.jp/">Chrome Releases</a>も合わせて。
+    </dd>
+    <dt><a href="http://www.webkit.org/blog/">Surfin’ Safari - The WebKit Blog</a></dt>
+    <dd>
+      Safariというか、Webkitはここで。
+    </dd>
+    <dt><a href="http://my.opera.com/desktopteam/blog/">Opera Desktop Team - Desktop Team</a></dt>
+    <dd>
+      デスクトップ版のOperaのブログ。
+    </dd>
+  </dl>
+</section>
+<p>
+  英語のページが多いですが、日本語の情報しか見つからないものもあったりするので、両方で検索してみる癖をつけておいたら近道になると思います。<br>
+  英語が読めないとか言ってないで、オンライン翻訳でも使いながら調べるといいんじゃないでしょうか。自分はそうしてます。
+</p>
+<p>
+  こういう困ったときに検索して行き着くページにはCSSのコードが書かれていることが多いので、それを見ながら説明文を読むと分かりやすいかと。CSSのコードは何語のページでも同じですし。<br>
+  間違って解釈してしまったら……まあ自信がないときはどっかにコード載せて突っ込み待ちするのもありです。<a href="http://jsdo.it/qa">jsdo.itのDiscussions</a>に投稿するのもいいかと思います。
+</p>
+<p>
+  他にも探す方法は色々あるでしょうが、自分の場合はこんな感じです。
+</p>

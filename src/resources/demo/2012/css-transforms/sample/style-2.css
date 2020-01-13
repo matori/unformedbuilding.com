@@ -1,0 +1,84 @@
+body {
+  font-family: "Arial", sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+.drawing {
+  margin: 100px auto;
+  width : 200px;
+}
+
+.cube {
+  position               : relative;
+  width                  : 200px;
+  height                 : 200px;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style   : preserve-3d;
+  -ms-transform-style    : preserve-3d;
+  -o-transform-style     : preserve-3d;
+  transform-style        : preserve-3d;
+}
+
+.panel {
+  position   : absolute;
+  border     : 1px solid #f00;
+  width      : 200px;
+  height     : 200px;
+  box-sizing : border-box;
+  color      : #fff;
+  font-size  : 120px;
+  line-height: 198px;
+  text-align : center;
+}
+
+.front {
+  background: rgba(255, 0, 0, 0.7);
+}
+
+.back {
+  background       : rgba(0, 0, 255, 0.7);
+  -webkit-transform: rotateY(180deg);
+  -moz-transform   : rotateY(180deg);
+  -ms-transform    : rotateY(180deg);
+  -o-transform     : rotateY(180deg);
+  transform        : rotateY(180deg);
+}
+
+.left {
+  background       : rgba(255, 255, 0, 0.7);
+  -webkit-transform: rotateY(90deg);
+  -moz-transform   : rotateY(90deg);
+  -ms-transform    : rotateY(90deg);
+  -o-transform     : rotateY(90deg);
+  transform        : rotateY(90deg);
+}
+
+.right {
+  background       : rgba(0, 255, 255, 0.7);
+  -webkit-transform: rotateY(-90deg);
+  -moz-transform   : rotateY(-90deg);
+  -ms-transform    : rotateY(-90deg);
+  -o-transform     : rotateY(-90deg);
+  transform        : rotateY(-90deg);
+}
+
+.top {
+  background       : rgba(0, 255, 0, 0.7);
+  -webkit-transform: rotateX(90deg);
+  -moz-transform   : rotateX(90deg);
+  -ms-transform    : rotateX(90deg);
+  -o-transform     : rotateX(90deg);
+  transform        : rotateX(90deg);
+}
+
+.bottom {
+  background       : rgba(255, 0, 255, 0.7);
+  -webkit-transform: rotateX(-90deg);
+  -moz-transform   : rotateX(-90deg);
+  -ms-transform    : rotateX(-90deg);
+  -o-transform     : rotateX(-90deg);
+  transform        : rotateX(-90deg);
+}

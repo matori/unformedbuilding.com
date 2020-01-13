@@ -1,0 +1,54 @@
+{% set isHome = isHome or false %}
+{% set isArticle = isArticle or false %}
+{% set description = description or '' %}
+{% set style = style or "home.scss" %}
+{% from '../includes/macros/logo.njk' import logo %}
+<!doctype html>
+<html lang="ja" class="Page">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ title + (" | " if title) + site.name }}</title>
+  {% if env.mode === 'production' %}
+    {% include '../includes/partials/gtag.njk' %}
+  {% endif %}
+  <link rel="icon" href="/favicon.svg">
+  <link rel="alternate icon" href="/assets/favicons/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
+  <link rel="mask-icon" href="/assets/favicons/safari-pinned-tab.svg" color="#002c1d">
+  <link rel="canonical" href="{{ site.url + page.url }}">
+  <link rel="alternate" href="/feed/" type="application/rss+xml" title="全ブログ記事RSS">
+  <link rel="alternate" href="/feed/webdev/" type="application/rss+xml" title="ウェブ制作関連のブログ記事RSS">
+  <meta name="description" content="{{ site.description }}">
+  {% if not is404 %}
+    <meta property="og:url" content="{{ site.url + page.url }}">
+    <meta property="og:type" content="{% if isHome %}website{% else %}article{% endif %}">
+    {% if title %}
+      <meta property="og:title" content="{{ title }}">
+    {% endif %}
+    <meta property="og:description" content="{{ description }}">
+    <meta property="og:site_name" content="{{ site.name }}">
+    <meta property="og:image" content="{{ site.url }}{% if ogImage %}{{ ogImage }}{% else %}/assets/images/og.png{% endif %}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@{{ site.author.twitter }}">
+  {% endif %}
+  {% block head %}{% endblock %}
+  <style>{{ style | sass | optimizecss | safe }}</style>
+</head>
+
+<body class="Page-body">
+
+<header class="Header">
+  {% set logoTag = 'h1' %}
+  {% if isArticle %}
+    {% set logoTag = 'b' %}
+  {% endif %}
+  <{{ logoTag }} class="Header-heading">{{ logo(site.name, isHome, 64) }}</{{ logoTag }}>
+</header>
+
+{% block main %}{% endblock %}
+
+{% block footer %}{% endblock %}
+
+</body>
+</html>

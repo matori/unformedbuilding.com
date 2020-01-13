@@ -1,0 +1,84 @@
+<script type="application/x-yaml">
+title: "Lunascape GeckoモードではcreateElement()でJavaScriptを追加してアレコレするタイプのブックマークレットは動かないことがある"
+description: "タイトル通り。LunascapeのGeckoモードではjQueryを追加してから色々やるタイプのブックマークレットは動かないっぽいです。"
+slug: some-bookmarklets-does-not-work-on-lunascape-gecko-mode
+published: 2011-01-11T15:36:53+09:00
+updated: 2011-05-18T14:24:06+09:00
+category: misc
+</script>
+
+<p>
+  タイトル通り。<br>
+  LunascapeのGeckoモードではjQueryを追加してから色々やるタイプのブックマークレットは動かないっぽいです。
+</p>
+<p>
+  というより、<code>createElement()</code>でスクリプトを追加して、それを利用して何かするというタイプのものが動かないっぽい？<br>
+  Evernoteのブックマークレット版Webクリッパーも動きません。<br>
+  Twitterの公式シェアブックマークレットは一応動きますが、何か動きが変です。
+</p>
+<ins datetime="2011-01-26T11:44:28+09:00">
+  <p>
+    <b>2011年1月26日 追記：</b><br>
+    &quot;Lunascape Evernote Gecko&quot; みたいなキーワードで検索して来られた方へ。<br>
+    通常がGeckoモード利用なら、素直にFirefox用アドオンを入れたほうがいいですよ。
+  </p>
+</ins>
+<p>
+  確認のために簡単なテスト用ブックマークレットとページを用意してみました。
+</p>
+<p>
+  ブックマークレット<br>
+  <a href="javascript:(function(){if(typeof%20jQuery=='undefined'){var%20s=document.createElement('script');s.type='text/javascript';s.src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js';document.getElementsByTagName('body')[0].appendChild(s);function%20c(){setTimeout(function(){if(typeof%20jQuery=='undefined'){c()}else{b()}},500)}c()}else{b()}function%20b(){jQuery('body').css('background-color','black');jQuery('h1').show();}})()">これをブックマークレットに登録</a>
+</p>
+<p>
+  <a href="/demo/2011/lunascape-bookmarklet-test/test.html">テスト用デモページ</a>
+</p>
+<p>
+  ブックマークレットは以下のようなものです。
+</p>
+<pre><code class="language-javascript">javascript: (function () {
+    if (typeof jQuery == 'undefined') {
+        var s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.src = 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js';
+        document.getElementsByTagName('body')[0].appendChild(s);
+
+        function c() {
+            setTimeout(function () {
+                if (typeof jQuery == 'undefined') {
+                    c()
+                } else {
+                    b()
+                }
+            }, 500)
+        }
+        c()
+    } else {
+        b()
+    }
+
+    function b() {
+        jQuery('body').css('background-color', 'black');
+        jQuery('h1').show();
+    }
+})()</code></pre>
+<p>
+  ちゃんと動けば背景が黒になって、白い文字で「available!!!」と表示されます。<br>
+  このコードの場合、TridentとWebkitで動くことを確認しました。<br>
+  Geckoモードのときだけ動きません。
+</p>
+<p>
+  これに限らず、こういうタイプのブックマークレットをGeckoモードで動かすには、Lunascape Geckoの拡張モードのアドレス欄にブックマークレットのコードを直接打ち込まなければいけません。
+</p>
+<p>
+  対処法が分からないので、どうしても使いたければ自分用にGreasemonkeyとかでどうにかしたほうがいいかもしれません。
+</p>
+<ins datetime="2011-01-11T16:43:26+09:00">
+  <hr>
+  <p>
+    <b>2011年1月11日 追記：</b><br>
+    <code>createElement()</code>で追加するスクリプトですがFirebugで確認したところ、DOMにはちゃんと追加されています。<br>
+    なので、Lunascapeに標準で付いてくるGecko用ブックマークレットのように、追加したスクリプトのみで動作が完了するタイプのブックマークレットは動くと思います。<br>
+    問題なのは上記コードのように「ライブラリなどを読み込んで、それを利用して何かする」というタイプのブックマークレットですね。
+  </p>
+</ins>

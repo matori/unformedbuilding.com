@@ -1,0 +1,47 @@
+<script type="application/x-yaml">
+title: "ローディングアニメーション画像の替わりにカーソルを変更することについて"
+description: "結論を言うと、これだけでローディングなどのアニメーション画像を表示することの替わりにはならないかなーと思います。"
+slug: loading-spinner-and-css-cursor-property
+published: 2012-05-31T12:17:39+09:00
+updated: 2012-05-31T12:17:39+09:00
+category: webdev
+</script>
+
+<p>
+  簡単なLightboxみたいなものを作っていたんですが、ローディング画像出すのがめんどくさくて「CSSの<code>cursor</code>で<code>progress</code>出せばいいんじゃね」と思いました。<br>
+  そうすればアニメーション画像読ませなくていいし、ちょっとだけ軽くなるんじゃね、とか。
+</p>
+<p>
+  まあ、少し考えて使うのはやめにしたんですが、その後にこんなツイートをしました。
+</p>
+<figure>
+  <blockquote cite="https://twitter.com/ub_pnr/status/208021702406455297">
+    <p>
+      「HTTP リクエストを減らすために、ローディングアイコンは cursor: progress で決まり！」とかあったらちょっと読みたい。
+    </p>
+  </blockquote>
+  <figcaption>
+    <cite>@ub_pnr <a href="https://twitter.com/ub_pnr/status/208021702406455297">https://twitter.com/ub_pnr/status/208021702406455297</a></cite>
+  </figcaption>
+</figure>
+<p>
+  そしたら、<a href="https://twitter.com/hell2u/statuses/208022539178491904">Briccsで書かれてたと言われた</a>ので読んでみました。<br>
+  乱暴にまとめると「くるくるするあれじゃなくて<code>cursor: wait</code>使えば？」みたいな内容です。
+</p>
+<p>
+  <a href="http://bricss.net/post/17941857127/forget-loading-spinners-use-a-wait-cursor">Bricss - Forget loading spinners, use a wait cursor</a>
+</p>
+<p>
+  最初はありかなーと思ってたんですが、実際にやるとちょっとアレなんですよね。<br>
+  PCを使っていてカーソルが<code>wait</code>や<code>progress</code>になる状況ってあまり気持ちのいいものではないんですよね。ブラウザーの場合だと何か重い処理をしていてブラウザー自体が忙しいのか、とか思ってしまったり。<br>
+  なので、見ている人に不安感を与えてしまう可能性が結構あるんじゃないかと。<br>
+  「ちょっと待ってね」と伝えたいだけなのに、そういう状況は望ましくない。<br>
+  これは使うのをやめた理由でもあります。
+</p>
+<p>
+  また、Briccsの人も突っ込まれたようですが、マウスカーソルの存在しないタッチデバイスなんかだとどうするんだ、という問題もあります。
+</p>
+<p>
+  待機中（<code>wait</code>）や処理中（<code>progress</code>）のカーソルをウェブサイトで使うことは、これだけでローディングなどのアニメーション画像を表示することの替わりにはならないかなーと思います。<br>
+  使うとしても処理中であることを伝えるための何かと併用しないと上記の問題がありますし。
+</p>

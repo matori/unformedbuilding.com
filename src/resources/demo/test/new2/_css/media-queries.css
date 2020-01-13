@@ -1,0 +1,97 @@
+@media screen and (max-width: 1000px) {
+
+  #page-header {
+    padding: 30px 30px 60px;
+  }
+
+  #main .post {
+    padding-left: 0;
+  }
+
+  #main .post-header h1,
+  #main .post-body {
+    margin: 0;
+  }
+
+  #main .post-header h1 {
+    padding: 10px 2%;
+  }
+
+  #main .post-header .meta {
+    position: static;
+    margin: 0;
+    padding: 5px 2%;
+    width: auto;
+    background: #eaeaea;
+  }
+
+  #main .post-header .meta time {
+    overflow: visible;
+    text-align: left;
+  }
+
+  #main .post-body {
+    margin-top: 0;
+    padding: 20px 2% 10px;
+  }
+
+}
+
+@media screen and (max-width: 800px) {
+
+  #main {
+    float: left;
+    margin-right: -30%;
+    width: 100%;
+  }
+
+  #content {
+    margin-right: 30%;
+    padding-right: 3%;
+  }
+
+  #sidebar {
+    float: right;
+    width: 30%;
+  }
+
+}
+
+@media screen and (max-width: 600px) {
+
+  #page-header {
+    padding: 20px 10px;
+  }
+
+  #page-header h1 {
+    font-size: 36px;
+  }
+
+  #main, #sidebar {
+    float: none;
+    margin: 0;
+    width: 100%;
+  }
+
+  #content {
+    margin: 0;
+    padding-right: 0;
+  }
+
+  .post {
+    margin-bottom: 30px;
+  }
+
+}
+
+@media screen and (max-width: 420px) {
+
+  #page-header h1 {
+    font-size: 24px;
+  }
+
+  #main .post-header h1 {
+    font-size: 16px;
+  }
+
+}

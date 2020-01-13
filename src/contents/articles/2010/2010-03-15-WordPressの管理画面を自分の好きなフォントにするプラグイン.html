@@ -1,0 +1,87 @@
+<script type="application/x-yaml">
+title: "WordPressの管理画面を自分の好きなフォントにするプラグイン"
+description: "WordPressの管理画面を自分の好きなフォントで表示するためのプラグインを作ってみたよ。"
+slug: custom-admin-font-for-wordpress
+published: 2010-03-15T20:13:45+09:00
+updated: 2010-09-14T21:58:19+09:00
+category: webdev
+</script>
+
+<p>
+  ネタ色が強いけど、WordPress の管理画面を自分の好きなフォントで表示するためのプラグインを作ってみたよ。<br>
+  全然たいしたものじゃないので期待してはいけません。
+</p>
+<ins datetime="2010-09-14T08:37:28+09:00">
+  <p>
+    <b>2010年月14日 追記：</b><br>
+    <a href="/articles/wp-custom-admin-css/">作り直しましたので、こっちを使ってください。</a>
+  </p>
+</ins>
+<p>
+  今までマルチバイトパッチの<span class="path">admin.css</span>をいじっていたんですど、アップグレードのたびに書き直すのも面倒なので、それ専用に1つ作りました。
+</p>
+<p>
+  それでは作ってみよう。
+</p>
+<section>
+  <h2>PHPファイルを作成</h2>
+  <p>
+    適当な名前でフォルダを作成。<span class="path">custom-admin-font</span>とかでいいんじゃないですかね。
+  </p>
+  <p>
+    その後に同じ名前でPHPファイルを作成。<br>
+    コードは以下のように。
+  </p>
+  <pre><code class="language-php">&lt;?php
+/*
+Plugin Name: Custom admin font
+Plugin URI: プラグインの URI
+Description: 管理画面の font-family を変更するだけのプラグイン。
+Version: バージョン
+Author: 作者
+Author URI: 作者の URI
+*/
+
+function custom_admin_font() {
+  $url =  dirname(WP_PLUGIN_URL . '/' . plugin_basename(__FILE__)) . '/custom-admin-font.css';
+  if(is_ssl()) {
+    $url = preg_replace(&quot;/^http\:\/\//i&quot;, 'https://', $url);
+  }
+  echo &quot;\n&quot; . '&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;' . $url . '&quot; /&gt;' . &quot;\n&quot;;
+}
+add_action(&quot;admin_head&quot;, custom_admin_font);
+?&gt;</code></pre>
+  <p>
+    PHPはこれでよし。<br>
+    日本語が混じっているときは保存するときの文字コードに注意。
+  </p>
+</section>
+<section>
+  <h2>CSSファイルを作成</h2>
+  <p>
+    先に作ったPHPファイルで指定したファイル名(この場合は<span class="path">custom-admin-font.css</span>)でCSSファイルを作成して、PHPファイルと同じフォルダに保存。<br>
+    できたら中身を書いていきます。
+  </p>
+  <pre><code class="language-css">body.wp-admin * {
+  font-style: normal !important;
+  font-family: Helvetica, Arial, meiryo, sans-serif !important;
+}
+
+body.wp-admin input[type=&quot;text&quot;] {
+  font-family: Consolas, Arial, Helvetica, monospase !important;
+}
+
+body.wp-admin textarea {
+  font-family: Consolas, meiryo, Helvetica, Arial, sans-serif !important;
+}</code></pre>
+  <p>
+    自分用のはこんな感じです。<br>
+    全体の<code>font-family</code>を指定するときは<code>body.wp-admin *</code>という感じでclass名を指定しないとマルチバイトパッチにある<span class="path">admin.css</span>の<code>body *</code>より優先順位が下がるかもしれないので注意してください。<br>
+    同様に、マルチバイトパッチ内<span class="path">admin.css</span>の各指定には<code>!important</code>が付いていますので、こちらも忘れずに書いてください。
+  </p>
+</section>
+<p>これを使って自分が普段使っているブラウザや、インストールされているフォントに合わせて指定しておきます。</p>
+<p>
+  CSSを追加しているだけなので、指定すれば色々と変更できます。<br>
+  特定の要素をハイライトしたりするのもいいかもしれませんね。
+</p>

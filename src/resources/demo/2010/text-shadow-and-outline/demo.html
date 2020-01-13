@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>text-shadow と outline テスト表示用ページ | Unformed Building</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<style type="text/css">
+p {
+	margin-bottom: 30px;
+}
+
+.link {
+	border: 1px solid #000;
+	outline: 1px solid #f00;
+}
+
+.text-shadow {
+	text-shadow: 0 0 10px #f0f;
+}
+</style>
+</head>
+
+<body>
+
+<div id="header">
+	<h1>text-shadow と outline テスト表示用ページ</h1>
+	<a href="http://unformedbuilding.com/articles/text-shadow-and-outline/">Back to the Article</a>
+</div>
+
+<div id="container">
+
+	<p><a href="#" class="link">リンク(通常)</a></p>
+	<p><a href="#" class="link text-shadow">リンク(影有)</a></p>
+
+</div>
+
+</body>
+</html>

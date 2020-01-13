@@ -1,0 +1,51 @@
+$config-fs-root: 16px !default;
+$config-line-gap: 5px !default;
+$config-fs-scale-base: 4 !default;
+
+@function rem($px) {
+  @return $px / $config-fs-root * 1rem;
+}
+
+@function get-lines($lines: 0, $without-edge-gap: false) {
+  $lines-size: ($config-fs-root + $config-line-gap) * $lines;
+  @if (not $without-edge-gap) {
+    @return rem($lines-size);
+  } @else {
+    @return rem($lines-size - $config-line-gap);
+  }
+}
+
+@function get-font-scale($factor) {
+  @return $config-fs-root * $config-fs-scale-base / $factor;
+}
+
+@function strip-unit($number) {
+  @if type-of($number) == "number" and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+  @return $number;
+}
+
+@function _mix-alpha-result-single-color($front, $front-alpha, $back, $back-alpha) {
+  @return $front * $front-alpha  + $back * $back-alpha * (1 - $front-alpha);
+}
+
+// @see [Compositing and Blending Level 1 - 5.1. Simple alpha compositing](https://www.w3.org/TR/compositing-1/#simplealphacompositing)
+@function alpha-composing($front, $back) {
+  $front-alpha: alpha($front);
+  $back-alpha: alpha($back);
+  $result-red: _mix-alpha-result-single-color(red($front), $front-alpha, red($back), $back-alpha);
+  $result-green: _mix-alpha-result-single-color(green($front), $front-alpha, green($back), $back-alpha);
+  $result-blue: _mix-alpha-result-single-color(blue($front), $front-alpha, blue($back), $back-alpha);
+  @return rgb($result-red, $result-green, $result-blue);
+}
+
+@function saturate-relative($color, $percentage) {
+  $saturation: saturation($color);
+    @return saturate($color, $saturation * $percentage);
+}
+
+@function desaturate-relative($color, $percentage) {
+  $saturation: saturation($color);
+  @return desaturate($color, $saturation * $percentage);
+}

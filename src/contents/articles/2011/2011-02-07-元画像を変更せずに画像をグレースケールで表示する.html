@@ -1,0 +1,127 @@
+<script type="application/x-yaml">
+title: "元画像を変更せずに画像をグレースケールで表示する"
+description: "画像を1枚だけ用意して、そのまま使ったりグレースケールで使ったりしたい。IEにはフィルタがありますが、クロスブラウザにできないかと思って調べてみました。"
+slug: convert-image-to-grayscale-on-html
+published: 2011-02-07T14:49:02+09:00
+updated: 2011-02-08T00:15:30+09:00
+category: webdev
+</script>
+
+<p>
+  タイトル通りなんですが、画像を1枚だけ用意して、それをカラーで使ったりグレースケールで使ったりしたいわけです。<br>
+  IEには最初からフィルタが用意されていますが、クロスブラウザにできないかと思って調べてみました。
+</p>
+<p>
+  結果、何種類かあったので、デモを作ってみました。
+</p>
+<p>
+  <a href="/demo/2011/grayscale/">元画像を変更せずに画像をグレースケールで表示する デモページ</a>
+</p>
+<section>
+  <h2>IE用の指定</h2>
+  <pre><code class="language-css">filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);</code></pre>
+  <p>
+    グレースケールにしたいセレクタにこれを指定すればおっけー。
+  </p>
+</section>
+<section>
+  <h2>SVGフィルタを使う</h2>
+  <p>
+    Firefox 3.5以上にしか使えないっぽいですが、SVGでフィルタを作って、それをCSSで指定します。<br>
+    これは『<a href="http://stackoverflow.com/">Stack Overflow</a>』にあった質問と回答からの引用です。
+  </p>
+  <figure>
+    <blockquote cite="http://stackoverflow.com/questions/609273/convert-an-image-to-grayscale-in-html-css">
+      <p>Your SVG file will look like this:</p>
+      <pre><code class="language-html">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;svg version=&quot;1.1&quot;
+     baseProfile=&quot;full&quot;
+     xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+    &lt;filter id=&quot;desaturate&quot;&gt;
+        &lt;feColorMatrix type=&quot;matrix&quot; values=&quot;0.3333 0.3333 0.3333 0 0
+                                             0.3333 0.3333 0.3333 0 0
+                                             0.3333 0.3333 0.3333 0 0
+                                             0      0      0      1 0&quot;/&gt;
+    &lt;/filter&gt;
+&lt;/svg&gt;
+</code></pre>
+      <p>
+        Save that as resources.svg, it can be reused from now on for any image you want to change to greyscale.<br>
+        In your CSS you reference the filter using the Firefox specific filter property:
+      </p>
+      <pre><code class="language-css">.target {
+    filter: url(resources.svg#desaturate);
+}</code></pre>
+    </blockquote>
+    <figcaption>
+      <cite><a href="http://stackoverflow.com/questions/609273/convert-an-image-to-grayscale-in-html-css">Convert an image to grayscale in HTML/CSS - Stack Overflow</a></cite>
+    </figcaption>
+  </figure>
+  <p>
+    FirefoxでHTML内で使えるSVGエフェクトについては以下のページを参照してください。
+  </p>
+  <p>
+    <a href="https://developer.mozilla.org/En/Applying_SVG_effects_to_HTML_content">Applying SVG effects to HTML content - MDC Doc Center</a>
+  </p>
+</section>
+<section>
+  <h2><code>canvas</code>を使ってグレースケールにしてData URIに変換</h2>
+  <p>
+    これの解説は色んなところにありますが、一番分かりやすかったページを参考にしました。
+  </p>
+  <p>
+    IE以外のモダンブラウザはHTML5の<code>canvas</code>要素をサポートしているので、それを使ってピクセルごとにグレースケールに変換する、という方法です。
+  </p>
+  <figure>
+    <blockquote cite="http://www.ajaxblender.com/howto-convert-image-to-grayscale-using-javascript.html">
+      <p>All modern browsers support the CANVAS tag which is allowed access to the image’s pixels. The code below will go through each pixel in the image and replace the color values with an average value. Here is the code:</p>
+      <pre><code class="language-javascript">var canvas = document.createElement('canvas');
+
+var canvasContext = canvas.getContext('2d');
+
+var imgW = imgObj.width;
+
+var imgH = imgObj.height;
+canvas.width = imgW;
+canvas.height = imgH;
+canvasContext.drawImage(imgObj, 0, 0);
+
+var imgPixels = canvasContext.getImageData(0, 0, imgW, imgH);
+
+for(var y = 0; y &lt; imgPixels.height; y++){
+     for(var x = 0; x &lt; imgPixels.width; x++){
+          var i = (y * 4) * imgPixels.width + x * 4;
+          var avg = (imgPixels.data[i] + imgPixels.data[i + 1] + imgPixels.data[i + 2]) / 3;
+          imgPixels.data[i] = avg;
+          imgPixels.data[i + 1] = avg;
+          imgPixels.data[i + 2] = avg;
+     }
+}
+canvasContext.putImageData(imgPixels, 0, 0, 0, 0, imgPixels.width, imgPixels.height);
+
+return canvas.toDataURL();
+</code></pre>
+      <p>From the above code sample, you see that we created a canvas, loaded the image into it, and then changed the color values of each pixel in the image to an average value. After that we simply replaced the SRC of our image to the image changed in the canvas.</p>
+      <p>Using the same method you can also flip images using JavaScript. (We will create a tutorial for this in the future).</p>
+    </blockquote>
+    <figcaption>
+      <cite><a href="http://www.ajaxblender.com/howto-convert-image-to-grayscale-using-javascript.html">How to Convert Images to Grayscale using JavaScript ― ajaxBlender.com</a></cite>
+    </figcaption>
+  </figure>
+  <p>
+    この方法のいいところは、IE以外のブラウザ（の最新版）なら、どれでも動くことです。<br>
+    引用元ページではjQueryを使ってブラウザを判別し、IEならフィルタ、それ以外ならcanvasという感じで分岐させていました。<br>
+    ※分岐しないとIE 8でエラー出ます。
+  </p>
+  <p>
+    ただし、ピクセルごとに変換するということは、画像が大きかったり多かったりすると、とても遅くなるということです。<br>
+    画像をいっぱい用意してやってみると分かりやすいと思います。
+  </p>
+</section>
+<p>
+  調べた結果、上記の3種類になったわけですが、クロスブラウザにするには1番目と3番目を組み合わせるしかないっぽいです。<br>
+  重いという点に目をつぶれば、ですが。
+</p>
+<p>
+  よほどの事情がない限りは最初からグレースケールにした画像を用意する方がよさそうですね。残念。
+</p>

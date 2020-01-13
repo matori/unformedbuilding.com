@@ -1,0 +1,34 @@
+{% macro logo(text, isHome=false, size=120) %}
+  <a
+    href="/"
+    class="Logo"
+    {% if isHome %}
+      rel="bookmark"
+    {% endif %}
+  >
+    <span class="Logo-inner">
+      <svg
+        width="{{ size }}"
+        height="{{ size }}"
+        viewBox="0 0 120 120"
+        focusable="false"
+        class="Logo-image"
+        role="img"
+        aria-labelledby="logoLabel"
+      >
+        <defs>
+          <text id="logoLabel">{{ text }}</text>
+          <clipPath id="logoClip" clipPathUnits="objectBoundingBox" transform="scale({{ 1 / 120 }})">
+            <path
+              d="M120,60a59.81,59.81,0,0,0-17.594-42.406L88.271,31.729a40,40,0,1,1-56.542,0L17.594,17.594A59.889,59.889,0,0,0,3.44,80H25.359L14.418,98.951a59.879,59.879,0,0,0,91.164,0L94.641,80H116.56A59.718,59.718,0,0,0,120,60ZM70.958,1.021a59.314,59.314,0,0,0-21.916,0L60,20Z"
+              id="logo-path"
+            ></path>
+          </clipPath>
+        </defs>
+        <path
+          d="M120,60a59.81,59.81,0,0,0-17.594-42.406L88.271,31.729a40,40,0,1,1-56.542,0L17.594,17.594A59.889,59.889,0,0,0,3.44,80H25.359L14.418,98.951a59.879,59.879,0,0,0,91.164,0L94.641,80H116.56A59.718,59.718,0,0,0,120,60ZM70.958,1.021a59.314,59.314,0,0,0-21.916,0L60,20Z"
+        ></path>
+      </svg>
+    </span>
+  </a>
+{% endmacro %}

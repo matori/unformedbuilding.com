@@ -1,0 +1,255 @@
+<script type="application/x-yaml">
+title: "サイト制作時のメモ 2012年前半"
+description: "ここ最近でサイトを作ったときに思ったことのメモです。"
+slug: webdevelopment-memo-2012-first-half
+published: 2012-08-16T15:37:28+09:00
+updated: 2012-08-28T10:18:53+09:00
+category: webdev
+</script>
+
+<p>
+  ここ最近でサイトを作ったときに思ったことのメモです。<br>
+  個人的なサイトを昨年末と今年の7月に1つずつ、それ以外でやったのが春に1つ（結局なかったことにされたけど）、今やってるのが1つ。<br>
+  昨年末のは一応レスポンシブウェブデザイン、7月のと春のは普通のソリッドレイアウト、今やってるのがスマートフォンサイト。
+</p>
+<p>
+  昨年末に作ったものについては<a href="http://d.hatena.ne.jp/ub-pnr/20111205/1323055067">はてなダイアリーの方でも書いた</a>し、内容は被るけど改めて。<br>
+</p>
+<section>
+  <h2>全般</h2>
+  <ul>
+    <li>
+      <p>
+        「<a href="http://html5boilerplate.com/">HTML5 Boilerplate</a>」は丸ごとというより必要な部分だけ抜き出して使うと便利。<br>
+        「これは要らないかなー」という部分を探すのにはコード読まないといけないので、それだけでも結構勉強になると思う。
+      </p>
+    </li>
+    <li>
+      <p>
+        単純なサイトなら頑張って画像作らなくてもなんとかなったりする。<br>
+        （対象がいわゆるモダンブラウザの場合）
+      </p>
+    </li>
+    <li>
+      <p>
+        <a href="http://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html#placeholder_selectors_">Sass 3.2から使えるPlaceholder Selector</a>は凝ったことしなくても普通に便利。<br>
+        ただしIE 9以下のセレクタ数制限には注意。
+      </p>
+    </li>
+    <li>
+      <p>
+        IE 8以下の古いブラウザの場合、CSSに関してはレイアウト崩れが起きない、ちゃんと情報が伝わるなら無理して新しいもの（<code>border-radius</code>とか）は適用しない。仕事でやったサイトがそれだったけど、話し合って納得してもらえた。
+      </p>
+    </li>
+    <li>
+      <p>
+        Canonical URLを<code>link</code>要素で指定している場合、それが明らかに不正なもの（<span class="path">http:///</span>のみなど）であっても、Googleのウェブマスターツールは教えてくれない。<br>
+        これについては進展があったらまた別の機会に書くかもしれない。
+      </p>
+    </li>
+    <li>
+      <p>
+        EUC-JPのサイトはめんどくさい。<br>
+        どこがどうと言うほどではないけど、ときどき文字コードで引っかかることがある。
+      </p>
+    </li>
+  </ul>
+</section>
+<section>
+  <h2>外国語（主に中韓）</h2>
+  <ul>
+    <li>
+      <p>
+        多言語サイトは大変っていうかめんどくさい。
+      </p>
+    </li>
+    <li>
+      <p>
+        韓国語使用者向けのサイトを作成するときは「<a href="http://tlt.its.psu.edu/suggestions/international/bylanguage/korean.html">Working with Korean</a>」が参考になった。
+      </p>
+    </li>
+    <li>
+      <p>
+        中韓向けサイトでの<code>font-family</code>は<code>Arial, sans-serif</code>にしておくと使いまわせて楽。要は特に指定しないということ。
+      </p>
+    </li>
+    <li>
+      <p>
+        「それじゃあWindowsでフォントがしょぼい。メイリオみたいにVistaから入ってるのないの？」<br>
+        ある。<br>
+        中国語は「微软雅黑（Microsoft YaHei）」、韓国語は「맑은 고딕（Malgun Gothic）」がそれにあたる。
+      </p>
+    </li>
+    <li>
+      <p>
+        中国語のフォントは「<a href="http://www.kavoir.com/2009/01/what-are-the-chinese-or-mandarin-web-safe-fonts.html">What are the Mandarin Chinese web safe fonts?</a>」と「<a href="http://www.yale.edu/chinesemac/pages/fonts.html">[chinese mac] Fonts</a>」を参考にした。
+      </p>
+    </li>
+    <li>
+      <p>
+        韓国語のフォントについては前出の「<a href="http://tlt.its.psu.edu/suggestions/international/bylanguage/korean.html">Working with Korean</a>」に載っている。<br>
+        Wikipediaの「<a href="http://ja.wikipedia.org/wiki/%E3%83%8F%E3%83%B3%E3%82%B0%E3%83%AB%E3%81%AE%E6%9B%B8%E4%BD%93">ハングルの書体</a>」も参考になるかも。
+      </p>
+    </li>
+    <li>
+      <p>
+        どのフォントを指定するかについては、それぞれの国の大きなサイトを見るのもいい。<br>
+        中国なら<a href="http://www.baidu.com/">百度</a>と、そこから辿れる新聞社のサイト。<br>
+        韓国なら<a href="http://kr.yahoo.com/">Yahoo! Korea</a>と<a href="http://www.naver.com/">NAVER</a>、そしてそこから辿れる新聞社のサイト。<br>
+      </p>
+    </li>
+    <li>
+      <p>
+        多言語サイトならUTF-8で作っておくと悩みがちょっと減る。<br>
+        最初に中国語サイトをGB2312で作ってしまって（そのときは日中のサイトしか予定がなかった）、後から韓国語や東南アジアの言語が増えてきて中国語サイトだけ文字コードが違うという、どうしようもないことになった（後に修正）。
+      </p>
+    </li>
+    <li>
+      <p>
+        文字コードやフォントのことについては英語のサイトは割と楽だけど、文字の大きさとかは気を遣わないといけない。
+      </p>
+    </li>
+    <li>
+      <p>
+        右から読む言語のサイトがなくってよかったと心の底から思った。<br>
+        その手のサイトを作るときの注意点は『U-Site』の「<a href="http://www.usability.gr.jp/alertbox/international-sites.html">国際的なユーザビリティ</a>」を読むのがいいと思う。
+      </p>
+    </li>
+    <li>
+      <p>
+        中国向けサイトは<a href="http://ja.wikipedia.org/wiki/%E9%87%91%E7%9B%BE">金盾</a>の影響もあってSNS展開をしているサイトだと難しい。中国ローカルSNSのことも考えないといけない。
+      </p>
+    </li>
+    <li>
+      <p>
+        中韓ともにIEのシェアが非常に高い。
+      </p>
+    </li>
+    <li>
+      <p>
+        中国はブラウザシェアがちょっと特殊なので、一応そのへんも考えること。<br>
+        <a href="http://www.maxthon.com/">Maxthon</a>と<a href="http://se.360.cn/">360 Safe Browser</a>あたりの人気が高いみたい。どちらもIEコンポーネントブラウザ。
+      </p>
+    </li>
+  </ul>
+</section>
+<section>
+  <h2>Android、iOSのスマートフォン</h2>
+  <ul>
+    <li>
+      <p>
+        レスポンシブなサイトの場合はモバイルファーストな感じで作るといいと思ったけど、CSSを書くのがとても大変。<br>
+        小さい画面向けに書いて、メディアクエリで大きな画面向けに追加していくことになる。この辺は上手にやらないと時間がかかるので、何回かやらないと駄目っぽい（SassやLESSなどのプリプロセッサを使っていたとしても）。
+      </p>
+    </li>
+    <li>
+      <p>
+        画像を見せるタイプのサイトは、サムネイル画像の幅を300px以内に収まるようにしておくと作る方にも見る方にもいいような気がする。<br>
+        少なくとも写真のサムネイルについては、個人レベルなら高ppiデバイスのことは気にしなくてもいい気がする。<br>
+        画像を見せるサイトということはページあたりの画像の数も増えるだろうし、その1つ1つの容量を増やしてまで対応する必要性が感じられなかった。
+      </p>
+    </li>
+    <li>
+      <p>
+        高ppiデバイスでぼやけるのがよくないロゴやアイコンについてはSVGでいいと思う。
+      </p>
+    </li>
+    <li>
+      <p>
+        ドロップダウンメニューは、タッチ環境ではタップで開閉、マウス環境はホバーで開閉すると使いやすいと思った。<br>
+        Modernizrで判別するのがいいかも。<br>
+        <a href="http://dev.w3.org/csswg/mediaqueries4/">Media Queries Level 4</a>には<code>hover</code>なんてのがあるので、上手いことやればその辺も処理できそうな気がする。今は無理だけど。
+      </p>
+    </li>
+    <li>
+      <p>
+        スマートフォンは基本的に文字が綺麗なので少し小さめでも読みやすいし、小さいと感じたら拡大も容易。<br>
+        ただしフォントサイズの最小は12pxくらいにしておくのが無難。<br>
+        個人的には14pxくらいが最小の方が好み。
+      </p>
+    </li>
+    <li>
+      <p>
+        ボタンはパディングを大きめに。<br>
+        『UX Movement』の「<a href="http://uxmovement.com/buttons/finger-friendly-design-ideal-mobile-touch-target-sizes/">Finger-Friendly Design</a>」（面白いので是非読みましょう）によると、大人の指先のタッチ範囲は45～57pxだそうで、それくらいの大きさにはしておきたい。<br>
+        実際に試したら、45pxが押しやすいと感じる下限だと思った。最初は32pxだったけど、それだとちょっと厳しい。<br>
+        iPhoneはタッチ精度がとても優れているので、少しくらい小さくても苦にはならない。が、Androidはデバイスごとに精度が違うし、そもそも感度が悪いデバイスもある。<br>
+        そういうところも考えると、やはり45pxくらいはほしい。最低でも35pxは必要だと感じる。
+      </p>
+    </li>
+    <li>
+      <p>
+        45pxは幅だけじゃなくて高さも同様。<br>
+        ただ、現行のiPhone（3～4S）は表示領域の高さが小さいからちょっと窮屈になる。そのあたりとの兼ね合いも見て調整するのがいい。
+      </p>
+    </li>
+    <li>
+      <p>
+        同様の理由で、<span class="nowrap">[Prev]…[5][6][7]…[Next]</span>みたいなナビゲーションはスマートフォンだとつらいので、真ん中部分を非表示にして<span class="nowrap">[Prev][Next]</span>みたいなタイプに切り替えて、リンクを大きくするのもありだと思う。
+      </p>
+    </li>
+    <li>
+      <p>
+        スマートフォンを縦向き（ポートレート）で使っている場合、<span class="nowrap">[Prev][Next]</span>みたいなナビゲーションは左右中央のどちらかにまとめるより、[Prev]を左端、[Next]を右端のようにしたほうが操作しすいかもしれない。<br>
+        逆に画面の幅が広がるとそれは使いにくくなるので、ボタンをより長くするかどちらかにまとめたほうがいいと思う。
+      </p>
+    </li>
+    <li>
+      <p>
+        iOSは<code>&lt;input type=&quot;file&quot;&gt;</code>が動かないので、画像なんかを投稿してもらうにはメールにするか、専用アプリ作るしかない。<br>
+        ただiOS 6からはできるらしいので、この心配はなくなるでしょう。<br>
+        Androidは2.2から対応しているのであんまり気にしなくてもいいかも。駄目ならメールで。
+      </p>
+    </li>
+    <li>
+      <p>
+        iOSの場合、メール投稿の場合でも<code>&lt;a href=&quot;mailto:post@example.com&quot;&gt;メールアドレス&lt;/a&gt;</code>のようなものからは画像が添付できないらしい。画像閲覧アプリからやってもらうしかないようだ。MMSならいけるっぽいけど容量制限がある。<br>
+        この辺の話は『Shin x blog』の「<a href="http://www.1x1.jp/blog/2010/08/tips_for_receive_email_from_iphone_mms.html">iPhone MMSから送信されたメールを処理する際の注意点</a>」と「<a href="http://www.1x1.jp/blog/2010/08/tips_for_upload_image_from_iphone_safari.html">iPhone Safariから画像を投稿する方法</a>」が分かりやすかった。<br>
+        iOS 6でどうなるのかは知らない。
+      </p>
+    </li>
+    <li>
+      <p>
+        「もっと見る」みたいなボタンを押してコンテンツを継ぎ足していくタイプのUIは、そこから移動してブラウザの戻るボタンで戻ってきたときのことまで考えて作らないといけない。<br>
+        戻ってきたらまたボタンを押して読み込むところから始めさせてはうんざりされる。<br>
+        今回はsessionStorageを使うことで対応した。もっと他にいい方法があるかもしれない。
+      </p>
+    </li>
+    <li>
+      <p>
+        あんまり情報がなかったけど、POSTなフォームのサブミットボタンを押したらZipをダウンロードさせる場合、Androidブラウザだとほぼ確実に失敗するっぽい。GETなら大丈夫のようだ。<br>
+        他にもファイルのダウンロードについては色々と問題があるので、『DigiBlog』の「<a href="http://www.digiblog.de/2011/04/android-and-the-download-file-headers/">Android and the HTTP download file headers</a>」を読んでおくといいかも。<br>
+        Opera MobileやDolphin HDでは上手くダウンロードできるので、それを提示するという手もある。
+      </p>
+    </li>
+    <li>
+      <p>
+        他、Androidのバグについては検索すればだいたい出てくる。日本語の情報も多い。
+      </p>
+    </li>
+  </ul>
+</section>
+<section>
+  <h2>他</h2>
+  <ul>
+    <li>
+      <p>
+        <a href="http://www.caniuse.com/">When can I use&#8230;</a>、お世話になっています。
+      </p>
+    </li>
+    <li>
+      <p>
+        4つ全部<a href="http://www.jetbrains.com/phpstorm/">PhpStorm</a>を使って作ってる。
+      </p>
+    </li>
+    <li>
+      <p>
+        困ったら検索しましょう。
+      </p>
+    </li>
+  </ul>
+</section>
+<p>
+  他にもあった気がするけど、とりあえずこんなところで。<br>
+  また何かあったら書きます。
+</p>

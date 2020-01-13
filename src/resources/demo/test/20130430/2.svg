@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+width="640" height="400">
+<defs>
+<image id="page1" xlink:href='image.png' width="640" height="400" x="0" y="0"/>
+</defs>
+
+<use xlink:href="#page1" />
+
+</svg>

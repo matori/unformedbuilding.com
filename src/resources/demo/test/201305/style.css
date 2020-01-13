@@ -1,0 +1,61 @@
+body {
+  margin: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+li > a {
+  display: block;
+  padding: 10px;
+}
+
+
+#main li {
+  border-top: 1px solid gray;
+}
+
+#side li {
+  border-top: 1px solid black;
+}
+
+#main {
+  background: white;
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.open #main {
+  -webkit-transform: translateX(240px);
+  transform: translateX(240px);
+  overflow: hidden;
+}
+
+#side {
+  background: #444;
+  width: 240px;
+  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+}
+
+.open #side {
+  visibility: visible;
+  z-index: 1;
+  overflow: scroll;
+}
+
+.open #side ul {
+
+}
+
+#side a {
+  color: white;
+}

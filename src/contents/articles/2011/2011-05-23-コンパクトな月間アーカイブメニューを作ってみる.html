@@ -1,0 +1,247 @@
+<script type="application/x-yaml">
+title: "コンパクトな月間アーカイブメニューを作ってみる"
+description: "月間アーカイブメニューがスペース取りすぎだと思っているので自分なりにコンパクトなアーカイブリンクを作ってみました。"
+slug: compact-archive-with-jquery
+published: 2011-05-23T11:59:23+09:00
+updated: 2011-05-23T11:59:23+09:00
+category: webdev
+
+</script>
+
+<p>
+  よくブログのサイドバーやフッターなんかで見かける月間アーカイブメニューですが、ちょっとスペース取りすぎだと思っています。<br>
+  そんなアーカイブメニューですが、素敵なデザインを見かけましたので、そのデザインを参考にして自分なりにコンパクトなアーカイブメニューを作ってみました。<br>
+  参考にしたのは以下のサイトです。
+</p>
+<p>
+  <a href="http://devinsheaven.com/">Devin’s Heaven</a>
+</p>
+<p>
+  どんなコードかまでは確認していませんが、こういう方法があったか、と思いました。<br>
+  自分で作ってみたものは以下です。
+</p>
+<p>
+  <a href="/demo/2011/compact-archive-with-jquery/">Compact Archive w/ jQuery</a>
+</p>
+<p>
+  <a href="/download/2011/compact-archive-with-jquery.zip" download>デモファイルをダウンロード</a>
+</p>
+<p>
+  HTML部分は次の通り。<br>
+  ちょっとマークアップがアレな感じでごめんなさい。
+</p>
+<pre><code class="language-html">&lt;div class=&quot;archives&quot;&gt;
+  &lt;div class=&quot;year-select&quot;&gt;
+    &lt;ol&gt;
+      &lt;li&gt;&lt;a href=&quot;#year2011&quot;&gt;2011&lt;/a&gt;&lt;/li&gt;
+      ......
+    &lt;/ol&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;monthly-archives&quot;&gt;
+    &lt;ol id=&quot;year2011&quot;&gt;
+      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Jan&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Feb&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Mar&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Apr&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;May&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;span&gt;Jun&lt;/span&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;span&gt;Jul&lt;/span&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;span&gt;Aug&lt;/span&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;span&gt;Sep&lt;/span&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;span&gt;Oct&lt;/span&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;span&gt;Nov&lt;/span&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;span&gt;Dec&lt;/span&gt;&lt;/li&gt;
+    &lt;/ol&gt;
+    ......
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>
+  次はCSSを。<br>
+  関係ない部分とベンダープレフィックス付きのプロパティは省略しています。
+</p>
+<pre><code class="language-css">.archives {
+  margin   : 0 auto 10px;
+  width    : 940px;
+  font-size: 16px;
+}
+
+.archives ol {
+  list-style: none;
+}
+
+/* clearfix */
+.archives:after {
+  display: block;
+  clear  : both;
+  content: &quot;&quot;;
+}
+
+.archives a,
+.archives span {
+  display        : block;
+  line-height    : 40px;
+  text-align     : center;
+  text-decoration: none;
+}
+
+.year-select,
+.monthly-archives li {
+  border-radius: 0 0 10px 10px;
+}
+
+.year-select ol,
+.monthly-archives a,
+.monthly-archives span {
+  border-radius: 0 0 8px 8px;
+}
+
+.year-select,
+.monthly-archives li {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.year-select {
+  float     : left;
+  border    : 3px solid #fff;
+  border-top: 0;
+  width     : 94px;
+}
+
+.year-select ol,
+.monthly-archives a {
+  background-image: linear-gradient(
+                      top,
+                      rgba(255, 255, 255, 0.2),
+                      rgba(255, 255, 255, 0)
+                    );
+}
+
+.year-select ol {
+  background-color: #d33682;
+  text-shadow     : 0 0 0 transparent, /* Windows Chrome 対策 */
+                    -1px -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.year-select a {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.year-select ol .active a,
+.year-select ol a:hover {
+  color: #fff;
+}
+
+.monthly-archives {
+  float: left;
+}
+
+.monthly-archives ol {
+  position: absolute;
+}
+
+.monthly-archives li {
+  float      : left;
+  margin-left: 10px;
+  border     : 3px solid #fff;
+  border-top : 0;
+  width      : 54px;
+}
+
+.monthly-archives a {
+  color           : #fff;
+  background-color: #268bd2;
+  text-shadow     : 0 0 0 transparent,
+                    -1px -1px 0 rgba(0, 0, 0, 0.2);
+  transition      : all 0.2s;
+}
+
+.monthly-archives a:hover {
+  padding-top     : 10px;
+  background-color: #cb4b16;
+}
+
+.monthly-archives span {
+  color           : #bbb;
+  background-color: #f0f0f0;
+  background-image: linear-gradient(
+                      top,
+                      transparent,
+                      rgba(0, 0, 0, 0.08)
+                    );
+  text-shadow     : 0 0 0 transparent,
+                    1px 1px 0 #fff;
+}</code></pre>
+<p>
+  最後にjQueryで色々します。<br>
+  今回「jQueryでやらなくてもいいんじゃね」と思ったアニメーションはCSSでやっています。
+</p>
+<pre><code class="language-javascript">jQuery(function ($) {
+
+  var $years      = $('.year-select').children(),
+      $yearLists  = $years.children('li'),
+      $selectYear = $yearLists.children('a'),
+      $months     = $('.monthly-archives').children();
+
+  // 年リストのアイテム1つ分と全部表示しているときの高さ
+  var singleHeight = $yearLists.height(),
+      totalHeight  = singleHeight * $yearLists.length;
+
+  // 年リストの最初にactiveというクラス名をつける
+  $yearLists.eq(0).addClass('active');
+
+  // 年リストと年別アーカイブの最初以外を隠す
+  $yearLists.filter(':gt(0)').hide();
+  $months.filter(':gt(0)').hide();
+
+  // 年リストの高さをアイテム1つ分に
+  $years.css('height', singleHeight);
+
+  // 年リストにホバーしたときの動作
+  $years.hover(
+    function () {
+      // 年リストを全表示
+      $yearLists.show();
+      // 年リストの高さを全表示分まで変更
+      $(this).stop().animate({'height': totalHeight});
+    },
+    function () {
+      // 年リストで active というクラスがないものは非表示に
+      $yearLists.filter(':not(.active)').hide();
+      // 年リストの高さをアイテム1つ分に変更
+      $(this).stop().animate({'height': singleHeight});
+    }
+  );
+
+  // 年リストのアイテムをクリックしたときの動作
+  $selectYear.click(function (e) {
+
+    // リンクを無効にする
+    e.preventDefault();
+
+    // 表示中のアイテムだったら何もしない
+    if($(this).parent().hasClass('active')) return;
+
+    // クリックしたaの親liのインデックス番号
+    var target = $(this).parent().index();
+
+    // activeというクラス名を全体から削除
+    $yearLists.removeClass('active');
+    // クリックしたaの親liにactiveというクラス名をつける
+    $(this).parent().addClass('active');
+
+    // 年別アーカイブの表示しいている部分をフェードアウト
+    $months.filter(':not(:hidden)').fadeOut();
+    // 年リストと同じインデックス番号の年別アーカイブを表示
+    $months.eq(target).fadeIn();
+  });
+
+});</code></pre>
+<p>
+  これでとりあえずは動くと思います。<br>
+  CSS Transitions非対応ブラウザでも同じアニメーション使いたい場合は自分で追加してください。<br>
+  あと、古いIE対策はしていませんので、その辺も対応する場合はCSS書き直してください。
+</p>
+<p>
+  WordPressに対応させる場合には「<a href="http://wordpress.org/extend/plugins/compact-archives/">Compact Archives</a>」を改造して作るといいんじゃないでしょうか。<br>
+  改造といっても出力するHTMLを書き換えるだけですので、このプラグインの場合はそんなに難しくないと思います。
+</p>

@@ -1,0 +1,282 @@
+<script type="application/x-yaml">
+title: "CSS3とJavaScriptで手裏剣を作る"
+description: "少し前にjsdo.itで手裏剣を作って遊んでたんですが、そのときのメモです。"
+slug: make-a-shuriken-on-css3-and-javascript
+published: 2011-01-20T14:48:10+09:00
+updated: 2020-01-06T18:01:02+09:00
+category: webdev
+</script>
+
+<p>
+  少し前に『jsdo.it』で手裏剣を作って遊んでたんですが、そのときのメモです。<br>
+  最終的には全然違うものになってしまいましたが、色々と学べたので良しとしますｗ
+</p>
+<p>
+  とりあず最終的に出来上がったものをどうぞ。Webkitブラウザなら大丈夫だと思いますが、一応Safariで見ることをお勧めします。
+</p>
+<p>
+  <a href="/demo/2011/shuriken/">CSS3とJavaScriptで八方手裏剣</a>
+</p>
+<p>
+  <a href="/download/2011/shuriken.zip" download>デモファイルをダウンロード</a>
+</p>
+<p>
+  手裏剣はキャッチできますよ。
+</p>
+<section>
+  <h2>最初は要素を無限に回転させたかった</h2>
+
+  <pre><code class="language-html">&lt;h1 id=&quot;rotate&quot;&gt;R&lt;/h1&gt;</code></pre>
+  <pre><code class="language-css">h1 {
+  display: inline-block;
+  margin: 40px;
+  font-size: 80px;
+}</code></pre>
+  <pre><code class="language-javascript">var elm = document.getElementById('rotate');
+var degree = 0;
+var maxDeg = 360;
+
+function r() {
+
+  elm.style.WebkitTransform = 'rotate(' + degree + 'deg)';
+  elm.style.MozTransform = 'rotate(' + degree + 'deg)';
+  elm.style.OTransform = 'rotate(' + degree + 'deg)';
+  elm.style.MsTransform = 'rotate(' + degree + 'deg)';
+  elm.style.transform = 'rotate(' + degree + 'deg)';
+  degree += +1;
+  if (degree &lt; maxDeg) {
+    setTimeout(arguments.callee, 1);
+  } else if (degree === maxDeg) {
+    degree = 0;
+    r();
+  }
+}
+
+r();</code></pre>
+  <p>
+    CSS3の<code>transform</code>の<code>rotate()</code>を使って止まることなく回転させようと思って作ったものです。<br>
+    角度が360度以内なら角度を1度ずつ足し続けて、360度になったら角度を0に戻すという処理です。
+  </p>
+  <p>
+    これを作ったあとに<a href="https://twitter.com/GeckoTang">@GeckoTang</a>さんがフォークしてくれました。
+  </p>
+  <p>
+    そうでした、角度は360度以内じゃなきゃいけないなんてことはなかったんですｗ<br>
+    他にはJavaScript部分が<code>with(){...}</code>を使って、まとめられています。
+  </p>
+</section>
+<section>
+  <h2>せっかくなので手裏剣にしてみた</h2>
+  <pre><code class="language-html">&lt;div id=&quot;shuriken&quot; class=&quot;shu edge&quot;&gt;
+  &lt;div class=&quot;shu body&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;shuriken2&quot; class=&quot;shu edge&quot;&gt;
+  &lt;div class=&quot;shu body&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+  <pre><code class="language-css">body {
+  padding: 50px;
+  background: #000;
+}
+
+.shu {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  background: #eef;
+}
+
+.shu:before {
+  display: block;
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  content: &quot;&quot;;
+  background: #eef;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.body {
+  background: #101010;
+  -webkit-transform: scale(0.95);
+  -moz-transform: scale(0.95);
+  -o-transform: scale(0.95)
+  -ms-transform: scale(0.95)
+  transform: scale(0.95)
+}
+
+.body:before {
+  background: #101010;
+}
+
+.body:after {
+  display: block;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 80px;
+  height: 80px;
+  content: &quot;\00273f&quot;;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  background: -webkit-gradient(radial, center center, 0, center center, 40, from(rgba(255, 255, 255, 0.1)), to(rgba(255, 255, 255, 0)));
+  background: -moz-radial-gradient(center center, farthest-side, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+  color: #200;
+  font-size: 40px;
+  text-align: center;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, 1px 1px 0 #000, -1px 1px 0 #000;
+  line-height: 80px;
+}
+
+
+/* ここからCSSアニメーション用 */
+
+
+#shuriken2 {
+  margin-top: 50px;
+  -webkit-animation-name: rotation;
+  -webkit-animation-duration: 3s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes rotation {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(-360deg);
+  }
+}</code></pre>
+  <pre><code class="language-javascript">function rotateAnim(id, direction, speed) {
+
+  var elm = document.getElementById(id);
+  var degree = 0;
+  var d = direction.toLowerCase();
+  var s = speed;
+
+  if (d === 'right') {
+    d = '+';
+  } else if (d === 'left') {
+    d = '-';
+  }
+
+  var c = parseFloat(d + s);
+
+  function r() {
+
+    with(elm.style) {
+      WebkitTransform = 'rotate(' + degree + 'deg)';
+      MozTransform = 'rotate(' + degree + 'deg)';
+      OTransform = 'rotate(' + degree + 'deg)';
+      MsTransform = 'rotate(' + degree + 'deg)';
+      transform = 'rotate(' + degree + 'deg)';
+    }
+    degree += c;
+    setTimeout(arguments.callee, 1);
+  }
+
+  r();
+
+}
+
+window.onload = rotateAnim('shuriken', 'left', 0.5);
+</code></pre>
+  <p>
+    ここでは、回転させる要素を手裏剣にして、回転させる部分を関数化してみました。<br>
+    対象要素・回転方向・スピードを指定することができます。<br>
+    おまけでCSSアニメーションバージョンがついています。
+  </p>
+  <p>
+    手裏剣の作り方はCSS部分を読んでもらえると分かるかと思います。
+  </p>
+  <p>
+    これを更にフォークしてCSS3の<code>transition</code>と<code>webkitTransitionEnd</code>イベントを使って無限に回転させるものを作りました。<br>
+    また、最後に3D Transformsを使って奥行きのある動きのものも追加しました。
+  </p>
+</section>
+<section>
+  <h2>以上を踏まえて作ったもの</h2>
+  <p>
+    出来上がったものはデモページをご覧ください。
+  </p>
+  <p>
+    <a href="/demo/2011/shuriken/">CSS3とJavaScriptで八方手裏剣</a>
+  </p>
+  <p>
+    簡単に説明すると、通常状態、セットされた状態、飛んでいる最中にクラス名を振って、それぞれにCSSで指定をしています。<br>
+    1回クリックすると、セット状態のクラスを追加。<br>
+    2回目で投げる（CSSアニメショーン）。<br>
+    3回目で初期状態に（その前にちょろっとお遊びを入れてますがｗ）。
+  </p>
+  <p>
+    JavaScript部分は以下のようになります。<br>
+    CSSなどはデモページで見るかダウンロードしてご確認ください。
+  </p>
+  <pre><code class="language-javascript">var $elm = $('#shuriken');
+
+/* クリックしたときにクラス名を変更していく */
+$elm.toggle(
+        function() {
+            $(this).addClass('set');
+        },
+        function() {
+            $(this).removeClass('set').addClass('throw');
+        },
+        function() {
+            // クラス名returnがある場合にはキャッチしたと表示
+            if($(this).hasClass('return')) {
+                $(this).hide().removeClass('throw return');
+                $('#catched').show().delay(2000).fadeOut(function() {
+                    $elm.fadeIn('fast');
+                });
+            }
+            // ない場合は奥に向かって飛んでいる状態なのでそのまま初期に戻す
+            else {
+                $(this).removeClass('throw');
+            }
+        })
+
+    // アニメーションが始まったときの処理
+    .bind('webkitAnimationStart', function() {
+        // 1.5秒したらreturnというクラス名を付ける
+        // 1.5秒はCSSアニメーションから算出。scale(0)になるタイミング
+        // throwというクラス名がない場合は初期に戻されているので何もしない
+        setTimeout(function() {
+            if($elm.hasClass('throw')) {
+                $elm.addClass('return');
+            }
+        }, 1500);
+    })
+
+    // アニメーションが終了したときの処理
+    // 終了＝キャッチされなかった、なので、#killedを表示したあと、初期状態に
+    .bind('webkitAnimationEnd', function() {
+        $(this).hide().removeClass('throw return');
+        $('#killed').show().delay(2000).fadeOut(function() {
+            $elm.fadeIn('fast');
+        });
+    });</code></pre>
+  <p>
+    本当はjQueryなしで作ろうとしたんですが、だんだん面倒くさくなってきたので……。<br>
+    JS部分だけ見るとそんなに難しいことはしてません。<br>
+    一番大変だったのはCSSアニメーションです。<br>
+    特に3D Transformsは大変です。
+  </p>
+</section>
+<p>
+  練習のつもりで作ってみましたが、思いもかけず色々と勉強になりました。<br>
+  フォークしたりされたりの楽しさを初めて実感したような気もします。
+</p>
+<ins datetime="2020-01-06T18:01:02+09:00">
+  <hr>
+  <p>
+    <b>2020年1月6日 追記：</b><br>
+    『jsdo.it』は2019年に閉鎖されましたので、回収できた自分のコードだけデモページに移行しました。
+  </p>
+</ins>

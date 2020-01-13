@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>CSS Filter Effects Sample</title>
+<style>
+h1,
+.container {
+  margin: 40px auto;
+  width : 620px;
+}
+
+h1 {
+  font-size  : 36px;
+  font-weight: normal;
+  font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+  line-height: 1;
+  text-align : center;
+}
+
+ul {
+  margin    : 40px 0;
+  padding   : 0;
+  text-align: center;
+  list-style: none;
+}
+
+li {
+  display: inline-block;
+  margin : 5px;
+}
+
+button {
+  margin     : 0;
+  padding    : 3px 5px;
+  border     : 1px solid #ccc;
+  background : #f0f0f0;
+  font-size  : 16px;
+  font-family: "Monaco", "Consolas", monospace;
+  cursor     : pointer;
+}
+
+.active {
+  border-color: #dc322f;
+}
+
+button:hover {
+  border-color: #268bd2;
+}
+
+.images {
+  padding   : 20px;
+  border    : 1px solid #ccc;
+  text-align: center;
+}
+
+img {
+  margin        : 0 20px;
+  vertical-align: middle;
+}
+</style>
+</head>
+<body>
+
+<h1>CSS Filter Effects Sample</h1>
+
+<div class="container">
+
+  <ul>
+    <li><button>grayscale()</button></li>
+    <li><button>sepia()</button></li>
+    <li><button>saturate(50%)</button></li>
+    <li><button>hue-rotate(180deg)</button></li>
+    <li><button>invert()</button></li>
+    <li><button>opacity(50%)</button></li>
+    <li><button>brightness(20%)</button></li>
+    <li><button>contrast(200%)</button></li>
+    <li><button>blur(3px)</button></li>
+    <li><button>drop-shadow(rgba(0, 0, 0, 0.7) 3px 3px 6px)</button></li>
+  </ul>
+
+  <div class="images">
+    <img src="sample.jpg" class="effect" />
+    <img src="sample.png" class="effect" />
+  </div>
+
+</div>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script type="text/javascript">
+jQuery(function ($) {
+
+  var buttons = $('button'),
+      target = $('img');
+
+  buttons.on('click', function() {
+    buttons.removeClass('active');
+    $(this).addClass('active');
+    target.css('-webkit-filter', this.textContent);
+  });
+
+});
+</script>
+</body>
+</html>

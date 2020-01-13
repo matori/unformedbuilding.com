@@ -1,0 +1,28 @@
+<script type="application/x-yaml">
+title: "figure要素内の表のキャプションはcaption要素かfigcaption要素か"
+description: "figure要素内の表が1つの場合、表のキャプションはどうマークアップすべきか。"
+slug: table-caption-in-figure-element
+published: 2013-08-15T13:51:40+09:00
+updated: 2013-08-15T13:51:40+09:00
+category: webdev
+</script>
+
+<p>
+  表が2つ以上だったら表のキャプションとフィギュアのキャプションがあってもいいんですが、表が1つの場合はどうするべきなんだろうと考えてみたけど分からなかったので、検索したらすぐ見つかりました。
+</p>
+<figure>
+  <blockquote cite="http://www.whatwg.org/specs/web-apps/current-work/multipage/tabular-data.html#the-caption-element">
+    <p>
+      When a table element is the only content in a figure element other than the figcaption, the caption element should be omitted in favor of the figcaption.
+    </p>
+  </blockquote>
+  <figcaption>
+    <cite><a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/tabular-data.html#the-caption-element">HTML Standard - 4.9.2 The caption element</a></cite>
+  </figcaption>
+</figure>
+<p>
+  つまり「<code>table</code>要素が<code>figcaption</code>要素以外の<code>figure</code>要素の唯一の要素内容の場合は、<code>figcaption</code>要素を優先して<code>caption</code>要素は省略されるべきである」と。
+</p>
+<p>
+  ごちゃごちゃ考えるのは仕様を見てからでいいですね、はい。
+</p>

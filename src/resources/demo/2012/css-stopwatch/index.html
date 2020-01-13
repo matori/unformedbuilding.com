@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>CSS Stopwatch { CSS Programming Advent Calendar 2012 : Day 2 }</title>
+<link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+</head>
+<body>
+
+<div class="stopwatch">
+  <input type="radio" name="switch" id="start" />
+  <input type="radio" name="switch" id="stop" />
+  <input type="radio" name="switch" id="reset" checked="checked" />
+  <input type="checkbox" name="mode" id="analogmode" checked="checked" />
+  <div class="status"></div>
+  <div class="controller">
+    <label for="start"></label>
+    <label for="stop"></label>
+    <label for="reset"></label>
+  </div>
+  <div class="toggle">
+    <label for="analogmode"></label>
+  </div>
+  <div class="counter">
+    <div class="h">
+      <div>
+        <ol class="ten">
+          <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+        </ol>
+      </div>
+    </div>
+    <div class="min">
+      <div>
+        <ol class="six">
+          <li></li><li></li><li></li><li></li><li></li><li></li>
+        </ol>
+        <ol class="ten">
+          <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+        </ol>
+      </div>
+    </div>
+    <div class="sec">
+      <div>
+        <ol class="six">
+          <li></li><li></li><li></li><li></li><li></li><li></li>
+        </ol>
+        <ol class="ten">
+          <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+        </ol>
+      </div>
+    </div>
+    <div class="msec">
+      <div>
+        <ol class="ten">
+          <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+        </ol>
+        <ol class="ten">
+          <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+        </ol>
+        <ol class="ten">
+          <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

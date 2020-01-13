@@ -1,0 +1,327 @@
+@import url(http://fonts.googleapis.com/css?family=Molengo&subset=latin);
+
+/* reset
+-----------------------------------------------------*/
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section { 
+	display: block;
+}
+
+blockquote, q {
+	quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: "";
+	content: none;
+}
+
+a {
+	color: #06a;
+}
+
+a:hover {
+	color: #00a;
+}
+
+abbr[title] {
+	padding: 0 3px;
+	border-bottom: 1px dotted;
+	cursor: help;
+}
+
+code {
+	padding: 1px 3px;
+	border-bottom: 1px solid #aaa;
+	background-color: #eee;
+	background-image: -moz-linear-gradient(top, #fff, #e6e6e6);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#e6e6e6));
+	font-family: Menlo, Monaco, Consolas, "Lucida Console", monospace;
+	letter-spacing: 0;
+}
+
+/* base style
+-----------------------------------------------------*/
+
+body {
+	color: #101010;
+	font-size: 13px;
+	font-family: "\0030d2\0030e9\0030ae\0030ce\0089d2\0030b4\0020\0050\0072\006f\0020\0057\0033", "Hiragino Kaku Gothic Pro", "\0030e1\0030a4\0030ea\0030aa", "Meiryo", Helvetica, Arial, sans-serif;
+	line-height: 1;
+}
+
+#wrapper,
+#pageFooter {
+	margin: 0 auto;
+	width: 960px;
+}
+
+h1, h2, h3 {
+	font-family: Molengo, "\0030d2\0030e9\0030ae\0030ce\0089d2\0030b4\0020\0050\0072\006f\0020\0057\0033", "Hiragino Kaku Gothic Pro", "\0030e1\0030a4\0030ea\0030aa", "Meiryo", Helvetica, Arial, sans-serif;
+}
+
+
+/* page header
+-----------------------------------------------------*/
+
+#pageHeader {
+	padding: 20px 0 60px;
+}
+
+#pageHeader hgroup {
+	text-align: center;
+}
+
+#pageHeader h1 {
+	margin-bottom: 20px;
+	color: #000;
+	font-size: 46px;
+}
+
+#pageHeader h2 {
+	margin-left: 10px;
+	color: #666;
+	font-size: 20px;
+	font-weight: 400;
+}
+
+
+/* page footer
+-----------------------------------------------------*/
+
+#pageFooter p {
+	padding: 20px 10px;
+	border-top: 1px solid #ccc;
+}
+
+
+/* wrapper
+-----------------------------------------------------*/
+
+#wrapper {
+	position: relative;
+	border-bottom: 1px solid #e0e0e0;
+}
+
+/* container
+-----------------------------------------------------*/
+
+article {
+	margin-left: 10px;
+	width: 700px;
+}
+
+/* navigation
+-----------------------------------------------------*/
+
+#sidebar {
+	position: absolute;
+	top: 166px;
+	left: 730px;
+	width: 220px;
+}
+
+#sidebar nav {
+	border: 1px solid #aaa;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+}
+
+#sidebar nav ul {
+	list-style: none;
+	font-size: 18px;
+}
+
+#sidebar nav a {
+	display: block;
+	padding: 5px 10px;
+	border-bottom: 1px solid #fff;
+	color: #888;
+	text-decoration: none;
+}
+
+#sidebar nav li:first-child a {
+	-moz-border-radius: 10px 10px 0 0;
+	-webkit-border-radius: 10px 10px 0 0;
+	border-radius: 10px 10px 0 0;
+}
+
+#sidebar nav li:last-child a {
+	-moz-border-radius: 0 0 10px 10px;
+	-webkit-border-radius: 0 0 10px 10px;
+	border-radius: 0 0 10px 10px;
+	border-bottom: 0;
+}
+
+#sidebar nav a:hover {
+	border-color: #dadada;
+	color: #666;
+	background-color: #f0f0f0;
+	background-image: -moz-linear-gradient(top, #fefefe, #eee);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#fefefe), to(#eee));
+	text-shadow: 1px 1px 0 #fff;
+}
+
+#toTop {
+	text-align: right;
+}
+
+
+/* content
+-----------------------------------------------------*/
+
+h2 code, h3 code, h4 code {
+	padding: 0;
+	border: 0;
+	background: transparent;
+}
+
+.content {
+	margin-bottom: 60px;
+}
+
+.content section {
+	margin-top: 40px;
+}
+
+.content section section {
+	margin-top: 20px;
+}
+
+.content h2 {
+	padding: 0 10px;
+	-moz-border-radius: 7px;
+	-webkit-border-radius: 7px;
+	border-radius: 7px;
+	color: #eee;
+	background: #363636;
+	font-size: 24px;
+	font-weight: 400;
+	text-shadow: 2px 2px 2px #000;
+	line-height: 40px;
+}
+
+.content header {
+	margin-bottom: 20px;
+}
+
+h3 {
+	padding: 5px;
+	border-bottom: 1px solid #888;
+	font-size: 18px;
+	font-weight: 400;
+}
+
+h4 {
+	padding: 3px 5px;
+	border: 1px dotted #666;
+	background-color: #efefef;
+	font-size: 16px;
+	font-weight: 400;
+}
+
+.content section header {
+	border-bottom: 1px solid #111;
+}
+
+
+.content section section header {
+	border: 0;
+}
+
+
+.content div {
+	line-height: 1.6;
+}
+
+.content p,
+pre,
+dl {
+	margin-bottom: 1.4em;
+}
+
+.content p,
+dl {
+	letter-spacing: 1px;
+}
+
+pre {
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	-moz-box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+	box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+	background: #f3f3f3;
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	word-wrap: break-word;
+}
+
+pre code {
+	display: block;
+	padding: 10px;
+	border: 0;
+	background: transparent;
+}
+
+pre .comment {
+	color: #383;
+}
+
+pre .highlight {
+	color: #c00;
+}
+
+dt {
+	margin-top: 1.4em;
+	font-size: 14px;
+	font-weight: 700;
+}
+
+dt code {
+	border: 0;
+	background: transparent;
+}
+
+dd {
+	margin-left: 15px;
+	padding: 5px 5px 5px 10px;
+	border-left: 5px solid #ddd;
+}
+
+dd dl {
+	margin-bottom: 0;
+}
+
+dd dt {
+	margin-top: 1em;
+}
+
+dd dd {
+	border-color: #e3e3e3;
+}
+
+.content ul {
+	padding-left: 1.4em;
+	list-style-type: circle;
+}
+
+.dlBtn span {
+	display: inline-block;
+	margin-left: 10px;
+	font-size: 16px;
+	font-style: oblique;
+	font-family: Helvetica, Arial, sans-serif;
+}

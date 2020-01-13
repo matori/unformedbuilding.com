@@ -1,0 +1,122 @@
+<script type="application/x-yaml">
+title: "ドロップダウンメニューのアイディア"
+description: "CSS 3D Transforms に対応しているブラウザにはそれを使った UI を、そうでないブラウザにはシンプルな切り替えを提供します。"
+slug: css-dropdown-menu-idea
+published: 2013-03-04T15:58:36+09:00
+updated: 2020-01-11T23:48:53+09:00
+category: webdev
+</script>
+
+<figure>
+  <img src="/images/2013/navigation-concept/result.png" width="620" height="260" alt="">
+</figure>
+<p>
+  よくあるドロップダウンメニューのアイディアです。<br>
+  CSS 3D Transformsに対応しているブラウザにはそれを使ったUIを、そうでないブラウザにはシンプルな切り替えを提供します。
+</p>
+<ins datetime="2020-01-11T23:48:53+09:00">
+  <p>
+    <a href="/demo/2013/css-dropdown-menu-idea/">ドロップダウンメニューのアイディア</a>
+  </p>
+</ins>
+<!--
+<div style="margin-bottom:1.6em">
+  <script type="text/javascript" src="http://jsdo.it/blogparts/3tdt/js?width=620&amp;height=400&amp;view=readme"></script>
+</div>
+-->
+<p>
+  CSSのみ補足コメントつきで載せておきます。
+</p>
+<pre><code class="language-css">.nav a {
+  display: block;
+  padding: 0 0.5em;
+  color: #f6f6f6;
+  line-height: 2;
+  text-decoration: none;
+}
+
+/* ulのスタイルリセット */
+.nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* clearfix */
+.nav &gt; ul:after {
+  display: block;
+  clear: both;
+  content: &quot;&quot;;
+}
+
+/* メニューを横並びに */
+.nav &gt; ul &gt; li {
+  position: relative;
+  float: left;
+  width: 20%;
+}
+
+/*
+  何もない(ように見える)場所でマウスオーバーイベントが発生してしまうので
+  visibility: hideen;して反応しないようにする
+*/
+.children {
+  position: absolute;
+  width: 100%;
+  visibility: hidden;
+  perspective: 500px;
+}
+
+/* 親にマウス乗ったら表示 */
+.nav &gt; ul &gt; li:hover .children {
+  visibility: visible;
+}
+
+.children a {
+  background-color: #1e1e1e;
+}
+
+.children a:hover {
+  background-color: #454545;
+}
+
+/*
+  フェードインのように見せたいのでopacity: 0;
+  Y軸に対して90度回転させる
+  transitionはopacityとtransformになる
+*/
+.children li {
+  opacity: 0;
+  transform: rotateY(90deg);
+  transition: 0.25s linear;
+}
+
+/*
+  Opera (Presto)は3D Transformsに非対応で
+  opacityだけtransitionしてしまうのでtransitionを消す
+  見づらいから
+*/
+:-o-prefocus,
+.children li {
+  transition: none;
+}
+
+/* 親メニューにマウス乗ったら回転を戻して不透明度も最大に */
+.nav &gt; ul &gt; li:hover .children li {
+  opacity: 1;
+  transform: rotateY(0);
+}
+
+/* パラパラ感を出すために少し遅らせてtransitions開始 */
+.children li:nth-child(2) {
+  transition-delay: 0.05s;
+}
+
+/* 以下0.05sずつ遅らせる */
+.children li:nth-child(3) {
+  transition-delay: 0.1s;
+}</code></pre>
+<p>
+  思いついたので作ってみたんですけど、使い勝手微妙そう……。<br>
+  似たようなのでもっといいもの既に作ってる人いそうな気がします。
+</p>

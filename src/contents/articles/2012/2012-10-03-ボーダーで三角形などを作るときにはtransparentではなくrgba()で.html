@@ -1,0 +1,95 @@
+<script type="application/x-yaml">
+title: "ボーダーで三角形などを作るときにはtransparentではなくrgba()で"
+description: "CSSのボーダーを使った三角形などで使われている透明（transparent）なボーダーを指定することで発生する現象について。"
+slug: css-border-triangle-broblem-on-firefox
+published: 2012-10-03T16:11:26+09:00
+updated: 2020-01-11T01:25:31+09:00
+category: webdev
+</script>
+
+<p>
+  よくCSSのボーダーを使った三角形の作り方が紹介されていますが、あれに使われている透明なボーダーのことで少し。
+</p>
+<p>
+  たとえば、こういうHTMLとCSSで三角形を作るとしましょう。よく見るタイプだと思います。
+</p>
+<pre><code class="language-html">&lt;div class=&quot;test1&quot;&gt;&lt;/div&gt;</code></pre>
+<pre><code class="language-css">.test1 {
+  width: 0;
+  height: 0;
+  border-width: 0 200px 200px 0;
+  border-style: solid;
+  border-color: transparent transparent #eee transparent;
+}</code></pre>
+<p>こっちでもいいです。好みで。</p>
+<pre><code class="language-css">.test1 {
+  ...
+  border-color: transparent;
+  border-right-color: #eee;
+}</code></pre>
+<ins datetime="2020-01-11T01:25:31+09:00">
+  <p>
+    <a href="/demo/2012/css-border-triangle/1.html">CSS Triangle 1</a>
+  </p>
+</ins>
+<!--
+<div style="margin-bottom:1.6em">
+  <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/ub_pnr/dTGp9/embedded/result,css,html" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+</div>
+-->
+<p>
+  見えづらいかもしれませんが、直角三角形になっていますね。<br>
+  ただし、Firefoxで見ると斜めのラインが濃くなっていることがあります。<br>
+  こちらではWindows Firefox 15とAurora 17.0a2 (2012-10-01)で確認済みです。ただ、Mac Firefox 15では出ないようです。<br>
+  Windowsでも発生しないことがあるので、もしかしたらハードウェアも影響しているかもしれません。
+</p>
+<figure>
+  <img src="/images/2012/css-border-triangle-broblem-on-firefox/screenshot.png" alt="デモのキャプチャ画像。Firefoxだと三角形の斜めの部分の縁が濃くなっている。">
+</figure>
+<p>
+  原因はボーダーのアンチエイリアスにあるようです。<br>
+  ボーダーの斜めのラインのアンチエイリアスにより、<code>transparent</code>と指定したボーダー色が混ざってしまって色が変わってしまう、ということです。<br>
+</p>
+<p>
+  <a href="http://coderwall.com/p/tpmsta">Chris Morgan : CSS’s &quot;transparent&quot; may not be transparent, especially on diagonal borders</a>
+</p>
+<p>
+  <a href="http://www.w3.org/TR/css3-color/#transparent"><code>transparent</code>は透明な黒（<code>rgba(0, 0, 0, 0)</code>）として扱われる</a>ので、色が濃くなってしまいます。<br>
+  先ほどのリンク先にもありますが、解決策は<code>transparent</code>ではなく、透明なボーダー色を指定することです。これなら色が混ざっても見た目には問題ありません。
+</p>
+<p>
+  「<code>rgba()</code>とか使ったらIE 8で上手く表示されないのでは？」という問題がありますが、それは指定を上書きすることで対応できます。
+</p>
+<p>
+  先ほどの例で試してみましょう。
+</p>
+<pre><code class="language-css">.test1 {
+  width: 0;
+  height: 0;
+  border-width: 0 200px 200px 0;
+  border-style: solid;
+  border-color: transparent transparent #eee transparent;
+  border-right-color: rgba(238, 238, 238, 0); /* 追加した部分 */
+}</code></pre>
+<ins datetime="2020-01-11T01:25:31+09:00">
+  <p>
+    <a href="/demo/2012/css-border-triangle/2.html">CSS Triangle 2</a>
+  </p>
+</ins>
+<!--
+<div style="margin-bottom:1.6em">
+  <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/ub_pnr/jqNne/embedded/result,css,html" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+</div>
+-->
+<p>
+  上手くできました。<br>
+  <code>rgba()</code>じゃなくて<code>hsla()</code>でもいいと思います。
+</p>
+<p>
+  というわけなので、ボーダーで三角形作ったりするときには一応この辺もチェックしてみた方がいいですよ、ということでした。<br>
+  それと、<a href="https://twitter.com/GeckoTang">@GeckoTang</a>さんが<a href="http://jsdo.it/GeckoTang/wed5/">IE 7にも対応したものを作っていました</a>ので、合わせてご覧ください。
+</p>
+<hr>
+<p>
+  まあボーダーで三角形を作らないといけない機会がどれくらいあるのかとか、画像でいいじゃんとかそういうのもありますが、知っていて困ることでもないので……。
+</p>

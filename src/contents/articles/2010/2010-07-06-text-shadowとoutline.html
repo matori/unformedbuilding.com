@@ -1,0 +1,60 @@
+<script type="application/x-yaml">
+title: "text-shadowとoutline"
+description: "outlineとtext-shadowが同時に表示されるとき、Gecko系ブラウザだと他のブラウザと表示が違うのでちょっとテストしてみました。"
+slug: text-shadow-and-outline
+published: 2010-07-06T15:05:20+09:00
+updated: 2010-07-06T15:05:20+09:00
+category: webdev
+</script>
+
+<p>
+  引き続きCSS3だよ。
+</p>
+<p>
+  今回はすでに多くのサイトで使われている<code>text-shadow</code>のこと。<br>
+  凝ったことしなければ非対応ブラウザでもそんなに問題起きないし、かなり使いやすいと思います。
+</p>
+<p>
+ <code>outline</code>プロパティってありますよね。リンクをクリックしたときとかに出るボーダーみたいなの。<br>
+  これと<code>text-shadow</code>が同時に表示されるとき、FirefoxなどのGecko系ブラウザだと他のブラウザと表示が違うのでちょっとテストしてみました。
+</p>
+<p>
+  テスト表示に使ったページはこちら。
+</p>
+<p>
+  <a href="/demo/2010/text-shadow-and-outline/demo.html">text-shadowとoutlineテスト表示用ページ</a>
+</p>
+<p>
+  HTMLとCSSは以下のようになっています。
+</p>
+<pre><code class="language-html">&lt;p&gt;&lt;a href=&quot;#&quot; class=&quot;link&quot;&gt;リンク(通常)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;#&quot; class=&quot;link text-shadow&quot;&gt;リンク(影有)&lt;/a&gt;&lt;/p&gt;</code></pre>
+<pre><code class="language-css">p {
+  margin-bottom: 30px;
+}
+
+.link {
+  border: 1px solid #000;
+  outline: 1px solid #f00;
+}
+
+.text-shadow {
+  text-shadow: 0 0 10px #f0f;
+}</code></pre>
+<p>
+  これをIE以外のブラウザ（Windows）で表示すると以下の画像のようになります。
+</p>
+<figure>
+  <img src="/images/2010/text-shadow-and-outline/result.png" width="620" height="147" alt="text-shadowとoutlineテスト表示の結果比較">
+</figure>
+<p>
+  Firefoxだけアウトラインが影に合わせて広がっています。<br>
+  ボーダーはどれも同じ位置。
+</p>
+<p>
+  これはちょっと対策しようがないような気がしますね……。<br>
+  アウトラインが表示されるようなものにはぼかしの大きな影をつけないほうがいいんじゃないかと思います。
+</p>
+<p>
+  他には<code>outline: 0</code>を指定してしまうという手もありますが、対象がリンクだと個人的にはあんまりやりたくないですね。
+</p>

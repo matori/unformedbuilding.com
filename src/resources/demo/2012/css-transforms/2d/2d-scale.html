@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>CSS 2D Transforms - transform:scale() sample</title>
+</head>
+<style type="text/css">
+.container {
+  margin    : 50px auto;
+  width     : 620px;
+  box-sizing: border-box;
+}
+
+.box {
+  position   : relative;
+  float      : left;
+  margin     : 20px;
+  width      : 150px;
+  height     : 150px;
+  font       : 12px/1 "Courier New", "Courier", monospace;
+  line-height: 150px;
+  text-align : center;
+}
+
+.box > div {
+  position: absolute;
+  width   : 100%;
+  height  : 100%;
+}
+
+.base {
+  background: #e0e0e0;
+}
+
+.base + div {
+  background: rgba(255, 0, 0, 0.5);
+}
+
+.sample1 {
+  -webkit-transform: scale(1);
+  -moz-transform   : scale(1);
+  -ms-transform    : scale(1);
+  -o-transform     : scale(1);
+  transform        : scale(1);
+}
+
+.sample2 {
+  -webkit-transform: scale(1.2);
+  -moz-transform   : scale(1.2);
+  -ms-transform    : scale(1.2);
+  -o-transform     : scale(1.2);
+  transform        : scale(1.2);
+}
+
+.sample3 {
+  -webkit-transform: scale(1.2, 0.8);
+  -moz-transform   : scale(1.2, 0.8);
+  -ms-transform    : scale(1.2, 0.8);
+  -o-transform     : scale(1.2, 0.8);
+  transform        : scale(1.2, 0.8);
+}
+</style>
+<body>
+
+<div class="container">
+  <div class="box">
+    <div class="base"></div>
+    <div class="sample1">scale(1)</div>
+  </div>
+  <div class="box">
+    <div class="base"></div>
+    <div class="sample2">scale(1.2)</div>
+  </div>
+  <div class="box">
+    <div class="base"></div>
+    <div class="sample3">scale(1.2, 0.8)</div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Lunascape webkit font-family test</title>
+<style>
+html, body {
+	margin: 0;
+	padding: 0;
+}
+#container {
+	margin: 10px auto;
+	width: 506px;
+}
+.content {
+	float: left;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	padding: 10px;
+	border: 1px solid #ccc;
+	width: 140px;
+	height: 85px;
+}
+.content:nth-child(3n) {
+	margin-right: 0;
+}
+.content:nth-child(4) {
+	clear: both;
+}
+h1 {
+	font-size: 24px;
+	font-family: "Times New Roman", serif;
+	text-align: center;
+}
+h2 {
+	margin: 0 0 10px;
+	font-size: 18px;
+	font-weight: bold;
+}
+p {
+	margin: 0;
+}
+
+#test1 {
+	font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", "Helvetica", "Arial", sans-serif;
+}
+
+#test2 {
+	font-family: "Helvetica", "Arial", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", sans-serif;
+}
+
+#test3 {
+	font-family: "Helvetica", sans-serif;
+}
+
+#test4 {
+	font-family: "Dummyfont", "Times New Roman", serif;
+}
+
+#test5 {
+	font-family: "Menlo", "Consolas", monospace;
+}
+
+#test6 {
+	font-family: "ＭＳ Ｐ明朝", "MS PMincho", serif;
+}
+</style>
+</head>
+<body>
+
+<h1>Lunascape webkit font-family test</h1>
+
+<div id="container">
+
+<div id="test1" class="content">
+	<h2>#test1</h2>
+	<p>
+	あいうえお朝昼夜<br />
+	ABCdef<br />
+	</p>
+</div>
+
+<div id="test2" class="content">
+	<h2>#test2</h2>
+	<p>
+	あいうえお朝昼夜<br />
+	ABCdef<br />
+	</p>
+</div>
+
+<div id="test3" class="content">
+	<h2>#test3</h2>
+	<p>
+	あいうえお朝昼夜<br />
+	ABCdef<br />
+	</p>
+</div>
+
+<div id="test4" class="content">
+	<h2>#test4</h2>
+	<p>
+	あいうえお朝昼夜<br />
+	ABCdef<br />
+	</p>
+</div>
+
+<div id="test5" class="content">
+	<h2>#test5</h2>
+	<p>
+	あいうえお朝昼夜<br />
+	ABCdef<br />
+	</p>
+</div>
+
+<div id="test6" class="content">
+	<h2>#test6</h2>
+	<p>
+	あいうえお朝昼夜<br />
+	ABCdef<br />
+	</p>
+</div>
+
+</div>
+
+</body>
+</html>

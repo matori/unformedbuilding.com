@@ -1,0 +1,23 @@
+{% extends "./_base.njk" %}
+
+{% set isHome = false %}
+{% set is404 = true %}
+{% set style = "404.scss" %}
+{% set description = "お探しのページは削除されたか、はじめから存在していなかった可能性があります。" %}
+
+{% block main %}
+  <main class="Page-main">
+    <section class="NotFound">
+      <h2 class="NotFound-heading">ページが見つかりませんでした</h2>
+      <div class="NotFound-body">
+        <p class="NotFound-message">
+          お探しのページは削除されたか、はじめから存在していなかった可能性があります。<br>
+        </p>
+      </div>
+    </section>
+  </main>
+{% endblock %}
+
+{% block footer %}
+  {% include "../includes/partials/footer.njk" %}
+{% endblock %}

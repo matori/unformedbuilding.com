@@ -1,0 +1,12 @@
+<footer class="Footer">
+  <nav class="Nav">
+    <h2 class="Nav-heading">コンテンツ</h2>
+    <ul class="Nav-list">
+      {% for navItem in nav %}
+        <li class="Nav-item">
+          <a href="{{ navItem.url }}" class="Nav-link">{{ navItem.label }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+</footer>

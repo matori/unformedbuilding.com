@@ -1,0 +1,120 @@
+<script type="application/x-yaml">
+title: "CSSでつまづいたポイント ― transparent, transition, box-sizing"
+description: "過去にCSSでつまづいたポイントとかメモしておこうと思います。"
+slug: 3-css-points-i-failed
+published: 2011-11-24T15:53:54+09:00
+updated: 2011-11-24T18:03:19+09:00
+category: webdev
+</script>
+
+<p>
+  過去にCSSでつまづいたポイントとかメモしておこうと思います。<br>
+  このくらい分かっとけと言われそうですが、まあ自分はその程度だということで。
+</p>
+<section>
+  <h2><code>transparent</code>について</h2>
+  <p>
+    CSSグラデーションで何か黒くなるなーと思ったら、<code>transparent</code>を使っていないかどうか見てみましょう。<br>
+    たとえば、透明から青に綺麗にグラデーションしたいという場合、次のような指定では上手くいきません。
+  </p>
+  <pre><code class="language-css">.gradient {
+  background: linear-gradient(top, transparent, #268bd2);
+}</code></pre>
+  <p>
+    こういう場合、グラデーション開始地点の色を<code>transparent</code>ではなく、終了地点の色をrgbaで不透明度<code>0</code>で指定します。<br>
+    今回は<code>#268bd2</code>ですので、<code>rgba(38, 139, 210, 0)</code>ですね。
+  </p>
+  <p>
+    修正後はこんな感じの指定になります。
+  </p>
+  <pre><code class="language-css">.gradient {
+  background: linear-gradient(top, rgba(38, 139, 210, 0), #268bd2);
+}</code></pre>
+  <p>
+    色の指定方法が混ざって分かりづらいときは終了地点もrgbaかrgbで書くといいんじゃないでしょうか。<br>
+    違いはデモでご確認ください。
+  </p>
+  <p>
+    <a href="/demo/2011/3-css-points-i-failed/transparent.html">transparentを使ったCSSグラデーション</a>
+  </p>
+  <p>
+    なんでこういうことが起きるのかというと、<code>transparent</code>は<code>rgba(0, 0, 0, 0)</code>のショートハンドキーワードとして扱われるからです。つまりは黒の不透明度ゼロですね。<br>
+    CSS Color Module Level 3に書かれていますのでご参照ください。
+  </p>
+  <p>
+    <a href="http://www.w3.org/TR/css3-color/#transparent">CSS Color Module Level 3 - 4.2.3. ‘transparent’ color keyword</a>
+  </p>
+  <ins datetime="2011-11-24T17:53:47+09:00">
+    <p><code>transparent</code>はグラデーションのときと、<code>transition</code>のときでは扱いが変わるそうです。</p>
+    <p class="link">
+      <a href="http://hail2u.net/blog/webdesign/transparent-keyword-in-css-gradient.html">CSS Gradientにおける&quot;transparent&quot; - Weblog - hail2u.net</a>
+    </p>
+  </ins>
+  <ins datetime="2011-11-24T18:01:32+09:00">
+    <p>Operaだとグラデーションのときにも自動で色調整してるっぽいです。さっきのデモをOperaで見ると黒い部分はでてきません。</p>
+  </ins>
+</section>
+<section>
+  <h2>ホバー時の<code>transition</code>について</h2>
+  <p>
+    ある要素にマウスオーバーしたときに何か変化させるというのはよくありますが、<code>transition</code>でその変化をアニメーションさせられるようになります（なりました）。<br>
+    そこでハマったのは、マウスが乗ったときはアニメーションしながら変化するのに、マウスが離れたら一瞬で元の状態に戻ってしまう、というもの。
+  </p>
+  <p>
+    マウスが乗ったときには背景色を変えたいと思って、次のように書いたとしましょう。
+  </p>
+  <pre><code class="language-css">.transition {
+  background: #fff;
+}
+
+.transition:hover {
+  background: #268bd2;
+  transition: all 1s linear;
+}</code></pre>
+  <p>
+    こういう指定をするとマウスが離れたときに一瞬で戻ってしまいます。<br>
+    これを修正するには次のように書きます。
+  </p>
+  <pre><code class="language-css">.transition {
+  background: #fff;
+  transition: all 1s linear;
+}
+
+.transition:hover {
+  background: #268bd2;
+}</code></pre>
+  <p>
+    <code>transition</code>の指定を<code>:hover</code>のところじゃなくて、元の要素に指定を変更しました。<br>
+    <code>:hover</code>に指定すると、マウスが乗っているときだけの指定になってしまうので、マウスが離れたときには適用されず、すぐ元の状態に戻ってしまいます。
+  </p>
+  <p>
+    <a href="/demo/2011/3-css-points-i-failed/transition.html">:hoverに適用したtransition</a>
+  </p>
+  <p>
+    ホバーで何か<code>transition</code>使ってアニメーションさせるときには、<code>:hover</code>擬似クラスではなく、元のセレクタの方に指定するようにしたほうがいいでしょう。<br>
+    離れたらすぐに元の状態に戻したい場合は<code>:hover</code>に指定するといいんじゃないでしょうか。
+  </p>
+</section>
+<section>
+  <h2><code>hr</code>要素がFirefoxだけ変</h2>
+  <p>
+    何もスタイルを指定していない<code>hr</code>要素をFirebugで見ると分かりますが、<code>-moz-box-sizing: border-box</code>が指定されています。<br>
+    なので、最初に統一しておくといいかもしれません。
+  </p>
+  <p>
+    一応、自分は<code>hr</code>要素を使う場合にはこんな感じのを入れてます。
+  </p>
+  <pre><code class="language-css">hr {
+  -moz-box-sizing: content-box;
+  height: 0;
+}</code></pre>
+  <p>
+    <a href="http://subtech.g.hatena.ne.jp/h2u/20110322/1300770540">hr要素のbox-sizing - おれ ここ めも かきなぐる おまえ ここ よむ なぐる - subtech</a>
+  </p>
+  <p>
+    この記事読むまで知りませんでした……。
+  </p>
+</section>
+<p>
+  他にもいろいろあった気がするんですが、ぱっと思い出せるのはこのくらいです。
+</p>

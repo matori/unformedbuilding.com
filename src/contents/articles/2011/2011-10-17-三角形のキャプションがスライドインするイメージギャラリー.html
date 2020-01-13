@@ -1,0 +1,189 @@
+<script type="application/x-yaml">
+title: "三角形のキャプションがスライドインするイメージギャラリー"
+description: "Wixelというサイトを見ていて、ナビゲーションの見せ方が面白いなーと思ったので、CSS Transitionsを使ってギャラリーに応用してみました。"
+slug: sliding-triangle-caption-image-gallery
+published: 2011-10-17T16:09:26+09:00
+updated: 2012-01-06T11:58:21+09:00
+category: webdev
+</script>
+
+<p>
+  『<a href="http://www.wixel.co.uk/">Wixel</a>』を見ていて、ナビゲーションの見せ方が面白いなーと思ったので、CSS Transitionsを使ってギャラリーに応用してみました。<br>
+  まあ練習にはなったかなと思いますｗ
+</p>
+<p>
+  <a href="/demo/2011/sliding-triangle-caption-image-gallery/">ギャラリー &quot;旧古河庭園にて&quot;</a>
+</p>
+<p>
+  <a href="/download/2011/sliding-triangle-caption-image-gallery.zip" download>デモファイルをダウンロード</a>
+</p>
+<p>
+  どうでもいいですが写真は自分で撮ったものです。<br>
+  もっと見たい方は「<a href="http://d.matori.org/log/34-photos-at-kyu-furukawa-gardens/">34 Photos @ 旧古河庭園 :: mlog</a>」をどうぞ。
+</p>
+<p>
+  まずはHTMLから。<br>
+  <code>a</code>の中に<code>div</code>が入ってます。これが気持ち悪い場合には違う方法も取れますが、それについては後で書きます。
+</p>
+<pre><code class="language-html">&lt;ul class=&quot;gallery&quot;&gt;
+  &lt;li&gt;
+    &lt;a href=&quot;#&quot;&gt;
+      &lt;img src=&quot;images/01.jpg&quot; width=&quot;200&quot; height=&quot;200&quot; alt=&quot;&quot; /&gt;
+      &lt;div class=&quot;caption&quot;&gt;&lt;span&gt;洋館&lt;/span&gt;&lt;/div&gt;
+    &lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;a href=&quot;#&quot;&gt;
+      &lt;img src=&quot;images/02.jpg&quot; width=&quot;200&quot; height=&quot;200&quot; alt=&quot;&quot; /&gt;
+      &lt;div class=&quot;caption&quot;&gt;&lt;span&gt;洋館横のバラ園&lt;/span&gt;&lt;/div&gt;
+    &lt;/a&gt;
+  &lt;/li&gt;
+  ...
+&lt;/ul&gt;</code></pre>
+<p>
+  改めて見るとアレな感じですが、もっといい方法があるかと思います。<br>
+  次はCSSを。いつも通りあんまり関係ない部分とベンダープレフィックスは除いてあります。
+</p>
+<pre><code class="language-css">html, body, h1, ul, li, img, a {
+  margin : 0;
+  padding: 0;
+  border : 0;
+}
+
+.gallery {
+  margin     : 30px auto;
+  padding-top: 1px;
+  width      : 805px;
+  background : #fff;
+  box-shadow : 0 0 5px rgba(0, 0, 0, 0.4);
+  list-style : none;
+}
+
+.gallery:after {
+  clear  : both;
+  display: block;
+  content: &quot;&quot;;
+}
+
+.gallery li {
+  float   : left;
+  margin  : 0 0 1px 1px;
+  width   : 200px;
+  height  : 200px;
+  overflow: hidden;
+}
+
+.gallery a {
+  display        : block;
+  position       : relative;
+  width          : 100%;
+  height         : 100%;
+  text-decoration: none;
+}
+
+.caption {
+  position        : absolute;
+  left            : 0;
+  top             : 0;
+  z-index         : 99;
+  width           : 100%;
+  height          : 100%;
+  background      : linear-gradient(
+                      left bottom,
+                      rgba(0, 0, 0, 0.6),
+                      rgba(0, 0, 0, 0.6) 50%,
+                      transparent 50%,
+                      transparent
+                    );
+  color           : #e0e0e0;
+  transform-origin: right bottom;
+  transform       : rotate(-45deg);
+  transition      : all 300ms cubic-bezier(0.175, 0.885, 0.320, 1.275);
+  opacity         : 0;
+}
+
+.gallery a:hover &gt; .caption {
+  transform: rotate(0deg);
+  opacity  : 1;
+}
+
+.caption &gt; span {
+  position   : absolute;
+  left       : 10px;
+  bottom     : 10px;
+  font-size  : 16px;
+  text-shadow: -1px -1px 0 #000;
+}</code></pre>
+<p>
+  ポイントはキャプションを<code>transform: rotate(-45deg)</code>して、最初は見えないようにすること。その際、基準はボックスの右下に。<br>
+  ついでに不透明度もゼロに。<br>
+  それを<code>transition</code>で元の角度（ゼロ）に戻しつつ、不透明度を<code>1</code>に。<br>
+  <code>cubic-bezier()</code>はジェネレータで作りました。
+  三角っぽい背景は、左下から右上へのグラデーションで。
+</p>
+<p>
+  そんなに難しいことはしてないです。
+</p>
+<p>
+  キャプションの<code>div</code>を<code>a</code>の外に出す場合。
+</p>
+<p>
+  <a href="/demo/2011/sliding-triangle-caption-image-gallery/demo2.html">デモページ 2</a>
+</p>
+<p>
+  HTMLはこんな感じになります。
+</p>
+<pre><code class="language-html">&lt;ul class=&quot;gallery&quot;&gt;
+  &lt;li&gt;
+    &lt;a href=&quot;#&quot;&gt;
+      &lt;img src=&quot;images/01.jpg&quot; width=&quot;200&quot; height=&quot;200&quot; alt=&quot;&quot; /&gt;
+    &lt;/a&gt;
+    &lt;div class=&quot;caption&quot;&gt;&lt;span&gt;洋館&lt;/span&gt;&lt;/div&gt;
+  &lt;/li&gt;
+  ...
+&lt;/ul&gt;</code></pre>
+<p>
+  CSSはこう。
+</p>
+<pre><code class="language-css">
+.gallery li {
+  float   : left;
+  position: relative; /* 追加 */
+  margin  : 0 0 1px 1px;
+  width   : 200px;
+  height  : 200px;
+  overflow: hidden;
+}
+
+.gallery a {
+  display        : block;
+  <del>position       : relative;</del> /* 削除 */
+  width          : 100%;
+  height         : 100%;
+  text-decoration: none;
+}
+
+.caption {
+  /* ここまでは同じです */
+  pointer-events: none; /* これを追加 */
+}
+
+.gallery a:hover + .caption { /* セレクタが違います。'~'でも大丈夫 */
+  transform: rotate(0deg);
+  opacity  : 1;
+}
+
+.caption &gt; span {
+  /* ここは同じ */
+}</code></pre>
+<p>
+  まず必要なのは<code>position: relative</code>の指定要素の変更です。<br>
+  次にホバー時のセレクタを子要素から隣接セレクタにします。<br>
+  そして重要なのがキャプションに<code>pointer-events: none</code>を指定することです。<br>
+  これがないとおかしなことになります。<br>
+  （どうなるかは予想がつくと思います）
+</p>
+<p>
+  勢いで作ってはみましたが、見やすいとは言いがたいですね……。<br>
+  でもまあ作ってて楽しかったです。
+</p>

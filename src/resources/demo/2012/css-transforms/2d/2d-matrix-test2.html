@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>CSS 2D Transforms - transform:matrix() sample 2</title>
+</head>
+<style type="text/css">
+.container {
+  position  : relative;
+  margin    : 100px auto;
+  width     : 620px;
+  box-sizing: border-box;
+}
+
+.box {
+  position   : absolute;
+  left       : 0;
+  top        : 0;
+  margin     : 20px;
+  width      : 150px;
+  height     : 150px;
+  line-height: 1.3;
+}
+
+.box > div {
+  position: absolute;
+  width   : 100%;
+  height  : 100%;
+}
+
+.base {
+  background: #e0e0e0;
+}
+
+.base + div {
+  background: rgba(255, 0, 0, 0.5);
+}
+
+pre {
+  font-size: 12px;
+  font-family: "Courier New", "Courier", monospace;
+}
+
+.sample1 pre {
+  margin: 45px 2px;
+}
+
+.sample2 pre {
+  margin: 25px 20px;
+}
+
+.sample1 {
+  -webkit-transform: rotate(30deg) scale(2) translate(10px, 10px);
+  -moz-transform   : rotate(30deg) scale(2) translate(10px, 10px);
+  -ms-transform    : rotate(30deg) scale(2) translate(10px, 10px);
+  -o-transform     : rotate(30deg) scale(2) translate(10px, 10px);
+  transform        : rotate(30deg) scale(2) translate(10px, 10px);
+}
+
+.sample2 {
+  -webkit-transform: matrix(1.73205, 1, -1, 1.73205, 7.32051, 27.32051);
+  -moz-transform   : matrix(1.73205, 1, -1, 1.73205, 7.32051, 27.32051);
+  -ms-transform    : matrix(1.73205, 1, -1, 1.73205, 7.32051, 27.32051);
+  -o-transform     : matrix(1.73205, 1, -1, 1.73205, 7.32051, 27.32051);
+  transform        : matrix(1.73205, 1, -1, 1.73205, 7.32051, 27.32051);
+}
+</style>
+<body>
+
+<div class="container">
+  <div class="box">
+    <div class="base"></div>
+    <div class="sample1"><pre>rotate(30deg)
+scale(2)
+translate(10px,10px)</pre></div>
+  </div>
+  <div class="box">
+    <div class="base"></div>
+    <div class="sample2"><pre>matrix(1.73205,
+       1,
+       -1,
+       1.73205,
+       7.32051,
+       27.32051)</pre></div>
+  </div>
+</div>
+
+</body>
+</html>

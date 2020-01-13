@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>ブクログのブログパーツで遊んでみる Amazon アソシエイト対応版 - DEMO -</title>
+<link rel="stylesheet" href="style.css" />
+<style type="text/css">
+#booklog {
+	display: block;
+}
+</style>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+jQuery(function ($) {
+
+	var opt = {
+		ac: 'pnr', // account
+		cnt: 10, // count max
+		cat: 0, // category ID
+		st: 0, // status(0-4)
+		rank: 0, // stars(0-5)
+		af: 'pnr-22' // Amazon tracking code
+	}
+
+
+	function booklog(obj) {
+
+		var list = '';
+		var count = (opt.cnt !== '') ? opt.cnt : 5;
+		for (i = 0; i < count; i++) {
+			if (obj.books[i].length !== 0) {
+				list += '<li>';
+				list += '<a href="' + obj.books[i].url + '" title="' + obj.books[i].title + ' [' + obj.books[i].author + ']" target="_blank" class="bookImage">';
+				list += '<img src="' + obj.books[i].image + '" width="' + obj.books[i].width + '" height="' + obj.books[i].height + '" alt="' + obj.books[i].title + '" />';
+				list += '</a>';
+				list += '<div class="bookInfo">';
+				list += '<div class="bookTitle"><a href="' + obj.books[i].url + '" title="' + obj.books[i].title + ' [' + obj.books[i].author + ']" target="_blank">' + obj.books[i].title + '</a></div>';
+				list += '<div class="bookAuthor">\u8457\u8005 : ' + obj.books[i].author + '</div>';
+				list += '<div class="asin"><a href="http://amazon.jp/o/ASIN/' + obj.books[i].asin + '/' + opt.af + '/ref=nosim/" target="_blank">Amazon.co.jp\u3067\u898b\u308b</a></div>';
+				list += '<div class="review"><a href="http://booklog.jp/asin/' + obj.books[i].asin + '" target="_blank">\u30d6\u30af\u30ed\u30b0\u306e\u30ec\u30d3\u30e5\u30fc\u4e00\u89a7\u3092\u898b\u308b</a></div>';
+				list += '</div>';
+				list += '</li>';
+			}
+		}
+
+		var shelf = '';
+		shelf += '<h2>';
+		shelf += '<a href="http://booklog.jp/users/' + obj.tana.account + '" target="_blank">' + obj.tana.name + '</a>';
+		shelf += '</h2>';
+		shelf += '<ul class="bookshelf">';
+		shelf += list;
+		shelf += '</ul>';
+		shelf += '<div class="copy">Powered by <a href="http://booklog.jp/" target="_blank">Booklog</a></div>';
+
+		$('#booklog').html(shelf);
+
+	}
+
+	$.getJSON('http://api.booklog.jp/json/' + opt.ac + '?category=' + opt.cat + '&count=' + opt.cnt + '&status=' + opt.st + '&rank=' + opt.rank + '&callback=?', booklog);
+
+});
+//]]>
+</script>
+</head>
+
+<body>
+
+<h1>ブクログのブログパーツで遊んでみる<br />Amazonアソシエイト対応版<br />- DEMO -</h1>
+
+<hr />
+
+<div id="booklog"></div>
+
+</body>
+</html>

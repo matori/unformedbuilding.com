@@ -1,0 +1,680 @@
+<script type="application/x-yaml">
+title: "CSSを拡張して記述できるPHPベースのプリプロセッサPCSSとCSS Crush"
+description: "PHPベースのCSSプリプロセッサであるPCSSとCSS Crushの簡単な説明をしてみたいと思います。"
+slug: php-based-css-preprocessor-pcss-and-css-crush
+published: 2011-09-06T16:44:54+09:00
+updated: 2012-01-06T11:59:21+09:00
+category: webdev
+</script>
+
+<p>
+  CSSを拡張して記述できるものと言えば、SassとLESSが有名ですね。<br>
+  これらはHTML/CSSフレームワークなどでも使われていたり、日本語での解説も多くあります。<br>
+  ですが、今回はそのどちらでもない、PHPベースのプリプロセッサである「PCSS」と「CSS Crush」の簡単な説明をしてみたいと思います。
+</p>
+<p>
+  誤解のないように言っておきますが、これは「Rubyとか入れなくてもいいしこっち使おうぜ」という内容の記事ではありません。<br>
+  こういうものもある、という程度に見ておくといいかもしれません。
+</p>
+<p>
+  また、この記事内の解説は公式ドキュメントを簡単にまとめたものです。<br>
+  詳しく見たい方は公式サイトをご覧ください。
+</p>
+<section>
+  <h2>PCSS</h2>
+  <figure>
+    <img src="/images/2011/php-based-css-preprocessor-pcss-and-css-crush/pcss.png" alt="">
+  </figure>
+  <p>
+    <a href="http://pcss.wiq.com.br/">PCSS – CSS Server-side Preprocessor</a>
+  </p>
+  <p>
+    「ショートカット志向サーバーサイドCSS3プリプロセッサ」とタイトルに書かれています。<br>
+    PCSSではどんなことができるのか。その特徴を見てみます。
+  </p>
+  <p>
+    PCSSが動作するにはPHP5が必要となります。
+  </p>
+  <ul>
+    <li>事前定義されたCSSの定数とPCSSの関数によって、より直感的にCSSが書けるようになり、コードがスリム化され読みやすくなります。</li>
+    <li>classの入れ子ができます。</li>
+    <li>あらゆる種類のデータを格納できる変数があります。</li>
+    <li>デフォルトの単位とデフォルトの画像ディレクトリを事前定義された関数にセットすることができます。</li>
+    <li>サーバーサイドでブラウザを検出することで<code>@font-face</code>のコードをスリム化して出力するショートカットがあります。</li>
+    <li>面倒なコマンドを避けるためにベンダープレフィックスをサーバー側で検出して出力するためのショートカットがあります（-webkit-, -moz-, など）。</li>
+    <li>CSSは圧縮されて出力されます。</li>
+  </ul>
+  <section>
+    <h3>導入</h3>
+    <p>
+      簡単な導入方法は、<span class="path">pcss.php</span> をウェブサイトのディレクトリに置いて、普通のCSSファイルと同じように<code>&lt;link&gt;</code>や<code>@import</code>で読み込むことです。
+    </p>
+    <pre><code class="language-html">&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;pcss.php?css=file.css&quot; /&gt;</code></pre>
+    <p>
+      または
+    </p>
+    <pre><code class="language-html">&lt;style type=&quot;text/css&quot;&gt;@import url(pcss.php?css=file.css);&lt;/style&gt;</code></pre>
+    <p>
+      これは最も簡単な導入方法ですが、PCSSを利用した他の方法もあります。<br>
+      次に説明するのは複数のCSSファイル（実際にはPCSSファイル）を1つのCSSファイルに出力するのに向いている方法です。
+    </p>
+    <pre><code class="language-php">&lt;?php
+  include &quot;pcss.php&quot;;
+  print new PCSS(&quot;file1.pcss&quot;);
+  print new PCSS(&quot;file2.pcss&quot;);
+  print new PCSS(&quot;file3.pcss&quot;);
+?&gt;</code></pre>
+    <p>
+      Apache の<code>mod_rewrite</code>が有効な環境で<span class="path">.htaccess</span>に下記を記述することにより、よりフレンドリーなURLにすることができます。
+    </p>
+    <pre><code class="language-apache">RewriteEngine on
+RewriteRule ^([a-zA-Z0-9_-]+).p.css$ pcss.php?css=$1</code></pre>
+    <p>
+      この場合、<span class="path">file.p.css</span>で<span class="path">pcss.php?css=file.pcss</span>と同様のファイルを呼び出すことができます。また、これはカスタマイズ可能です。
+    </p>
+  </section>
+  <section>
+    <h3>変数</h3>
+    <pre><code>&amp;[variable_name] = [value];</code></pre>
+    <p>
+      文字列の先頭に<code>&amp;</code>をつけることで変数として指定できます。<br>
+      値は<code>=</code>（等号）で代入します。<br>
+      末尾の<code>;</code>（セミコロン）は任意です。
+    </p>
+    <p>
+      以下はその例です。
+    </p>
+    <pre><code>&amp;mycolour = #fff;
+&amp;floatedbox = display:block; float:left;</code></pre>
+  </section>
+  <section>
+    <h3>デフォルト値の定義</h3>
+    <p>
+      デフォルトの単位と画像ディレクトリを定義します。デフォルト画像ディレクトリは<code>BGIMG</code>PCSS関数で使用されます。<br>
+      以下のように指定します。
+    </p>
+    <pre><code>unit [unit]
+imgdir [dirname]</code></pre>
+    <p>
+      指定例は次の通りです。
+    </p>
+    <pre><code>/* example 1 */
+unit em
+imgdir images
+
+/* example 2 */
+unit %
+imgdir ../</code></pre>
+    <p>
+      これらの指定が見つからない場合、<code>imgdir</code>は空、<code>unit</code>には<code>px</code>が指定されます。ディレクトリ名の最後にスラッシュは必要ありません。
+    </p>
+  </section>
+  <section>
+    <h3><code>@font-face</code>ショートカット</h3>
+    <p>
+      <code>@font-face</code>を簡単に指定することができます。
+    </p>
+    <pre><code>fontface [fontname] [fontfiles]</code></pre>
+    <p>
+      以下はその例です。
+    </p>
+    <pre><code>fontface MyFont dir/myfont-file</code></pre>
+    <p>
+      これは次のように出力されます（フォーマットはされません）。
+    </p>
+    <pre><code class="language-css">@font-face {
+  font-family: 'MyFont';
+  src        : url('dir/myfont-file.eot')  format('eot'),
+               url('dir/myfont-file.woff') format('woff'),
+               url('dir/myfont-file.ttf')  format('truetype');
+}</code></pre>
+  </section>
+  <section>
+    <h3>classの入れ子</h3>
+    <p>
+      classは入れ子で指定することができます。
+    </p>
+    <pre><code>.class{ BLOCK;
+  .subclass{ HIDE; }
+}</code></pre>
+    <p>
+      これは次のように出力されます。
+    </p>
+    <pre><code class="language-css">.class {
+  display: block;
+}
+.class .subclass {
+  display: none;
+}</code></pre>
+    <p>
+      多くのclassを入れ子にすればするほどCSSは大きくなるので気をつけてください。
+    </p>
+  </section>
+  <section>
+    <h3>サーバーサイドコメント</h3>
+    <p>
+      PCSSの中では、スラッシュを2回続けて書くことでPHPのようにコメントを書くことができます。
+    </p>
+    <pre><code>// ここはコメントです</code></pre>
+    <p>
+      このコメントはCSSに出力されません。
+    </p>
+  </section>
+  <section>
+    <h3>定数</h3>
+    <p>
+      事前定義された定数により、一部のセレクタや指定を短く書くことができます。
+    </p>
+    <pre><code>.class{
+  HIDE;
+}</code></pre>
+    <p>
+      これは以下のように出力されます。
+    </p>
+    <pre><code class="language-css">.class{
+  display: none;
+}</code></pre>
+    <p>
+      セレクタの定数は次のようなものです。
+    </p>
+    <pre><code>.class FILE{
+  HIDE;
+}</code></pre>
+    <p>
+      これは以下のように出力されます。
+    </p>
+    <pre><code class="language-css">.class input[type=file]{
+  display: none;
+}</code></pre>
+    <p>
+      他にも様々な定数があります。詳しくは「<a href="http://pcss.wiq.com.br/constants">Constants reference</a>」を参照してください。<br>
+      また、これらの定数は自分で作ることもできます。
+    </p>
+  </section>
+  <section>
+    <h3>関数</h3>
+    <p>
+      関数はCSSのように記述でき、CSSより短く、ブラウザごとに最適化されたCSSを書き出すことができます。
+    </p>
+    <pre><code>.class{
+  FSIZE:14;
+}</code></pre>
+    <p>
+      これは以下のように出力されます。
+    </p>
+    <pre><code class="language-css">.class{
+  font-size: 14px;
+}</code></pre>
+    <p>
+      <code>FSIZE</code>は<code>font-size</code>の短縮形で、デフォルトの単位が<code>px</code>（または指定されていない）だとこうなります。
+    </p>
+    <p>
+      次の例を見てましょう。
+    </p>
+    <pre><code>.class{
+  BOUNDS:5 10,0 0 10;
+}</code></pre>
+    <p>
+      これは以下のようになります（デフォルト単位が<code>px</code>の場合）。
+    </p>
+    <pre><code class="language-css">.class{
+  padding: 5px 10px; margin: 0 0 10px;
+}</code></pre>
+    <p>
+      <code>BOUNDS</code>関数は<code>margin</code>と<code>padding</code>を一度に指定できます。
+    </p>
+    <p>
+      次は背景画像です。
+    </p>
+    <pre><code>.class{
+  BGIMG:someimage.png;
+}</code></pre>
+    <p>
+      結果は次の通り。
+    </p>
+    <pre><code class="language-css">.class{
+  background-image: url(images/someimage.png);
+}</code></pre>
+    <p>
+      <code>BGIMG</code>は<code>background-image</code>の短縮形です。<code>imgdir</code>を定義してあれば、このように更に短く書くことができます。
+    </p>
+    <p>
+      では最後の例です。
+    </p>
+    <pre><code>.class{
+  GRADIENT:#fff #000;
+}</code></pre>
+    <p>
+      これはFirefoxでページを見た場合、次のように出力されます。
+    </p>
+    <pre><code class="language-css">.class{
+  background-image: -moz-linear-gradient(top, #fff, #000);
+  background-image: linear-gradient(top, #fff, #000);
+}</code></pre>
+    <p>
+      Ineternet Explorer 9以下で見た場合は次のようになります。
+    </p>
+    <pre><code class="language-css">.class{
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#fff', EndColorStr='#000');
+}</code></pre>
+    <p>
+      <code>GRADIENT</code>は<code>background-image: linear-gradiennt()</code>の短縮形です。<br>
+      また、この指定はサーバーサイドでブラウザを判別し、ブラウザごとに最適化されたコードを出力します。<code>ROTATE</code>関数も同じように働きます。
+    </p>
+    <p>
+      他の関数については「<a href="http://pcss.wiq.com.br/functions">Functions reference</a>」を参照してください。
+    </p>
+  </section>
+  <p>
+    PCSSのサイトで使われているPCSSのコードは<a href="http://pcss.wiq.com.br/pcss.pcss">http://pcss.wiq.com.br/pcss.pcss</a>で見ることができます。<br>
+    出力されるのは<a href="http://pcss.wiq.com.br/pcss.p.css">http://pcss.wiq.com.br/pcss.p.css</a>です。</p>
+</section>
+<p>
+  ここまで PCSSの簡単な解説をしてきました。<br>
+  次はCSS Crushをやっていきます。<br>
+  感想などは最後に。
+</p>
+<section>
+  <h2>CSS Crush</h2>
+  <figure>
+    <img src="/images/2011/php-based-css-preprocessor-pcss-and-css-crush/css-crush.png" alt="">
+  </figure>
+  <p>
+    <a href="http://the-echoplex.net/csscrush/">CSS Crush ― An extensible PHP based CSS preprocessor</a>
+  </p>
+  <p>
+    <a href="http://the-echoplex.net/log/css-crush">CSS Crush（作者のブログ記事）</a>
+  </p>
+  <p>
+    「拡張性のあるPHPベースのCSSプリプロセッサ」とのことです。<br>
+    それでは機能などを見ていきたいと思います。
+  </p>
+  <section>
+    <h3>導入</h3>
+    <p>
+      スクリプトをページに組み込み、<code>CssCrush::file</code>メソッドに処理したいCSSファイルへのパスを指定します。
+    </p>
+    <pre><code class="language-php">&lt;?php
+  require_once 'CssCrush.php';
+
+  // この場合、生成または更新されるファイルパスは /css/screen.crush.css となります
+  $compiled_file = CssCrush::file( '/css/screen.css' );
+?&gt;
+
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;&lt;?php echo $compiled_file; ?&gt;&quot; /&gt;</code></pre>
+    <p>
+      また、カスタムオプションを配列として渡すことができます。
+    </p>
+    <pre><code class="language-php">&lt;?php
+  require_once 'CssCrush.php';
+
+  $compiled_file = CssCrush::file( '/css/screen.css', array(
+    'debug'       =&gt; true,  // ミニファイするかどうか（デフォルトはfalse）
+    'boilerplate' =&gt; false, // ボイラープレートを出力するかどうか（デフォルトはtrue）
+    'versioning'  =&gt; false, // 出力されるファイル名にタイムスタンプのクエリ文字列をつけるかどうか（デフォルトはtrue）
+));
+?&gt;</code></pre>
+    <p>
+      ボイラープレートは、生成されるファイルの先頭にある次のような文です。
+    </p>
+    <pre><code class="language-css">/*
+ * CSS Crush(ed) on (時刻)
+ * http://github.com/peteboere/css-crush
+ */</code></pre>
+    <p>
+      この内容は<span class="path">CssCrush.boilerplate</span>というファイルに書かれています。
+    </p>
+  </section>
+  <section>
+    <h3>ダイレクト<code>@import</code></h3>
+    <p>
+      <code>@import</code>で呼び出されるファイルは、出力されるファイルに直接書き込まれます。これによりHTTPリクエストを減らすことができます。<br>
+      また、<code>@import</code>にメディアの指定がある場合は、<code>@media</code>ブロックで囲んで出力されます。
+    </p>
+    <pre><code class="language-css">/* コンパイル前 */
+@import &quot;print.css&quot; print;
+@import url( &quot;small-screen.css&quot; ) screen and ( max-width: 500px );
+
+/* コンパイル後 */
+@media print {
+    /* print.cssの中身がここに書き込まれます */
+}
+@media screen and (max-width: 500px) {
+    /* 小さいスクリーン向けのCSSファイルの中身 */
+}
+</code></pre>
+  </section>
+  <section>
+    <h3>エイリアス</h3>
+    <p>
+      エイリアスにより、プロパティのベンダープレフィックスを自動でつけることができます。エイリアスはメインのスクリプトと同じディレクトリのファイルに格納されています。<span class="path">CssCrush.aliases</span>というファイルですね。
+    </p>
+    <p>
+      エイリアスは編集可能です。たとえば、<code>border-radius</code>のエイリアスは次のようになっています。
+    </p>
+    <pre><code>border-radius[] = -webkit-border-radius
+border-radius[] = -moz-border-radius</code></pre>
+    <p>
+      CSS Crushがファイルをコンパイルするときにエイリアスはロードされ、一致する全ての指定に適用されます。
+    </p>
+    <pre><code class="language-css">/* コンパイル前 */
+p { border-radius: 10px; }
+
+/* コンパイル後 */
+p {
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}</code></pre>
+    <p>
+      エイリアスはプロパティ以外に、関数にも使えます。
+    </p>
+    <pre><code class="language-css">/* コンパイル前 */
+div { background: #fff linear-gradient( left, red, white ) no-repeat; }
+
+/* コンパイル後 */
+div {
+    background: #fff -webkit-linear-gradient( left, red, white ) no-repeat;
+    background: #fff -moz-linear-gradient( left, red, white ) no-repeat;
+    background: #fff -ms-linear-gradient( left, red, white ) no-repeat;
+    background: #fff -o-linear-gradient( left, red, white ) no-repeat;
+    background: #fff linear-gradient( left, red, white ) no-repeat;
+}</code></pre>
+    <p>@ルールにも可能です。</p>
+    <pre><code class="language-css">/* コンパイル前 */
+@keyframes myanim {
+    0%   { left: 0; }
+    100% { left: 100px; }
+}
+
+/* コンパイル後 */
+@-moz-keyframes myanim {
+    0%   { left: 0; }
+    100% { left: 100px; }
+}
+@-webkit-keyframes myanim {
+    0%   { left: 0; }
+    100% { left: 100px; }
+}
+@keyframes myanim {
+    0%   { left: 0; }
+    100% { left: 100px; }
+}</code></pre>
+  </section>
+  <section>
+    <h3>マクロ</h3>
+    <p>
+      エイリアスが十分でない場合、PHPで書かれたマクロを定義することができます。<br>
+      マクロの指定は<span class="path">CssCrush.macros.php</span>の中にあります。
+    </p>
+    <pre><code class="language-css">/* コンパイル前 */
+p {
+    filter: blur( pixelradius=2 ),
+            dropshadow( color=#000, offY=1px, offX=2px );
+}
+
+/* コンパイル後 */
+p {
+    filter: progid:DXImageTransform.Microsoft.Blur(
+            pixelradius=2 ),
+        progid:DXImageTransform.Microsoft.DropShadow(
+            color=#000, offY=1px, offX=2px );
+    -ms-filter: "progid:DXImageTransform.Microsoft.Blur(
+            pixelradius=2 ),
+        progid:DXImageTransform.Microsoft.DropShadow(
+            color=#000, offY=1px, offX=2px )";
+    zoom: 1;
+}</code></pre>
+    <p>
+      ファイルの中を見てみたところ、2011年9月2日のバージョンには上記の<code>filter</code>以外にも以下のようなマクロが指定されていました。
+    </p>
+    <p>
+      IE 7以下の<code>display:inline-block</code>対策
+    </p>
+    <pre><code class="language-css">/* コンパイル前 */
+display: inline-block;
+
+/* コンパイル後 */
+display: inline-block;
+*display: inline;
+*zoom: 1;</code></pre>
+    <p>
+      IE6の<code>min-height</code>
+    </p>
+    <pre><code class="language-css">/* コンパイル前 */
+min-height: 100px;
+
+/* コンパイル後 */
+min-height: 100px;
+_height: 100px;</code></pre>
+    <p>
+      IE7以下の<code>clip()</code>対策
+    </p>
+    <pre><code class="language-css">/* コンパイル前 */
+clip: rect(1px,1px,1px,1px);
+
+/* コンパイル後 */
+clip: rect(1px,1px,1px,1px);
+*clip: rect(1px 1px 1px 1px);</code></pre>
+    <p>
+      <code>rgba()</code>のフォールバック
+    </p>
+    <pre><code class="language-css">/* コンパイル前 */
+background: rgba(0,0,0,.5);
+
+/* コンパイル後 */
+background: rgb(0,0,0);
+background: rgba(0,0,0,.5);</code></pre>
+    <p>
+      要らないものはコメントアウトしたりして使うように、だそうです。
+    </p>
+  </section>
+  <section>
+    <h3>関数</h3>
+    <p>
+      CSS Crushにはシンプルな数学関数があります。
+    </p>
+    <dl>
+      <dt><code>math</code></dt>
+      <dd>
+        四則演算ができます。使用できる演算子は<code>+ – / * ()</code>です。<br>
+        数値以外の文字は無視されます。
+      </dd>
+      <dt><code>percent</code></dt>
+      <dd>
+        第1引数を第2引数で割ったものを返します。
+      </dd>
+      <dt><code>round</code></dt>
+      <dd>
+        <code>math</code>の結果を四捨五入します。
+      </dd>
+      <dt><code>floor</code></dt>
+      <dd>
+        <code>math</code>の結果を切り捨てします。
+      </dd>
+      <dt><code>ceil</code></dt>
+      <dd>
+        <code>math</code>の結果を切り上げします。
+      </dd>
+    </dl>
+    <p>
+      <code>()</code>のように関数名を省略して書いた場合は<code>math</code>として扱われます。
+    </p>
+    <pre><code class="language-css">/* コンパイル前 */
+.column-1 {
+    width: percent( 200, 960 );
+    font-size: ( 12 / 16 )em;
+}
+
+/* コンパイル後 */
+.column-1 {
+    width: 0.208333333%;
+    font-size: 0.75em;
+}</code></pre>
+    <p>
+      また、<code>data-uri</code>関数を使うことで、相対パスで指定された画像やウェブフォントを自動的にData URIに変換することができます。
+    </p>
+    <pre><code class="language-css">/* コンパイル前 */
+ul li {
+    background-image: data-uri(../my-bg.png);
+}
+
+/* コンパイル後 */
+ul li {
+    background-image: url(data:image/png;base64,R0lGODlhAQABAIA...);
+}</code></pre>
+  </section>
+  <section>
+    <h3>変数</h3>
+    <p>
+      変数は、@ルールの文法と同じように指定します。また、CSSの指定内では<code>var</code>関数で変数を使います。
+    </p>
+    <pre><code class="language-css">/* 変数の指定 */
+@variables {
+    helvetica: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    brand-blue: #C1D9F5;
+}
+
+/* 変数を使う */
+ul, p {
+    font-family: var( helvetica );
+    background: var( brand-blue ) url( tile.png ) repeat-x;
+}</code></pre>
+  </section>
+  <section>
+    <h3>セレクタのグルーピング</h3>
+    <p>
+      <code>:any</code>擬似クラスをサポートしています。これはベンダープレフィックス付きではありますが、最新の<a href="https://developer.mozilla.org/en/CSS/%3A-moz-any">Mozilla</a>と<a href="http://trac.webkit.org/changeset/81742">WebKit</a>ではサポートされています。<br>
+      ちなみに、<a href="http://dev.w3.org/csswg/selectors4/#matches">Selectors Level 4</a>の中には<code>:matches</code>があります。
+    </p>
+    <pre><code class="language-css">/* コンパイル前 */
+:any( .sidebar, .block ) a:any( :hover, :focus ) {
+    color: red;
+}
+
+/* コンパイル後 */
+.block a:hover,
+.block a:focus,
+.sidebar a:hover,
+.sidebar a:focus {
+    color: red;
+}</code></pre>
+  </section>
+  <section>
+    <h3>ミニファイとキャッシュ</h3>
+    <p>
+      デフォルトではCSS Crushが出力するCSSはミニファイ（圧縮）されています。これはオプションでデバッグモードにすることで無効にできます。
+    </p>
+    <pre><code class="language-css">/* コンパイル前 */
+body {
+    padding: 0 0 0 0;
+    margin: 20px auto 0px;
+    background-color: #ffffff;
+}
+
+/* コンパイル後 */
+body{padding:0;margin:20px auto 0;background-color:#fff}</code></pre>
+    <p>
+      ミニファイ時には以下のような変更が行われます。
+    </p>
+    <ul>
+      <li><code>margin: 0px;</code>のような指定を<code>margin:0;</code>に</li>
+      <li><code>padding: 0 0 0 0;</code>のような指定を<code>padding:0;</code>に</li>
+      <li>不要な空白を削除</li>
+      <li>最後の指定のセミコロンを削除</li>
+      <li>空の指定の削除</li>
+    </ul>
+    <p>
+      <code>@import</code>されるファイルも含め、全てのファイルは変更された日時のタイムスタンプが保存され、チェックされます。いずれかのファイルに変更があった場合は、新たにコンパイルされます。何も変更がなかった場合は、キャッシュされたファイルが返されます。
+    </p>
+  </section>
+  <p>
+    CSS Crushのサイトで使われているCSS Crushファイルは<a href="http://the-echoplex.net/csscrush/css/global.css">http://the-echoplex.net/csscrush/css/global.css</a>で見ることができます。<br>
+    出力されるのは<a href="http://the-echoplex.net/csscrush/css/global.crush.css">http://the-echoplex.net/csscrush/css/global.crush.css</a>です。
+  </p>
+</section>
+<p>
+  CSS Crushの紹介は以上です。
+</p>
+<section>
+  <h2>個人的な感想</h2>
+  <p>
+    この2つのうちどちらを使いたいか、という質問があったらCSS Crushと答えると思います。<br>
+    理由は簡単で、あまりトリッキーなことをしていないので、新しく覚えることが少ないからです。<br>
+    セレクタのネストもあったら嬉しかったんですが……。
+  </p>
+  <p>
+    PCSSは書く量はかなり減ると思うんですが、それをやろうとすると大文字で書かないといけないのが多かったり、新しく覚えるものが多いのが大変そうです。<br>
+    あと、ユーザーエージェントからブラウザを判別して出力するコードを変更するというのがちょっと……。
+  </p>
+  <p>
+    仮にどちらかを使うとしても、ローカルで使って実際のサイトにはコンパイルされたファイルを使うことになると思います。
+  </p>
+</section>
+<section>
+  <h2>おまけ：SassとLESSのリンク集</h2>
+  <p>
+    せっかくなのでメジャーどころの2つがどういうものなのか分かる記事へのリンクをまとめておきます。基本的に日本語で読める記事です。
+  </p>
+  <section>
+    <h3>Sass</h3>
+    <ul>
+      <li>
+        <a href="http://sass-lang.com/">Sass - Syntactically Awesome Stylesheets</a>（公式）
+      </li>
+      <li>
+        <a href="http://hail2u.net/documents/sass-tutorial.html">Sass - チュートリアル</a>（公式の翻訳）
+      </li>
+      <li>
+        <a href="http://hail2u.net/documents/sass-and-sassy-css.html">Sass、そしてSassy CSS (SCSS)</a>
+      </li>
+      <li>
+        <a href="http://www.hamashun.me/archives/1294573.html">hamashun.me : Windows PC に Ruby と Sass を導入する方法</a>
+      </li>
+      <li>
+        <a href="http://terkel.jp/archives/2011/03/sass-makes-css-fun-again/">Sass でもう一度 CSS を楽しく! – terkel.jp</a>
+      </li>
+      <li>
+        <a href="http://www.atmarkit.co.jp/fcoding/articles/sass/sassa.html">SassでCSSの弱点を克服しよう － ＠IT</a>
+      </li>
+      <li>
+        <a href="http://labs.qui-no.com/264">CSSの構造化にSassを利用してみる（1） — qui-no Labs</a>
+      </li>
+    </ul>
+  </section>
+  <section>
+    <h3>LESS</h3>
+    <ul>
+      <li>
+        <a href="http://lesscss.org/">LESS &laquo; The Dynamic Stylesheet language</a>（公式）
+      </li>
+      <li>
+        <a href="http://linker.in/journal/2010/08/lesscss.php">LESSを使ってすっきりCSSを記述してみる｜linker journal｜linker</a>
+      </li>
+      <li>
+        <a href="http://css.studiomohawk.com/css/2011/04/03/use_less_to_clean_up_your_css/">LESS: CSSをよりシンプルに、パワフルに | CSS Radar | For Frond End Developers</a>
+      </li>
+      <li>
+        <a href="http://blog.mach3.jp/2011/08/enjoy-css-with-less.html">LessでCSSはもっと楽になる！（第1.5回Yokohama.js） | Mach3.laBlog</a>
+      </li>
+      <li>
+        <a href="http://havelog.ayumusato.com/computer/software/e218-less_better_css.html">Sassよりラクチン，LESS.appで簡単CSSコンパイル生活！（Mac限定） ::ハブろぐ</a>
+      </li>
+    </ul>
+  </section>
+  <p>
+    他にも検索すればいっぱい出てきますので、色々見てみるといいと思います。<br>
+    また、比較記事もあります。
+  </p>
+  <ul>
+    <li>
+      <a href="http://dxd8.com/archives/217/">CSS拡張メタ言語「SCSS(Sass)」と「LESS」の比較 - (DxD)∞</a>
+    </li>
+    <li>
+      <a href="https://gist.github.com/820035">Sass/Less Comparison (updated 2011-02-09) — Gist</a>
+    </li>
+  </ul>
+  <p>
+    どちらもとても分かりやすい比較なので興味のある方は目を通しておくといいかもしれません。
+  </p>
+</section>

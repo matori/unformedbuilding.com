@@ -1,0 +1,35 @@
+{% extends "./_base.njk" %}
+
+{% set isHome = true %}
+{% set style = "home.scss" %}
+{% set description = site.description %}
+
+{% block main %}
+<nav class="Home">
+  <h2 class="Home-heading">このウェブサイトのコンテンツ</h2>
+  <section class="Content">
+    <h3 class="Content-heading">
+      <a href="/articles/" class="Content-link">ブログ</a>
+    </h3>
+    <p class="Content-description">ウェブ制作に関する話題と個人的な日記。</p>
+    <section class="Content-children Collection">
+      <h4 class="Collection-heading">最近の記事</h4>
+      <ol class="Collection-list">
+        {% for article in collections.articles | limit(3) %}
+          <li class="Collection-item">
+            <time datetime="{{ article.data.published | isoDate }}"
+                  class="Collection-date">{{ article.data.published | readableDate('YYYY年MM月DD日') }}</time>
+            <a href="{{ article.url }}" class="Collection-link">{{ article.data.title }}</a>
+          </li>
+        {% endfor %}
+      </ol>
+    </section>
+  </section>
+  <section class="Content">
+    <h3 class="Content-heading">
+      <a href="/about/" class="Content-link">このウェブサイトについて</a>
+    </h3>
+    <p class="Content-description">当サイト『{{ site.name }}』についての説明。問い合わせ先の情報もこちらにあります。</p>
+  </section>
+</nav>
+{% endblock %}

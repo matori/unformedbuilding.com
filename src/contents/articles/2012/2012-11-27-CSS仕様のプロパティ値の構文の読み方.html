@@ -1,0 +1,138 @@
+<script type="application/x-yaml">
+title: "CSS仕様のプロパティ値の構文の読み方"
+description: "W3CにあるCSSプロパティ値の読み方というか、構文についてのメモです。覚えておくと調べるときに楽になります。"
+slug: how-to-read-css-property-value-syntax
+published: 2012-11-27T16:19:42+09:00
+updated: 2012-11-27T16:19:42+09:00
+category: webdev
+</script>
+
+<p>
+  W3CにあるCSSプロパティ値の読み方というか、構文についてのメモです。<br>
+  覚えておくと調べるときに楽になります。
+</p>
+<p>
+  この内容は「<a href="http://www.w3.org/TR/CSS21/about.html#conventions">About the CSS 2.1 Specification - 1.4 Conventions</a>」に書いてあるものの一部（+α）です。
+</p>
+<p>
+  各プロパティは、次のような表記で定義されています。
+</p>
+<dl>
+  <dt>‘プロパティ名’</dt>
+  <dd>
+    <table>
+      <tbody>
+        <tr>
+          <th>Value:</th>
+          <td>正規の値と構文</td>
+        </tr>
+        <tr>
+          <th>Initial:</th>
+          <td>初期値</td>
+        </tr>
+        <tr>
+          <th>Applies to:</th>
+          <td>このプロパティが適用される要素</td>
+        </tr>
+        <tr>
+          <th>Inherited:</th>
+          <td>プロパティが継承されているかどうか</td>
+        </tr>
+        <tr>
+          <th>Percentages:</th>
+          <td>パーセンテージがどのように解釈されるか (何に対してのパーセンテージかなど)</td>
+        </tr>
+        <tr>
+          <th>Media:</th>
+          <td>このプロパティが適用されるメディアグループ</td>
+        </tr>
+        <tr>
+          <th>Computed value:</th>
+          <td>値がどのように計算されるか</td>
+        </tr>
+        <tr>
+          <th>Animatable:</th>
+          <td>アニメーション可能かどうか (表記のないものもあります)</td>
+        </tr>
+      </tbody>
+    </table>
+  </dd>
+</dl>
+<p>
+  値の部分のキーワードは文字通りに記述しなければなりません。また、スラッシュ（<code>/</code>）やコンマ（<code>,</code>）も同様に文字通りに記述しなければなりません。<br>
+  &quot;&lt;&quot;と&quot;&gt;&quot;で囲まれているものはデータ型を表します。基本的にリンクがあるので、その型がどういうものはリンク先の説明を参照すること。
+</p>
+<ul>
+  <li>いくつか単語が並置されている場合、その順序通りに全て記述しなければなりません。</li>
+  <li>バー（<code>|</code>）は2つ以上の選択肢の区切りで、それらの中の1つを記述しなければなりません。</li>
+  <li>ダブルバー（<code>||</code>）は2つ以上の選択肢の区切りで、それらの中の1つ以上を記述しなればなりません。これは順不同です。</li>
+  <li>ダブルアンパサンド（<code>&amp;&amp;</code>）は2つ以上の構成要素の区切りで、それらの全てを記述しなければなりません。これは順不同です。</li>
+  <li>ブラケット（<code>[ ]</code>）はグルーピングのために使用されます。</li>
+</ul>
+<p>
+  優先順は左から順に<strong>並置 - ダブルアンパサンド - ダブルバー - バー</strong>です。<br>
+  次の2つは等しくなります。
+</p>
+<pre><code class="language-text">  a b   |   c ||   d &amp;&amp;   e f
+[ a b ] | [ c || [ d &amp;&amp; [ e f ]]]</code></pre>
+<p>
+  <code>[a b]</code>と<code>[e f]</code>はその表記通りに記述します。<br>
+  <code>d</code>と<code>[e f]</code>はどちらも必須で順不同です。<br>
+  <code>c</code>と<code>[d &amp;&amp; [e f]]</code>は<code>c</code>のみ、<code>[d &amp;&amp; [e f]]</code>のみ、または両方を記述します。順不同。<br>
+  <code>[a b]</code>と<code>[c || [d &amp;&amp; [e f]]]</code>はどちらか片方を記述します。
+</p>
+<p>
+  データ型、キーワード、グループには次の修飾子がついていることがあります。
+</p>
+<ul>
+  <li>アスタリスク（<code>*</code>）は、先行する型、単語、グループが0回以上出現することを示します。</li>
+  <li>プラス（<code>+</code>）は、先行する型、単語、グループが1回以上出現することを示します。</li>
+  <li>クエスチョンマーク（<code>?</code>）は、先行する型、単語、グループが任意であることを示します。</li>
+  <li>波括弧で囲まれた数字のペア（<code>{A,B}</code>）は、先行する型、単語、グループが最低A回、最大B回出現することを示します。</li>
+</ul>
+<p>
+  <a href="http://www.w3.org/TR/2012/CR-css3-background-20120724/">2012年7月24日版の「CSS Backgrounds and Borders Module Level 3」</a>を例に、実例を見てみます。
+</p>
+<p>
+  <code>background-color</code>の値は次のようになっています。
+</p>
+<pre><code class="language-text">&lt;color&gt;</code></pre>
+<p>
+  これは簡単ですね。&lt;color&gt;型を見ればいいだけです。<br>
+  次に<code>background-image</code>を見てみます。
+</p>
+<pre><code class="language-text">&lt;bg-image&gt; [ , &lt;bg-image&gt; ]*</code></pre>
+<p>
+  1つ目の&lt;bg-image&gt;型は必須で、2つ目以降はコンマの後に&lt;bg-image&gt;型を書きます。このコンマと&lt;bg-image&gt;型の組み合わせは0回以上記述できます。<br>
+  では&lt;bg-image&gt;型とは何かをリンクから見てみると次のように書かれています。
+</p>
+<pre><code class="language-text">&lt;bg-image&gt; = &lt;image&gt; | none</code></pre>
+<p>
+  &lt;bg-image&gt;型とは&lt;image&gt;型もしくは<code>none</code>キーワードであることが分かります。<br>
+  そうしたら「&lt;image&gt;型とは？」となるので、同様にリンク先を参照します。
+</p>
+<p>
+  最後に<code>box-shadow</code>プロパティを見てみます。<br>
+  このプロパティの値は次のようになっています。
+</p>
+<pre><code class="language-text">none | &lt;shadow&gt; [ , &lt;shadow&gt; ]*</code></pre>
+<p>
+  <code>none</code>キーワードか、&lt;shadow&gt;型（コンマ区切りで複数回指定可）のどちらかとなっています。<br>
+  &lt;shadow&gt;型は次のような構文になっています。
+</p>
+<pre><code class="language-text">&lt;shadow&gt; = inset? &amp;&amp; [ &lt;length&gt;{2,4} &amp;&amp; &lt;color&gt;? ]</code></pre>
+<p>
+  <code>inset</code>キーワードは任意ですが、書くときは<code>[&lt;length&gt;{2,4} &amp;&amp; &lt;color&gt;?]</code>グループと一緒に書く必要があります。<code>inset</code>キーワードとグループとの組み合わせは順不同です。
+</p>
+<p>
+  <code>[&lt;length&gt;{2,4} &amp;&amp; &lt;color&gt;?]</code>グループ内は&lt;length&gt;型を2つ以上4つ以内記述し、&lt;color&gt;型と一緒に書く必要があります。&lt;length&gt;型の繰り返しと&lt;color&gt;型の組み合わせは順不同です。<br>
+  ただし、&lt;color&gt;型は任意なので<code>[&lt;length&gt;{2,4} &amp;&amp; &lt;color&gt;?]</code>グループ内は<code>&lt;length&gt;{2,4}</code>だけを記述することもできます。
+</p>
+<p>
+  2つ以上4つ以内の&lt;length&gt;型はそれぞれ何を示すか、というのはすぐ近くに書かれているのでそれを読めば分かります。<br>
+  また&lt;color&gt;型を指定しなかったらどうなるのかについても近くに書かれています。
+</p>
+<hr>
+<p>
+  以上で終わりますが、ここに書いたものは本当に簡単な説明ですので、最初に挙げたリンク先も読むことをお勧めします。
+</p>

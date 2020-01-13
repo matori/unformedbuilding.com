@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>background-origin DEMO 1</title>
+<style>
+body {
+	font-family: "Arial", sans-serif;
+}
+
+div {
+	float            : left;
+  margin           : 50px 10px;
+  padding          : 20px;
+  border           : 20px dashed #000;
+  width            : 100px;
+  height           : 100px;
+  background-image : url(bg.png);
+  background-repeat: no-repeat;
+  line-height      : 100px;
+  text-align       : center;
+}
+
+#box-1 {
+  background-origin: border-box;
+}
+
+#box-2 {
+  background-origin: padding-box;
+}
+
+#box-3 {
+  background-origin: content-box;
+}
+</style>
+</head>
+<body>
+
+<div id="box-1">border-box</div>
+<div id="box-2">padding-box</div>
+<div id="box-3">content-box</div>
+
+</body>
+</html>

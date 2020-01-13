@@ -1,0 +1,77 @@
+<script type="application/x-yaml">
+title: "WordPressで任意の文字列から投稿やタームのURLを取得"
+description: "WordPressのWiki Page Linksというプラグインを改造していたのですが、そのときのメモです。"
+slug: wordpress-get-url-of-post-or-term-from-strings
+published: 2012-11-13T11:07:40+09:00
+updated: 2012-11-13T11:21:05+09:00
+category: webdev
+</script>
+
+<p>
+  WordPressの「<a href="http://wordpress.org/extend/plugins/wiki-page-links/">Wiki Page Links</a>」というプラグインを改造していたのですが、そのときのメモです。
+</p>
+<p>
+  このプラグインは<code>[[キーワード]]</code>という書式で固定ページのタイトルに同じものがあれば自動でリンクしてくれるのですが、これの検索範囲を任意の投稿タイプにしたかったのです。<br>
+  それと、違う書式で（たとえば<code>&#x7B;&#x7B;キーワード}}</code>みたいな感じ）で任意のタクソノミーからタームを検索してリンクする、というのもやりたかった。
+</p>
+<p>
+  文中からの検索や置換は元のプラグインのものを流用するとして、問題はキーワードから投稿のURLとタームのURLを探し出すところでした。
+</p>
+<pre><code class="language-php">// キーワード
+$link_target_title = html_entity_decode('探したいキーワード', ENT_QUOTES);
+
+// リンク先URL
+$url = null;</code></pre>
+<p>投稿の場合</p>
+<pre><code class="language-php">// 公開されている投稿タイプ
+$post_types = get_post_types(array('public' =&gt; true));
+
+// 除外したい投稿タイプ
+$exclude_post_types = array('post', 'attachment');
+
+// 指定投稿タイプを除外
+foreach ($exclude_post_types as $type) {
+  unset($post_types[$type]);
+}
+
+// 投稿タイプごとにタイトル検索する
+foreach ($post_types as $type =&gt; $name) {
+
+  // 投稿タイプからタイトル検索（ない場合はnull）
+  $page = get_page_by_title($link_target_title, 'OBJECT', $name);
+
+  // 見つかったら投稿URLを取得してループ抜ける
+  if ($page !== null) {
+    $url = get_permalink($page-&gt;ID);
+    break;
+  }
+}</code></pre>
+<p>
+  タームの場合。
+</p>
+<pre><code class="language-php">// 公開されているタクソノミー
+$taxonomies = get_taxonomies(array('public' =&gt; true), 'names');
+
+// 除外するタクソノミー
+$exclude_taxonomies = array('category');
+
+// 指定タクソノミーを除外
+foreach ($exclude_taxonomies as $taxonomy) {
+  unset($taxonomies[$taxonomy]);
+}
+
+// タクソノミーごとにタームを検索する
+foreach ($taxonomies as $taxonomy) {
+
+  // タクソノミーからタームを検索（ない場合はfalse）
+  $term = get_term_by('name', $link_target_title, $taxonomy);
+
+  // 見つかったらタームのURLを取得してループ抜ける
+  if ($term !== false) {
+    $url = get_term_link(intval($term-&gt;term_id), get_taxonomy($taxonomy)-&gt;name);
+    break;
+  }
+}</code></pre>
+<p>
+  こんな感じかなあ。
+</p>

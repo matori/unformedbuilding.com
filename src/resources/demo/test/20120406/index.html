@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>IE9 でメイリオに font-weight:bold; が効かない場合</title>
+<style type="text/css">
+  /* myFont1 */
+  @font-face {
+    font-family: "myFont1";
+    src        : local("Meiryo");
+  }
+  
+  @font-face {
+    font-family: "myFont1";
+    src        : local("Arial");
+  }
+  
+  @font-face {
+    font-family  : "myFont1";
+    src          : local("Meiryo");
+    unicode-range: U+2026;
+  }
+
+  /* myFont2 */
+  @font-face {
+    font-family: "myFont2";
+    src        : local("Meiryob");
+  }
+
+  @font-face {
+    font-family: "myFont2";
+    src        : local("Arial");
+  }
+
+  @font-face {
+    font-family  : "myFont2";
+    src          : local("Meiryob");
+    unicode-range: U+2026;
+  }
+
+  span {
+    font-weight: bold;
+  }
+  
+  .test1 {
+    font-family: "myFont1";
+  }
+
+  .test2 {
+    font-family: "myFont1", ;
+  }
+
+  .test3 {
+    font-family: "Arial", "Meiryo", sans-serif;
+  }
+</style>
+</head>
+<body>
+
+<p class="test1">
+  <span>ABCDEfghij<br />
+  0123456789<br />
+  ＡＢＣＤＥｆｇｈｉｊ<br />
+  ０１２３４５６７８９<br />
+  あいうえお<br />
+  春夏秋冬……</span><br />
+  ABCDEfghij<br />
+  0123456789<br />
+  ＡＢＣＤＥｆｇｈｉｊ<br />
+  ０１２３４５６７８９<br />
+  あいうえお<br />
+  春夏秋冬……
+</p>
+
+<p class="test2">
+  <span>ABCDEfghij<br />
+  0123456789<br />
+  ＡＢＣＤＥｆｇｈｉｊ<br />
+  ０１２３４５６７８９<br />
+  あいうえお<br />
+  春夏秋冬……</span><br />
+  ABCDEfghij<br />
+  0123456789<br />
+  ＡＢＣＤＥｆｇｈｉｊ<br />
+  ０１２３４５６７８９<br />
+  あいうえお<br />
+  春夏秋冬……
+</p>
+
+<p class="test3">
+  <span>ABCDEfghij<br />
+  0123456789<br />
+  ＡＢＣＤＥｆｇｈｉｊ<br />
+  ０１２３４５６７８９<br />
+  あいうえお<br />
+  春夏秋冬……</span><br />
+  ABCDEfghij<br />
+  0123456789<br />
+  ＡＢＣＤＥｆｇｈｉｊ<br />
+  ０１２３４５６７８９<br />
+  あいうえお<br />
+  春夏秋冬……
+</p>
+
+</body>
+</html>

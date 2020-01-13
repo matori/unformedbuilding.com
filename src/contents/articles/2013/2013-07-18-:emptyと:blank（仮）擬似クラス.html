@@ -1,0 +1,75 @@
+<script type="application/x-yaml">
+title: ":emptyと:blank（仮）擬似クラス"
+description: ":empty擬似クラスがマッチする条件、そして:blank擬似要素について。"
+slug: empty-and-blank-pseudo-classes
+published: 2013-07-18T15:19:47+09:00
+updated: 2013-07-18T15:19:47+09:00
+category: webdev
+</script>
+
+<p>
+  次の<code>div</code>要素のうち、<code>:empty</code>擬似クラスが適用されるのはどれでしょう。
+</p>
+<pre><code class="language-html">1. テキストあり
+&lt;div&gt;(Text)&lt;/div&gt;
+
+2. 空
+&lt;div&gt;&lt;/div&gt;
+
+3. 半角スペース1つ
+&lt;div&gt; &lt;/div&gt;
+
+4. 半角スペース2つ
+&lt;div&gt;  &lt;/div&gt;
+
+5. 改行
+&lt;div&gt;
+&lt;/div&gt;
+
+6. コメント
+&lt;div&gt;&lt;!-- comment --&gt;&lt;/div&gt;
+
+7. テキストなしで空の子要素を持つ
+&lt;div&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;</code></pre>
+<p>
+  正解は2と6です。<br>
+  実際の動作はサンプルをどうぞ。
+</p>
+<p>
+  <a href="/demo/2013/empty/">:empty?</a>
+</p>
+<p>
+  <code>:empty</code>擬似クラスは「<a href="http://www.w3.org/TR/css3-selectors/#empty-pseudo">Selectors Level 3</a>」を見ると、次のように書かれています。
+</p>
+<blockquote cite="http://www.w3.org/TR/css3-selectors/#empty-pseudo">
+  <p>
+    The<code>:empty</code>pseudo-class represents an element that has no children at all. In terms of the document tree, only element nodes and content nodes (such as DOM
+    <a href="http://www.w3.org/TR/css3-selectors/#DOM-LEVEL-3-CORE">[DOM-LEVEL-3-CORE]</a> text nodes, CDATA nodes, and entity references) whose data has a non-zero length must be considered as affecting emptiness; comments, processing instructions, and other nodes must not affect whether an element is considered empty or not.
+  </p>
+</blockquote>
+<ul>
+  <li><code>:empty</code>である要素は子を持たない。</li>
+  <li>DOMテキストノード、CDATAノード、実体参照などの要素内容データの長さがゼロでない場合、それは要素が空であるかどうかに影響を及ぼす。</li>
+  <li>コメント、処理命令、その他のノードは要素が空であるかどうかに影響を及ぼしてはならない。</li>
+</ul>
+<p>
+  大雑把にまとめるとこんな感じです。
+</p>
+<p>
+  「中身は空だけどどうしても改行とか入っちゃう場合はどうすりゃいいのよ」ということがあるかもしれません。<br>
+  これについては現在はどうしようもありませんが、「Selectors Level 4」ではどうにかなったりします。
+</p>
+<p>
+  2013年4月のCSSWGで「<code>:empty</code>擬似クラスは多くの人にとってあんまり便利じゃないよね」という話が出ていて、ホワイトスペースのみまたは空の（<code>:empty</code>と同じ）要素にマッチする擬似クラスが提案されました。<br>
+  <a href="http://lists.w3.org/Archives/Public/www-style/2013Apr/0246.html">[CSSWG] Minutes Telecon 2013-04-10 from fantasai on 2013-04-11 (www-style@w3.org from April 2013)</a><br>
+  （<code>:void</code>とか<code>:this-element-intentionally-left-blank</code>とか出てて結構面白いです）
+</p>
+<p>
+  そして<a href="http://www.w3.org/TR/2013/WD-selectors4-20130502/#the-blank-pseudo">2013年5月2日版の「Selectors Level 4」</a>で<code>:blank</code>が追加されました。<br>
+  基本的には<code>:empty</code>と同様ですが、それに加えてホワイトスペースは空であるかどうかに影響を及ぼさない、というものです。<br>
+  最初の例で言うと、2～6は<code>:blank</code>にマッチします。<br>
+  ホワイトスペースとして許可される文字については「<a href="http://www.w3.org/TR/css3-text/#white-space-rules">CSS Text Module Level 3</a>」を参照して下さい。
+</p>
+<p>
+  今のところ<code>:blank</code>を実装しているブラウザはありませんし使用場面もそんなにないと思うのですが、一応頭に入れておくといいかもしれません。
+</p>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>CSS Angle Units Converter</title>
+  <style type="text/css">
+  body {
+    margin     : 0;
+    background : #fff;
+    font-family: "Arial", sans-serif;
+  }
+
+  h1 {
+    margin    : 30px auto;
+    font-size : 22px;
+    text-align: center;
+  }
+
+  ul {
+    margin    : 30px auto;
+    padding   : 0;
+    width     : 300px;
+    list-style: none;
+  }
+
+  li {
+    margin-bottom: 10px;
+  }
+
+  label {
+    display       : inline-block;
+    margin-right  : 5px;
+    width         : 3em;
+    font-weight   : bold;
+    text-align    : right;
+    vertical-align: middle;
+  }
+
+  input {
+    padding    : 5px;
+    border     : 1px solid #ccc;
+    width      : 200px;
+    box-sizing : border-box;
+    font-family: inherit;
+    font-size  : 16px;
+    outline    : 0;
+  }
+
+  .invalid {
+    border-color: rgba(255, 0, 0, 0.8);
+    background  : rgba(255, 0, 0, 0.2);
+  }
+  </style>
+</head>
+<body>
+
+<h1>CSS Angle Units Converter</h1>
+
+<ul id="converter">
+  <li><label for="deg">deg</label><input type="text" id="deg" /></li>
+  <li><label for="grad">grad</label><input type="text" id="grad" /></li>
+  <li><label for="rad">rad</label><input type="text" id="rad" /></li>
+  <li><label for="turn">turn</label><input type="text" id="turn" /></li>
+</ul>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script type="text/javascript"\>
+jQuery(function ($) {
+
+  var $deg = $('#deg'),
+    $grad = $('#grad'),
+    $rad = $('#rad'),
+    $turn = $('#turn');
+
+  function check(target) {
+    var num = target.value;
+    if (!isFinite(num)) {
+      if (!$(target).hasClass('invalid')) {
+        $(target).addClass('invalid');
+      }
+    } else {
+      if ($(target).hasClass('invalid')) {
+        $(target).removeClass('invalid');
+      }
+    }
+    return parseFloat(num);
+  }
+
+  function floatRound(n) {
+    return Math.round(n * 10000000000) / 10000000000;
+  }
+
+  function degTo(f, unit) {
+    var r;
+    switch (unit) {
+      case 'grad' :
+        r = floatRound(f / 0.9);
+        break;
+      case 'rad':
+        r = floatRound(f * Math.PI / 180);
+        break;
+      case 'turn' :
+        r = floatRound(f / 360);
+        break;
+      default :
+        r = f;
+        break;
+    }
+    if (!isFinite(r)) {
+      r = '';
+    }
+    return r;
+  }
+
+  function toDeg(f, unit) {
+    var r;
+    switch (unit) {
+      case 'grad' :
+        r = f * 0.9;
+        break;
+      case 'rad' :
+        r = f / Math.PI * 180;
+        break;
+      case 'turn' :
+        r = f *360;
+        break;
+      default:
+        r = f;
+        break;
+    }
+    if (!isFinite(r)) {
+      r = '';
+    }
+    return r;
+  }
+
+  $deg.on('keyup change submit', function () {
+    var n = check(this);
+    $grad.val(degTo(n, 'grad'));
+    $rad.val(degTo(n, 'rad'));
+    $turn.val(degTo(n, 'turn'));
+  });
+
+  $grad.on('keyup change submit', function () {
+    var n = check(this);
+    n = toDeg(n, 'grad');
+    $deg.val(floatRound(n));
+    $rad.val(degTo(n, 'rad'));
+    $turn.val(degTo(n, 'turn'));
+  });
+
+  $rad.on('keyup change submit', function () {
+    var n = check(this);
+    n = toDeg(n, 'rad');
+    $deg.val(floatRound(n));
+    $grad.val(degTo(n, 'grad'));
+    $turn.val(degTo(n, 'turn'));
+  });
+
+  $turn.on('keyup change submit', function () {
+    var n = check(this);
+    n = toDeg(n, 'turn');
+    $deg.val(floatRound(n));
+    $grad.val(degTo(n, 'grad'));
+    $rad.val(degTo(n, 'rad'));
+  });
+
+});
+</script>
+</body>
+</html>

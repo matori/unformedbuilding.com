@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>CSS3 marquee DEMO</title>
+<link rel="stylesheet" type="text/css" media="screen" href="reset.css" />
+<style type="text/css">
+  body {
+    overflow-x: hidden;
+  }
+  .box {
+    margin-top: 100px;
+    /* webkit */
+    overflow: -webkit-marquee;
+    font-size: 80px;
+    font-weight: bold;
+    font-family: sans-serif;
+    white-space: nowrap;
+    /* Opera */
+    display: -wap-marquee;
+    -wap-marquee-loop: infinite;
+    -wap-marquee-dir: rtl;
+    -wap-marquee-speed: fast;
+    -wap-marquee-style: scroll;
+  }
+  .box span {
+    font-style: italic;
+  }
+  #demo1 {
+    /* webkit */
+    -webkit-marquee-direction: backwards;
+    -webkit-marquee-increment: large;
+    -webkit-marquee-repetition: infinite;
+    -webkit-marquee-speed: fast;
+    -webkit-marquee-style: slide;
+  }
+  #demo2 {
+    -webkit-marquee: backwards medium infinite fast scroll;
+  }
+  #demo3 {
+    -webkit-marquee: reverse small infinite fast scroll;
+    text-align: center;
+    -wap-marquee-style: alternate;
+  }
+</style>
+</head>
+<body>
+
+<div id="demo1" class="box">オラオラオラオラオラオラオラオラオラオラオラオラオラオラオラオラオラオラオラオラオラオラオラオラオラオラオラオラオラオラオラオラオラオラオラオラァ――――ッ</div>
+
+<div id="demo2" class="box">無駄無駄無駄無駄無駄無駄無駄無駄無駄無駄無駄無駄無駄無駄無駄無駄無駄無駄無駄無駄無駄無駄無駄無駄無駄無駄無駄ァ――――ッ<span>!!!!</span></div>
+
+<div id="demo3" class="box">ゆっくりしていってね！！！</div>
+
+</body>
+</html>

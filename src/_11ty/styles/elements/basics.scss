@@ -1,0 +1,207 @@
+// section
+section + :not(section) {
+  margin-top: get-lines(3);
+}
+
+// block margin
+p,
+ul,
+ol,
+dl,
+figure,
+table,
+blockquote,
+pre,
+table {
+  margin-top: get-lines(1);
+  margin-bottom: get-lines(1);
+}
+
+// lists
+ul,
+ol {
+  padding-left: 2em;
+}
+
+dt {
+  margin-top: get-lines(1);
+}
+
+dd {
+  margin-left: 2em;
+}
+
+// table
+table {
+  @include text(-1);
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+th {
+  font-weight: 600;
+  text-align: inherit;
+}
+
+th,
+td {
+  padding-top: calc(0.5em + #{rem($config-line-gap) / 2});
+  padding-right: 1em;
+  padding-bottom: calc(0.5em + #{rem($config-line-gap) / 2});
+  padding-left: 1em;
+  background-clip: padding-box;
+  border-width: 0;
+
+  thead & {
+    border-bottom-width: 3px;
+    border-bottom-style: double;
+    border-bottom-color: var(--border-thin);
+    background-color: var(--bg-secondary);
+  }
+}
+
+tbody tr:nth-child(2n) td {
+  background-color: var(--bg-tertiary);
+}
+
+tbody th {
+  background-color: var(--bg-base);
+}
+
+tbody tr:nth-child(2n) th {
+  background-color: var(--bg-tertiary);
+}
+
+// pre
+pre {
+  margin-right: -1rem;
+  margin-left: -1rem;
+  padding-top: get-lines(1);
+  padding-right: 1rem;
+  padding-bottom: get-lines(1);
+  padding-left: 1rem;
+  overflow-y: auto;
+  background-color: var(--bg-secondary);
+  font-family: var(--ff-mono);
+}
+
+// figure
+figure {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+figcaption {
+  @include text(-1);
+}
+
+// image
+img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+
+  figure & {
+    display: block;
+    padding-top: rem($config-line-gap / 2);
+    padding-bottom: rem($config-line-gap / 2);
+  }
+}
+
+// quote
+blockquote {
+  margin-right: 0;
+  margin-left: #{1.5rem - 0.125rem};
+  border-left-width: 0.25rem;
+  border-left-style: solid;
+  border-left-color: var(--border-thick);
+  padding-left: #{1.5rem - 0.125rem};
+
+  + figcaption {
+    margin-top: get-lines(-1);
+    margin-left: #{1.5rem - 0.125rem};
+    border-left-width: 0.25rem;
+    border-left-style: solid;
+    border-left-color: var(--border-thick);
+    padding-top: get-lines(1);
+    padding-left: #{1.5rem - 0.125rem};
+  }
+}
+
+cite {
+  font-style: normal;
+
+  figcaption & {
+    display: block;
+    padding-left: 1.5em;
+
+    &::before {
+      margin-right: 0.5em;
+      margin-left: -1.5em;
+      content: "\2014";
+      color: var(--fg-weak);
+    }
+  }
+}
+
+// edit
+ins {
+  text-decoration: none;
+}
+
+del {
+  display: none;
+}
+
+// horizontal rule
+hr {
+  margin-top: calc(#{get-lines(2.5)} - 1px);
+  margin-bottom: calc(#{get-lines(2.5)} - 1px);
+  margin-left: 4rem;
+  box-sizing: content-box;
+  border-width: 2px 0 0;
+  border-top-style: solid;
+  border-color: var(--fg-weak);
+  height: 0;
+  width: 1rem;
+}
+
+// code, samp, kbd
+code {
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--border-thin);
+  border-radius: 4px;
+  padding-right: 0.25em;
+  padding-left: 0.25em;
+  background-color: var(--bg-tertiary);
+
+  pre &,
+  a & {
+    border-width: 0;
+    padding: 0;
+    background-color: transparent;
+  }
+}
+
+code,
+samp,
+kbd {
+  font-family: var(--ff-mono);
+}
+
+// text
+strong,
+b {
+  font-weight: 600;
+}
+
+dfn {
+  font: inherit;
+}
+
+em {
+  font-style: normal;
+  text-emphasis: dot;
+}
+

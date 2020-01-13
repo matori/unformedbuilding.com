@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <title>Auto Height CSS Transition 3</title>
+  <style type="text/css">
+  /**
+   * auth height な transition の部分
+   */
+
+  /* transitions */
+  .dropdown ul {
+    max-height: 0;
+    overflow: hidden;
+    -webkit-transition: 1s linear;
+    -moz-transition: 1s linear;
+    -o-transition: 1s linear;
+    transition: 1s linear;
+  }
+
+  .dropdown:hover > ul {
+    z-index: 1;
+    /* max-height: 50em; */
+    max-height: 20em;
+  }
+
+
+  /**
+   * ここからは本題と関係ないので適当に
+   */
+
+  /* reset */
+  html {
+    overflow-y: scroll;
+  }
+
+  body {
+    margin: 0;
+    font-size: 100%;
+    font-family: "Arial", sans-serif;
+  }
+
+  ul {
+    padding: 0;
+    list-style: none;
+  }
+
+  /* menu style */
+  .global {
+    margin-top: 2em;
+    background: #101010;
+  }
+
+  .global::after {
+    clear: both;
+    display: block;
+    content: "";
+  }
+
+  .global > ul {
+    margin: 0 2em;
+  }
+
+  .global > ul > li {
+    float: left;
+  }
+
+  .global a {
+    display: block;
+    padding: 0.5em 1em;
+    color: #f0f0f0;
+    text-decoration: none;
+  }
+
+  .global a:hover, .dropdown:hover a {
+    background: #505050;
+  }
+
+  .dropdown {
+    position: relative;
+  }
+
+  .dropdown ul {
+    position: absolute;
+    white-space: nowrap;
+  }
+
+  .dropdown ul a {
+    background: #505050;
+  }
+
+  .dropdown ul a:hover {
+    background: #e0e0e0;
+    color: #101010;
+  }
+  </style>
+</head>
+<body>
+
+<nav class="global">
+  <ul>
+    <li class="dropdown">
+      <a href="#">Lorem</a>
+      <ul>
+        <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+        <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+        <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a href="#">Ipsum</a>
+      <ul>
+        <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+        <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+        <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+        <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+        <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+        <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a href="#">Dolor</a>
+      <ul>
+        <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+        <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+        <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+        <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+        <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+        <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+        <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+        <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+        <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+        <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+      </ul>
+    </li>
+    <li><a href="#">Sit</a></li>
+    <li><a href="#">Amet</a></li>
+  </ul>
+</nav>
+
+</body>
+</html>

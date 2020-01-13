@@ -1,0 +1,57 @@
+<script type="application/x-yaml">
+title: "blockquote要素を整形するjQueryプラグイン「jQuery.prettyQuote.js」"
+description: "「jQueryを使ってblockquoteのcite属性とtitle属性でリンクを生成して表示させようとしてみた」のコードをjQueryプラグイン化しました。"
+slug: jquery-prettyquote-js
+published: 2010-09-28T15:54:59+09:00
+updated: 2011-05-18T14:31:11+09:00
+category: webdev
+</script>
+
+<p>
+  以前、「<a href="/articles/blockquote-and-jquery/">jQueryを使ってblockquoteのcite属性とtitle属性でリンクを生成して表示させようとしてみた</a>」という記事を書きましたが、その中で書いたコードを改良してjQueryプラグイン化してみました。<br>
+  結構色々できるようになったと思います。
+</p>
+<p>
+  今回、初めてのプラグインということで、頑張ってプラグインのページを作りました。<br>
+  ダウンロードや使い方などもそちらにありますのでご覧ください。
+</p>
+<p>
+  <a href="/demo/2010/prettyquote/">jQuery.prettyQuote.js</a>
+</p>
+<p>
+  プラグインのページにも書いてありますが、こんなことができます。
+</p>
+<ul>
+  <li>引用元がWeb上か書籍かを自動判別し、リンクを生成。</li>
+  <li>書籍の場合はAmazon.co.jpの商品ページへのリンクを生成。</li>
+  <li><code>cite</code>属性のISBNはISBN-13でもISBN-10でもOK。</li>
+  <li>生成されるHTMLをある程度まで指定可能。</li>
+  <li><code>blockquote</code>でも<code>q</code>でも使用可能。</li>
+  <li>AmazonへのリンクにはアフィリエイトIDを付与可能。</li>
+</ul>
+<p>
+  プラグインにしようと思ったのは、『<a href="http://w3g.jp/">W3G</a>』の上田さんの「<a href="http://w3g.jp/blog/tools/blockquote_linker">blockquote要素単体から引用元を視覚化する</a>」という記事を読んで、Amazonへのリンクが出来るようにすると便利だとか、人によってマークアップが異なることなどがあるということに改めて気づき、引用文をもう少し使いやすくしたいと思ったからです。<br>
+  上田さんの記事の中で、前述したこのブログの記事を取り上げていただいたのをきっかけに、プラグインとして作り直すことにしました。
+</p>
+<p>
+  それと、プラグインのページですが、HTML5で組んでみました。<br>
+  初めてHTML5を使ったので見苦しい点も多いかもしれません。<br>
+  この辺も要勉強ですね。
+</p>
+<p>
+  あんまりスマートなプラグインじゃないですが、よかったら使ってみてください。
+</p>
+<section>
+  <h2>チェンジログ</h2>
+  <dl>
+    <dt>2010年9月28日</dt>
+    <dd>
+      処理を開始する前に対象要素が<code>blockquote</code>もしくは<code>q</code>かチェックし、それ以外の場合には処理を行わないように変更。
+    </dd>
+    <dt>2010年9月28日</dt>
+    <dd>
+      Wikipediaなどの日本語URLがアンカーテキストの場合に長くなりすぎるのとの指摘を受けて、テキストだけデコードして表示するように変更。<br>
+      <a href="https://twitter.com/GeckoTang">@GeckoTang</a>さん、ありがとうございました。
+    </dd>
+  </dl>
+</section>

@@ -1,0 +1,117 @@
+<script type="application/x-yaml">
+title: "素敵なposition: sticky"
+description: "Webkitにposition: stickyが実装されましたね。というわけで試してみましょう。"
+slug: css-position-sticky
+published: 2012-09-05T14:28:25+09:00
+updated: 2012-09-05T14:28:25+09:00
+category: webdev
+</script>
+
+<p>
+  <a href="https://twitter.com/ub_pnr/status/227294016927059968">誰かがこのタイトルで書くだろうと思っていた</a>けど誰も書かないのでセルフ実行。
+</p>
+<p>
+  Webkitに<code>position: sticky</code>が実装されましたね。<br>
+  というわけで試してみましょう。<br>
+  現在、Chrome 23.0.1247.0以降（今はCanaryのみ）とWebkit Nightlyで見ることができます。
+</p>
+<p>
+  <a href="/demo/2012/sticky/">Sticky Positioning</a>
+</p>
+<p>
+  <a href="/download/2012/sticky.zip" download>サンプルをダウンロード</a>
+</p>
+<p>
+  HTMLとCSS は次のようになっています。
+</p>
+<pre><code class="language-html">&lt;div class=&quot;container&quot;&gt;
+  &lt;div class=&quot;column-left&quot;&gt;
+    &lt;section&gt;
+      &lt;h2&gt;Lorem Ipsum&lt;/h2&gt;
+      &lt;p&gt;
+        Lorem ipsum dolor sit amet...
+      &lt;/p&gt;
+    &lt;/section&gt;
+    &lt;section&gt;
+      &lt;h2&gt;Cupcake Ipsum&lt;/h2&gt;
+      &lt;p&gt;
+        Cupcake ipsum dolor sit amet tiramisu...
+      &lt;/p&gt;
+      ...
+    &lt;/section&gt;
+    ...
+  &lt;/div&gt;
+  &lt;div class=&quot;column-right&quot;&gt;
+    &lt;h2&gt;Lorem Ipsum&lt;/h2&gt;
+    &lt;p&gt;
+      Lorem ipsum dolor sit amet...
+    &lt;/p&gt;
+    &lt;h2&gt;Cupcake Ipsum&lt;/h2&gt;
+    &lt;p&gt;
+      Cupcake ipsum dolor sit amet tiramisu...
+    &lt;/p&gt;
+    ...
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<pre><code class="language-css">h2 {
+  margin: 4rem 0 2rem;
+  font-size: 2rem;
+  line-height: 3rem;
+}
+
+.container h2 {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+
+.column-left h2 {
+  background: #faa;
+}
+
+.column-right h2 {
+  background: #aaf;
+  z-index: 1;
+}
+
+.column-right h2:nth-of-type(2) {
+  top: 1.5rem;
+}
+
+.column-right h2:nth-of-type(3) {
+  top: 3rem;
+}
+
+.column-right h2:nth-of-type(4) {
+  top: 4.5rem;
+  z-index: 0;
+}</code></pre>
+<p>
+  <code>position: sticky</code>が指定された要素は、その親要素に<code>position: relative</code>が指定されており、また自身は<code>position: fixed</code>が指定されているかのように振る舞います。<br>
+  ときどき見かけれるスクロールすると途中から固定配置になるあれと似ています。
+</p>
+<p>
+  先ほどのサンプルの赤い見出しと青い見出しの違いは、赤い方は見出しの親が<code>section</code>要素、青い方は見出しの親が<code>div</code>要素（赤い方で言うと<code>section</code>の親）になります。<br>
+  親要素内でのみ途中から固定配置になるので、赤い方は<code>section</code>内でのみ、その挙動をします。<br>
+  青い方は同階層にも見出しがあるので、固定配置の挙動になったら指定された位置で重なっていきます。サンプルで少しずつ位置をずらしているのはそれを分かりやすくするためです。<br>
+  もちろん、<code>z-index</code>が指定されていればその指定に従って重なります。
+</p>
+<p>
+  また、サンプルを見ても分かる通り、上下マージンは固定される前と親要素の最後に来たときに適用されています。
+</p>
+<p>
+  これが使えるようになったら縦に長い表の見出し（たとえばテレビ番組表のチャンネル）などを使いやすくできますね。<br>
+  今でもJavaScriptを使えばできますが、作りやすくなると思います。
+</p>
+<p>
+  最後に解説ページへのリンクを載せておきます。<br>
+  JavaScriptでのフォールバック方法なんかも載っています。
+</p>
+<p>
+  <a href="http://updates.html5rocks.com/2012/08/Stick-your-landings-position-sticky-lands-in-WebKit">Stick your landings! position: sticky lands in WebKit - HTML5Rocks Updates</a>
+</p>
+<p>
+  そうそう、これはWebkitの独自実装で、CSSの仕様にはありません。<br>
+  現時点では<a href="http://lists.w3.org/Archives/Public/www-style/2012Jun/0627.html">提案中となっています</a>。<br>
+  このまま独自実装で終わるか、仕様に入るかはちょっと気になるところです。
+</p>

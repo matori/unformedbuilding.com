@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>ツールチップにリンク先のドメインを表示する</title>
+<link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script type="text/javascript" src="script.js"></script>
+</head>
+<body>
+
+<section id="target">
+  <h1>ツールチップにリンク先のドメインを表示するテスト</h1>
+  <p>
+    <a href="http://ja.wikipedia.org/wiki/HyperText_Markup_Language" title="HyperText Markup Language - Wikipedia">HTML</a> の <a href="http://www.w3.org/TR/html5/elements.html#the-title-attribute"><code>title</code> 属性</a>に文字が入ってる要素にマウス乗っけるとブラウザデフォルトの<a href="https://www.google.co.jp/search?q=%E3%83%84%E3%83%BC%E3%83%AB%E3%83%81%E3%83%83%E3%83%97">ツールチップ</a>が表示されますが、そこにリンク先のドメインを表示したいというわけです。<br />
+    まあいちいちこんなことやらなくても、ブラウザの左下あたりにリンク先の <a href="http://ja.wikipedia.org/wiki/Uniform_Resource_Locator">URL</a> は表示されるのですが、見ている場所を移動するのが面倒なのでドメイン名だけ表示してリンク先がどこなのか知らせることでさりげなく伝えることができるかもなーと思いました。
+  </p>
+  <p>
+    ただし、それは <code>title</code> 属性が入っていないリンクに限り、最初から指定されている場合にはそれを表示するようにします。<br />
+    そのテストです。<br />
+  </p>
+  <p>
+    除外テスト。www.yahoo.co.jp と www.bing.com は除外。<br />
+    <a href="http://www.yahoo.co.jp">Yahoo!</a><br />
+    <a href="http://www.google.co.jp">Google</a><br />
+    <a href="http://www.bing.com">Bing</a>
+  </p>
+</section>
+
+<section>
+  <h1>こっちには採用しない</h1>
+  <p>
+    <a href="http://ja.wikipedia.org/wiki/HyperText_Markup_Language" title="HyperText Markup Language - Wikipedia">HTML</a> の <a href="http://www.w3.org/TR/html5/elements.html#the-title-attribute"><code>title</code> 属性</a>に文字が入ってる要素にマウス乗っけるとブラウザデフォルトの<a href="https://www.google.co.jp/search?q=%E3%83%84%E3%83%BC%E3%83%AB%E3%83%81%E3%83%83%E3%83%97">ツールチップ</a>が表示されますが、そこにリンク先のドメインを表示したいというわけです。<br />
+    まあいちいちこんなことやらなくても、ブラウザの左下あたりにリンク先の <a href="http://ja.wikipedia.org/wiki/Uniform_Resource_Locator">URL</a> は表示されるのですが、見ている場所を移動するのが面倒なのでドメイン名だけ表示してリンク先がどこなのか知らせることでさりげなく伝えることができるかもなーと思いました。
+  </p>
+  <p>
+    ただし、それは <code>title</code> 属性が入っていないリンクに限り、最初から指定されている場合にはそれを表示するようにします。<br />
+    そのテストです。<br />
+    <a href="http://www.yahoo.co.jp">Yahoo!</a>
+  </p>
+</section>
+
+</body>
+</html>

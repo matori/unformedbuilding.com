@@ -1,0 +1,13 @@
+.Header {
+}
+
+.Header-heading {
+  display: block;
+  position: relative;
+  margin-top: 0;
+  margin-bottom: get-lines(4);
+  padding-top: rem($config-line-gap / 2);
+  padding-bottom: rem($config-line-gap / 2);
+  width: get-lines(2, true);
+  height: get-lines(2, true);
+}

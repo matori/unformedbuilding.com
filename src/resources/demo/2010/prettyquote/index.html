@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="blockquote や q など引用時に使用する要素を、見やすく・使いやすく整形する jQuery プラグインです。" />
+<title>jQuery.prettyQuote.js</title>
+<link rel="canonical" href="http://unformedbuilding.com/plugins/prettyquote/" />
+<link rel="stylesheet" href="./style.css" />
+<link rel="stylesheet" href="./prettyquote.css" />
+<script src="./jquery-1.4.2.min.js"></script>
+<script src="./jquery.easingscroll.js"></script>
+<script src="./page.js"></script>
+<script src="./jquery.prettyquote.js"></script>
+<script>
+$(function() {
+	// blockquote内の最後の要素(pとか)のマージンを消す
+	$('blockquote :last-child').css('margin-bottom', 0);
+
+	// スクロール用
+	$('a[href^=#]').easingScroll({
+		easing: 'easeOutCirc',
+		duration: 400
+	});
+
+	// デフォルト設定
+	$('.default blockquote').prettyQuote();
+
+	// 設定例1
+	$('.setting1 blockquote').prettyQuote({
+		header: { display: false, tag: 'div', className: 'header' },
+		footer: { display: true, tag: 'div', className: 'footer', text: 'title' }
+	});
+
+	// 設定例2
+	$('.setting2 blockquote').prettyQuote({
+		tooltip: 'title',
+		amazonId: 'pnr-22'
+	});
+
+	// 設定例3
+	$('.setting3 blockquote').prettyQuote({
+		container: { tag: 'dl', className: 'prettyQuote'},
+		quoteWrap: { wrap: true, tag: 'dd', className: 'body' },
+		header: { display: true, tag: 'dt', className: 'header' },
+		footer: { display: true, tag: 'dt', className: 'footer', text: 'uri' }
+	});
+
+	// 設定例4
+	$('.setting4 blockquote').prettyQuote();
+	$('.setting4 blockquote').next().prepend('via: ');
+
+	// 設定例5
+	$('.setting5 q').prettyQuote({
+			container: { tag: 'span', className: 'prettyQuote'},
+			header: { display: false, tag: 'div', className: 'header' },
+			footer: { display: true, tag: '', className: 'qAfter', text: 'uri' },
+			tooltip: 'title'
+	});
+
+
+});
+</script>
+<!--[if lt IE 9]>
+<link rel="stylesheet" href="./ie.css" />
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script type="text/javascript">window.google_analytics_uacct = "pub-2930485884266256";</script>
+<script type="text/javascript">
+	var analyticsFileTypes = ['zip'];
+	var analyticsEventTracking = 'enabled';
+</script>
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-17200749-1']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+</head>
+
+<body>
+
+<div id="wrapper">
+
+<article>
+
+	<header id="pageHeader">
+		<hgroup>
+			<h1>jQuery.prettyQuote.js</h1>
+			<h2>Make your &quot;quote&quot; pretty &amp; friendly!</h2>
+		</hgroup>
+	</header>
+
+	<section id="about" class="content">
+		<header>
+			<h2>About - このプラグインについて</h2>
+		</header>
+		<div>
+			<p>
+			<code>blockquote</code> 要素や、<code>q</code> 要素の引用元の情報を簡単に示すことができます。<br />
+			たとえば、このようにマークアップされた <abbr title="HyperText Markup Language">HTML</abbr> があったとすると……
+			</p>
+			<pre><code>&lt;blockquote cite=&quot;http://ja.wikipedia.org/wiki/%E5%BC%95%E7%94%A8&quot; title=&quot;引用 - Wikipedia&quot;&gt;
+    &lt;p&gt;引用（いんよう、英語：citation, quotation[1]）とは、広義には、他人の著作を自己の作品のなかで紹介する行為、先人の芸術作品やその要素を自己の作品に取り入れること。&lt;/p&gt;
+&lt;/blockquote&gt;
+</code></pre>
+			<p>
+			プラグインの初期設定では次のように整形されます。<br />
+			(実際には、インデントや元テキスト以外の改行はされません）
+			</p>
+			<pre><code>&lt;div class=&quot;prettyQuote&quot;&gt;
+    &lt;div class=&quot;header&quot;&gt;引用 - Wikipedia&lt;/div&gt;
+    &lt;blockquote cite=&quot;http://ja.wikipedia.org/wiki/%E5%BC%95%E7%94%A8&quot; title=&quot;引用 - Wikipedia&quot;&gt;
+        &lt;p&gt;引用（いんよう、英語：citation, quotation[1]）とは、広義には、他人の著作を自己の作品のなかで紹介する行為、先人の芸術作品やその要素を自己の作品に取り入れること。&lt;/p&gt;
+    &lt;/blockquote&gt;
+    &lt;div class=&quot;footer&quot;&gt;&lt;cite&gt;&lt;a href=&quot;http://ja.wikipedia.org/wiki/%E5%BC%95%E7%94%A8&quot;&gt;http://ja.wikipedia.org/wiki/引用&lt;/a&gt;&lt;/cite&gt;&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+			<p>
+			このようにリンクが生成されることで閲覧者が引用元を確認するのが容易になります。<br />
+			また、書き手にとっても引用時にリンクを作る必要がなくなるので、少しは楽ができるかもしれません。
+			</p>
+			<p>
+			このプラグインを公開したときのブログ記事はこちらです。<br />
+			<a href="/articles/jquery-prettyquote-js/">blockquote 要素を整形する jQuery プラグイン「jQuery.prettyQuote.js」</a>
+			</p>
+			<section>
+				<header>
+					<h3>プラグインの特徴</h3>
+				</header>
+				<div>
+					<ul>
+						<li>引用元が Web 上か書籍かを自動判別し、リンクを生成。</li>
+						<li>書籍の場合は Amazon.co.jp の商品ページへのリンクを生成。</li>
+						<li><code>cite</code> 属性の ISBN は ISBN-13 でも ISBN-10 でも OK。</li>
+						<li>生成される <abbr title="HyperText Markup Language">HTML</abbr> をある程度まで指定可能。</li>
+						<li><code>blockquote</code> でも <code>q</code> でも使用可能。</li>
+						<li>Amazon へのリンクにはアフィリエイト ID を付与可能。</li>
+					</ul>
+				</div>
+			</section>
+		</div>
+	</section>
+
+	<section id="download" class="content">
+		<header>
+			<h2>DownLoad - ダウンロードとライセンスについて</h2>
+		</header>
+		<div>
+			<p class="dlBtn"><a href="/download/2010/jQuery.prettyQuote.js.zip"><img src="./button.png" alt="ダウンロード" title="プラグインをダウンロード" /></a><span>version 1.2</span></p>
+			<p>
+			プラグインのライセンスは MIT ライセンスです。<br />
+			参考リンク：<a href="http://ja.wikipedia.org/wiki/MIT_License" target="_blank">MIT License - Wikipedia</a>
+			</p>
+		</div>
+
+	</section>
+
+	<section id="installation" class="content">
+		<header>
+			<h2>Installation - 導入方法</h2>
+		</header>
+		<div>
+			<pre><code>&lt;script type=&quot;text/javascript&quot; src=&quot;jquery.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;jquery.prettyquote.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+$(function() {
+    $(&#39;blockquote&#39;).prettyQuote();
+});
+&lt;/script&gt;
+</code></pre>
+			<p>
+			jQuery.prettyQuote.js は jQuery プラグインですので、使用には jQuery.js が必須となります。<br />
+			jQuery.js は<a href="http://jquery.com/" title="jQuery: The Write Less, Do More, JavaScript Library" rel="external">公式サイト</a>からダウンロードするか、<a href="http://code.google.com/intl/ja/apis/libraries/" title="Google Libraries API" rel="external">Google にホスティングされているもの</a>をご利用ください。
+			</p>
+			<p><code>$(&#39;blockquote&#39;)</code> の部分は、適用したいセレクタに書き換えてください。</p>
+		</div>
+	</section>
+
+	<section id="options" class="content">
+		<header>
+			<h2>Options - オプション</h2>
+		</header>
+		<div>
+			<p>jQuery.prettyQuote.js にはいくつかオプションがあり、デフォルトでは以下のようになっています。</p>
+			<pre><code>$(function() {
+    $(selector).prettyQuote({
+        newWin: true,
+        container: { tag: &#39;div&#39;, className: &#39;prettyQuote&#39;},
+        quoteWrap: { wrap: false, tag: &#39;div&#39;, className: &#39;body&#39; },
+        header: { display: true, tag: &#39;div&#39;, className: &#39;header&#39; },
+        footer: { display: true, tag: &#39;div&#39;, className: &#39;footer&#39;, text: &#39;uri&#39; },
+        tooltip: &#39;&#39;,
+        amazonId: &#39;&#39;
+    });
+});
+</code></pre>
+			<section id="optionDetail">
+				<header>
+					<h3>オプション項目の説明</h3>
+				</header>
+				<div>
+					<p>ここで使われる対象要素とは、スクリプトを適用する要素のことで <code>blockquote</code> 要素、もしくは <code>q</code> 要素となります。</p>
+					<dl>
+						<dt><code>newWin</code></dt>
+						<dd>
+						生成されたリンクを新しいウィンドウで開くかどうか。<br />
+						<code>true</code> か <code>false</code> で指定。デフォルトは <code>true</code> です。
+						</dd>
+						<dt><code>container</code></dt>
+						<dd>
+						対象要素と追加される要素を格納する要素です。サブオプションは以下のようになっています。
+							<dl>
+								<dt><code>tag</code></dt>
+								<dd>使用する要素。デフォルトは <code>&#39;div&#39;</code> です。<br />空にするとプラグインは無効になりますので注意してください。</dd>
+								<dt><code>className</code></dt>
+								<dd>使用する要素に適用するクラス名。デフォルトは <code>&#39;prettyQuote&#39;</code> です。</dd>
+							</dl>
+						</dd>
+						<dt><code>quoteWrap</code></dt>
+						<dd>
+						必要な場合に対象要素のみを囲む要素を指定できます。サブオプションは以下のようになっています。
+							<dl>
+								<dt><code>wrap</code></dt>
+								<dd>囲むかどうか。<code>true</code> か <code>false</code> で指定します。デフォルトは <code>false</code> です。</dd>
+								<dt><code>tag</code></dt>
+								<dd><code>wrap: true</code> の場合に有効。何の要素で囲むかを指定します。デフォルトは <code>&#39;div&#39;</code> です。</dd>
+								<dt><code>className</code></dt>
+								<dd><code>wrap: true</code> の場合に有効。囲む要素に適用するクラス名。デフォルトは <code>&#39;body&#39;</code> です。</dd>
+							</dl>
+						</dd>
+						<dt><code>header</code></dt>
+						<dd>
+						対象要素の前に追加する要素。<code>title</code> 属性の値を表示します。<code>title</code> 属性がない場合は追加されません。
+							<dl>
+								<dt><code>display</code></dt>
+								<dd>ヘッダーを表示するかどうか。<code>true</code> か <code>false</code> で指定します。デフォルトは <code>true</code> です。</dd>
+								<dt><code>tag</code></dt>
+								<dd><code>display: true</code> の場合に有効。どの要素を使うかを指定します。<code>&#39;&#39;</code> のように空を指定すると、要素でマークアップされていないテキストが表示されます。<br />デフォルトは <code>&#39;div&#39;</code> です。</dd>
+								<dt><code>className</code></dt>
+								<dd><code>display: true</code> の場合に有効。使用する要素に適用するクラス名。デフォルトは <code>&#39;header&#39;</code> です。</dd>
+							</dl>
+						</dd>
+						<dt><code>footer</code></dt>
+						<dd>
+						対象要素の後に追加する要素。<br />
+						<code>title</code> 属性の値、または <abbr title="Uniform Resource Identifier">URI</abbr> を表示し、<code>cite</code> 属性がある場合にはリンクを生成します。
+							<dl>
+								<dt><code>display</code></dt>
+								<dd>フッターを表示するかどうか。<code>true</code> か <code>false</code> で指定します。デフォルトは <code>true</code> です。</dd>
+								<dt><code>tag</code></dt>
+								<dd><code>display: true</code> の場合に有効。どの要素を使うかを指定します。<br /><code>&#39;&#39;</code> のように空を指定すると、<code>&lt;cite&gt;&lt;a href=&quot;URI&quot;&gt;アンカーテキスト&lt;/a&gt;&lt;/cite&gt;</code> のみが出力されます。リンクがない場合はアンカーテキストがそのまま表示されます。<br />デフォルトは <code>&#39;div&#39;</code> です。</dd>
+								<dt><code>className</code></dt>
+								<dd><code>display: true</code> の場合に有効。使用する要素に適用するクラス名。デフォルトは <code>&#39;footer&#39;</code> です。</dd>
+								<dt><code>text</code></dt>
+								<dd>アンカーテキストに使用するテキスト。<code>&#39;title&#39;</code> または <code>&#39;uri&#39;</code> で指定します。デフォルトは <code>&#39;uri&#39;</code> です。</dd>
+							</dl>
+						</dd>
+						<dt><code>tooltip</code></dt>
+						<dd>生成するリンクのタイトル属性に入れたいテキスト (例：<code>&#39;引用元へ&#39;</code>)。<br /><code>&#39;title&#39;</code> を指定すると、<code>title</code> 属性の値を使用できます。デフォルトは空です。</dd>
+						<dt><code>amazonId</code></dt>
+						<dd>Amazon へのリンクに使用する Amazon トラッキングコード (例：<code>&#39;xxx-22&#39;</code>)。デフォルトは空です。</dd>
+					</dl>
+					<p>
+					各オプションは省略可能ですが、サブオプションに何か指定する場合、サブオプションは省略できません。<br />
+					以下の例はフッターのテキストだけ変更する場合です。<br />
+					(赤いテキストが変更箇所)
+					</p>
+					<pre><code>$(function() {
+    $(selector).prettyQuote({
+        footer: { display: true, tag: &#39;div&#39;, className: &#39;footer&#39;, <span class="highlight">text: &#39;title&#39;</span> }
+    });
+});
+</code></pre>
+					<p><code>q</code> 要素に適用する場合など、以下のように指定すると使いやすいかもしれません。</p>
+					<pre><code>$(function() {
+    $(&#39;q&#39;).prettyQuote({
+        container: { <span class="highlight">tag: &#39;span&#39;</span>, className: &#39;prettyQuote&#39;},
+        header: { <span class="highlight">display: false</span>, tag: &#39;div&#39;, className: &#39;header&#39; },
+        footer: { display: true, <span class="highlight">tag: &#39;span&#39;</span>, <span class="highlight">className: &#39;cite&#39;</span>, text: &#39;uri&#39; }
+    });
+});
+</code></pre>
+				</div>
+			</section>
+		</div>
+	</section>
+
+	<section id="basic" class="content">
+		<header>
+			<h2>Examples(Basic) - 基本的な使用例</h2>
+		</header>
+		<div>
+			<section class="default">
+				<header>
+					<h3>デフォルト設定</h3>
+				</header>
+				<div>
+					<p>
+					スタイルはこのデモ用に作ったので、各自でいい感じにデザインしてください。<br />
+					(このプラグインはスタイルシートを追加しません)
+					</p>
+					<section>
+						<header>
+							<h4>引用元が Web 上の場合</h4>
+						</header>
+						<div>
+							<blockquote cite="http://ja.wikipedia.org/wiki/%E5%BC%95%E7%94%A8" title="引用 - Wikipedia">
+								<p>引用（いんよう、英語：citation, quotation[1]）とは、広義には、他人の著作を自己の作品のなかで紹介する行為、先人の芸術作品やその要素を自己の作品に取り入れること。</p>
+							</blockquote>
+						</div>
+					</section>
+					<section>
+						<header>
+							<h4>引用元が書籍の場合</h4>
+						</header>
+						<div>
+							<blockquote title="Web 制作の現場で使う jQueryデザイン入門" cite="urn:isbn:978-4-04-868411-8">
+								<p>jQueryの最大の特徴は、通常のJavaScriptとは異なる方法でJavaScriptの命令を記述できることです。JavaScriptの記述には多くの手続きを必要としますが、jQueryを利用すると非常に短いコードで済みます。</p>
+							</blockquote>
+						</div>
+					</section>
+				</div>
+			</section>
+			<section class="default">
+				<header>
+					<h3>デフォルト設定下で、<code>title</code> 属性や <code>cite</code> 属性の有無による違い</h3>
+				</header>
+				<div>
+					<p>どちらも指定されている場合は、上記のデフォルト設定の例のようになります。</p>
+					<section>
+						<header>
+							<h4><code>cite</code> 属性あり・<code>title</code> 属性なし</h4>
+						</header>
+						<div>
+							<blockquote cite="http://ja.wikipedia.org/wiki/%E5%BC%95%E7%94%A8">
+								<p>引用（いんよう、英語：citation, quotation[1]）とは、広義には、他人の著作を自己の作品のなかで紹介する行為、先人の芸術作品やその要素を自己の作品に取り入れること。</p>
+							</blockquote>
+						</div>
+					</section>
+					<section>
+						<header>
+							<h4><code>cite</code> 属性なし・<code>title</code> 属性あり</h4>
+						</header>
+						<div>
+							<blockquote title="引用 - Wikipedia">
+								<p>引用（いんよう、英語：citation, quotation[1]）とは、広義には、他人の著作を自己の作品のなかで紹介する行為、先人の芸術作品やその要素を自己の作品に取り入れること。</p>
+							</blockquote>
+						</div>
+					</section>
+					<section>
+						<header>
+							<h4><code>cite</code> 属性なし・<code>title</code> 属性なし</h4>
+						</header>
+						<div>
+							<blockquote>
+								<p>引用（いんよう、英語：citation, quotation[1]）とは、広義には、他人の著作を自己の作品のなかで紹介する行為、先人の芸術作品やその要素を自己の作品に取り入れること。</p>
+							</blockquote>
+						</div>
+					</section>
+				</div>
+			</section>
+		</div>
+	</section>
+	<section id="advanced" class="content">
+		<header>
+			<h2>Examples(Advanced) - 高度な使用例</h2>
+		</header>
+		<div>
+			<p>
+			設定例を紹介します。これを参考にして自分好みの設定にしてください。<br />
+			対象要素には <code>cite</code> 属性・<code>title</code> 属性の両方があるものとします
+			</p>
+			<section class="setting1">
+				<header>
+					<h3>ヘッダーなしで、アンカーテキストに <code>title</code> 属性の値を使う</h3>
+				</header>
+				<div>
+					<p>オプションの設定は以下。</p>
+					<pre><code>$(function() {
+    $(selector).prettyQuote({
+        header: { <span class="highlight">display: false</span>, tag: &#39;div&#39;, className: &#39;header&#39; },
+        footer: { display: true, tag: &#39;div&#39;, className: &#39;footer&#39;, <span class="highlight">text: &#39;title&#39;</span> }
+    });
+});
+</code></pre>
+					<p>表示されるもの。</p>
+					<blockquote cite="http://ja.wikipedia.org/wiki/%E5%BC%95%E7%94%A8" title="引用 - Wikipedia">
+						<p>引用（いんよう、英語：citation, quotation[1]）とは、広義には、他人の著作を自己の作品のなかで紹介する行為、先人の芸術作品やその要素を自己の作品に取り入れること。</p>
+					</blockquote>
+				</div>
+			</section>
+			<section class="setting2">
+				<header>
+					<h3>書籍からの引用文をアフィリエイト付きで Amazon.co.jp へリンクする</h3>
+				</header>
+				<div>
+					<p>オプションの設定は以下。</p>
+					<pre><code>$(function() {
+    $(selector).prettyQuote({
+        tooltip: <span class="highlight">&#39;title&#39;</span>,
+        amazonId: <span class="highlight">&#39;pnr-22&#39;</span>
+    });
+});
+</code></pre>
+					<p>表示されるもの。</p>
+					<blockquote title="Web 制作の現場で使う jQueryデザイン入門" cite="urn:isbn:978-4-04-868411-8">
+						<p>jQueryの最大の特徴は、通常のJavaScriptとは異なる方法でJavaScriptの命令を記述できることです。JavaScriptの記述には多くの手続きを必要としますが、jQueryを利用すると非常に短いコードで済みます。</p>
+					</blockquote>
+				</div>
+			</section>
+			<section class="setting3">
+				<header>
+					<h3><code>dl</code> 要素を使って、定義リストで出力する</h3>
+				</header>
+				<div>
+					<p>オプションの設定は以下。</p>
+					<pre><code>$(function() {
+    $(selector).prettyQuote({
+        container: { <span class="highlight">tag: &#39;dl&#39;</span>, className: &#39;prettyQuote&#39;},
+        quoteWrap: { <span class="highlight">wrap: true</span>, <span class="highlight">tag: &#39;dd&#39;</span>, className: &#39;body&#39; },
+        header: { display: true, <span class="highlight">tag: &#39;dt&#39;</span>, className: &#39;header&#39; },
+        footer: { display: true, <span class="highlight">tag: &#39;dt&#39;</span>, className: &#39;footer&#39;, text: &#39;uri&#39; }
+    });
+});
+</code></pre>
+					<p>
+					表示されるもの。<br />
+					(Firebug などで確認してみてください)
+					</p>
+					<blockquote cite="http://ja.wikipedia.org/wiki/%E5%BC%95%E7%94%A8" title="引用 - Wikipedia">
+						<p>引用（いんよう、英語：citation, quotation[1]）とは、広義には、他人の著作を自己の作品のなかで紹介する行為、先人の芸術作品やその要素を自己の作品に取り入れること。</p>
+					</blockquote>
+				</div>
+			</section>
+			<section class="setting4">
+				<header>
+					<h3>リンクの前に「引用元：」とか「via:」とかを追加する</h3>
+				</header>
+				<p>
+				これはプラグインの機能ではないんですが、やりたい人もいるでしょうから書いておきます。<br />
+				プラグイン自体はデフォルトで使用している、という条件だとこうなります。
+				</p>
+				<div>
+					<p>オプションの設定は以下。</p>
+					<pre><code>$(function() {
+    $(selector).prettyQuote();
+    $(selector).next().prepend(&#39;via: &#39;);
+});
+</code></pre>
+					<p>表示されるもの。</p>
+					<blockquote cite="http://ja.wikipedia.org/wiki/%E5%BC%95%E7%94%A8" title="引用 - Wikipedia">
+						<p>引用（いんよう、英語：citation, quotation[1]）とは、広義には、他人の著作を自己の作品のなかで紹介する行為、先人の芸術作品やその要素を自己の作品に取り入れること。</p>
+					</blockquote>
+				</div>
+			</section>
+			<section class="setting5">
+				<header>
+					<h3><code>q</code> 要素にいい感じに適用してみる</h3>
+				</header>
+				<p><abbr title="Cascading Style Sheets">CSS</abbr> を上手く指定しましょう。</p>
+				<div>
+					<p>オプションの設定は以下。</p>
+					<pre><code>$(function() {
+    $(selector).prettyQuote({
+        container: { <span class="highlight">tag: &#39;span&#39;</span>, className: &#39;prettyQuote&#39;},
+        header: { <span class="highlight">display: false</span>, tag: &#39;div&#39;, className: &#39;header&#39; },
+        footer: { display: true, <span class="highlight">tag: &#39;&#39;</span>, <span class="highlight">className: &#39;qAfter&#39;</span>, text: &#39;uri&#39; },
+        <span class="highlight">tooltip: &#39;title&#39;</span>
+    });
+});
+</code></pre>
+					<p>スタイルシートを以下のように指定。</p>
+					<pre><code>span.prettyQuote {
+    margin: 0 5px;
+}
+
+span.prettyQuote q {
+    background-color: #ddd;
+    quotes: '&quot;' '&quot;';
+}
+
+span.prettyQuote q:before {
+    content: '&quot;'; /* for webkit */
+    content: open-quote;
+}
+
+span.prettyQuote q:after {
+    content: '&quot;'; /* for webkit */
+    content: close-quote;
+}
+
+span.prettyQuote cite a {
+    display: inline-block;
+    margin-left: 5px;
+    width: 1em; /* font-size と同じ */
+    height: 1.6em; /* line-height と同じ */
+    overflow: hidden;
+    background: url(link.gif) center center no-repeat;
+    text-indent: -9999px;
+    vertical-align: bottom;
+}
+</code></pre>
+					<p>
+					表示されるもの。<br />
+					(文章は適当です)
+					</p>
+					<p>
+					引用文のことを考えてみましたが、よく分からないので、とりあえず Wikipedia を確認したところ、<q cite="http://ja.wikipedia.org/wiki/%E5%BC%95%E7%94%A8" title="引用 - Wikipedia">広義には、他人の著作を自己の作品のなかで紹介する行為、先人の芸術作品やその要素を自己の作品に取り入れること</q>と書かれていました。<br />
+					これをもう少し読む進んでいくと……
+					</p>
+				</div>
+			</section>
+		</div>
+	</section>
+
+	<section id="contact" class="content">
+		<header>
+			<h2>Contact - 連絡先</h2>
+		</header>
+		<div>
+			<p>
+			バグなどありましたらご連絡ください。<br />
+			機能の追加とかは気が向いたらします。
+			</p>
+			<p>
+			まだまだ甘いところがあると思いますので<br />
+			「ここはこうした方が速くなるよ！」<br />
+			「もっとスマートにできるよ！」<br />
+			などのアドバイスも歓迎です。
+			</p>
+			<p>
+			メールでのご連絡は Gmail へ。アカウントは pnr.matori です。<br />
+			ブログ記事のコメントでも OK です。<a href="/articles/jquery-prettyquote-js/">記事はこちらからどうぞ。</a>
+			</p>
+		</div>
+	</section>
+
+	<section id="changeLog" class="content">
+		<header>
+			<h2>Change logs - 更新履歴</h2>
+		</header>
+		<div>
+			<dl>
+				<dt>2010-09-28</dt>
+				<dd>
+				version 1.2<br />
+				処理を開始する前に対象要素が <code>blockquote</code> もしくは <code>q</code> かチェックし、それ以外の場合には処理を行わないように変更。
+				</dd>
+				<dt>2010-09-28</dt>
+				<dd>
+				version 1.1<br />
+				Wikipedia などの日本語 URL がアンカーテキストの場合に、表示テキストが長くなりすぎるとの指摘があったため、表示テキストのみURLデコードするように変更。
+				</dd>
+				<dt>2010-09-28</dt>
+				<dd>
+				version 1.0<br />
+				ひとまず完成。公開。
+				</dd>
+				</dd>
+				<dt>2010-09-17</dt>
+				<dd>
+				version 0.1<br />
+				テスト版完成。
+				</dd>
+			</dl>
+		</div>
+	</section>
+
+</article>
+
+<div id="sidebar">
+
+	<nav>
+		<ul>
+			<li><a href="#about">About</a></li>
+			<li><a href="#download">Download</a></li>
+			<li><a href="#installation">Installation</a></li>
+			<li><a href="#options">Options</a></li>
+			<li><a href="#basic">Examples(Basic)</a></li>
+			<li><a href="#advanced">Examples(Advanced)</a></li>
+			<li><a href="#contact">Contact</a></li>
+			<li><a href="#changeLog">Change logs</a></li>
+			<li id="toTop"><a href="#wrapper">▲Top</a></li>
+		</ul>
+	</nav>
+
+</div><!-- / #sidebar -->
+
+</div><!-- / #wrapper -->
+
+<footer id="pageFooter">
+	<p><small>Copyright &copy; Unformed Building All Rights Reserved.</small></p>
+</footer>
+
+</body>
+</html>

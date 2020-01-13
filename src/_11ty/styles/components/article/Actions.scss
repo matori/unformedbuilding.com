@@ -1,0 +1,23 @@
+.Actions {
+}
+
+.Actions-content {
+  display: block;
+
+  &:first-child {
+    margin-top: get-lines(4);
+  }
+}
+
+.Actions-trigger {
+  @include text(0);
+  display: list-item;
+  cursor: default;
+}
+
+.Actions-list {
+  @include text(0);
+  margin-top: 0;
+  margin-bottom: get-lines(1);
+  padding-left: 2rem;
+}

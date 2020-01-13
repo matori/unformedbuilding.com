@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <title>transform-style: preserve-3d</title>
+  <style type="text/css">
+  body {
+    font-family: "Times New Roman", sans-serif;
+  }
+
+  .stage1,
+  .stage1 > .view {
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+  }
+
+  .stage2,
+  .stage2 > .view {
+    -webkit-transform-style: flat;
+    transform-style: flat;
+  }
+
+  .stage1,
+  .stage2 {
+    position: relative;
+    margin: 100px auto 0;
+    width: 100px;
+    height: 100px;
+    -webkit-perspective: 500px;
+    perspective: 500px;
+  }
+
+  .view {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+  .panel {
+    position: absolute;
+    padding: 7px;
+    border: 3px solid red;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 0, 0, 0.5);
+    color: white;
+    font-size: 80px;
+    line-height: 1;
+    text-align: center;
+  }
+
+  .p1 {
+    -webkit-transform: translateZ(200px);
+    transform: translateZ(200px);
+  }
+
+  .p2 {
+    -webkit-transform: rotateY(90deg) translateZ(200px);
+    transform: rotateY(90deg) translateZ(200px);
+  }
+
+  .p3 {
+    -webkit-transform: rotateY(180deg) translateZ(200px);
+    transform: rotateY(180deg) translateZ(200px);
+  }
+
+  .p4 {
+    -webkit-transform: rotateY(270deg) translateZ(200px);
+    transform: rotateY(270deg) translateZ(200px);
+  }
+
+  @-webkit-keyframes rotation {
+    from { -webkit-transform: rotateY(0); }
+    to   { -webkit-transform: rotateY(360deg); }
+  }
+
+  @keyframes rotation {
+    from { transform: rotateY(0); }
+    to   { transform: rotateY(360deg); }
+  }
+
+  .view {
+    -webkit-animation: rotation 4s linear infinite;
+    animation: rotation 4s linear infinite;
+  }
+  </style>
+</head>
+<body>
+
+<div class="stage1">
+  <div class="view">
+    <div class="panel p1">1</div>
+    <div class="panel p2">2</div>
+    <div class="panel p3">3</div>
+    <div class="panel p4">4</div>
+  </div>
+</div>
+
+<div class="stage2">
+  <div class="view">
+    <div class="panel p1">1</div>
+    <div class="panel p2">2</div>
+    <div class="panel p3">3</div>
+    <div class="panel p4">4</div>
+  </div>
+</div>
+
+</body>
+</html>

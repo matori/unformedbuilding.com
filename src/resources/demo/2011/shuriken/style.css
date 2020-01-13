@@ -1,0 +1,144 @@
+html {
+    background: #000;
+}
+
+body {
+    height: 100%;
+}
+
+#killed, #catched {
+    display: none;
+    position: absolute;
+    z-index: 99;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+}
+
+#killed {
+    background: url(killed.png) center center no-repeat;
+}
+
+#catched {
+    background: url(catched.png) center center no-repeat;
+}
+
+#shuriken {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -70px;
+    margin-left: -70px;
+    cursor: pointer;
+}
+
+.shu {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    background: #eef;
+}
+
+.shu:before {
+    display: block;
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    content: "";
+    background: #eef;
+    -webkit-transform: rotate(45deg);
+}
+
+.body {
+    background: #101010;
+    -webkit-transform: scale(0.95);
+}
+
+.body:before {
+    background: #101010;
+}
+
+.body:after {
+    display: block;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    -webkit-border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    content: "\00273f";
+    color: #200;
+    background: -webkit-gradient(
+                    radial,
+                    center center, 0,
+                    center center, 40,
+                    from(rgba(255, 255, 255, 0.1)),
+                    to(rgba(255, 255, 255, 0))
+                );
+    font-size: 40px;
+    text-align: center;
+    text-shadow: -1px -1px 0 #000,
+                  1px -1px 0 #000,
+                  1px  1px 0 #000,
+                 -1px  1px 0 #000;
+    line-height: 80px;
+}
+
+#shuriken {
+    -webkit-transform-style: preserve-3d;
+}
+
+/* ƒZƒbƒg */
+#shuriken.set {
+    left: 60%;
+    -webkit-transform: rotateX(50deg) rotateY(-50deg);
+}
+
+#shuriken.throw {
+    left: 60%;
+    -webkit-animation-name: throw;
+    -webkit-animation-property: all;
+    -webkit-animation-duration: 5s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: 1;
+    -webkit-transform: rotateX(50deg)
+                       rotateY(-50deg)
+                       rotateZ(0deg)
+                       scale(1)
+                       translateZ(0px);
+}
+
+@-webkit-keyframes throw {
+    0% {
+        left: 60%;
+        -webkit-transform: rotateX(50deg)
+                           rotateY(-50deg)
+                           rotateZ(0deg)
+                           scale(1)
+                           translateZ(0px);
+    }
+    30% {
+        left: 50%;
+        -webkit-transform: rotateX(85deg)
+                           rotateY(-10deg)
+                           rotateZ(-1080deg)
+                           scale(0)
+                           translateZ(50px);
+    }
+    60% {
+        left: 50%;
+        -webkit-transform: rotateX(85deg)
+                           rotateY(-10deg)
+                           rotateZ(-1080deg)
+                           scale(0)
+                           translateZ(50px);
+    }
+    100% {
+        left: 50%;
+        -webkit-transform: rotateX(50deg)
+                           rotateY(-85deg)
+                           rotateZ(360deg)
+                           scale(20)
+                           translateZ( 0px);
+    }
+}

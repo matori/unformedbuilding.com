@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <title>&gt; アイコン 2</title>
+  <style type="text/css">
+  /* この部分は本題ではない */
+  body {
+    font-size: 14px;
+    font-family: "Arial", sans-serif;
+    line-height: 1.4;
+  }
+
+  div {
+    margin: 20px auto;
+    padding: 0.7em;
+    border: 1px solid #cfcfcf;
+    border-radius: 5px;
+    background: -webkit-linear-gradient(#fff 50%, #efefef 50%);
+    background: -moz-linear-gradient(#fff 50%, #efefef 50%);
+    background: -o-linear-gradient(#fff 50%, #efefef 50%);
+    background: linear-gradient(#fff 50%, #efefef 50%);
+  }
+
+  /* 本題 */
+  .test1, .test2, .test3 {
+    position: relative;
+  }
+
+  .test1::before, .test2::before, .test3::before, .test1::after, .test2::after, .test3::after {
+    position: absolute;
+    top: 50%;
+    z-index: 0;
+    content: "";
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .test1::before, .test2::before, .test3::before {
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+    -webkit-transform-origin: 100% 0%;
+    -moz-transform-origin: 100% 0%;
+    -ms-transform-origin: 100% 0%;
+    -o-transform-origin: 100% 0%;
+    transform-origin: 100% 0%;
+  }
+
+  .test1::after, .test2::after, .test3::after {
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    -webkit-transform-origin: 100% 100%;
+    -moz-transform-origin: 100% 100%;
+    -ms-transform-origin: 100% 100%;
+    -o-transform-origin: 100% 100%;
+    transform-origin: 100% 100%;
+  }
+
+  .test1 {
+    padding-right: 40px;
+  }
+
+  .test1::before, .test1::after {
+    right: 10px;
+    width: 15px;
+    height: 3px;
+    background: #aaa;
+  }
+
+  .test1::after {
+    margin-top: -3px;
+  }
+
+  .test2 {
+    padding-right: 50px;
+  }
+
+  .test2::before, .test2::after {
+    right: 30px;
+    width: 10px;
+    height: 5px;
+    background: #f00;
+  }
+
+  .test2::after {
+    margin-top: -5px;
+  }
+
+  .test3 {
+    padding-right: 105px;
+  }
+
+  .test3::before, .test3::after {
+    right: 5px;
+    width: 50px;
+    height: 1px;
+    background: #00f;
+  }
+
+  .test3::after {
+    margin-top: -1px;
+  }
+  </style>
+</head>
+<body>
+
+<div class="test1">
+  Cupcake ipsum dolor sit. Amet faworki cake brownie pastry gummi bears sweet roll chocolate bar. Chocolate sugar plum sugar plum liquorice.
+</div>
+<div class="test2">
+  Cupcake ipsum dolor sit amet. Wypas chocolate bar jujubes ice cream danish cookie. Sweet oat cake chocolate. Oat cake lollipop lollipop powder cookie faworki toffee cookie liquorice. Toffee tiramisu jelly beans donut. Applicake toffee jelly chocolate jujubes donut chocolate bar.
+</div>
+<div class="test3">
+  Cupcake ipsum dolor sit amet tart chupa chups marzipan. Sweet muffin gummies pudding tiramisu jujubes. Topping halvah icing halvah gummi bears. Lemon drops cheesecake candy canes danish candy soufflé jujubes biscuit toffee. Dragée fruitcake tart sugar plum soufflé chupa chups jelly beans muffin. Apple pie dragée cake gummi bears wafer jujubes gingerbread candy jelly-o. Oat cake sesame snaps chupa chups tiramisu jelly oat cake jujubes.
+</div>
+
+</body>
+</html>

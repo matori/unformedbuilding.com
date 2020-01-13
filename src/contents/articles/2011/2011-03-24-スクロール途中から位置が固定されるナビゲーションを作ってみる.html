@@ -1,0 +1,107 @@
+<script type="application/x-yaml">
+title: "スクロール途中から位置が固定されるナビゲーションを作ってみる"
+description: "ある程度スクロールすると、途中から位置が固定になるコンテンツを見かけたことはありませんか？ 今回はjQueryを使ってそれを作ります。"
+slug: fixed-nav-with-jquery
+published: 2011-03-24T11:01:20+09:00
+updated: 2012-11-26T17:54:51+09:00
+category: webdev
+</script>
+
+<p>
+  ある程度スクロールすると、途中から位置が固定になるコンテンツを見かけたことはありませんか？<br>
+  今回はjQueryを使ってそれを作ります。
+</p>
+<p>
+  <a href="/demo/2011/fixed-nav-with-jquery/fixed/">デモ1</a><br>
+  <a href="/demo/2011/fixed-nav-with-jquery/relative/">デモ2</a>
+</p>
+<p>
+  <a href="/download/2011/fixed-nav-with-jquery.zip" download>途中から位置が固定されるナビゲーションのデモ 1 &amp; 2 ダウンロード</a>
+</p>
+<p>
+  今回使うHTMLはこんな感じです。
+</p>
+<pre><code class="language-html">&lt;div id=&quot;header&quot;&gt;
+  &lt;h1&gt;タイトル&lt;/h1&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;container&quot;&gt;
+  &lt;div id=&quot;main&quot;&gt;左カラム（メインコンテンツ）&lt;/div&gt;
+  &lt;div id=&quot;sidebar&quot;&gt;&lt;!-- サイドバー --&gt;
+    &lt;div id=&quot;nav&quot;&gt;ここを固定する&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>
+ <code>#main</code>と<code>#sidebar</code>は<code>float: left</code>しています。<br>
+  これの<code>#nav</code>が表示エリア上部から20pxの位置まで来たら位置を固定したいと思います。
+</p>
+<section>
+  <h2><code>position: fixed</code>を使って固定する</h2>
+  <p>デモ1をご覧ください。</p>
+  <p>
+    ある程度スクロールしたら、<code>#nav</code>に<code>fixed</code>というクラス名をつけます。<br>
+    CSSとJSは以下のようになります。
+  </p>
+  <pre><code class="language-css">#sidebar {
+  position: relative;
+  float: left;
+  width: 300px;
+}
+
+#nav {
+  width: 300px;
+  height: 300px;    /* デモ用 */
+  background: #f88; /* 同上 */
+}
+
+.fixed {
+  position: fixed;
+  top: 20px;
+}</code></pre>
+  <pre><code class="language-javascript">var nav    = $('#nav'),
+    offset = nav.offset();
+
+$(window).scroll(function () {
+  if($(window).scrollTop() &gt; offset.top - 20) {
+    nav.addClass('fixed');
+  } else {
+    nav.removeClass('fixed');
+  }
+});</code></pre>
+</section>
+<section>
+  <h2>スクロールするたびに<code>top</code>の値を変更する</h2>
+  <p>
+    上記のコードですが、<code>position: fixed</code>はIE 6が対応していません。<br>
+    その替わりとして<code>position: relative</code>を使い、スクロールするたびに<code>top</code>の値を変更して、位置を固定する方法を使ってみます。<br>
+    デモ2をご覧ください。
+  </p>
+  <p>
+    CSSとJSは以下のようになります。
+  </p>
+  <pre><code class="language-css">#sidebar {
+  float: left;
+  width: 300px;
+}
+
+#nav {
+  position: relative;
+  width: 300px;
+  height: 300px;    /* デモ用 */
+  background: #f88; /* 同上 */
+}</code></pre>
+  <pre><code class="language-javascript">var nav    = $('#nav'),
+    offset = nav.offset();
+
+$(window).scroll(function () {
+  if($(window).scrollTop() &gt; offset.top - 20) {
+    nav.css('top', $(window).scrollTop() - offset.top + 20);
+  } else {
+    nav.css('top', 0)
+  }
+});</code></pre>
+  <p>
+    こっちの欠点は動きがぎこちないというか、ガタガタ動いてしまうことです。<br>
+    使うときは上手いこと分岐させて、IE 6だけこっちを使うとかすればいいんじゃないでしょうか。
+  </p>
+</section>

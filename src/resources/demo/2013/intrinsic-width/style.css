@@ -1,0 +1,22 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+}
+
+.name {
+  font-weight: bold;
+  text-align: center;
+}
+
+.box {
+  margin: 0.5em auto 1em;
+  padding: 0.5em 1em;
+  width: 400px;
+  background: #aaa;
+}
+
+.box p {
+  margin: 0;
+  padding: 0.5em 1em;
+  background: #faa;
+}

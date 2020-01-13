@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>text-autospace</title>
+<style type="text/css">
+  body {
+    margin: 1em auto;
+    width: 37.5em;
+    border: 1px solid #dadada;
+    font-family: "Meiryo", sans-serif;
+  }
+
+  /**
+   * text-autospace
+   *   -ms- がついているものは IE 8 以上
+   *   ついていないものは IE 7 以下
+   */
+  .ideograph-alpha {
+    text-autospace: ideograph-alpha;
+    -ms-text-autospace: ideograph-alpha;
+  }
+
+  .ideograph-numeric {
+    text-autospace: ideograph-numeric;
+    -ms-text-autospace: ideograph-numeric;
+  }
+
+  .ideograph-parenthesis {
+    text-autospace: ideograph-parenthesis;
+    -ms-text-autospace: ideograph-parenthesis;
+  }
+
+  .ideograph-space {
+    -ms-text-autospace: ideograph-space;
+  }
+
+  h1 {
+    margin: 0;
+    padding: 0.5em;
+    border-bottom: 1px solid #dadada;
+    background-color: #eaeaea;
+    font-size: 1.5em;
+    text-align: center;
+  }
+
+  h2 {
+    margin: 0.5em auto;
+    padding: 0;
+    width: 26.4em;
+    font-size: 1.25em;
+  }
+
+  ol {
+    margin: 0 auto 1.25em;
+    padding: 0;
+    width: 33em;
+  }
+
+  small {
+    font-size: 0.68em;
+  }
+</style>
+</head>
+<body>
+
+<h1>-ms-text-autospace</h1>
+
+<h2>ideograph-alpha</h2>
+<ol>
+  <li>CSSとはCascading Style Sheetsの略です。<small>[指定なし、半角スペースなし]</small></li>
+  <li class="ideograph-alpha">CSSとはCascading Style Sheetsの略です。<small>[指定あり、半角スペースなし]</small></li>
+  <li>CSS とは Cascading Style Sheets の略です。<small>[指定なし、半角スペースあり]</small></li>
+  <li class="ideograph-alpha">CSS とは Cascading Style Sheets の略です。<small>[指定あり、半角スペースあり]</small></li>
+</ol>
+
+<h2>ideograph-numeric</h2>
+<ol>
+  <li>昨年の2012年12月25日の話です。<small>[指定なし、半角スペースなし]</small></li>
+  <li class="ideograph-numeric">昨年の2012年12月25日の話です。<small>[指定あり、半角スペースなし]</small></li>
+  <li>昨年の 2012 年 12 月 25 日の話です。<small>[指定なし、半角スペースあり]</small></li>
+  <li class="ideograph-numeric">昨年の 2012 年 12 月 25 日の話です。<small>[指定あり、半角スペースあり]</small></li>
+</ol>
+
+<h2>ideograph-parenthesis</h2>
+<ol>
+  <li>これは日本語(Japanese Language)の文章です。<small>[指定なし、半角スペースなし]</small></li>
+  <li class="ideograph-parenthesis">これは日本語(Japanese Language)の文章です。<small>[指定あり、半角スペースなし]</small></li>
+  <li>これは日本語 (Japanese Language) の文章です。<small>[指定なし、半角スペースあり]</small></li>
+  <li class="ideograph-parenthesis">これは日本語 (Japanese Language) の文章です。<small>[指定あり、半角スペースあり]</small></li>
+</ol>
+
+<h2>ideograph-space</h2>
+<ol>
+  <li>春 夏 秋 冬。<small>[指定なし、半角スペース]</small></li>
+  <li class="ideograph-space">春 夏 秋 冬。<small>[指定あり、半角スペース]</small></li>
+  <li>春　夏　秋　冬。<small>[指定なし、全角スペース]</small></li>
+  <li class="ideograph-space">春　夏　秋　冬。<small>[指定あり、全角スペース]</small></li>
+</ol>
+
+</body>
+</html>

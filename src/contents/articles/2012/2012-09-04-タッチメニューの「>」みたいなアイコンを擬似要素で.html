@@ -1,0 +1,151 @@
+<script type="application/x-yaml">
+title: "タッチメニューの「>」みたいなアイコンを擬似要素で"
+description: "スマートフォンサイトのナビゲーションで、リンクエリアの右端に「>」みたいなアイコンがあることが多いのですが、それを擬似要素で作ろうという試みです。"
+slug: touch-menu-right-arrow-with-css
+published: 2012-09-04T13:27:16+09:00
+updated: 2012-09-04T13:27:16+09:00
+category: webdev
+</script>
+
+<p>
+  スマートフォンサイトのナビゲーションで、タッチできるリンクエリアの右端に「&gt;」みたいなアイコンがあることが多いのですが、それを擬似要素で作ろうという試みです。<br>
+  ちょっと必要になったので作ったんですが、あまり使い道はないと思います……。
+</p>
+<p>
+  一応言っておきますが、画像を作って背景に指定したほうが面倒が少ないと思います。<br>
+  どうせ小さい画像ですし……。
+</p>
+<p>
+  とりあえずシンプルにCSSを書いてみましょう。<br>
+  擬似要素を2つ使います。
+</p>
+<!--
+<div style="margin-bottom:1.6em">
+  <iframe style="width: 100%; height: 430px" src="http://jsfiddle.net/ub_pnr/6Hf9B/embedded/result,css,html/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+</div>
+-->
+<pre><code class="language-html">&lt;div class=&quot;test1&quot;&gt;...&lt;/div&gt;
+&lt;div class=&quot;test2&quot;&gt;...&lt;/div&gt;
+&lt;div class=&quot;test3&quot;&gt;...&lt;/div&gt;
+</code></pre>
+<pre><code class="language-css">/* この部分は本題ではない */
+body {
+  font-size: 14px;
+  font-family: "Arial", sans-serif;
+  line-height: 1.4;
+}
+
+div {
+  margin: 20px auto;
+  padding: 0.7em;
+  border: 1px solid #cfcfcf;
+  border-radius: 5px;
+  /* 高さの中心がどこか分かりやすくするために色を分ける */
+  background: linear-gradient(#fff 50%, #efefef 50%);
+}
+
+/* 本題 */
+div {
+  position: relative;
+  padding-right: 40px; /* > の長さの2倍くらいは取っておきたい */
+}
+
+div::before,
+div::after {
+  position: absolute;
+  top: 50%;
+  right: 10px; /* ボックスの右端からの位置 */
+  z-index: 0;
+  width: 20px; /* > の辺の長さ */
+  height: 5px; /* > の線の太さ */
+  background: #aaa; /* > の色*/
+  content: "";
+  user-select: none;
+}
+
+div::before {
+  transform: rotate(45deg);
+  transform-origin: 100% 0%;
+}
+
+div::after {
+  margin-top: -5px; /* > の太さと同じにする */
+  transform: rotate(-45deg);
+  transform-origin: 100% 100%;
+}</code></pre>
+<p>
+  <a href="/demo/2012/touch-menu-right-arrow-with-css/1.html">&gt; アイコンをCSSで</a>
+</p>
+<p>
+  上記コードにコメント入れてあるので、何をやっているかは大体分かると思います。<br>
+  今度はこれを気軽に使えるように、SCSSにしてカスタムしやすくしてみます。<br>
+  （ベンダープリフィックスは省略しています）
+</p>
+<!--
+<div style="margin-bottom:1.6em">
+  <iframe style="width: 100%; height: 450px" src="http://jsfiddle.net/ub_pnr/pFAQn/embedded/result,css,html/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+</div>
+-->
+<pre><code class="language-scss">@mixin arrow-right($offset-right, $width, $weight, $color) {
+  @extend %right-arrow;
+  padding-right: $width * 2 + $offset-right;
+
+  &::before,
+  &::after {
+    right: $offset-right;
+    width: $width;
+    height: $weight;
+    background: $color;
+  }
+
+  &::after {
+    margin-top: -$weight;
+  }
+}
+
+%right-arrow {
+ position: relative;
+
+  &::before,
+  &::after {
+    position: absolute;
+    top: 50%;
+    z-index: 0;
+    content: "";
+    user-select: none;
+  }
+
+  &::before {
+    transform: rotate(45deg);
+    transform-origin: 100% 0%;
+  }
+
+  &::after {
+    transform: rotate(-45deg);
+    transform-origin: 100% 100%;
+  }
+}
+
+.test1 {
+  @include arrow-right(10px, 15px, 3px, #aaa);
+}
+
+.test2 {
+  @include arrow-right(30px, 10px, 5px, #f00);
+}
+
+.test3 {
+  @include arrow-right(5px, 50px, 1px, #00f);
+}</code></pre>
+<p>
+  <a href="/demo/2012/touch-menu-right-arrow-with-css/2.html">&gt; アイコンをCSSで 2</a>
+</p>
+<p>
+  これで色や大きさを変えるのが楽になりました。<br>
+  <code>padding-right</code>の部分は自動化せずに引数で指定するようにすれば細かい調整ができるので、そっちの方がいいのかもしれません。<br>
+  実際に使う場合には引数のデフォルト値を指定しておくとトラブルが減るかと思います。
+</p>
+<p>
+  色を半透明にしたい場合は、<code>::before</code>と<code>::after</code>が重ならずにぴったりくっつくようにしないといけないので少し難しくなります。<br>
+  このCSSの応用でできるので、試してみるのもいいかもしれませんね。
+</p>

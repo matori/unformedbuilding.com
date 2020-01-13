@@ -1,0 +1,64 @@
+<script type="application/x-yaml">
+title: "border-styleにridge, groove, outset, insetを指定した場合の各ブラウザの表示の違い"
+description: "border-styleにridge, groove, outset, insetを指定した場合、各ブラウザがどのように表示するのかをまとめてみました。"
+slug: border-style-ridge-groove-outset-inset
+published: 2009-11-08T19:11:31+09:00
+updated: 2009-11-08T19:11:31+09:00
+category: webdev
+</script>
+
+<p>
+  あまり使うことはないと思いますが、<code>border-style</code>に<code>ridge</code>, <code>groove</code>, <code>outset</code>, <code>inset</code>を指定した場合、各ブラウザがどのように表示するのかをまとめてみました。
+</p>
+<p>
+  テスト表示には<code>border-width: 9px; border-color: #f00</code>を指定しました。<br>
+  理由は違いが分かりやすいと思ったからです。
+</p>
+<section>
+  <h2><code>border-style</code>に<code>ridge</code>を指定したとき</h2>
+  <figure>
+    <img src="/images/2009/border-style-ridge-groove-outset-inset/ridge.png" width="620" height="500" alt="">
+  </figure>
+  <p>
+    意外だったのはFirefoxのバージョンが 3以下の場合は表示色が違うこと。<br>
+    これは<code>groove</code>, <code>outset</code>, <code>inset</code>の場合でも同じです。
+  </p>
+  <p>
+    IEが濃い色で表示しているのが目立ちます。<br>
+    それと対照的に、Firefox 3以前は薄い色。<br>
+    また、OperaとWebkit系2つは外のボーダーと内のボーダーの太さが位置によって違います。<br>
+    IEとFirefoxは外が<code>5px</code>、内が<code>4px</code>になります。
+  </p>
+</section>
+<section>
+  <h2><code>border-style</code>に<code>groove</code>を指定したとき</h2>
+  <figure>
+    <img src="/images/2009/border-style-ridge-groove-outset-inset/groove.png" width="620" height="500" alt="">
+  </figure>
+  <p>
+    IEが浮いている以外は、<code>ridge</code>の色配置を逆にしただけになります。<br>
+    外と内のボーダーの太さは<code>ridge</code>の場合と同じ。
+  </p>
+</section>
+<section>
+  <h2><code>border-style</code>に<code>outset</code>を指定したとき</h2>
+  <figure>
+    <img src="/images/2009/border-style-ridge-groove-outset-inset/outset.png" width="620" height="500" alt="">
+  </figure>
+  <p>
+    ここでもIEが目立ちますね。それも半端じゃなく。<br>
+    IE以外は2色で構成されているのに対し、IEは4色もあります。
+  </p>
+</section>
+<section>
+  <h2><code>border-style</code>に<code>inset</code>を指定したとき</h2>
+  <figure>
+    <img src="/images/2009/border-style-ridge-groove-outset-inset/inset.png" width="620" height="500" alt="">
+  </figure>
+  <p>
+   <code>outset</code>の配色を逆にしただけです。
+  </p>
+</section>
+<p>
+  全部試したのは初めてですが、ここまで違うとは思いませんでした。
+</p>

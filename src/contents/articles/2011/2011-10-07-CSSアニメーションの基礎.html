@@ -1,0 +1,567 @@
+<script type="application/x-yaml">
+title: "CSSアニメーションの基礎"
+description: "今さらながらCSS Animationsの使い方が分かってきたので、仕様をもとにプロパティなどを簡単にまとめておきたいと思います。"
+slug: learn-about-css-animation
+published: 2011-10-07T15:17:22+09:00
+updated: 2011-10-08T00:15:18+09:00
+category: webdev
+</script>
+
+<p>
+  今さらながらCSS Animationsの使い方が分かってきたので、プロパティなどを簡単にまとめておきたいと思います。<br>
+  これを書くにあたって、以下の2つを参考にしました。
+</p>
+<ol>
+  <li><a href="http://dev.w3.org/csswg/css3-animations/">CSS Animations Editor’s Draft 25 July 2011</a></li>
+  <li><a href="https://developer.mozilla.org/en/CSS/CSS_animations">CSS animations - MDN</a></li>
+</ol>
+<p>
+  上のはdev.w3.orgにある、2011年7月25日版のエディターズドラフトです。<br>
+  ちなみにwww.w3.orgにある仕様は「<a href="http://www.w3.org/TR/css3-animations/">CSS Animations Module Level 3</a>」です。これを書いている現在、こっちは<a href="http://www.w3.org/TR/2009/WD-css3-animations-20090320/">2009年3月20日版</a>が最新となっています。<br>
+  基本的に2011年7月25日版のエディターズドラフトをベースに説明したいと思います。なので、現在のブラウザの実装とは異なることもあります。
+</p>
+<p>
+  2つ目のは『<a href="https://developer.mozilla.org/">Mozilla Developer Network</a>』のドキュメントです。<a href="https://developer.mozilla.org/ja/CSS/CSS_animations">日本語版</a>もあります。<br>
+  アニメーションに限らず、MDNのドキュメントはとても分かりやすいのでお勧めです。日本語で読めるものも多いです。
+</p>
+<p>
+  これから出てくるプロパティなどは、現在、どのブラウザで使うにしてもベンダー接頭辞が必要ですが、記事内には書きません。
+</p>
+<section>
+  <h2><code>@keyframes</code></h2>
+  <p>
+    アニメーションを定義する@ルールです。<br>
+    これを使ってアニメーションの流れを指定することができます。
+  </p>
+  <pre><code class="plain">@keyframes 識別子 {
+ from {
+   ...
+ }
+ to {
+   ...
+ }
+}</code></pre>
+  <p>
+    のように記述します。
+  </p>
+  <p>
+    識別子は「<a href="http://www.w3.org/TR/css3-values/#identifiers">CSS Values and Units Module Level 3</a>で決められた<code>&lt;identifier&gt;</code>」形式で書く必要があります。<br>
+    これはASCIIの範囲の文字で、大文字と小文字は区別されます。
+  </p>
+  <p>
+    キーフレームのセレクタはパーセンテージ、<code>from</code>または<code>to</code>で記述します。これらはカンマ区切りにより複数指定が可能です。<br>
+    <code>from</code>は<code>0%</code>と等しく、<code>to</code>は<code>100%</code>と等しいです。
+  </p>
+  <p>
+    また、2009年3月20日版のワーキングドラフトでは、<code>from (or 0%)</code>と<code>to (or 100%)</code>は必須と書かれていますが、2011年7月25日のエディターズドラフトでは、それらが定義されていない場合はユーザーエージェントが補完する、となっています。<br>
+    これは最終的にどうなるか分かりませんが、ちゃんと書いておいた方がいいと思います。分かりにくくなりますしね。
+  </p>
+  <p>
+    この記事で使うアニメーションルールを作りました。<br>
+    ここから先はこれを使って説明します。
+  </p>
+  <pre><code class="language-css">@keyframes left-to-right {
+  from {
+    left: 0;
+  }
+  to {
+    left: 570px;
+  }
+}</code></pre>
+</section>
+<section>
+  <h2><code>animation-name</code></h2>
+  <p>
+    どのアニメーションを使用するか指定します。値には<code>@keyframes</code>で指定した識別子を指定します。
+  </p>
+  <pre><code class="language-css">div {
+  animation-name: left-to-right;
+}</code></pre>
+</section>
+<section>
+  <h2><code>animation-duration</code></h2>
+  <p>
+    一度のアニメーション周期の完了までの時間を指定します。<br>
+    値には「<a href="http://www.w3.org/TR/css3-values/#time">CSS Values and Units Module Level 3</a>」で決められた<code>&lt;time&gt;</code>形式で書く必要があります。<br>
+  </p>
+  <p>
+    デフォルトは<code>0s</code>です。負の値を指定すると、それは<code>0s</code>として扱われます。<br>
+    このとき、<code>animation-fill-mode</code>（後述）は適用されていて、その値が<code>backwards</code>であった場合、任意の遅延時間内にキーフレームの<code>0%</code>で指定された値が表示されます。<code>forwards</code>の場合は、<code>100%</code>で指定された値が保持されます。<br>
+    また、アニメーションイベントも発生します。
+  </p>
+  <p>
+    では、実際に見てみようと思います。<br>
+    HTMLは以下のようなものを使います。
+  </p>
+  <pre><code class="language-html">&lt;div id=&quot;container&quot;&gt;
+  &lt;div class=&quot;test1&quot;&gt;1&lt;/div&gt;
+  &lt;div class=&quot;test2&quot;&gt;2&lt;/div&gt;
+  ...
+&lt;/div&gt;</code></pre>
+  <p>
+    キーフレーム指定は前述のものを使い、次のような指定をします。<br>
+    （あんまり関係のない部分は省略しています）
+  </p>
+  <pre><code class="language-css">#container &gt; div {
+  position      : relative;
+  animation-name: left-to-right;
+}
+
+.test1 {
+  animation-duration: 0.5s;
+}
+
+.test2 {
+  animation-duration: 1s;
+}
+
+.test3 {
+  animation-duration: 1.5s;
+}
+
+.test4 {
+  animation-duration: 2s;
+}</code></pre>
+  <p>
+    <a href="/demo/2011/css-animation/animation-duration.html">animation-durationのデモ</a>
+  </p>
+</section>
+<section>
+  <h2><code>animation-timing-function</code></h2>
+  <p>
+    どのようなアニメーションを適用するかを指定します。<br>
+    指定できる値は<code>transition-timing-function</code>と同じです。<br>
+    「<a href="http://dev.w3.org/csswg/css3-transitions/#transition-timing-function_tag">CSS Transitions</a>」に詳しく説明されています。<br>
+    一覧にするとこうなります。
+  </p>
+  <dl>
+    <dt><code>ease</code></dt>
+    <dd>
+      <code>cubic-bezier(0.25, 0.1, 0.25, 1)</code>と同じ。
+    </dd>
+    <dt><code>linear</code></dt>
+    <dd>
+      <code>cubic-bezier(0, 0, 1, 1)</code>と同じ。
+    </dd>
+    <dt><code>ease-in</code></dt>
+    <dd>
+      <code>cubic-bezier(0.42, 0, 1, 1)</code>と同じ。
+    </dd>
+    <dt><code>ease-out</code></dt>
+    <dd>
+      <code>cubic-bezier(0, 0, 0.58, 1)</code>と同じ。
+    </dd>
+    <dt><code>ease-in-out</code></dt>
+    <dd>
+      <code>cubic-bezier(0.42, 0, 0.58, 1)</code>と同じ。
+    </dd>
+    <dt><code>cubic-bezier()</code></dt>
+    <dd>
+      3次ベジェ曲線による指定を行います。
+    </dd>
+    <dt><code>step-start</code></dt>
+    <dd>
+      <code>steps(1, start)</code>と同じ。
+    </dd>
+    <dt><code>step-end</code></dt>
+    <dd>
+      <code>steps(1, end)</code>と同じ。
+    </dd>
+    <dt><code>steps()</code></dt>
+    <dd>
+      指定した回数で等間隔に分割して実行されます。
+    </dd>
+  </dl>
+  <p>
+    デフォルトは<code>ease</code>です。
+  </p>
+  <p>
+    文字だけだと説明しづらいので、<code>cubic-bezier()</code>と<code>steps()</code>については「<a href="http://dev.w3.org/csswg/css3-transitions/#transition-timing-function_tag">CSS Transitions</a>」に載っている図を参考にしてください。
+  </p>
+  <p>
+    とりあえず、各指定を使ったサンプルを作りました。<br>
+    これでどういう動きか分かるかと思います。
+  </p>
+  <pre><code class="language-css">.test1 {
+  animation-timing-function: ease;
+}
+
+.test2 {
+  animation-timing-function: linear;
+}
+
+.test3 {
+  animation-timing-function: ease-in;
+}
+
+.test4 {
+  animation-timing-function: ease-out;
+}
+
+.test5 {
+  animation-timing-function: ease-in-out;
+}
+
+.test6 {
+  animation-timing-function: cubic-bezier(1, 0, 1, 0);
+}
+
+.test7 {
+  animation-timing-function: step-start;
+}
+
+.test8 {
+  animation-timing-function: step-end;
+}
+
+.test9 {
+  animation-timing-function: steps(10, start);
+}
+
+.test10 {
+  animation-timing-function: steps(10, end);
+}</code></pre>
+  <p>
+    <a href="/demo/2011/css-animation/animation-timing-function-1.html">animation-timing-functionのデモ 1</a>
+  </p>
+  <p>
+    また、これらの関数はアニメーション全体ではなく、キーフレーム間で実行されます。<br>
+    前出の<code>@keyframes left-to-right</code>に指定を1つ加えてみると分かりやすいです。<br>
+    <code>animation-timing-function</code>の指定は1つ前のデモと同じです。
+  </p>
+  <pre><code class="language-css">@keyframes left-to-right {
+  from { left: 0; }
+  50%  { left: 285px; }
+  to   { left: 570px; }
+}</code></pre>
+  <p>
+    <a href="/demo/2011/css-animation/animation-timing-function-2.html">animation-timing-functionのデモ 2</a>
+  </p>
+  <p>
+    正直、<code>cubic-bezier()</code>を動きを予想しながら手書きするのは厳しいというか無理っぽいので、ジェネレータを使ったほうがいいと思います。<br>
+    そういったものはオンラインにもありますので、いくつか紹介しておきます。
+  </p>
+  <ul>
+    <li><a href="http://matthewlein.com/ceaser/">Ceaser - CSS Easing Animation Tool</a></li>
+    <li><a href="http://cubic-bezier.com/">cubic-bezier.com</a></li>
+    <li><a href="http://www.roblaplaca.com/examples/bezierBuilder/">CSS cubic-bezier Builder</a></li>
+    <li><a href="http://cssglue.com/cubic">Visualize and manipulate CSS transition functions</a></li>
+  </ul>
+  <p>
+    お勧めは上2つです。
+  </p>
+</section>
+<section>
+  <h2><code>animation-iteration-count</code></h2>
+  <p>
+    アニメーションの実行回数を指定します。<br>
+    デフォルトは<code>1</code>です。
+  </p>
+  <p>
+    数値に負の値を指定した場合、<code>0</code>として扱われます。<br>
+    また、数値の他に<code>infinite</code>を指定できます。これを指定するとアニメーションは無限に繰り返されます。
+  </p>
+  <p>
+    <a href="/demo/2011/css-animation/animation-iteration-count.html">animation-iteration-countのデモ</a>
+  </p>
+</section>
+<section>
+  <h2><code>animation-direction</code></h2>
+  <p>
+    アニメーションの方向を指定します。<br>
+    デフォルトは<code>normal</code>です。
+  </p>
+  <p>
+    <code>alternate</code>という値を指定すると、奇数回のアニメーションはノーマルな状態で実行され、偶数回のアニメーションは逆方向に実行されます。<br>
+    このとき<code>animation-timing-function</code>の指定も逆になります。
+  </p>
+  <p>
+    <code>animation-iteration-count</code>で使ったデモに<code>animation-direction: alternate</code>を指定してみました。
+  </p>
+  <p>
+    <a href="/demo/2011/css-animation/animation-direction.html">animation-directionのデモ</a>
+  </p>
+  <p>
+    <code>animation-timing-function: ease</code>の動きが逆になっているのが分かるかと思います。
+  </p>
+</section>
+<section>
+  <h2><code>animation-play-state</code></h2>
+  <p>
+    アニメーションの実行状態を示すプロパティです。<br>
+    デフォルトは<code>running</code>です。
+  </p>
+  <p>
+    <code>paused</code>を指定することで、アニメーションを一時停止することができます。<br>
+    一時停止したアニメーションを再開する場合、停止した時点から再開されます。
+  </p>
+  <p>
+    また、アニメーションの状態を取得する際にも使用されます。
+  </p>
+</section>
+<section>
+  <h2><code>animation-delay</code></h2>
+  <p>
+    アニメーションをいつ開始するかを指定するプロパティです。<br>
+    値は<code>&lt;time&gt;</code>形式で記述します。デフォルトは<code>0s</code>です。
+  </p>
+  <p>
+    <code>0</code>の指定をした場合、アニメーションが適用されたら即座にアニメーションが実行されます。<br>
+    <code>1s</code>の場合だと、アニメーションが適用されてから1秒後にアニメーションが始まるわけです。<br>
+    負の値、たとえば<code>-1s</code>などは<code>0</code>として扱われ、適用後即実行となりますが、アニメーションが1秒経過した状態から始まります。
+  </p>
+  <p>
+    下記のようなサンプルを作りましたので、ご確認ください。
+  </p>
+  <pre><code class="language-css">.test1 {
+  animation-delay: -1s;
+}
+
+.test2 {
+  animation-delay: 0;
+}
+
+.test3 {
+  animation-delay: 1s;
+}
+
+.test4 {
+  animation-delay: 2s;
+}</code></pre>
+  <p>
+    <a href="/demo/2011/css-animation/animation-delay.html">animation-delayのデモ</a>
+  </p>
+</section>
+<section>
+  <h2><code>animation-fill-mode</code></h2>
+  <p>
+    アニメーションの実行前や後にどういうスタイルを適用するのかを指定します。<br>
+    指定できる値は以下のようになっています。
+  </p>
+  <dl>
+    <dt><code>none</code></dt>
+    <dd>
+      キーフレームで指定されたスタイルは、アニメーションの前後には適用されません。
+    </dd>
+    <dt><code>forwards</code></dt>
+    <dd>
+      アニメーションの実行後にキーフレームの最後（通常は<code>to</code>,
+      <code>100%</code>）の指定が適用されます。ただし、<code>animation-direction</code>が<code>alternate</code>且つ<code>animation-iteration-count</code>の値が偶数の場合は、キーフレームの最初（通常は<code>from</code>,
+      <code>0%</code>）が適用されます。
+    </dd>
+    <dt><code>backwards</code></dt>
+    <dd>
+      アニメーションが適用されたら即座にキーフレームの最初のスタイル指定を適用します。これは<code>animation-delay</code>で指定された遅延時間の間も維持されます。
+    </dd>
+    <dt><code>both</code></dt>
+    <dd>
+      <code>forwards</code>と<code>backwards</code>の両方が適用されます。アニメーション実行前には<code>backwards</code>が、実行後には<code>forwards</code>があると考えると分かりやすいかと思います。
+    </dd>
+  </dl>
+  <p>
+    デフォルトは<code>none</code>です。
+  </p>
+  <p>
+    ちょっと組み合わせがややこしいので、分割してサンプルを作りました。<br>
+    また、キーフレームの指定も変更しています。<br>
+    アニメーション適用前は<code>left: 0</code>の状態です。
+  </p>
+  <pre><code class="language-css">@keyframes left-to-right {
+  from {
+    left: 285px;
+  }
+  to {
+    left: 570px;
+  }
+}</code></pre>
+  <p>
+    <code>animation-fill-mode</code>以外のアニメーションの指定は次のようになっています。
+  </p>
+  <pre><code class="language-css">/* 共通部分 */
+#container &gt; div {
+  animation-name           : left-to-right;
+  animation-duration       : 3s;
+  animation-timing-function: ease;
+  animation-direction      : normal;
+}
+
+.test1 {
+  animation-iteration-count: 1;
+  animation-direction      : normal;
+  animation-delay          : 0s;
+}
+
+.test2 {
+  animation-iteration-count: 1;
+  animation-direction      : alternate;
+  animation-delay          : 0s;
+}
+
+.test3 {
+  animation-iteration-count: 1;
+  animation-direction      : normal;
+  animation-delay          : 1s;
+}
+
+.test4 {
+  animation-iteration-count: 1;
+  animation-direction      : alternate;
+  animation-delay          : 1s;
+}
+
+.test5 {
+  animation-iteration-count: 2;
+  animation-direction      : normal;
+  animation-delay          : 0s;
+}
+
+.test6 {
+  animation-iteration-count: 2;
+  animation-direction      : alternate;
+  animation-delay          : 0s;
+}
+
+.test7 {
+  animation-iteration-count: 2;
+  animation-direction      : normal;
+  animation-delay          : 1s;
+}
+
+.test8 {
+  animation-iteration-count: 2;
+  animation-direction      : alternate;
+  animation-delay          : 1s;
+}</code></pre>
+  <p>
+    <code>animation-fill-mode:none;</code>の場合。<br>
+    何も指定しないとこれになります。
+  </p>
+  <p>
+    <a href="/demo/2011/css-animation/animation-fill-mode-1.html">animation-fill-mode: none デモ</a>
+  </p>
+  <p>
+    アニメーション適用時（ここではページロード直後）、<code>animation-delay</code>の指定のあるものが最初は左端にあって、アニメーション開始と同時に位置が変更されているのが分かるかと思います。<br>
+    また、アニメーションが完了すると全ての要素が左端に配置されます。
+  </p>
+  <p>
+    次は<code>forwards</code>の場合。
+  </p>
+  <p>
+    <a href="/demo/2011/css-animation/animation-fill-mode-2.html">animation-fill-mode: forwards デモ</a>
+  </p>
+  <p>
+    アニメーション適用時は<code>none</code>の指定のときと同じですね。<br>
+    アニメーション完了時には、それぞれ最後のキーフレームの位置に留まっています。
+  </p>
+  <p>
+    <code>backwards</code>の場合。
+  </p>
+  <p>
+    <a href="/demo/2011/css-animation/animation-fill-mode-3.html">animation-fill-mode: backwards デモ</a>
+  </p>
+  <p>
+    アニメーション適用時、遅延のあるものも既に<code>from</code>の位置に配置されているのが分かります。<br>
+    完了時は<code>none</code>のときと同じです。
+  </p>
+  <p>
+    <code>both</code>の場合。
+  </p>
+  <p>
+    <a href="/demo/2011/css-animation/animation-fill-mode-4.html">animation-fill-mode: both デモ</a>
+  </p>
+  <p>
+    アニメーション適用時には<code>backwards</code>、完了時には<code>forwards</code>と同じような動きをしています。<br>
+    これで両方の特徴を持っているのが分かります。
+  </p>
+</section>
+<section>
+  <h2><code>animation</code>ショートハンドプロパティ</h2>
+  <p>
+    ここまで各プロパティを見てきましたが、結構数があるので書くのが非常に面倒です。<br>
+    一つ一つ指定していたらこんな感じになります。
+  </p>
+  <pre><code class="language-css">div {
+  animation-name           : left-to-right;
+  animation-duration       : 3s;
+  animation-timing-function: linear;
+  animation-delay          : 1s;
+  animation-iteration-count: 2;
+  animation-direction      : normal;
+  animation-fill-mode      : forwards;
+}</code></pre>
+  <p>
+    これだけでも多いのに、現状だと更に各ベンダープレフィックスをつけて、1つのプロパティを5種類書かなくてはいけません。計35行です。<br>
+    （Operaはどうなるか分かりませんが、一応つけるとすると）
+  </p>
+  <p>
+    これを短縮形で書くことで少し楽になります。<br>
+    書き方は、2011年7月25日版のエディターズドラフトの時点で、次のようになります。<br>
+    （見やすくするために改行しています）
+  </p>
+  <pre><code class="plain">animation: name
+           duration
+           timing-function
+           delay
+           iteration-count
+           direction
+           fill-mode</code></pre>
+  <p>
+    デフォルトは各プロパティに従います。<br>
+    <code>&lt;time&gt;</code>指定は、1番目が<code>animation-duration</code>、2番目が<code>animation-delay</code>となりますので注意してください。
+  </p>
+  <p>
+    これに先ほどのものを当てはめると、
+  </p>
+  <pre><code class="language-css">div {
+  animation: left-to-right 3s linear 1s 2 normal forwards;
+}</code></pre>
+  <p>
+    となります。
+  </p>
+  <p>
+    ただ、エディターズドラフトを見ると、スラッシュ（<code>/</code>）を使った代替案が書かれています。<br>
+    それは<code>3s/1s</code>のようなもので<code>duration/delay</code>とするというものです。<br>
+    このあたりは今後どうなるか分かりませんで気をつけたいところです。
+  </p>
+</section>
+<section>
+  <h2>イベント</h2>
+  <p>
+    JavaScript で扱うアニメーションのイベントです。
+  </p>
+  <dl>
+    <dt><code>animationstart</code></dt>
+    <dd>
+      アニメーション開始時のイベントです。<br>
+      <code>animation-delay</code>が指定されている場合は、遅延時間が完了してから発生します。
+    </dd>
+    <dt><code>animationend</code></dt>
+    <dd>
+      アニメーション終了時のイベントです。アニメーションが完了したときに発生します。
+    </dd>
+    <dt><code>animationiteration</code></dt>
+    <dd>
+      <code>animation-iteration-count</code>が<code>1</code>より大きい場合にのみ発生します。<br>
+      これはアニメーションが1周するごとに発生します。
+    </dd>
+  </dl>
+  <p>
+    現在、Firefoxでは上記の通り全て小文字で接頭辞なしの記述ですが、<br>
+    Webkitブラウザでは<code>webkitAnimationStart</code>, <code>webkitAnimationEnd</code>,
+    <code>webkitAnimationIteration</code>、IE 10では<code>MSAnimationStart</code>, <code>MSAnimationEnd</code>,
+    <code>MSAnimationIteration</code>となっています。
+  </p>
+</section>
+<section>
+  <h2>最後に</h2>
+  <p>
+    最後まで読んでくださってありがとうございます。お疲れ様でした。
+  </p>
+  <p>
+    この記事はあくまでも2011年10月序盤で確認できる仕様を元にしたものであり、今後変更がある可能性があります。<br>
+    また、説明の足りない部分や解釈の間違い、英文の誤読がある可能性もあります。
+  </p>
+  <p>
+    ですので、一度は仕様を見ておいてほしいと思います。
+  </p>
+</section>

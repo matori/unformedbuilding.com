@@ -1,0 +1,65 @@
+<script type="application/x-yaml">
+title: "Firefoxで使われている上下左右中央配置のスタイルシート"
+description: "Firefoxで直接画像を開くと、上下左右中央に配置されています。中身を覗いてみたら、CSSで行っていました。"
+slug: firefox-style-center-middle-aligned-css
+published: 2012-03-19T11:15:31+09:00
+updated: 2012-04-24T15:50:41+09:00
+category: webdev
+</script>
+
+<p>
+  Firefoxで画像を開いたら、背景が暗い感じのCSSが使われるようになってました。<s>Firefox 12からですかね？</s>
+  <ins datetime="2012-04-24T15:50:41+09:00">11 からでした。</ins>そのページでは画像が上下左右中央に配置されています。<br>
+  ちょっと興味が湧いたので中身を覗いてみたら、上下左右中央配置もCSSで行っていました。
+</p>
+<p>
+  使われているCSSファイルは<span class="path">resource://gre/res/TopLevelImageDocument.css</span>にあります。<br>
+  このファイルはMPL 1.1/GPL 2.0/LGPL 2.1のトリプルライセンスです。
+</p>
+<pre><code class="language-css">@media not print {
+  body {
+    background-color: #222;
+    margin: 0;
+  }
+
+  img {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+}
+
+@media print {
+  img {
+    display: block;
+  }
+}</code></pre>
+<p>
+  これの<code>img</code>の部分ですね。この指定によって画像を上下中央に配置しています。<br>
+  <a href="http://www.w3.org/TR/CSS2/visudet.html">Visual formatting model details</a>の10.3.7と10.6.4あたりがヒントかと思います。
+</p>
+<p>
+  ちょっと試したところ、他のブラウザの場合はIE 8以上なら同じように動くようです。<br>
+  もちろん<code>img</code>だけでなく<code>div</code>などにも応用できます。
+</p>
+<ins datetime="2012-03-21T16:14:48+09:00">
+  <hr>
+  <p>
+    <a href="https://twitter.com/ksk1015">@ksk1015</a>さんが分かりやすいサンプルを作られていましたので、リンクしておきます。
+  </p>
+  <p>
+    <a href="http://jsdo.it/ksk1015/D3jZ">要素の上下左右のセンタリング - jsdo.it - Share JavaScript, HTML5 and CSS</a>
+  </p>
+</ins>
+<ins datetime="2012-04-24T15:50:41+09:00">
+  <hr>
+  <p>
+    <a href="https://twitter.com/o_ti">@o_ti</a>さんが色々検証してくれました。
+  </p>
+  <p>
+    <a href="http://dskd.jp/archives/11.html">縦横中央配置のCSS | dskd</a>
+  </p>
+</ins>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>background-position DEMO</title>
+<style>
+body {
+	font-family: "Arial", sans-serif;
+}
+
+div {
+	float            : left;
+  margin           : 50px 5px;
+  padding          : 5px;
+  border           : 1px solid #aaa;
+  width            : 180px;
+  height           : 180px;
+  background-image : url(bg.png);
+  background-repeat: no-repeat;
+}
+
+#box-1 {
+  background-position: 50% 30%;
+}
+
+#box-2 {
+  background-position: 50px 30px;
+}
+
+#box-3 {
+  background-position: right 50px bottom 30px;
+}
+</style>
+</head>
+<body>
+
+<div id="box-1">50% 30%</div>
+<div id="box-2">50px 30px</div>
+<div id="box-3">right 50px bottom 30px</div>
+
+</body>
+</html>

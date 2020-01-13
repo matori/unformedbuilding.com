@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>jQuery を使ってボタンクリックでリストの並び順を逆にする DEMO | Unformed Building</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script type="text/javascript" src="jquery-1.4.2.min.js"></script>
+<script type="text/javascript">
+jQuery(function($) {
+	$('#reverse').click(function() {
+		var list = $('#reversible > li').toArray().reverse();
+		$('#reversible').empty().append(list);
+	});
+	$('#reverse').toggle(
+		function() {
+			$(this).text('Normal Order');
+		},
+		function() {
+			$(this).text('Reverse Order');
+		}
+	);
+});
+</script>
+</head>
+
+<body>
+
+<div id="header">
+	<h1>jQuery を使ってボタンクリックでリストの並び順を逆にする DEMO</h1>
+	<a href="http://unformedbuilding.com/articles/reverse-order-with-jquery/">Back to the Article</a>
+</div>
+
+<div id="container">
+
+<div>
+	<button id="reverse">Reverse Order</button>
+</div>
+
+<ol id="reversible">
+	<li>List Item 01</li>
+	<li>List Item 02</li>
+	<li>List Item 03</li>
+	<li>List Item 04</li>
+	<li>List Item 05</li>
+	<li>List Item 06</li>
+	<li>List Item 07</li>
+	<li>List Item 08</li>
+	<li>List Item 09</li>
+	<li>List Item 10</li>
+	<li>List Item 11</li>
+	<li>List Item 12</li>
+	<li>List Item 13</li>
+	<li>List Item 14</li>
+	<li>List Item 15</li>
+</ol>
+
+</div>
+
+</body>
+</html>

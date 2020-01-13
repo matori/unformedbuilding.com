@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>CSS 3D Transforms - transform:scale3d() sample 2</title>
+</head>
+<style type="text/css">
+.buttons {
+  margin    : 50px 0;
+  text-align: center;
+}
+
+button {
+  margin     : 0 5px;
+  width      : 150px;
+  font-size  : 16px;
+  line-height: 24px;
+}
+
+.container {
+  margin     : 50px auto;
+  width      : 620px;
+  box-sizing : border-box;
+  font-family: "Arial", sans-serif;
+}
+
+h2 {
+  margin     : 0 0 10px;
+  padding    : 0;
+  font-size  : 13px;
+  font-weight: normal;
+  line-height: 1;
+}
+
+pre {
+  margin     : 0 0 0 35px;
+  padding    : 0;
+  font-family: "Courier New", "Courier", monospace;
+}
+
+.drawing {
+  float     : left;
+  margin-left: 5px;
+  width     : 200px;
+  min-height: 1px;
+}
+
+.drawing:first-child {
+  margin: 0;
+}
+
+.box {
+  position               : relative;
+  margin                 : 0;
+  width                  : 200px;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style   : preserve-3d;
+  -ms-transform-style    : preserve-3d;
+  -o-transform-style     : preserve-3d;
+  transform-style        : preserve-3d;
+  -webkit-transform      : rotateX(-10deg) rotateY(-20deg);
+  -moz-transform         : rotateX(-10deg) rotateY(-20deg);
+  -ms-transform          : rotateX(-10deg) rotateY(-20deg);
+  -o-transform           : rotateX(-10deg) rotateY(-20deg);
+  transform              : rotateX(-10deg) rotateY(-20deg);
+}
+
+.base,
+.base + div {
+  position: absolute;
+  top     : 50px;
+  left    : 50px;
+  width   : 100px;
+  height  : 100px;
+}
+
+.base {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.base + div {
+  background: rgba(255, 0, 0, 0.5);
+}
+
+.sample1 {
+  -webkit-transform: scale3d(1, 1, 1) rotateY(45deg);
+  -moz-transform   : scale3d(1, 1, 1) rotateY(45deg);
+  -ms-transform    : scale3d(1, 1, 1) rotateY(45deg);
+  -o-transform     : scale3d(1, 1, 1) rotateY(45deg);
+  transform        : scale3d(1, 1, 1) rotateY(45deg);
+}
+
+.sample2 {
+  -webkit-transform: scale3d(1, 1, 1.5) rotateY(45deg);
+  -moz-transform   : scale3d(1, 1, 1.5) rotateY(45deg);
+  -ms-transform    : scale3d(1, 1, 1.5) rotateY(45deg);
+  -o-transform     : scale3d(1, 1, 1.5) rotateY(45deg);
+  transform        : scale3d(1, 1, 1.5) rotateY(45deg);
+}
+
+.sample3 {
+  -webkit-transform: scale3d(1.5, 1, 1.5) rotateY(45deg);
+  -moz-transform   : scale3d(1.5, 1, 1.5) rotateY(45deg);
+  -ms-transform    : scale3d(1.5, 1, 1.5) rotateY(45deg);
+  -o-transform     : scale3d(1.5, 1, 1.5) rotateY(45deg);
+  transform        : scale3d(1.5, 1, 1.5) rotateY(45deg);
+}
+
+.axis {
+  position     : absolute;
+  top          : 99.5px;
+  border-bottom: 1px solid;
+  width        : 200px;
+  height       : 0px;
+  font-size    : 20px;
+  line-height  : 1;
+}
+
+.axis:before {
+  display            : block;
+  top                : -4.5px;
+  right              : 0;
+  position           : absolute;
+  border-width       : 5px 0 5px 5px;
+  border-style       : solid;
+  border-top-color   : transparent;
+  border-bottom-color: transparent;
+  content            : "";
+}
+
+.x {
+  border-color: blue;
+  color       : blue;
+}
+
+.y {
+  border-color     : red;
+  color            : red;
+  -webkit-transform: rotateZ(90deg);
+  -moz-transform   : rotateZ(90deg);
+  -ms-transform    : rotateZ(90deg);
+  -o-transform     : rotateZ(90deg);
+  transform        : rotateZ(90deg);
+}
+
+.z {
+  border-color     : green;
+  color            : green;
+  -webkit-transform: rotateY(-90deg) scaleZ(1);
+  -moz-transform   : rotateY(-90deg);
+  -ms-transform    : rotateY(-90deg);
+  -o-transform     : rotateY(-90deg);
+  transform        : rotateY(-90deg);
+}
+</style>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script type="text/javascript" src="switch.js"></script>
+<body>
+
+<div class="buttons">
+  <button id="angle">正面から見る</button>
+  <button id="axis">軸を非表示にする</button>
+</div>
+
+<div class="container">
+
+  <div class="drawing">
+    <h2><pre>scale3d(1,1,1)
+rotateY(45deg)</pre></h2>
+    <div class="box">
+      <div class="base"></div>
+      <div class="sample1"></div>
+      <div class="axis x"><span>X</span></div>
+      <div class="axis y"><span>Y</span></div>
+      <div class="axis z"><span>Z</span></div>
+    </div>
+  </div>
+
+  <div class="drawing">
+    <h2><pre>scale3d(1,1,1.5)
+rotateY(45deg)</pre></h2>
+    <div class="box">
+      <div class="base"></div>
+      <div class="sample2"></div>
+      <div class="axis x"><span>X</span></div>
+      <div class="axis y"><span>Y</span></div>
+      <div class="axis z"><span>Z</span></div>
+    </div>
+  </div>
+
+  <div class="drawing">
+    <h2><pre>scale3d(1.5,1,1.5)
+rotateY(45deg)</pre></h2>
+    <div class="box">
+      <div class="base"></div>
+      <div class="sample3"></div>
+      <div class="axis x"><span>X</span></div>
+      <div class="axis y"><span>Y</span></div>
+      <div class="axis z"><span>Z</span></div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

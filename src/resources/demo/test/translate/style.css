@@ -1,0 +1,31 @@
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+html {
+  color: #101010;
+  background: #fff;
+}
+
+body {
+  margin: 0 auto;
+  max-width: 800px;
+  font-size: 14px;
+  line-height: 1.6;
+  font-family: meiryo, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 3.2em 0 1.6em;
+}
+
+p, li, ul, dl, dd {
+  margin: 1.6em 0;
+}
+
+dd {
+  margin-top: 0;
+  margin-left: 1em;
+}

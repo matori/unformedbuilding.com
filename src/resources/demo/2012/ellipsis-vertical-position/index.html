@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<title>三点リーダの垂直位置をどうにかしたい</title>
+<style type="text/css">
+h1 {
+  margin: 20px;
+}
+
+div {
+  margin    : 20px;
+  padding   : 20px;
+  border    : 1px solid #ccc;
+  width     : 600px;
+  box-sizing: border-box;
+}
+
+h2 {
+  margin     : 0 0 20px;
+  font-size  : 20px;
+  font-weight: normal;
+}
+
+code {
+  font-family: "Monaco", "Consolas", monospace;
+}
+
+p {
+  margin: 0;
+}
+
+@font-face {
+  font-family: "MeiryoArial";
+  src        : local("Meiryo");
+}
+
+@font-face {
+  font-family: "MeiryoArial";
+  src        : local("Arial");
+}
+
+@font-face {
+  font-family  : "MeiryoArial";
+  src          : local("Meiryo");
+  unicode-range: U+2026;
+}
+
+.sample1 {
+  font-family: "Meiryo", sans-serif;
+}
+
+.sample2 {
+  font-family: "Arial", "Meiryo", sans-serif;
+}
+
+.sample3 {
+  font-family: "MeiryoArial", sans-serif;
+}
+</style>
+</head>
+<body>
+
+<h1>三点リーダの垂直位置をどうにかしたい</h1>
+
+<div>
+<h2><code>font-family: &quot;Meiryo&quot;, sans-serif;</code></h2>
+<p class="sample1">
+  12345ABCDEabcdeあいうえお春夏秋冬<br />
+  ドット連続......<br />
+  三点リーダ……
+</p>
+</div>
+
+<div>
+<h2><code>font-family: &quot;Arial&quot;, &quot;Meiryo&quot;, sans-serif;</code></h2>
+<p class="sample2">
+  12345ABCDEabcdeあいうえお春夏秋冬<br />
+  ドット連続......<br />
+  三点リーダ……
+</p>
+</div>
+
+<div>
+<h2><code>font-family: &quot;MeiryoArial&quot;, sans-serif;</code></h2>
+<p class="sample3">
+  12345ABCDEabcdeあいうえお春夏秋冬<br />
+  ドット連続......<br />
+  三点リーダ……
+</p>
+</div>
+
+</body>
+</html>

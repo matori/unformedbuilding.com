@@ -1,0 +1,30 @@
+.Nav {
+}
+
+.Nav-heading {
+  @include visually-hidden;
+}
+
+.Nav-list {
+  margin-top: get-lines(5);
+  margin-bottom: get-lines(1);
+  padding-left: 0;
+  list-style-type: none;
+
+  @media screen and (min-width: #{rem(480px)}) {
+    display: flex;
+  }
+}
+
+.Nav-item {
+  @include text(1);
+
+  @media screen and (min-width: #{rem(480px)}) {
+    &:nth-child(n+2) {
+      margin-left: 1rem;
+    }
+  }
+}
+
+.Nav-link {
+}

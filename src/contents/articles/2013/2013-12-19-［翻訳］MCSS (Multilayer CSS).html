@@ -1,0 +1,500 @@
+<script type="application/x-yaml">
+title: "［翻訳］MCSS (Multilayer CSS)"
+description: "MCSSのドキュメントを日本語訳しました。"
+slug: mcss-ja
+published: 2013-12-19T12:16:21+09:00
+updated: 2020-01-12T02:40:53+09:00
+category: webdev
+</script>
+
+<p>
+  これは「<a href="http://www.adventar.org/calendars/61">BEM Advent Calendar 2013</a>」19日目の記事です。
+</p>
+<p>
+  タイトルに書いてある通り、<a href="http://rhr.me/">Robert Haritonov</a>による<a href="http://operatino.github.io/MCSS/">MCSS</a>のドキュメントを日本語訳しました。<br>
+  ほぼ同内容のものをプルリクエストしてあるので、そのうち本家でも公開されると思います。<br>
+  <ins datetime="2013-12-26T00:21:53+09:00"><a href="https://operatino.github.io/MCSS/ja/">公式ページでも公開されました。</a></ins>
+</p>
+<p>
+  英語版があったので基本的には英語版から日本語訳したのですが、英語版で意味がよく分からない部分があって、そういうのはオリジナルのロシア語版を機械翻訳で英語にして、それを元にしたりしました。ので、英語版からの完全翻訳ではありません。<br>
+  本当はロシア語できる人がオリジナルのドキュメント群を翻訳したほうがよいと思います。
+</p>
+<p>
+  MCSSは主にCSSの管理方法についての考え方で、読んでいて自分のやり方に一番向いているのではないかと思いました。<br>
+  そこで、ちゃんと理解しておきたいということもあって翻訳してみました。<br>
+  既に同じか似たような管理方法を使っている人はいると思いますが、そうではないCSSの管理が苦手な人にとっては一つの基準として参考になるかもしれません。
+</p>
+<ins datetime="2020-01-12T02:40:53+09:00">
+  <p>
+    <b>追記：</b><br>
+    本家に取り込まれたので、この記事での翻訳は削除しました。<br>
+    読みたい方は前述のリンクからどうぞ。<br>
+    翻訳の誤りなどありましたら、本家のほうにPull Requestを送ってください。
+  </p>
+</ins>
+<del datetime="2020-01-12T02:40:53+09:00">
+  <section>
+    <h2>MCSS - Multilayer CSS</h2>
+    <section>
+      <h3>はじめに</h3>
+      <p>
+        Multilayer CSS構成システムは <a href="http://bem.info/">BEM</a>と<a href="http://oocss.org/">OOCSS</a> の原理を基にしています。この方法は
+        <a href="http://corp.mail.ru/en/communications/odnoklassniki">Odnoklassniki.ru</a>（世界のソーシャルネットワークのTOP10）開発チームによって作り出され、ドキュメントとチームベースのシステムの中核として開発者にお勧めです。
+      </p>
+      <p>
+        この方法は60人以上の開発者と多くの内部サービスという巨大なプロジェクトから生まれましたが、中小規模のプロジェクトにも簡単に導入できます。その拡張性により、開発者はルールの厳格さのレベルを選択できます。
+      </p>
+      <p>
+        このドキュメントはドキュメント作成エンジン
+        <a href="http://sourcejs.com">Source</a> などの補助ツールを使い、常に改善されています。オリジナルのドキュメントはロシア語で記述されており、全ての情報はまだ翻訳されていませんが、翻訳のプルリクエストはお気軽にどうぞ。
+      </p>
+      <p>
+        <em>何か質問があれば <a href="http://github.com/operatino/MCSS/issues">Issues section on Github</a> またはメールアドレス
+          <a href="&#109;&#97;&#105;&#108;&#116;o&#x3a;&#114;&#x40;&#x72;&#x68;&#x72;&#46;&#x6d;&#x65;">
+            &#x72;&#64;&#114;&#x68;&#x72;&#46;&#109;&#101;</a> まで。</em>
+      </p>
+      <section>
+        <h4>ナビゲーション</h4>
+        <ul>
+          <li><a href="#main-principles">基本原則</a></li>
+          <li><a href="#style-storing">スタイルの格納ルール</a></li>
+          <li><a href="#interaction">モジュールの対応図</a></li>
+          <li><a href="#base-layer">レイヤー 1 — ベース（ファーストレイヤー）</a></li>
+          <li><a href="#project-layer">レイヤー 2 — プロジェクト (セカンドレイヤー)</a></li>
+          <li><a href="#cosmetic-layer">レイヤー 3 — コスメティック (サードレイヤー)</a></li>
+          <li><a href="#context">コンテキスト</a></li>
+          <li><a href="#examples">実際の例</a></li>
+          <li><a href="#dictionary">略語辞典</a></li>
+          <li><a href="#recommendations">推奨事</a></li>
+        </ul>
+      </section>
+      <section id="main-principles">
+        <h4>基本原則</h4>
+        <p>
+          <strong>MCSS</strong> は非常に拡張性が高く、特定のコードスタイルやファイルシステム構成、または特定のツールなどを強制しません。重要なのはそれぞれのブロックごとにルールを分けるということです。
+        </p>
+        <p>
+          CSS モジュール（及び、その内部ブロック）はレイヤーごとに分離され、そのそれぞれのレイヤーは他のレイヤーモジュールと連携したり、一方的に利用するような独自のルールを持つことになります。
+        </p>
+        <p class="image">
+          <img src="/images/2013/mcss-ja/modules.jpg" alt="">
+        </p>
+      </section>
+      <section id="style-storing">
+        <h4>スタイルの格納ルール</h4>
+        <p>
+          モジュールの全てのスタイルは、分割されたセクションまたは CSS ファイルに配置されなければなりません：
+        </p>
+        <pre><code class="language-css">/* モジュール名
+-------------------------------------------------- */
+.module { }
+
+.module_list { }
+  .module_list.__modifier { }
+/* /モジュール名 */</code></pre>
+        <p>
+          同様に、カスケードにより変更されたセレクターも他の親セレクターの近くに格納されます：
+        </p>
+        <pre><code class="language-css">/* モジュール名
+-------------------------------------------------- */
+.module { }
+
+.module_list { }
+  .module_list .other-module { }
+/* /モジュール名 */</code></pre>
+        <p>
+          唯一の例外は<strong>コンテキストレイヤー</strong>です：
+        </p>
+        <pre><code class="language-css">/* モジュール名
+-------------------------------------------------- */
+.module { }
+
+.module_list { }
+  .touch .module_list { }
+  .ie9 .module_list { }
+/* /モジュール名 */</code></pre>
+        <p>
+          この章は個別のドキュメントとして、より正確に説明する予定です（<a href="http://operatino.github.io/MCSS/modules/css_placement.html">ロシア語版</a>では既にそうなっています）。
+        </p>
+      </section>
+    </section>
+    <section>
+      <h3>ゼロレイヤーすなわちファンデーション（下地）</h3>
+      <p>
+        ファンデーションには、リセットとちょっとした変更を加えるだけのメインレイアウトのベースを記述した、全ページに適用されるスタイルが含まれます。
+      </p>
+      <p>
+        全てのリセットのようなファンデーションスタイルは、分割ファイルと共通 CSS ファイルの先頭とのどちらの場合でも、スタート直後に配置されます：
+      </p>
+    </section>
+    <section id="interaction">
+      <h3>モジュールの対応図</h3>
+      <p class="image"><img src="/images/2013/mcss-ja/layers.jpg" alt=""></p>
+      <section>
+        <h4>スタイルのリンク順序</h4>
+        <p>
+          全てのレイヤースタイルは、異なるモジュール／レイヤーのセレクター間の正しい関係を維持するために、正しい順序でページにリンクされなければなりません：
+        </p>
+        <pre><code class="language-text">0_layer_foundation
+  reset.css
+
+1_layer_base
+  base_modules.css
+
+2_layer_project
+  project_modules.css
+
+cosmetic.css</code></pre>
+      </section>
+    </section>
+    <section id="base-layer">
+      <h3>レイヤー 1 — ベース（ファーストレイヤー）</h3>
+      <p>
+        ファーストレイヤーはウェブサイトの骨子で、インターフェースの中心部分です。最も再利用可能で抽象的な構造に基づいています。
+      </p>
+      <ul>
+        <li>フォーム</li>
+        <li>ボタン</li>
+        <li>ナビゲーションブロック</li>
+        <li>その他</li>
+      </ul>
+      <p>
+        ベースレイヤースタイルはできるだけデザイナーのスタイルガイドと統合しなければなりません。ファーストレイヤーのモジュールは、全てのウェブサイトインターフェースに再利用されることを意図しているので、変更することなく他のインターフェース部分にフィットし、適切であるように見えなければなりません。
+      </p>
+      <p>
+        <strong>プロジェクトに MCSS を導入するときに最初にすべきことは、再利用可能な標準スタイルのセットを作成することです。</strong>
+      </p>
+      <p>
+        <a href="http://twitter.github.com/bootstrap/">Bootstrap</a> や
+        <a href="http://960.gs/">960gs</a>、<a href="https://github.com/csswizardry/inuit.css">inuit.css</a> などのポピュラーなフレームワークはファーストレイヤーの一部分として簡単に再利用できます。
+      </p>
+      <section>
+        <h4>ルール</h4>
+        <p>
+          ファーストレイヤーの主要ルールは、全ての構成要素は名前とマークアップのどちらも抽象的である必要があるということです。
+        </p>
+        <ul>
+          <li>クラス名はインターフェースのいかなる場所においても「無関係である」ように見えてはなりません。</li>
+          <li>モジュールブロックはデフォルトスタイルを持たなくてはなりませんが、様々なプロジェクトモジュールやタスクに応じて簡単に変更できる必要もあります。</li>
+        </ul>
+        <p>
+          ファーストレイヤースタイルは同じレイヤーやセカンドレイヤーの他のモジュールからカスケードによって変更される可能性があります。これは関連するスタイルの位置は一ヶ所にあると見なすルールによるものです。
+        </p>
+        <p>
+          <strong>ベーススタイルはセカンドレイヤーモジュールから分離され、プロジェクトレイヤースタイルから独立した状態を保たなければなりません。</strong>
+        </p>
+        <p>
+          フォームの標準：
+        </p>
+        <pre><code class="language-css">.input-field { }
+  .input-field_text { }</code></pre>
+        <p>
+          フォームの標準とボタンの標準の相互作用 - ファーストレイヤーからのカスケードによる変更：
+        </p>
+        <pre><code class="language-css">.input-field { }
+  .input-field .button { }</code></pre>
+        <p>
+          セカンドレイヤー内におけるプロジェクトモジュールとフォームの標準の相互作用：
+        </p>
+        <pre><code class="language-css">.project-module { }
+  .project-module .input-field { }</code></pre>
+        <p>
+          <strong>ファーストレイヤーからのセカンドレイヤーの変更は禁止です！</strong> この場合、レイヤーは混同され、混乱を引き起こします：
+        </p>
+        <pre><code class="language-css">  .input-field .project-module { }</code></pre>
+        <p>
+          ベーススタイルはセカンドレイヤーより優先されてファンデーションの直後に配置され、セレクター詳細度における優先度を低い状態で維持します。
+        </p>
+      </section>
+      <section>
+        <h4>メリット</h4>
+        <p>
+          再利用可能でよく考えられたファーストレイヤーは、よくある構造をサポートする時間を節約し、複数の類似モジュールを維持する必要性を排除します。<br>
+          また、再利用可能性は最終的な CSS ファイルサイズとページのレンダリング時間に良い影響を与えます。
+        </p>
+        <p>
+          より良く開発されたベースを持つことで、大部分が標準要素で構成された新しいインターフェース作成が簡単になります。
+        </p>
+        <p>
+          標準デザインサンプルは、あるプロジェクトから別のプロジェクトへ再利用可能で、レイアウトとそれに関連づけられたバックエンド機能の両方の開発を促進できます。
+        </p>
+      </section>
+    </section>
+    <section id="project-layer">
+      <h3>レイヤー 2 — プロジェクト（セカンドレイヤー）</h3>
+      <p>
+        セカンドレイヤーは、分離された、ページを構成するプロジェクトモジュールを含みます：
+      </p>
+      <ul>
+        <li>登録フォーム</li>
+        <li>ログインブロック</li>
+        <li>ショッピングカート</li>
+        <li>その他</li>
+      </ul>
+      <section>
+        <h4>ルール</h4>
+        <p>
+          セカンドレイヤーレイアウトでは、可能な限りユニークな CSS クラスの使用が推奨されます。現在のデザインがスタイリングを必要としない場合でも、それに対してユニークな CSS クラスを割り当てることはベタープラクティスです。このようなアプローチにより、HTML の構造に影響を与えることなく正しいスタイルを容易に適用できるようになり、個々のレイアウトブロックごとに有用性を維持できるようになるでしょう。
+        </p>
+        <p>
+          ベースレイヤーのみと作用する独立したインターフェースブロックの各モジュールはできる限り分離される必要があります。
+        </p>
+        <p>
+          プロジェクトモジュール内でファーストレイヤー構造を利用するには、HTML にもう1つ CSS クラスを割り当てる必要があります：
+        </p>
+        <pre><code class="language-html">&lt;header class=&quot;toolbar&quot;&gt;
+  &lt;a href=&quot;/&quot; class=&quot;toolbar_logo&quot;&gt;&lt;/a&gt;
+  &lt;menu class=&quot;toolbar_dropdown_ul umenu&quot;&gt;
+    &lt;li class=&quot;umenu_li&quot;&gt;&lt;/li&gt;
+    &lt;li class=&quot;umenu_li&quot;&gt;&lt;/li&gt;
+  &lt;/menu&gt;
+&lt;/header&gt;</code></pre>
+        <p>
+          セカンドレイヤーモジュール <strong>.toolbar</strong> がファーストレイヤー標準の
+          <strong>.umenu</strong> を利用している例です。プロジェクトモジュールの要求のために標準を変更する場合、CSS カスケードが使用されます：</p>
+        <pre><code class="language-css">/* Toolbar
+-------------------------------------------------- */
+.toolbar { }
+
+.toolbar_dropdown_ul { }
+  .toolbar_dropdown_ul .umenu_li { }
+/* /Toolbar */</code></pre>
+        <p>
+          <strong>プロジェクトレイヤースタイルは、他のプロジェクトレイヤーモジュールからのみ、カスケードによる変更が行われる可能性があります！</strong>
+        </p>
+        <p>
+          <strong>正しい記述：</strong>
+        </p>
+        <pre><code class="language-css">.project-module .other-project-module { }</code></pre>
+        <p>
+          誤った記述：
+        </p>
+        <pre><code class="language-css">.base-module .project-module { }</code></pre>
+      </section>
+      <section>
+        <h4>メリット</h4>
+        <p>
+          モジュールを分離することで、他のインターフェース部分へ影響が及ぶ危険性なしに、そのスタイルへ簡単にアクセスできるようになります。チームで作業する場合、各チームメンバーが別々に1つのレイヤーを開発することで、他の開発者とのコンフリクトが発生しなくなります。
+        </p>
+        <p>
+          各モジュールのスタイルは、ページが必要とする箇所に適用することができます。
+        </p>
+        <p>
+          ウェブサイトから機能性が失われているとき、不要なスタイルを簡単に取り除くことができます。あるモジュールと対応するスタイルを投げ捨てればよいのです。
+        </p>
+      </section>
+    </section>
+    <section id="cosmetic-layer">
+      <h3>レイヤー 3 — コスメティック（サードレイヤー）</h3>
+      <p>
+        サードレイヤーはシンプルで、わずかに影響するスタイルから成ります：
+      </p>
+      <ul>
+        <li>リンクカラー</li>
+        <li>シンプルな OOCSS - 少数のプロパティで構成される CSS クラス（.font-size_XL, .margin-t_L）</li>
+        <li>グローバルな修飾子</li>
+      </ul>
+      <p>
+        MCSS を利用するいくつかのケースではこのレイヤーは存在しないかもしれません。しかし大きなプロジェクトにおけるこのレイヤーは、スタイルの重複問題を解決し、稀にある非プロジェクトモジュールの記述を「DRY」なまま可能にします。
+      </p>
+      <section>
+        <h4>ルール</h4>
+        <p>
+          サードレイヤースタイルはスタイルが破棄されている場合でもレイアウトを安全に保つ方法で構成されなければなりません。色やパディングなどのように、損失は小さくあるべきです。
+        </p>
+        <p>
+          稀にある非プロジェクトモジュールのために、シンプルな OOCSS クラスをブロックで最大3つまで使用できます：
+        </p>
+        <pre><code class="language-html">&lt;div class=&quot;font-size_XL margin-t_L color_red&quot;&gt;&lt;/div&gt;</code></pre>
+        <p>
+          <strong>コスメティックレイヤースタイルはコンテキストセレクター以外の他のレイヤーからカスケードによる変更を行ってはいけません。</strong>
+        </p>
+        <p>
+          コスメティックスタイルは CSS の最後に適用されます。<strong>!important</strong> の使用はお勧めしません。
+        </p>
+      </section>
+      <section>
+        <h4>メリット</h4>
+        <p>
+          スタイルはウェブサイトのレイアウトに対して大きな影響は持っていませんが、重複コード問題への対処や、小さなプロジェクトモジュール・ベースモジュールを作る必要性の排除といった助けになります。
+        </p>
+        <p>
+          非プロジェクトモジュールに少々のプロパティを適用する必要が出たとき、シンプルなセレクターはその稀な状況にすぐに対処できます。
+        </p>
+      </section>
+    </section>
+    <section id="context">
+      <h3>コンテキスト</h3>
+      <p>
+        このレイヤーは上位コンテキストのスタイルと、様々な状況のために標準スタイルを変更するのに使用される @media ルールを含みます。
+      </p>
+      <ul>
+        <li>.ie8, .ie9 - ブラウザー</li>
+        <li>.touch</li>
+        <li>.logged-in</li>
+        <li>メディアクエリー</li>
+      </ul>
+      <p>
+        <strong>コンテキストレイヤーはスタイル配置ルール上の例外です。</strong>このレイヤーのスタイルは、コンテキストからカスケードによる変更が行われている全てのレイヤー間に配置されています：
+      </p>
+      <pre><code class="language-css">/* モジュール名
+-------------------------------------------------- */
+.module { }
+
+.module_list { }
+  .touch .module_list { }
+  .ie9 .module_list { }
+
+@media screen and (max-width: 1000px) {
+  .module { }
+}
+/* /モジュール名 */</code></pre>
+    </section>
+    <section id="examples">
+      <h3>実際の例</h3>
+      <p>
+        こちらの<a href="http://operatino.github.io/MCSS/examples/layers/">デモ</a>で MCSS の動作を確認できます。この例では、全てのレイヤーは1つの
+        <a href="http://operatino.github.io/MCSS/examples/layers/css/style.css">CSS file</a> に格納されていますが、個別のファイル（ブロック）に分割することもできます：
+      </p>
+      <p class="image"><img src="/images/2013/mcss-ja/file-system.png" alt=""></p>
+      <p>
+        2つ目の<a href="http://operatino.github.io/MCSS/examples/mcss_with_bootstrap/">デモ</a>では、ファースト（ベース）レイヤーとしての Bootstrap を持つ MCSS がどのように動作するかを確認できます。
+      </p>
+      <p>
+        プロジェクトのサイトも同様に MCSS でデザインされています。<a href="http://operatino.github.io/MCSS/theme/stylesheets/stylesheet.css">ソース</a>を見るのをためらったりしないでください。
+      </p>
+    </section>
+    <section id="dictionary">
+      <h4>略語辞典</h4>
+      <p>
+        長い CSS セレクター名を避けるため、略語辞典の利用をお勧めします：
+      </p>
+      <pre><code class="language-text">a - link (&lt;a&gt; tag)
+ac - action
+add - additional
+aft - after
+aux - auxillary
+
+b - body | bottom
+bg - background
+brd - border
+btn - button
+
+cat - catalog | category
+cl - clear
+cnt - content | container
+cnts - contents
+col - column
+
+dec - decorate
+def - default
+del - delete
+descr - description
+dm - delim
+dyn - dynamic
+
+e - error
+el - element
+ext - external
+
+f - footer
+fr - friend
+ft - font
+
+gen - general
+
+h - header
+hl - highlight
+hv - hover
+hld - holder
+
+i - item
+ic - icon
+img - image
+ir - input radio
+is - input submit
+it - input text
+itx - textarea
+
+l - left | label
+lbl - label
+lk - link
+lr - layer
+lst - list
+
+mod - module | modifier
+
+n - name
+ntf - notification
+num - number
+
+opt - options
+ovr - overlay
+
+ph - placeholder
+pht - photo
+priv - privacy
+
+r - right
+rfr - refresh
+
+scr - screen | scroll
+sel - select
+sett - settings
+sm - small
+spr - sprite
+
+t - title | t
+tx - text
+
+w - wrapper</code></pre>
+      <p>
+        将来的には、辞典は別のドキュメントに移動する予定です。
+      </p>
+    </section>
+    <section id="recommendations">
+      <h3>推奨事</h3>
+      <section>
+        <h4>コードスタイル</h4>
+        <p>
+          MCSS に加えて、コード品質を向上させるために以下に挙げる便利な実例の利用をお勧めします：
+        </p>
+        <ul>
+          <li><a href="https://github.com/necolas/idiomatic-css">Principles of writing consistent, idiomatic CSS</a>
+          </li>
+          <li>
+            <a href="http://google-styleguide.googlecode.com/svn/trunk/htmlcssguide.xml">Google HTML/CSS style guide</a> - HTML と CSS のコード設定のためのスタイルガイド
+          </li>
+          <li><a href="http://csscomb.ru/">CSScomb</a> - CSS プロパティのソートを行うツール</li>
+        </ul>
+      </section>
+      <section>
+        <h4>ベストプラクティス</h4>
+        <ul>
+          <li>
+            CSS にできるだけ多くのコメントを書きましょう。全ての非標準構成に、マジックナンバーに。私たちがそうするように、数ヶ月経ってコードレビューのためにあなたが戻ってきたときには、これはチームメンバーだけでなく、あなたにとっても役立つものとなります。
+          </li>
+        </ul>
+      </section>
+    </section>
+  </section>
+</del>
+<hr>
+<del datetime="2020-01-12T02:40:53+09:00">
+  <p>
+    以上で翻訳部分は終わりです。<br>
+    できるだけ簡単な表現にしたのですが、分かりにくかったらすいません。<br>
+  </p>
+</del>
+<p>
+  ロシア語版には命名ルールや修飾子クラスの付け方なんかも書かれていますが、ルールをちゃんと管理できていれば自分のやり方に合わせればいいんじゃないかなと思います。そこで採用されているBEMベースの命名ルールは結構分かりやすいのでそのまま使ってもよさそうではありますけど。
+</p>
+<p>
+  最後になりましたが、ご協力頂いた方々、どうもありがとうございました。
+</p>
+<ul>
+  <li><a href="http://d.hatena.ne.jp/momdo/">もんど</a>さん（<a href="https://twitter.com/momdo_">@momdo_</a>）</li>
+  <li><a href="http://hail2u.net/">ながしまきょう</a>さん（<a href="https://twitter.com/hail2u_">@hail2u_</a>）</li>
+  <li><a href="http://geckotang.tumblr.com/">げこたん</a>さん（<a href="https://twitter.com/GeckoTang">@GeckoTang</a>）</li>
+  <li><a href="http://dskd.jp/">越智</a>さん（<a href="https://twitter.com/o_ti">@o_ti</a>）</li>
+</ul>

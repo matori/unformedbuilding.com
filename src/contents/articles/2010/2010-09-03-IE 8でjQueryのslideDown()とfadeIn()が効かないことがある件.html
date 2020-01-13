@@ -1,0 +1,86 @@
+<script type="application/x-yaml">
+title: "IE 8でjQueryのslideDown()とfadeIn()が効かないことがある件"
+description: "jQueryでスライドダウンを作っているときにIE 8だけで動いていないのを確認したので、そのメモ。"
+slug: jquery-slidedown-fadein-does-not-work-on-ie8
+published: 2010-09-03T09:36:49+09:00
+updated: 2011-05-18T14:31:41+09:00
+category: webdev
+</script>
+
+<p>
+  jQueryでスライドダウンを作っているときにIE 8だけで動いていないのを確認したので、そのメモです。検索しても原因が分からなかったので自分で調べてみました。
+</p>
+<p>
+  作っていたのは以下のようなコードでした。
+</p>
+<pre><code class="language-html">&lt;div id=&quot;slide&quot;&gt;
+  &lt;h2&gt;スライドダウン&lt;/h2&gt;
+  &lt;p&gt;テキスト。テキスト。テキスト。...&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+<pre><code class="language-javascript">jQuery(function($) {
+  $('#slide > p').hide();
+  $('#slide > h2').click(function() {
+    $(this).next().slideDown();
+  });
+});</code></pre>
+<p>
+  これがIE 8の場合だけ動かなかったんですね。<br>
+  ちょっと検索してみたら、IE 8には<code>slideDown()</code>が動かない場合があるから、
+</p>
+<pre><code class="language-html">&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=7&quot;&gt;</code></pre>
+<p>
+  で、IE 7互換モードにしてしまうか、
+</p>
+<pre><code class="language-javascript">$(selector).slideDown().show();</code></pre>
+<p>
+  という感じで、とりあえず表示だけはさせとけ、って感じの記事がありました。
+</p>
+<p>
+  最初はもうこれでいいかなって思ったんですけど、ちょっと再現してみようと思ってデモを作ってみたら原因が分かりました。<br>
+  ブログ用に書き直したデモページは以下。<br>
+  IE 8だとスライドダウンするものとしないものがあります。
+</p>
+<p>
+  <a href="/demo/2010/jquery-slidedown-fadein-does-not-work-on-ie8/demo.html">IE 8でjQueryのslideDown()とfadeIn()が効かないことがある件 DEMO</a>
+</p>
+<p>
+  デモを見ると分かるとおり、IE 8で<code>slideDown()</code>と<code>fadeIn()</code>が動かない条件は、トリガーに<code>display: inline</code>もしくは<code>display: inline-block</code>が指定されている場合になります。<br>
+  加えて、その要素の隣接する弟要素をスライドダウンやフェードインしようとしていること、ですね。
+</p>
+<p>
+  デモに<code>div</code>と<code>span</code>の両方を書いているのは、ブロック要素に<code>display</code>プロパティを指定したときだけなのか、インライン要素やインラインブロック要素の隣接する弟要素も駄目なのか確認するためです。<br>
+  結果、本来ブロックレベルの要素に<code>display: inline</code>または<code>display: inline-block</code>が指定されているときに発生することが分かりました。
+</p>
+<p>
+  この現象の回避策ですが、大人しくHTMLを変更するか、CSSを変更することですね。<br>
+  もしくは上記の「互換モードにしてしまう」「とりあえず見れるように」の対策をするか。<br>
+</p>
+<p>また、<code>display:inline</code>が指定されている場合のみですが、</p>
+<pre><code class="language-css">selector:after {
+  display: block;
+  content: '';
+}</code></pre>
+<p>
+  で、動くようになります。<br>
+ <code>display:inline-block</code>が指定されている場合には通用しませんのでご注意を。
+</p>
+<p>
+  HTMLもCSS も変更できない上に、どうしても同じ動きを実現しなければならない場合は、JavaScriptを以下のように書き換えます。<br>
+  これは<a href="https://twitter.com/GeckoTang">@GeckoTang</a>さんが作ってくれました。
+</p>
+<pre><code class="language-javascript">$(this).next().slideDown();
+
+/* この部分を以下のように変更 */
+
+var div = $('&lt;div/&gt;'),
+    nxt = $(this).next();
+
+$(this).after(div);
+nxt.slideDown();
+div.remove();</code></pre>
+<p>
+  ご覧の通り、トリガーとなる要素の直後にブロック要素を作り、スライドダウンさせる要素との隣接関係をなくし、スライドダウンしたら追加した<code>div</code>を削除、という変更です。
+</p>
+<p>
+  ここまでやらなきゃいけないことはあんまりないと思いますが……やっぱり現実的にはHTMLかCSSを変更する方がよさそうです。
+</p>

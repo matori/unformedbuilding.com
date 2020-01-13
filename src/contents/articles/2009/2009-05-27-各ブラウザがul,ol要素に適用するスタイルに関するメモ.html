@@ -1,0 +1,61 @@
+<script type="application/x-yaml">
+title: "各ブラウザがul/ol要素に適用するスタイルに関するメモ"
+description: "CSSを書くとき、いつもul/ol要素のデフォルトスタイルのことを忘れてて悩むので、デフォルトだとどういう感じで表示されるかメモしておきます。"
+slug: default-style-ul-ol
+published: 2009-05-27T21:27:17+09:00
+updated: 2011-05-25T16:22:23+09:00
+category: webdev
+</script>
+
+<p>
+  CSSを書くとき、いつも<code>ul</code>, <code>ol</code>要素のデフォルトスタイルのことを忘れてて悩むので、デフォルトだとどういう感じで表示されるかメモしておきます。<br>
+  確認したブラウザは以下。
+</p>
+<ul>
+  <li>Internet Explorer 6, 7, 8</li>
+  <li>Opera 9.6</li>
+  <li>Firefox 3.0</li>
+  <li>Google Chrome 2.0</li>
+</ul>
+<p>
+  SafariはChromeと同じ表示になるので省略。<br><code>ul</code>要素に<code>margin</code>と<code>padding</code>を指定したりして試しました。
+</p>
+<p>
+  他には何も指定しなくてもよかったんだけど、やってみたら分かりづらかったので<br>
+ <code>ul</code>要素に<code>1px</code>のボーダー、それを囲む<code>div</code>要素に背景色と<code>padding:5px</code>を指定。
+</p>
+<section>
+  <h2><code>margin</code>，<code>padding</code>どちらも指定なしの場合の場合</h2>
+  <figure>
+    <img src="/images/2009/default-style-ul-ol/list-01.png" width="620" height="470" alt="">
+  </figure>
+</section>
+<section>
+  <h2><code>margin-left:0</code>を指定し、<code>padding</code>は指定なしの場合</h2>
+  <figure>
+    <img src="/images/2009/default-style-ul-ol/list-02.png" width="620" height="470" alt="">
+  </figure>
+</section>
+<section>
+  <h2><code>margin</code>指定なし、<code>padding-left:0</code>を指定した場合</h2>
+  <figure>
+    <img src="/images/2009/default-style-ul-ol/list-03.png" width="620" height="470" alt="">
+  </figure>
+</section>
+<section>
+  <h2><code>margin-left:0</code>と<code>padding-left:0</code>を指定した場合</h2>
+  <figure>
+    <img src="/images/2009/default-style-ul-ol/list-04.png" width="620" height="470" alt="">
+  </figure>
+</section>
+<p>
+  表示が違うのはIE7以下か……。<br>
+  リストは頻繁に使用するから気をつけないと。
+</p>
+<p><code>ul</code>, <code>ol</code>要素を使うつもりならスタイルシートの最初の方で</p>
+<pre><code class="language-css">ul, ol {
+  margin: 0;
+  padding: 0;
+}
+</code></pre>
+<p>こんな感じにリセットしておく、と。</p>

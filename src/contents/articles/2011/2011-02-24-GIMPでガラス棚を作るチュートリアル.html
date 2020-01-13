@@ -1,0 +1,206 @@
+<script type="application/x-yaml">
+title: "GIMPでガラス棚を作るチュートリアル"
+description: "壁から突き出たガラス棚のようなものを作るチュートリアルです。"
+slug: create-glass-shelf-with-gimp
+published: 2011-02-24T17:35:54+09:00
+updated: 2011-04-20T14:50:04+09:00
+category: misc
+</script>
+
+<figure>
+  <img src="/images/2011/create-glass-shelf-with-gimp/eyecatch.png" width="620" height="250" alt="">
+</figure>
+<p>
+  壁から突き出たガラス棚のようなものを作るチュートリアルです。<br>
+  自由に使えるものを探していたんですが見つからないので作ってみました。
+</p>
+<p>
+  今回はサンプルファイルをダウンロードできますので、お持ち帰り・ご利用はご自由にどうぞ。<br>
+  ただし、無断再配布はダメですよ。
+</p>
+<p>
+  <a href="/download/2011/create-glass-shelf-with-gimp.zip" download>チュートリアルファイルをダウンロード</a>
+</p>
+<section>
+  <h2>キャンバスと背景の作成</h2>
+  <p>
+    キャンバスを作ります。<br>
+    今回もこのブログの本文サイズに合わせて<code>620×400</code>で作成。
+  </p>
+  <figure>
+    <img src="/images/2011/create-glass-shelf-with-gimp/tutorial-01.png" width="620" height="320" alt="キャンバスを620x400で作成">
+  </figure>
+  <p>
+    背景はグレインな感じにしますが、GIMPだと綺麗なノイズを作るのがちょっと大変なので別に作った画像を使います。ダウンロードできるzipには<span class="path">background.png</span>という名前で入れてあります。<br>
+    このファイルをキャンバスにドラッグしたら、<span class="path">background.png</span>レイヤーをクリップボードにコピーします。<br>
+    そうするとパターン一覧の一番最初に一時登録されるので、このパターンで背景を塗りつぶします。
+  </p>
+</section>
+<section>
+  <h2>ガラス板の作成</h2>
+  <p>
+    レイヤー「board」を作成します。<br>
+    今回、棚の横幅は480pxにしたいので、その半分の240pxに指定します。最初に半分にするのは楽をするためです。<br>
+    高さは60pxに。高さを小さくすると、より正面から見ているような感じになります。<br>
+    また、範囲が分かりやすいように白で塗りつぶしておきます。
+  </p>
+  <figure>
+    <img src="/images/2011/create-glass-shelf-with-gimp/tutorial-02.png" width="620" height="400" alt="新規レイヤー「board」を240x60、「白で塗りつぶす」で作成">
+  </figure>
+  <p>
+    boardレイヤーを選択して、グラデーションをかけます。<br>
+    グラデーションは<code>#777777</code>から<code>#555555</code>への線形グラデーションです。
+  </p>
+  <figure>
+    <img src="/images/2011/create-glass-shelf-with-gimp/tutorial-03.png" width="620" height="300" alt="#777777から#555555への線形グラデーションを適用">
+  </figure>
+  <p>
+    boardレイヤーを変形します。<br>
+    ［遠近法］ツールを使って、左上のポイントのみを移動させます。今回は右へ30px移動しました。<br>
+    移動させる距離が大きいほど板の奥行きが出ます。
+  </p>
+  <figure>
+    <img src="/images/2011/create-glass-shelf-with-gimp/tutorial-04.png" width="620" height="518" alt="［遠近法］ツールで左上のポイントのみを移動">
+  </figure>
+  <p>
+    変形したレイヤーができたら、そのレイヤーを複製します。<br>
+    複製したレイヤーを水平反転して、左端が複製元のレイヤーの右端にくっつくように右に移動させます。
+  </p>
+  <p>
+    ずれがないことを確認したら、boardレイヤー、変形後、変形後の複製のレイヤーをboardにまとめます。<br>
+    480×60のレイヤーが完成するので、［整列］ツールで画像の中央へ移動します。
+  </p>
+  <figure>
+    <img src="/images/2011/create-glass-shelf-with-gimp/tutorial-05.png" width="620" height="400" alt="レイヤーをまとめて、画像の中央に移動">
+  </figure>
+  <p>
+    新しいレイヤー「edge」を画像と同じ大きさで作成します。<br>
+    ガラス板のすぐ下に、高さ2pxの矩形選択範囲を作ります。幅はboardと同じです。<br>
+    高さを増やすと、ガラス板の厚みが出せます。<br>
+    選択範囲を<code>#ffffff</code>で塗りつぶします。
+  </p>
+  <figure>
+    <img src="/images/2011/create-glass-shelf-with-gimp/tutorial-06.png" width="620" height="320" alt="ガラス板のエッジ部分を作る">
+  </figure>
+  <p>
+    今度は描画色を<code>#000000</code>に設定して、［鉛筆］ツールで一番小さいブラシ（1×1）を選びます。<br>
+    レイヤー「edge-shadow-1」を作成し、ガラス板のすぐ上に横線を引きます。<br>
+    幅はガラス板の上辺の左右の端から1pxだけ離れた場所から開始・終了します。
+  </p>
+  <p>
+    同様に「edge-shadow-2」を作り、edge-shadow-1と同様の作業を行います。<br>
+    幅はedge-shadow-1の左右の端から1pxだけ離れた場所から開始・終了します。
+  </p>
+</section>
+<section>
+  <h2>ドロップシャドウの作成</h2>
+  <p>
+    板の影を作成します。
+  </p>
+  <p>
+    boardレイヤーを複製し、複製したレイヤーの ［不透明部分を選択］を行います。<br>
+    台形の選択範囲ができたら<code>#000000</code>で塗りつぶします。<br>
+    複製したレイヤーには「drop-shadow」とでも付けておきます。<br>
+    （画像ではまだ名前変更していません）
+  </p>
+  <figure>
+    <img src="/images/2011/create-glass-shelf-with-gimp/tutorial-07.png" width="620" height="400" alt="ドロップシャドウを作る前の下準備">
+  </figure>
+  <p>
+    塗りつぶしたレイヤーdrop-shadowを垂直反転し、［拡大・縮小］ツールで高さを100pxに変更します。<br>
+    この際、上辺が移動しないようにしてください。
+  </p>
+  <figure>
+    <img src="/images/2011/create-glass-shelf-with-gimp/tutorial-08.png" width="620" height="450" alt="レイヤーを垂直反転し、高さを100pxに変形">
+  </figure>
+  <p>
+    drop-shadowレイヤーに ［ガウシアンぼかし］を適用します。<br>
+    水平・垂直の設定は共に<code>50.0</code>です。ぼかしの種類はどっちでもいいです。
+  </p>
+  <figure>
+    <img src="/images/2011/create-glass-shelf-with-gimp/tutorial-09.png" width="620" height="400" alt="ガウシアンぼかしの設定">
+  </figure>
+  <p>
+    はみ出た部分を消します。<br>
+    まず、ガラス板より上の部分は矩形選択でスパッと削除します。
+  </p>
+  <figure>
+    <img src="/images/2011/create-glass-shelf-with-gimp/tutorial-10.png" width="620" height="250" alt="影のはみ出た部分を削除">
+  </figure>
+  <p>
+    次に横にはみ出た部分の処理です。<br>
+    ［消しゴム］ツールでブラシをCircle Fuzzyの一番大きいもの（ここでは76）を選び、ブラシの拡大を<code>2.00</code>に設定します。
+  </p>
+  <figure>
+    <img src="/images/2011/create-glass-shelf-with-gimp/tutorial-11.png" width="620" height="300" alt="消しゴムツールの設定">
+  </figure>
+  <p>
+    ブラシの設定が終わったら、横にはみ出た部分を払うような感じで徐々に消していきます。<br>
+    横のはみ出しさえ消せれば、そんなに厳密にやらなくてもいいです。
+  </p>
+  <figure>
+    <img src="/images/2011/create-glass-shelf-with-gimp/tutorial-12.png" width="620" height="400" alt="影のはみ出た部分に消しゴムをかける">
+  </figure>
+</section>
+<section>
+  <h2>不透明度の調整とガラスへの効果</h2>
+  <p>
+    drop-shadowレイヤーをboardレイヤーの下に移動します。
+  </p>
+  <figure>
+    <img src="/images/2011/create-glass-shelf-with-gimp/tutorial-13.png" width="620" height="400" alt="レイヤーの並び替え">
+  </figure>
+  <p>
+    次に、各レイヤーの不透明度を調整していきます。<br>
+    ここでは、上から順に以下のように設定しました。
+  </p>
+  <ul>
+    <li>edge-shadow-2 -&gt; 10.0</li>
+    <li>edge-shadow-1 -&gt; 30.0</li>
+    <li>edge -&gt; 25.0</li>
+    <li>board -&gt; 25.0</li>
+    <li>drop-shadow -&gt; 30.0</li>
+  </ul>
+  <p>
+    これで結構ガラスっぽくなったかと思います。<br>
+    次はガラスにほんの少しだけテカリを入れます。
+  </p>
+  <p>
+    まず、以下の画像のようにパスを描きます。<br>
+    （全部直線です）
+  </p>
+  <figure>
+    <img src="/images/2011/create-glass-shelf-with-gimp/tutorial-14.png" width="620" height="400" alt="テカリエフェクト用のパスを描く">
+  </figure>
+  <p>
+    終わったら、パスを選択範囲に変更します。
+  </p>
+  <p>
+    選択範囲はそのままにして、新しいレイヤー「effect」を作ります。<br>
+    グラデーションを透明から<code>#ffffff</code>に設定し、ガラス板の上辺からドロップシャドウの下辺りまで線形グラデーションを適用します。</p>
+  <figure>
+    <img src="/images/2011/create-glass-shelf-with-gimp/tutorial-15.png" width="620" height="400" alt="パスで作った選択範囲に透明から#ffffffへのグラデーションをかける">
+  </figure>
+  <p>
+    boardレイヤーの ［不透明部分を選択］して、effectレイヤーに移動したら ［選択範囲を反転］して、選択範囲を削除します。
+  </p>
+  <figure>
+    <img src="/images/2011/create-glass-shelf-with-gimp/tutorial-16.png" width="620" height="400" alt="エフェクトのいらない部分を削除">
+  </figure>
+  <p>
+    最後に、effectレイヤーの不透明度を<code>10.0</code>に設定します。
+  </p>
+  <figure>
+    <img src="/images/2011/create-glass-shelf-with-gimp/tutorial-17.png" width="620" height="247" alt="エフェクトの不透明度を調整">
+  </figure>
+</section>
+<p>
+  せっかくなので文字も入れてみました。<br>
+  この文字の作り方は以前の記事「<a href="/articles/gimp-tutorial-letterpress-effect/">GIMPでレタープレス（型押し）文字を作るチュートリアル</a>」を参考にしてください。
+</p>
+<figure>
+  <img src="/images/2011/create-glass-shelf-with-gimp/tutorial-18.png" alt="ガラス棚完成" width="620" height="400">
+</figure>
+<p>
+  これで完成です。お疲れ様でした。
+</p>

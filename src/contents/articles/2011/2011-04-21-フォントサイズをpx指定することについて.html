@@ -1,0 +1,45 @@
+<script type="application/x-yaml">
+title: "フォントサイズをpx指定することについて"
+description: "フォントサイズを指定するときの単位について、ちょっとだけ。"
+slug: about-font-size-specify-px
+published: 2011-04-21T13:38:54+09:00
+updated: 2011-04-21T15:29:35+09:00
+category: webdev
+</script>
+
+<p>
+  フォントサイズを指定するときの単位について、ちょっとだけ。
+</p>
+<p>
+  『<a href="http://webdesignrecipes.com/">Webデザインレシピ</a>』さんの以下の記事で、フォントサイズを指定するときの単位について触れられていました。
+</p>
+<p>
+  <a href="http://webdesignrecipes.com/css-tips-for-beginner-ie7/">CSS：初心者の頃にハマったスタイルシートのあれこれ … IE7多め</a>
+</p>
+<p>
+  とても分かりやすい説明でいい記事だと思うのですが、1箇所だけ気になったので勝手に補足してみようかと思います。
+</p>
+<figure>
+  <blockquote cite="http://webdesignrecipes.com/css-tips-for-beginner-ie7/">
+    <p>
+      でもIE7以降、最近のブラウザでは拡大表示がフォントだけ大きくするんじゃなくて、ページそのものをズームしてくれます。ですからIE6をターゲットにしないなら、px で指定しても別に問題ないんじゃないかなとも思ったりします。
+    </p>
+  </blockquote>
+  <figcaption>
+    <cite><a href="http://webdesignrecipes.com/css-tips-for-beginner-ie7/">CSS：初心者の頃にハマったスタイルシートのあれこれ … IE7多め</a></cite>
+  </figcaption>
+</figure>
+<p>
+  ご存知の通り、Internet Explorerはpx指定されたフォントを拡大できません。<br>
+  ただし、IE 7以降にはページの拡大縮小があるので、もうpx指定でもいいんじゃないかとのことですが……。
+</p>
+<p>
+  どのくらい使っている人がいるのかはわかりませんが、IE　7以降にはページの拡大縮小の他に、文字のサイズを変更するってのがありまして、このオプションはそれまでと同じ通りpx指定されたフォントの拡大縮小はできません。<br>
+  確認してみたところ、IE 9も同様です。
+</p>
+<p>
+  なので、そこまで考えるなら<code>%</code>で指定しておくのが安全かと思います。
+</p>
+<p>
+  どうでもいい話ですが、このブログはそこまで気にしてないのでpx指定です。
+</p>

@@ -1,0 +1,165 @@
+<script type="application/x-yaml">
+title: "GIMPでレタープレス（型押し）文字を作るチュートリアル"
+description: "GIMPでレタープレス（型押し）文字を作るチュートリアルです。方法は色々あるでしょうが、ここでは自分のやり方を紹介します。"
+slug: gimp-tutorial-letterpress-effect
+published: 2010-12-28T10:39:04+09:00
+updated: 2010-12-28T10:39:04+09:00
+category: misc
+</script>
+
+<figure>
+  <img src="/images/2010/gimp-tutorial-letterpress-effect/eyecatch.png" width="620" height="240" alt="">
+</figure>
+<p>
+  今更感たっぷりですが、GIMPでレタープレス（型押し）文字を作るチュートリアルです。<br>
+  方法は色々あるでしょうが、ここでは自分のやり方を紹介します。
+</p>
+<p>
+  ショートカットを使わずに説明していますが、慣れている方はショートカットを使うとスムーズに進むと思います。
+</p>
+<section>
+  <h2>キャンバス設定</h2>
+  <p>
+    まず、土台となるキャンバスを作成します。<br>
+    今回はこのブログの本文サイズに合わせて620×240で作成。<br>
+    色空間はRGBで、解像度は72dpiでいいと思います。
+  </p>
+  <figure>
+    <img src="/images/2010/gimp-tutorial-letterpress-effect/tutorial-01.png" width="620" height="329" alt="">
+  </figure>
+</section>
+<section>
+  <h2>背景の作成</h2>
+  <p>
+    背景を作ります。<br>
+    新規レイヤーを作成し、描画色に<code>#eaeaea</code>を、背景色に<code>#dadada</code>を指定して、グラデーション［描画色から背景色（RGB）］で形状を［放射状］に設定したら、中央から外に向かってグラデーションをかけます。
+  </p>
+  <figure>
+    <img src="/images/2010/gimp-tutorial-letterpress-effect/tutorial-02.png" width="620" height="362" alt="">
+  </figure>
+</section>
+<section>
+  <h2>文字の作成</h2>
+  <p>
+    文字を作ります。<br>
+    フォントは何でもいいんですが、今回はArial Bold 120pxを使います。<br>
+    太めの文字のほうが型押ししたときに見栄えがいいです。
+  </p>
+  <p>
+    色も何でもいいので、ここでは黒を使っています。
+  </p>
+  <figure>
+    <img src="/images/2010/gimp-tutorial-letterpress-effect/tutorial-03.png" width="620" height="380" alt="">
+  </figure>
+  <p>
+    整列ツールを使って文字を画像の中央に配置します。<br>
+    ここでは基準は［最初のアイテム］で大丈夫です。<br>
+    （基準を［画像］にした方が安全ではあります）
+  </p>
+  <figure>
+    <img src="/images/2010/gimp-tutorial-letterpress-effect/tutorial-04.png" width="620" height="390" alt="">
+  </figure>
+</section>
+<section>
+  <h2>文字にドロップシャドウをつける</h2>
+  <p>
+    文字のレイヤー「Pressed」を複製して「Pressed#1」を作ります。<br>
+    この作業はバックアップなので必ずしも行う必要はありません。
+  </p>
+  <p>
+    複製したレイヤー「Pressed#1」を右クリックして［レイヤーをキャンバスに合わせる］を適用します。<br>
+    文字情報の破棄も同時に行われます。
+  </p>
+  <figure>
+    <img src="/images/2010/gimp-tutorial-letterpress-effect/tutorial-05.png" width="620" height="420" alt="">
+  </figure>
+  <p>
+    「Pressed#1」を右クリックして［不透明部分を選択範囲に］を適用します。
+  </p>
+  <figure>
+    <img src="/images/2010/gimp-tutorial-letterpress-effect/tutorial-06.png" width="620" height="580" alt="">
+  </figure>
+  <p>
+    次に［選択］メニューから［選択範囲の反転］をクリック。<br>
+    ここで「Pressed#1」を非表示にしておきます。<br>
+    （透明度を下げておいてもいいかと思います）
+  </p>
+  <p>
+    [フィルタ］メニューの［照明と投影］にある［ドロップシャドウ］を選びます。
+  </p>
+  <figure>
+    <img src="/images/2010/gimp-tutorial-letterpress-effect/tutorial-07.png" width="620" height="320" alt="">
+  </figure>
+  <p>
+    オフセットはXとYの両方に<kbd>2</kbd>を入力。
+    ぼかし半径は<kbd>4</kbd>で、色は黒。<br>
+    不透明度はこの時点ではいじらなくていいです。<br>
+    画像サイズ変更可のチェックは必ず外してください。
+  </p>
+  <figure>
+    <img src="/images/2010/gimp-tutorial-letterpress-effect/tutorial-08.png" width="620" height="323" alt="">
+  </figure>
+  <p>
+    「Drop Shadow」というレイヤーが作成されたら、そのまま選択範囲を反転して、[フィルタ］メニューから［ドロップシャドウを再表示］をクリック。
+  </p>
+  <p>
+    今度の設定は<br>
+    オフセットはXとYの両方に<kbd>1</kbd>を入力。
+    ぼかし半径は<kbd>1</kbd>で、色は白。<br>
+    不透明度はそのままでいいです。<br>
+    ここでは「Drop Shadow#1」が作成されます。
+  </p>
+  <figure>
+    <img src="/images/2010/gimp-tutorial-letterpress-effect/tutorial-09.png" width="620" height="320" alt="">
+  </figure>
+</section>
+<section>
+  <h2>文字の飾りつけ</h2>
+  <p>
+    前回の選択範囲はそのままに、「Pressed#1」の上に新規レイヤーを作成します。
+  </p>
+  <figure>
+    <img src="/images/2010/gimp-tutorial-letterpress-effect/tutorial-10.png" width="620" height="320" alt="">
+  </figure>
+  <p>
+    描画色に<code>#cccccc</code>を、背景色に<code>#aaaaaa</code>を指定して、グラデーション［描画色から背景色（RGB）］で形状を［線形］に設定したら、選択範囲の上から下へ向かってグラデーションをかけます。
+  </p>
+  <figure>
+    <img src="/images/2010/gimp-tutorial-letterpress-effect/tutorial-11.png" width="620" height="304" alt="">
+  </figure>
+</section>
+<section>
+  <h2>シャドウの調整</h2>
+  <p>
+    シャドウの部分がこのままだとちょっとえぐい印象になるので、その濃さを調整します。<br>
+    今回は暗いシャドウのレイヤー「Drop Shadow」を不透明度50%に、明るいシャドウのレイヤー「Drop Shadow#1」を不透明度100%に設定しました。
+  </p>
+  <figure>
+    <img src="/images/2010/gimp-tutorial-letterpress-effect/tutorial-12.png" width="620" height="274" alt="">
+  </figure>
+  <p>
+    この作業は背景色に合わせて少しずつ調整していきましょう。<br>
+    背景が暗い色の場合は、暗いシャドウを濃く、明るいシャドウを薄くすると見た目がいいんじゃないかと思います。
+  </p>
+</section>
+<section>
+  <h2>完成</h2>
+  <p>
+    最後に［画像］メニューから［画像を統合］を選択したら完成です。<br>
+    お疲れ様でした。
+  </p>
+  <figure>
+    <img src="/images/2010/gimp-tutorial-letterpress-effect/pressed.png" width="620" height="240" alt="">
+  </figure>
+</section>
+<p>
+  長々と書きましたが、慣れてくると5分くらいで作れるようになります。<br>
+  これは一例にすぎませんので、もっと綺麗に効率よく作れる方法があるかもしれません。
+</p>
+<p>
+  また、レタープレスエフェクトについてもっと知りたい方は『<a href="http://webdesignrecipes.com/">Webデザインレシピ</a>』さんの以下の記事がおすすめです。<br>
+  とても丁寧に書かれていて勉強になりますよ！
+</p>
+<p>
+  <a href="http://webdesignrecipes.com/web-trend-letter-press-effect/">Webトレンド：レタープレス（型押し）デザインをするときのスニペット</a>
+</p>

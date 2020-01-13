@@ -1,0 +1,74 @@
+/*
+  Reset Stylesheet Based on - html5doctor.com Reset Stylesheet http://html5doctor.com/html-5-reset-stylesheet/
+*/
+
+/*
+html5doctor.com Reset Stylesheet
+v1.6.1
+Last Updated: 2010-09-17
+Author: Richard Clark - http://richclarkdesign.com 
+Twitter: @rich_clark
+*/
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+
+body {
+	line-height: 1;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { 
+	display:block;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+input, select {
+	vertical-align:middle;
+}
+
+
+/* for demo
+-----------------------------------------------------*/
+
+html {
+  background: #f0f0f0;
+}
+
+body {
+  overflow-x: hidden;
+  font: 14px/1 Helvetica, Arial, sans-serif;
+  text-align: center;
+}
+
+h1 {
+  padding: 20px 0 40px;
+  border-bottom: 1px solid #666;
+  -webkit-box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.5);
+  background: #c0c0c0;
+  color: #444;
+  font-size: 48px;
+  font-weight: normal;
+  font-family: "Josefin Slab", Helvetica, Arial, sans-serif;
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+h2 {
+  margin: 60px 0 20px;
+  color: #666;
+  font-size: 24px;
+  font-weight: normal;
+  text-shadow: 1px 1px 1px #fff;
+}

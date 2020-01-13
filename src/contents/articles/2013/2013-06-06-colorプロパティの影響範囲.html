@@ -1,0 +1,99 @@
+<script type="application/x-yaml">
+title: "colorプロパティの影響範囲"
+description: "colorプロパティによって指定された色は文字色だけに使われるわけではありません、という話です。"
+slug: influence-of-color-property
+published: 2013-06-06T11:29:36+09:00
+updated: 2013-06-06T11:47:30+09:00
+category: webdev
+</script>
+
+<p>
+  とりあえず仕様を見てみます。
+</p>
+<figure>
+  <blockquote cite="http://www.w3.org/TR/CSS2/colors.html#propdef-color">
+    <p>
+      This property describes the foreground color of an element’s text content.
+    </p>
+  </blockquote>
+  <figcaption>
+    <cite><a href="https://www.w3.org/TR/2011/REC-CSS2-20110607/colors.html#colors">Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification - 14.1 Foreground color: the 'color' property</a></cite>
+  </figcaption>
+</figure>
+<figure>
+  <blockquote cite="http://www.w3.org/TR/css3-color/#foreground">
+    <p>
+      This property describes the foreground color of an element's text content. In addition it is used to provide a potential indirect value (<a class="index-inst" href="https://www.w3.org/TR/css-color-3/#currentcolor" id="currentcolor0">currentColor</a>) for any
+      <em>other</em> properties that accept color values. If the ‘<a href="https://www.w3.org/TR/css-color-3/#currentcolor-def"><code class="css"><span class="index-inst" id="currentcolor1">currentColor</span></code></a>’ keyword is set on the ‘<a href="https://www.w3.org/TR/css-color-3/#color0"><code class="property">color</code></a>’ property itself, it is treated as ‘<code class="css">color: inherit</code>’.
+    </p>
+  </blockquote>
+  <figcaption>
+    <cite><a href="http://www.w3.org/TR/css3-color/#foreground">CSS Color Module Level 3 - 3.1. Foreground color: the ‘color’ property</a></cite>
+  </figcaption>
+</figure>
+<p>
+  Color Module Level 3の方では<code>currentColor</code>の説明が入っていますが基本は同じで、このプロパティは前景色を指定するプロパティであると書かれています。
+</p>
+<section>
+  <h2><code>color</code>プロパティの影響を受ける例</h2>
+  <section>
+    <h3><code>border-*-color</code></h3>
+    <p>
+      ボーダーを指定する際、ボーダーカラーが未指定の場合は<code>color</code>プロパティで指定した色がボーダーカラーの計算済みスタイルとして使用されます。
+    </p>
+    <p>
+      <a href="http://www.w3.org/TR/CSS2/box.html#border-color-properties">CSS 2.1の「8.5.2 Border color」</a>において、<code>border-*-color</code>の初期値は<q>the value of the ‘color’ property</q>となっています。<br>
+      また、次のようにも書かれています。
+    </p>
+    <blockquote cite="http://www.w3.org/TR/CSS2/box.html#border-color-properties">
+      <p>
+        If an element’s border color is not specified with a border property, user agents must use the value of the element’s ‘color’ property as the computed value for the border color.
+      </p>
+    </blockquote>
+    <p>
+      ではBorders Module Level 3ではどうなのかと<a href="http://www.w3.org/TR/css3-background/#the-border-color">CSS Backgrounds and Borders Module Level 3の「4.1. Line Colors: the ‘border-color’ properties」</a>を見ると、<code>border-*-color</code>の初期値は<code>currentColor</code>であると書かれています。<br>
+      <code>currentColor</code>の色は<code>color</code>プロパティによって決められるので、初期のボーダーカラーはやはり<code>color</code>プロパティで指定したものとなります。
+    </p>
+    <ins datetime="2013-06-06T11:47:30+09:00">
+      <p>
+        また、<a href="http://www.w3.org/TR/CSS21/ui.html#propdef-outline-color"><code>outline-color</code></a>も同様です。
+      </p>
+    </ins>
+  </section>
+  <section>
+    <h3>&lt;shadow&gt;の色</h3>
+    <p>
+      <code>box-shadow</code>, <code>text-shadow</code>プロパティの値に使用される形式で、構文は次のようになっています。
+    </p>
+    <pre><code class="language-plain">&lt;shadow&gt; = inset? &amp;&amp; [ &lt;length&gt;{2,4} &amp;&amp; &lt;color&gt;? ]</code></pre>
+    <p>
+      構文を見ると分かる通り、色の指定は各種&lt;length&gt;と一緒に指定する必要がありますが、色の指定自体は任意です。<br>
+      未指定だとどうなるのか。それは<a href="http://www.w3.org/TR/css3-background/#ltshadowgt">&lt;shadow&gt;の説明文</a>に書かれています。
+    </p>
+    <blockquote cite="http://www.w3.org/TR/css3-background/#ltshadowgt">
+      <p>
+        The color is the color of the shadow. If the color is absent, the used color is taken from the ‘color’ property.
+      </p>
+    </blockquote>
+    <p>
+      色の指定がない場合は<code>color</code>プロパティの指定を使うよ、ということです。
+    </p>
+  </section>
+  <section>
+    <h3>その他</h3>
+    <ul>
+      <li>
+        <a href="http://www.w3.org/TR/css-text-decor-3/#text-decoration-color-property"><code>text-decoration-color</code></a>
+      </li>
+      <li><a href="http://www.w3.org/TR/css-text-decor-3/#text-emphasis-color-property"><code>text-emphasis-color</code></a>
+      </li>
+    </ul>
+    <p>
+      など、初期値が<code>currentColor</code>のもの。
+    </p>
+  </section>
+</section>
+<p>
+  まだあるかもしれません。<br>
+  とりあえず<code>color</code>プロパティによって指定された色は文字色以外にも影響するということは覚えておきたいですね。
+</p>

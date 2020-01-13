@@ -1,0 +1,107 @@
+<script type="application/x-yaml">
+title: "text-shadowと::selection擬似要素"
+description: "HTML5 Boilerplateでも使われている、テキスト選択時にtext-shadowを消すためのコードがFirefoxで動いていないので調べてみました。"
+slug: text-shadow-and-selection-pseudo-element
+published: 2012-05-17T14:37:43+09:00
+updated: 2020-01-10T20:45:31+09:00
+category: webdev
+</script>
+
+<p>
+  HTML5 Boilerplateでも使われている、テキスト選択時に<code>text-shadow</code>を消すためのコードがFirefoxで動いていないので調べてみました。
+</p>
+<p>
+  テキストに影をつけることのできるプロパティ<code>text-shadow</code>ですが、普通に見る分にはよくても選択時にも同じ影がついていると読みづらいことが多いので、そのときだけ影を消したほうがユーザーに優しいと思います。<br>
+  なので、HTML5 Boilerplateを参考にそれをやろうとしたのですがFirefoxで上手くいきませんでした。
+</p>
+<p>
+  以下がサンプルです。テキストを選択してみてください。
+  <del datetime="2020-01-10T20:45:31+09:00">
+    <br>
+    defaultが通常の場合、test1が<code>::selection</code>に<code>text-shadow:none;</code>だけを書いたもの、test2が<code>::selection</code>に<code>background:Highlight;</code>,<code>color:HighlightText;</code>,
+    <code>text-shadow:none;</code>を書いたものです。<br>
+    <code>color</code>の値については「<a href="http://www.w3.org/TR/css3-color/#css-system">CSS Color Module Level 3 - 4.5. CSS system colors</a>」を参照してください。
+  </del>
+</p>
+<!--
+  <div style="margin-bottom:1.6em;">
+    <iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/RmVNc/embedded/result,css,html,js/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+  </div>
+  -->
+<ins datetime="2020-01-10T20:45:31+09:00">
+  <p>
+    <a href="/demo/2012/text-shadow-and-selection-pseudo-element">テキスト選択時のtext-shadow デモ</a>
+  </p>
+  <pre><code class="language-html">&lt;p&gt;Select Me! (default)&lt;/p&gt;
+&lt;p class=&quot;test1&quot;&gt;Select Me! (test1)&lt;/p&gt;
+&lt;p class=&quot;test2&quot;&gt;Select Me! (test2)&lt;/p&gt;</code></pre>
+  <pre><code class="language-css">  .test1::-moz-selection {
+    text-shadow: none;
+  }
+
+  .test1::selection {
+    text-shadow: none;
+  }
+
+  .test2::-moz-selection {
+    background: Highlight;
+    color: HighlightText;
+    text-shadow: none;
+  }
+
+  .test2::selection {
+    background: Highlight;
+    color: HighlightText;
+    text-shadow: none;
+  }</code></pre>
+</ins>
+<p>
+  test1では背景色と前景色が変化しません。Firefoxでは影も消えません。<br>
+  これでは選択されているかどうかが分かりにくすぎるので論外です。<br>
+  Operaは通常のものと同じように表示されます。<br>
+  一応、Firefoxではウィンドウが非アクティブの場合に選択されているのが分かります。<br>
+</p>
+<p>
+  ではtest2は？<br>
+  Webkitブラウザでは期待通りの結果が出ます。背景色と前景色はシステムのもので、影は消えています。<br>
+  Firefoxでは前景色と背景色は変わるものの、影が消えません。Operaも同様です。
+</p>
+<p>
+  原因は何かというと、単に<code>::-moz-selection</code>の仕様でした。<br>
+  MDNには次のように書かれています。
+</p>
+<figure>
+  <blockquote cite="https://developer.mozilla.org/En/CSS/::selection">
+    <p>
+      Only a small subset of CSS properties can be used in a rule using ::selection in its selector: color , background , and background-color . Note that, in particular, background-image is ignored, like any other property.
+    </p>
+  </blockquote>
+  <figcaption>
+    <cite><a href="https://developer.mozilla.org/En/CSS/::selection">::selection - CSS: Cascading Style Sheets | MDN</a></cite>
+  </figcaption>
+</figure>
+<p>
+  この擬似要素を使ったセレクタ内では<code>color</code>, <code>background</code>,
+  <code>background-color</code>のみが使用できるということです。また、<code>background-image</code>も他のプロパティと同様に変更できない、と。<br>
+</p>
+<p>
+  Operaは<a href="http://www.opera.com/docs/specs/opera95/css/">9.5から<code>::selection</code>が使えます</a>が、「<a href="http://jp.opera.com/docs/changelogs/windows/950/">Opera 9.5 for Windows Changelog</a>」を見ると、<q cite="http://jp.opera.com/docs/changelogs/windows/950/">CSS color and background-color properties for the<code>::selection</code>pseudo-element</q>と書かれています。<br>
+  （リンク先はWindows版ですが、Mac版、Unix版でも同様に書かれています）
+</p>
+<p>
+  Webkitは資料が探せなかったのですが、<code>background-color</code>, <code>color</code>, <code>text-shadow</code>,
+  <code>-webkit-text-stroke</code>が変更できるようです。
+</p>
+<p>
+  また、<code>::selection</code>ですが、現在ではCSSの仕様からはなくなっています。
+</p>
+<figure>
+  <blockquote>
+    <p>
+      This section intentionally left blank. (This section previously defined a ::selection pseudo-element.)
+    </p>
+  </blockquote>
+  <figcaption>
+    <cite><a href="https://www.w3.org/TR/2011/REC-css3-selectors-20110929/#selection">Selectors Level 3 - 7.3. Blank</a></cite>
+  </figcaption>
+</figure>

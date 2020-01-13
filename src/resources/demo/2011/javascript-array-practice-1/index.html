@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>1つの配列を任意の配列に分割</title>
+  <link rel="canonical" href="http://unformedbuilding.com/demo/2011/glassy-bookshelf-with-booklog-api/" />
+</head>
+<body>
+<script>
+// 分割する配列
+var baseArr1 = [];
+var baseArr2 = [];
+for(var i = 0; i < 26; i++) {
+  var c = String.fromCharCode(65 + i);
+  var t = c + c + c;
+  baseArr1[i] = t;
+  baseArr2[i] = t;
+}
+
+var b = baseArr1.length;
+var cnt = 3; // いくつずつに分割するか
+
+// 新しく作る配列
+var newArr1 = [];
+var newArr2 = [];
+
+// 破壊してもいい場合
+for(var l = 0; l < Math.ceil(b / cnt); l++) {
+
+  var arrEl = [];
+
+  for(var m = 0; m < cnt; m++) {
+    var p = baseArr1.shift();
+    if(!p) { break; }
+    arrEl.push(p);
+  }
+
+  newArr1.push(arrEl);
+
+}
+
+// 破壊しない場合
+for(var n = 0; n < Math.ceil(b / cnt); n++) {
+  var k = n * cnt;
+  var q = baseArr2.slice(k, k + cnt);
+  newArr2.push(q);
+}
+/* 書き出してみる */
+
+for(var w = 0; w < newArr1.length; w++) {
+  for(var x = 0; x < newArr1[w].length; x++) {
+    document.write(newArr1[w][x] + ', ');
+  }
+  document.write('<br>');
+}
+
+document.write('<hr>');
+
+for(var y = 0; y < newArr2.length; y++) {
+  for(var z = 0; z < newArr2[y].length; z++) {
+    document.write(newArr2[y][z] + ', ');
+  }
+  document.write('<br>');
+}
+
+console.log(baseArr1);
+console.log(newArr1);
+console.log(baseArr2);
+console.log(newArr2);
+</script>
+</body>
+</html>

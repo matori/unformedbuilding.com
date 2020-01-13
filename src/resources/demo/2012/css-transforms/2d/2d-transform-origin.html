@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>CSS 2D Transforms - transform-origin sample</title>
+</head>
+<style type="text/css">
+.container {
+  margin    : 50px auto;
+  width     : 620px;
+  box-sizing: border-box;
+}
+
+.box {
+  position   : relative;
+  float      : left;
+  margin     : 20px;
+  width      : 150px;
+  height     : 150px;
+  font       : 16px/1 "Courier New", "Courier", monospace;
+  line-height: 150px;
+  text-align : center;
+}
+
+.box > div {
+  position: absolute;
+  width   : 100%;
+  height  : 100%;
+}
+
+.base {
+  background: #e0e0e0;
+}
+
+.base + div {
+  background       : rgba(255, 0, 0, 0.5);
+  -webkit-transform: rotate(15deg);
+  -moz-transform   : rotate(15deg);
+  -ms-transform    : rotate(15deg);
+  -o-transform     : rotate(15deg);
+  transform        : rotate(15deg);
+}
+
+.sample1 {
+  -webkit-transform-origin: 50% 50%;
+  -moz-transform-origin   : 50% 50%;
+  -ms-transform-origin    : 50% 50%;
+  -o-transform-origin     : 50% 50%;
+  transform-origin        : 50% 50%;
+}
+
+.sample2 {
+  -webkit-transform-origin: 0 0;
+  -moz-transform-origin   : 0 0;
+  -ms-transform-origin    : 0 0;
+  -o-transform-origin     : 0 0;
+  transform-origin        : 0 0;
+}
+
+.sample3 {
+  -webkit-transform-origin: 50% -20px;
+  -moz-transform-origin   : 50% -20px;
+  -ms-transform-origin    : 50% -20px;
+  -o-transform-origin     : 50% -20px;
+  transform-origin        : 50% -20px;
+}
+</style>
+<body>
+
+<div class="container">
+  <div class="box">
+    <div class="base"></div>
+    <div class="sample1">50% 50%</div>
+  </div>
+  <div class="box">
+    <div class="base"></div>
+    <div class="sample2">0 0</div>
+  </div>
+  <div class="box">
+    <div class="base"></div>
+    <div class="sample3">50% -20px</div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>IE8 で jQuery の slideDown() と fadeIn() が効かないことがある件 DEMO | Unformed Building</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<style type="text/css">
+.inline { display: inline }
+.inlineBlock { display: inline-block }
+.block { display: block }
+.slide, .fade { margin-bottom: 10px; }
+.trigger { cursor: pointer; }
+h2 { font-family: georgia, times, serif; }
+</style>
+<script type="text/javascript" src="jquery-1.4.2.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+jQuery(function($) {
+
+	$('.trigger + p').hide();
+
+	$('.slide > .trigger').click(
+		function() {
+			$(this).next().slideDown();
+		}
+	);
+
+	$('.fade > .trigger').click(
+		function() {
+			$(this).next().fadeIn();
+		}
+	);
+
+});
+//]]>
+</script>
+</head>
+
+<body>
+
+<div id="header">
+	<h1>IE8 で jQuery の slideDown() と fadeIn() が効かないことがある件 DEMO</h1>
+	<p style="text-align:center;font-size:14px;margin:10px 0">IE8 で見てね！</p>
+	<a href="http://unformedbuilding.com/articles/jquery-slidedown-fadein-does-not-work-on-ie8/">Back to the Article</a>
+</div>
+
+<div id="container">
+
+	<div>
+		<h2>jQuery slideDown() - trigger: div</h2>
+		<div class="slide">
+			<div class="trigger inline">slideDown - div - display:inline;</div>
+			<p>テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。</p>
+		</div>
+		<div class="slide">
+			<div class="trigger inlineBlock">slideDown - div - display:inline-block;</div>
+			<p>テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。</p>
+		</div>
+		<div class="slide">
+			<div class="trigger block">slideDown - div - display:block;</div>
+			<p>テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。</p>
+		</div>
+	</div>
+
+	<hr style="margin: 20px 0" />
+
+	<div>
+		<h2>jQuery slideDown() - trigger: span</h2>
+		<div class="slide">
+			<span class="trigger inline">slideDown - span - display:inline;</span>
+			<p>テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。</p>
+		</div>
+		<div class="slide">
+			<span class="trigger inlineBlock">slideDown - span - display:inline-block;</span>
+			<p>テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。</p>
+		</div>
+		<div class="slide">
+			<span class="trigger block">slideDown - span - display:block;</span>
+			<p>テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。</p>
+		</div>
+	</div>
+
+	<hr style="margin: 20px 0;border-color:red" />
+
+	<div>
+		<h2>jQuery fadeIn() - trigger: div</h2>
+		<div class="fade">
+			<div class="trigger inline">fadeIn - div - display:inline;</div>
+			<p>テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。</p>
+		</div>
+		<div class="fade">
+			<div class="trigger inlineBlock">fadeIn - div - display:inline-block;</div>
+			<p>テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。</p>
+		</div>
+		<div class="fade">
+			<div class="trigger block">fadeIn - div - display:block;</div>
+			<p>テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。</p>
+		</div>
+	</div>
+
+	<hr style="margin: 20px 0" />
+
+	<div>
+		<h2>jQuery fadeIn() - trigger: span</h2>
+		<div class="fade">
+			<span class="trigger inline">fadeIn - span - display:inline;</span>
+			<p>テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。</p>
+		</div>
+		<div class="fade">
+			<span class="trigger inlineBlock">fadeIn - span - display:inline-block;</span>
+			<p>テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。</p>
+		</div>
+		<div class="fade">
+			<span class="trigger block">fadeIn - span - display:block;</span>
+			<p>テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。テキスト。</p>
+		</div>
+	</div>
+
+
+
+
+</div>
+
+</body>
+</html>

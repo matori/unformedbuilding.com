@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>途中から位置が固定されるナビゲーションのデモ { position: relative; } 版</title>
+<link rel="stylesheet" type="text/css" media="screen" href="reset.css" />
+<style type="text/css">
+
+body {
+	text-align: center;
+}
+
+#header,
+#container {
+	margin: 0 auto;
+	width: 940px;
+}
+
+h1 {
+	padding: 40px 0 80px;
+	font-size: 24px;
+	line-height: 1.4;
+}
+
+#container {
+	text-align: left;
+	/zoom: 1;
+}
+
+#container:after {
+	display: block;
+	clear: both;
+	content: "";
+}
+
+#main {
+	float: left;
+	margin-right: 20px;
+	width: 620px;
+	height: 2000px;
+	background: #ddd;
+}
+
+#sidebar {
+	float: left;
+	width: 300px;
+}
+
+#nav {
+	position: relative;
+	width: 300px;
+	height: 300px;
+	background: #f88;
+}
+
+</style>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script type="text/javascript">
+jQuery(function($) {
+
+var nav    = $('#nav'),
+    offset = nav.offset();
+
+$(window).scroll(function () {
+  if($(window).scrollTop() > offset.top - 20) {
+    nav.css('top', $(window).scrollTop() - offset.top + 20);
+  } else {
+    nav.css('top', 0)
+  }
+});
+
+});
+</script>
+</head>
+<body>
+
+<div id="header">
+	<h1>途中から位置が固定されるナビゲーションのデモ<br /> { position: relative; } 版</h1>
+</div>
+
+<div id="container">
+	<div id="main"></div>
+	<div id="sidebar">
+		<div id="nav"></div>
+	</div>
+</div>
+
+</body>
+</html>

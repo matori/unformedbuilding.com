@@ -1,0 +1,647 @@
+<script type="application/x-yaml">
+title: "CSS3での背景指定方法のまとめ"
+description: "CSS3ではこれまでより多くの指定ができるようになります。それらの新しいプロパティや値はいったいどういうものなのか、調べてみました。"
+slug: learn-about-css3-background
+published: 2011-08-23T15:09:55+09:00
+updated: 2012-05-23T11:16:45+09:00
+category: webdev
+</script>
+
+<p>
+  CSSであれこれやっていたら、まず間違いなく使うであろう背景関連のプロパティ。<br>
+  CSS3ではこれまでより多くの指定ができるようになります。<br>
+  それらの新しいプロパティや値はいったいどういうものなのか、調べてみました。
+</p>
+<p>
+  主に参考にしたのは以下の2つです。
+</p>
+<dl>
+  <dt><a href="http://www.w3.org/TR/css3-background/">CSS Backgrounds and Borders Module Level 3</a></dt>
+  <dd>
+    現在の仕様です。
+  </dd>
+  <dt><a href="http://standards.mitsue.co.jp/resources/w3c/TR/css3-background/">CSS 背景 &amp; ボーダー モジュール Level 3</a></dt>
+  <dd>
+    2011年2月15日版の仕様の日本語訳です。プロパティと値の説明はこちらを参考にしました。
+  </dd>
+</dl>
+<section>
+  <h2>背景のレイヤー</h2>
+  <p>
+    背景は複数のレイヤーを持つことができ、レイヤーの数は<strong><code>background-image</code>に指定されたカンマ区切りの値の数</strong>によって決められます。<code>none</code>の指定も一つのレイヤーを生成します。
+  </p>
+  <p>
+    背景レイヤーの重なり方ですが、初めに指定したものから手前に来ますので、注意してください。<br>
+    例として、下のred, violet, cyan, greenの4つの画像と背景色をCSSを指定してみます。
+  </p>
+  <figure>
+    <img src="/images/2011/learn-about-css3-background/layers.png" width="400" height="100" alt="背景につかう画像4つ">
+  </figure>
+  <pre><code class="language-css">#box {
+  width           : 100px;
+  height          : 100px;
+  background-color: #eee8d5;
+  background-image: url(red.png),
+                    url(violet.png),
+                    url(cyan.png),
+                    url(green.png);
+}</code></pre>
+  <p>
+    <a href="/demo/2011/css3-background-demos/layers/demo1.html">複数背景のレイヤー DEMO 1</a>
+  </p>
+  <p>
+    これは以下のように表示されます。<br>
+    スクリーンショットはFirefox 6での表示です。
+  </p>
+  <figure>
+    <img src="/images/2011/learn-about-css3-background/layers-demo-1.png" width="120" height="120" alt="複数背景のデモ1のスクリーンショット">
+  </figure>
+  <p>
+    なお、<code>border-image</code>により指定された画像はこれらの背景画像より手前のレイヤーとなります。
+  </p>
+  <p>
+    また、複数指定の場合、他の背景プロパティで値が多すぎる場合、余剰分は使用されません。<br>
+    逆に指定が足りない場合、レイヤー数と同じになるまで、そのプロパティの値が繰り返して使用されます。
+  </p>
+  <p>
+    先ほどのデモのボックスを大きくして<code>background-position</code>と<code>background-repeat</code>を追加してみました。
+  </p>
+  <pre><code class="language-css">#box {
+  width              : 400px;
+  height             : 400px;
+  background-color   : #eee8d5;
+  background-image   : url(red.png),
+                       url(violet.png),
+                       url(cyan.png),
+                       url(green.png);
+  background-position: left top,
+                       right top,
+                       left bottom,
+                       right bottom,
+                       center center; /* 余剰（無視される） */
+  background-repeat  : repeat-x,
+                       repeat-y,
+                       no-repeat;
+                       /* 省略された4つ目のレイヤーにはrepeat-xが適用される */
+}</code></pre>
+  <p>
+    <a href="/demo/2011/css3-background-demos/layers/demo2.html">複数背景のレイヤー DEMO 2</a></p>
+  <p>
+    これは以下のように表示されます。<br>
+    スクリーンショットはFirefox 6での表示です。
+  </p>
+  <figure>
+    <img src="/images/2011/learn-about-css3-background/layers-demo-2.png" width="420" height="420" alt="複数背景のデモ2のスクリーンショット">
+  </figure>
+  <p>
+    余剰となる5つ目の指定<code>background-position: center center</code>が無視され、<code>background-repeat</code>で省略された4つ目の指定に最初の指定<code>repeat-x</code>が適用されています。
+  </p>
+</section>
+<section>
+  <h2><code>background-color</code></h2>
+  <p>
+    ご存知の通り、背景色を指定するプロパティです。<br>
+    先ほどのデモページでも分かるように、背景色は全ての背景画像の後ろに配置されます。
+  </p>
+  <p>
+    デフォルトは<code>transparent</code>です。
+  </p>
+  <p>
+    また、背景色は<code>background-clip</code>の値によって範囲が変わります。<br>
+    複数背景の場合は、一番奥（最後の指定）によって範囲が変更されます。
+  </p>
+  <p>
+    以下はその例です。背景色は緑色の部分となります。
+  </p>
+  <pre><code class="language-css">div {
+  padding         : 5px;
+  border          : 5px dashed #000;
+  width           : 100px;
+  height          : 100px;
+  background-color: #859900;
+  background-image: url(red.png),
+                    url(violet.png),
+                    url(cyan.png);
+  background-repeat: no-repeat;
+}
+
+#box-1 {
+  background-clip  : border-box;
+}
+
+#box-2 {
+  background-clip  : border-box, padding-box, padding-box;
+}
+
+#box-3 {
+  background-clip  : border-box, padding-box, content-box;
+}</code></pre>
+  <p>
+    <a href="/demo/2011/css3-background-demos/background-color/demo.html">背景色の範囲 DEMO</a>
+  </p>
+  <p>
+    これは以下のように表示されます。先ほどと同様にFirefox 6でのものです。
+  </p>
+  <figure>
+    <img src="/images/2011/learn-about-css3-background/background-color.png" width="420" height="140" alt="background-colorデモのスクリーンショット">
+  </figure>
+</section>
+<section>
+  <h2><code>background-image</code></h2>
+  <p>
+    背景画像を指定するためのプロパティです。<br>
+    前述の通り、カンマ区切りにより複数の値を指定し、レイヤーを作ることができます。
+  </p>
+  <p>
+    デフォルト値は<code>none</code>です。
+  </p>
+  <p>
+    また、背景にCSSグラデーションを指定する際も、この<code>background-image</code>プロパティに指定します。
+  </p>
+  <p>
+    このプロパティはMedia flagmentsによる画像切り抜き表示などといった、これから提供される予定の機能もいくつかあります。
+  </p>
+</section>
+<section>
+  <h2><code>background-repeat</code></h2>
+  <p>
+    背景画像の繰り返しを指定するプロパティです。
+  </p>
+  <pre><code class="language-css">background-repeat: (水平方向) (垂直方向);</code></pre>
+  <p>
+    のように指定します。
+  </p>
+  <p>
+    <code>repeat</code>は<code>repeat repeat</code>と同等、<br>
+    <code>repeat-x</code>は<code>repeat no-repeat</code>と同等、<br>
+    <code>repeat-y</code>は<code>no-repeat repeat</code>と同等となります。
+  </p>
+  <p>
+    各プロパティ値は以下のようになります。
+  </p>
+  <dl>
+    <dt><code>repeat</code></dt>
+    <dd>
+      <code>background-clip</code>で指定される背景描画領域全てを覆うように繰り返されます。<br>
+      繰り返す方向は前述のように指定できます。
+    </dd>
+    <dt><code>no-repeat</code></dt>
+    <dd>
+      繰り返し表示を行いません。
+    </dd>
+    <dt><code>space</code></dt>
+    <dd>
+      <code>background-origin</code>で指定される背景配置領域全てを覆うように繰り返されます。<br>
+      繰り返された画像が収まりきらない場合、<code>repeat</code>のように切り取られず、画像と画像の間には空白が入ります。
+      また、最初と最後の画像は背景配置領域の端に接します。<br>
+      背景描画領域が背景配置領域よりも大きい場合は、背景画像は背景描画領域を覆うまで繰り返されます。<br>
+      <code>background-position</code>は無視されますが、画像を2つ配置するスペースがない場合、画像は1つだけ配置され、<code>background-position</code>がその方向を決定します。
+    </dd>
+    <dt><code>round</code></dt>
+    <dd>
+      <code>background-origin</code>で指定される背景配置領域全てを覆うように繰り返されます。<br>
+      繰り返された画像が整数倍で収まりきらない場合、整数倍で収まるように拡大縮小されて表示されます。<br>
+      背景描画領域が背景配置領域よりも大きい場合は、背景画像は背景描画領域を覆うまで繰り返されます。
+    </dd>
+  </dl>
+  <p>
+    デフォルトは<code>repeat</code>です。
+  </p>
+  <p>
+    <code>repeat</code>と<code>no-repeat</code>についてはお馴染みでしょうが、<code>space</code>と<code>round</code>が分かりづらいと思いますので、簡単なデモを作りました。<br>
+    その指定とデモページは以下。Operaでご覧ください。
+  </p>
+  <p>
+    背景画像は30×30の赤い円の画像です。
+  </p>
+  <pre><code class="language-css">div {
+  width           : 160px;
+  height          : 160px;
+  background-image: url(repeat-bg.png);
+}
+
+#box-1 {
+  background-repeat: repeat;
+}
+
+#box-2 {
+  background-repeat: space;
+}
+
+#box-3 {
+  background-repeat: round;
+}</code></pre>
+  <p>
+    <a href="/demo/2011/css3-background-demos/background-repeat/demo.html">background-repeat DEMO</a>
+  </p>
+  <p>
+    これは以下のように表示されます。スクリーンショットはOpera 11.50でのものです。
+  </p>
+  <figure>
+    <img src="/images/2011/learn-about-css3-background/background-repeat.png" width="520" height="180" alt="background-repeat デモのスクリーンショット">
+  </figure>
+  <p>
+    <code>repeat</code>の指定は円が隙間なく5個半ずつ、<code>space</code>は円がスペースを持って5個ずつ、<code>round</code>は拡大された円が隙間なく5個ずつ並んでいるのが分かると思います。
+  </p>
+</section>
+<section>
+  <h2><code>background-attachment</code></h2>
+  <p>
+    背景画像がどのようにスクロールするかを指定するプロパティです。<br>
+    デフォルトの<code>scroll</code>と固定される<code>fixed</code>はお馴染みだと思います。
+  </p>
+  <p>
+    指定できる値は以下の3つです。
+  </p>
+  <dl>
+    <dt><code>fixed</code></dt>
+    <dd>
+      背景はビューポート（可視領域）に固定されます。<br>
+      ビューポートのないメディアにおいては、<code>fixed</code>が指定された背景はページボックスに固定され、全てのページに複製されます。<br>
+      （ページボックスについては「<a href="http://www.w3.org/TR/CSS21/page.html#page-box">Paged media</a>」を参照）
+    </dd>
+    <dt><code>scroll</code></dt>
+    <dd>
+      背景は要素に固定され、要素の中身がスクロールしたとしても一緒にスクロールすることはありません。
+    </dd>
+    <dt><code>local</code></dt>
+    <dd>
+      背景は要素の中身に固定されます。<br>
+      その要素にスクロール機能がある場合、要素の中身がスクロールすると背景も一緒にスクロールします。これはボーダーの背景（<code>border-image</code>）にも適用されます。
+    </dd>
+  </dl>
+  <p>
+    デフォルトは<code>scroll</code>です。
+  </p>
+  <p>
+    これは動かしてみないと何言ってんだかよく分からないので(自分はそうでした)、デモをお試しください。Firefox 6以外のブラウザの最新版なら対応しているはずです。<br>
+    CSSは以下のようになっています。
+  </p>
+  <pre><code class="language-css">html {
+  height: 100%;
+}
+
+body {
+  height     : 120%;
+  background : url(bg.jpg) no-repeat;
+}
+
+div {
+  float     : left;
+  margin    : 50px 20px;
+  border    : 1px solid #000;
+  width     : 250px;
+  height    : 400px;
+  overflow  : auto;
+  background: url(bg.jpg);
+}
+
+div p {
+  padding: 20px;
+  height : 150%;
+}
+
+#box-1 {
+  background-attachment: fixed;
+}
+
+#box-2 {
+  background-attachment: scroll;
+}
+
+#box-3 {
+  background-attachment: local;
+}</code></pre>
+  <p>
+    <a href="/demo/2011/css3-background-demos/background-attachment/demo.html">background-attachment DEMO</a>
+  </p>
+  <p>
+    どういうことか分かります……よね？<br>
+    上手く言葉で説明できないので、納得するまで動かしてみたりしてください。
+  </p>
+  <p>
+    デモページの写真は「<a href="http://free.stocker.jp/5536/">新宿御苑旧御涼亭のフリー写真素材(日本 東京) :: Free.Stocker</a>」よりお借りしました。ありがとうございます。
+  </p>
+</section>
+<section>
+  <h2><code>background-position</code></h2>
+  <p>
+    背景画像を配置する位置を指定するものです。位置は画像が<code>background-size</code>などによって拡大縮小された後に適用されます。
+  </p>
+  <p>
+    デフォルトは<code>0% 0%</code>です。
+  </p>
+  <p>
+    <code>top</code>, <code>bottom</code>, <code>left</code>, <code>right</code>, <code>center</code>と数値で指定します。<br>
+    基本的には背景配置領域の左上からの位置を指定します。<br>
+    パーセント指定とそれ以外の単位での指定は意味が異なりますので注意してください。
+  </p>
+  <pre><code class="language-css">background-position: left top;
+/* または */
+background-position: 0% 0%;</code></pre>
+  <p>
+    この場合、背景配置領域の左から0%の距離、上から0%の距離に、画像の左から0%の距離、上から0%の位置が合うように配置されます。<br>
+    <code>center center</code>つまり<code>50% 50%</code>なら、背景配置領域の左から50%上から50%の位置に、画像の左端から50%上端から50%の位置が合うように配置されるということです。
+  </p>
+  <pre><code class="language-css">background-position: 10px 20px;</code></pre>
+  <p>
+    この場合、背景配置領域の左上から画像の左上まで 10px 背景配置領域の上から画像の左上まで20pxの位置に配置されます。
+  </p>
+  <p>
+    また、どこの端からの距離なのかを指定することもできます。デフォルトは<code>left top</code>です。
+  </p>
+  <pre><code class="language-css">background-position: bottom 10px right 20px;</code></pre>
+  <p>
+    これは背景配置領域の下から10px右から20pxの位置に、画像の右下が合うように配置されます。
+  </p>
+  <p>
+    デモページで違いをご確認ください。IE 9+またはOperaで全て見ることができます。<ins datetime="2012-05-23T11:15:36+09:00">Firefoxは13からです。</ins>
+  </p>
+  <pre><code class="language-css">div {
+  padding          : 5px;
+  border           : 1px solid #aaa;
+  width            : 180px;
+  height           : 180px;
+  background-image : url(bg.png);
+  background-repeat: no-repeat;
+}
+
+#box-1 {
+  background-position: 50% 30%;
+}
+
+#box-2 {
+  background-position: 50px 30px;
+}
+
+#box-3 {
+  background-position: right 50px bottom 30px;
+}</code></pre>
+  <p>
+    <a href="/demo/2011/css3-background-demos/background-position/demo.html">background-position DEMO</a>
+  </p>
+  <p>
+    これは以下のように表示されます。スクリーンショットはOpera 11.50でのものです。
+  </p>
+  <figure>
+    <img src="/images/2011/learn-about-css3-background/background-position.png" width="616" height="212" alt="background-position デモのスクリーンショット">
+  </figure>
+</section>
+<section>
+  <h2><code>background-clip</code></h2>
+  <p>
+    背景描画領域を指定するためのプロパティです。<br>
+    指定できる値は以下の3つ。
+  </p>
+  <dl>
+    <dt><code>border-box</code></dt>
+    <dd>
+      ボーダーの範囲まで。
+    </dd>
+    <dt><code>padding-box</code></dt>
+    <dd>
+      ボーダーの内側まで。
+    </dd>
+    <dt><code>content-box</code></dt>
+    <dd>
+      コンテンツ、つまりパディングの内側まで。
+    </dd>
+  </dl>
+  <p>
+    デフォルトは<code>border-box</code>です。
+  </p>
+  <p>以下のデモページをご覧ください。</p>
+  <pre><code class="language-css">div {
+  padding         : 20px;
+  border          : 20px dashed #000;
+  width           : 100px;
+  height          : 100px;
+  background-color: #dc322f;
+}
+
+#box-1 {
+  background-clip: border-box;
+}
+
+#box-2 {
+  background-clip: padding-box;
+}
+
+#box-3 {
+  background-clip: content-box;
+}</code></pre>
+  <p>
+    <a href="/demo/2011/css3-background-demos/background-clip/demo.html">background-clip DEMO</a>
+  </p>
+  <p>
+    対応しているブラウザなら、次のように表示されます。画像はFirefox 6でのものです。
+  </p>
+  <figure>
+    <img src="/images/2011/learn-about-css3-background/background-clip.png" width="600" height="200" alt="background-clip デモのスクリーンショット">
+  </figure>
+</section>
+<section>
+  <h2><code>background-origin</code></h2>
+  <p>
+    背景配置領域を指定するためのプロパティです。<br>
+    指定できる値は<code>background-clip</code>と同じく以下の3つ。
+  </p>
+  <dl>
+    <dt><code>border-box</code></dt>
+    <dd>
+      ボーダーの範囲まで。
+    </dd>
+    <dt><code>padding-box</code></dt>
+    <dd>
+      ボーダーの内側まで。
+    </dd>
+    <dt><code>content-box</code></dt>
+    <dd>
+      コンテンツ、つまりパディングの内側まで。
+    </dd>
+  </dl>
+  <p>
+    デフォルトは<code>padding-box</code>です。
+  </p>
+  <p>
+    以下のデモページをご覧ください。
+  </p>
+  <pre><code class="language-css">div {
+  padding          : 20px;
+  border           : 20px dashed #000;
+  width            : 100px;
+  height           : 100px;
+  background-image : url(bg.png);
+  background-repeat: no-repeat;
+}
+
+#box-1 {
+  background-origin: border-box;
+}
+
+#box-2 {
+  background-origin: padding-box;
+}
+
+#box-3 {
+  background-origin: content-box;
+}</code></pre>
+  <p>
+    <a href="/demo/2011/css3-background-demos/background-origin/demo1.html">background-origin DEMO 1</a>
+  </p>
+  <p>
+    対応しているブラウザなら、次のように表示されます。画像はFirefox 6でのものです。
+  </p>
+  <figure>
+    <img src="/images/2011/learn-about-css3-background/background-origin-1.png" width="600" height="200" alt="background-origin デモ1のスクリーンショット">
+  </figure>
+  <p>
+    では、<code>background-repeat</code>が<code>repeat</code>である場合はどうなるでしょうか。<br>
+    <code>background-repeat</code>のセクションで説明した通り、<code>repeat</code>は <strong><code>background-clip</code>で指定される背景描画領域を覆うように</strong>繰り返されます。<br>
+    ですので、特に<code>background-clip</code>を指定していない場合は、<code>background-origin</code>の値が何であれ、<code>border-box</code>の範囲に画像が繰り返されます。
+  </p>
+  <p>
+    <code>background-repeat</code>の値が<code>space</code>または<code>round</code>である場合ではどうでしょうか。<br>
+    <code>background-repeat</code>のセクションに「背景描画領域が背景配置領域よりも大きい場合は、背景画像は背景描画領域を覆うまで繰り返されます」とあります。<br>
+    それなら<code>background-clip</code>の値で<code>space</code>の画像の隙間や<code>round</code>の拡大縮小度が決まるのかというとそうではありません。<br>
+    これは繰り返しで覆われる範囲にすぎません。
+  </p>
+  <p>
+    先ほどのデモの背景画像を40×40の円の画像に変更し、<code>background-repeat</code>を<code>space</code>に変更してみました。OperaまたはIE 9でご覧ください。
+  </p>
+  <p>
+    <a href="/demo/2011/css3-background-demos/background-origin/demo2.html">background-origin DEMO 2</a>
+  </p>
+  <p>
+    これは次のように表示されます。スクリーンショットはOperaです。
+  </p>
+  <figure>
+    <img src="/images/2011/learn-about-css3-background/background-origin-2.png" width="600" height="200" alt="background-origin デモ2のスクリーンショット">
+  </figure>
+  <p>
+    確かに背景描画領域のデフォルトである<code>border-box</code>の範囲で繰り返しが行われていますが、違いは明らかです。<br>
+    画像と画像の間にあるスペースは<code>background-origin</code>で指定した背景配置領域によって決められています。
+  </p>
+  <p>
+    次の疑問は<code>background-origin</code>による背景配置領域が<code>background-clip</code>による背景描画領域より大きい場合はどうなるのか、ということです。
+  </p>
+  <p>
+    先ほどのbackground-origin DEMO 2に<code>background-clip: content-box</code>を加えてみます。
+  </p>
+  <p>
+    <a href="/demo/2011/css3-background-demos/background-origin/demo3.html">background-origin DEMO 3</a>
+  </p>
+  <p>
+    Operaでは次のようになります。
+  </p>
+  <figure>
+    <img src="/images/2011/learn-about-css3-background/background-origin-3.png" width="600" height="200" alt="background-origin デモ3のスクリーンショット">
+  </figure>
+  <p>
+    繰り返しの基準は<code>background-origin</code>によって決定されていますが、背景描画領域がそれより狭いので、切り抜かれて表示されています。
+  </p>
+</section>
+<section>
+  <h2><code>background-size</code></h2>
+  <p>
+    背景画像の大きさを変更することができます。<br>
+    指定できる値は以下。
+  </p>
+  <dl>
+    <dt><code>contain</code></dt>
+    <dd>
+      画像が背景配置領域内に収まる最大サイズになるように、アスペクト比を保ちながら拡大縮小します。
+    </dd>
+    <dt><code>cover</code></dt>
+    <dd>
+      画像が背景配置領域内を完全に覆う最小サイズになるように、アスペクト比を保ちながら拡大縮小します。
+    </dd>
+    <dt>数値 [幅, 高さ]</dt>
+    <dd>
+      pxやmmなどの長さを指定する単位の場合、その指定されたサイズに拡大縮小します。<br>
+      <code>幅, 高さ</code>のように指定しますが、値を1つしか指定しなかった場合、省略された部分には<code>auto</code>が適用されます。<br>
+      パーセント指定の場合、背景配置領域に対してのパーセンテージが適用されます。
+    </dd>
+    <dt><code>auto</code></dt>
+    <dd>
+      幅と高さのどちらか一方にのみ指定されている場合、画像の内在寸法比を利用して算出されます。それができない場合は内在寸法が用いられ、それも駄目な場合は100%として扱われます。<br>
+      幅と高さの両方に指定されている場合、画像が内在寸法を持っているならば、それが利用されます。ない場合は<code>contain</code>として扱われます。
+    </dd>
+  </dl>
+  <p>
+    デフォルトは<code>auto</code>です。
+  </p>
+  <p>
+    デモページとその指定は以下をご覧ください。各ブラウザの最新版で確認できます。<br>
+    なお、背景画像は200×400の赤い菱形です。
+  </p>
+  <pre><code class="language-css">div {
+  border           : 1px solid #aaa;
+  padding          : 20px;
+  width            : 100px;
+  height           : 100px;
+  background-image : url(bg.png);
+  background-repeat: repeat;
+  background-clip  : padding-box;
+}
+
+/* 2段目 */
+div.test {
+ height     : 150px;
+}
+
+#box-1, #box-5 {
+  background-size: contain;
+}
+
+#box-2, #box-6 {
+  background-size: cover;
+}
+
+#box-3, #box-7 {
+  background-size: 20px 40px;
+}
+
+#box-4, #box-8 {
+  background-size: 20%;
+}</code></pre>
+  <p>
+    ブラウザが対応しているのなら、下のように表示されます。スクリーンショットはFirefox 6です。
+  </p>
+  <figure>
+    <img src="/images/2011/learn-about-css3-background/background-size.png" width="618" height="364" alt="background-size デモのスクリーンショット">
+  </figure>
+</section>
+<section>
+  <h2><code>background</code>ショートハンドプロパティ</h2>
+  <p>
+    背景周りを一括指定するためのプロパティです。<br>
+    次のように指定します。
+  </p>
+  <pre><code class="language-css">background: image position / size repeat attachment {origin clip} color</code></pre>
+  <p>
+    省略された値は各プロパティのデフォルト値が使用されます。
+  </p>
+  <p>
+    <code>background-origin</code>と<code>background-clip</code>の箇所は指定が1つのみの場合、<code>background-origin</code>と<code>background-clip</code>の両方の値になるので注意してください。
+  </p>
+  <p>
+    背景が複数レイヤーからなっている場合は、カンマ区切りで指定します。<br>
+    この場合、<code>background-color</code>の値は、最後のレイヤーにのみ指定することができます。
+  </p>
+  <pre><code class="language-css">#wrapper {
+  background: url(image.png) right bottom fixed,
+              url(repeat.png) left top / 10px 20px space border-box #000;
+}</code></pre>
+</section>
+<section>
+  <h2>最後に</h2>
+  <p>
+    最後まで読んでくださってありがとうございます。<br>
+    この記事は自分が理解できるように書きましたが、説明は完全ではありませんし、解釈が誤っている可能性もあります。<br>
+    また、これらの仕様は変更されるかもしれません。
+  </p>
+  <p>
+    この記事を読んで「もう十分理解した」と思うのではなく、ちゃんと仕様を読んでおくことをお勧めします。
+  </p>
+</section>
