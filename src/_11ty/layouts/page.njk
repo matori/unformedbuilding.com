@@ -9,8 +9,8 @@
         <h2 class="Article-headline">{{ title | safe }}</h2>
         <div class="Article-meta">
           <p class="Article-date">
-            公開: <time datetime="{{ published | isoDate }}" class="Article-published">{{ published | readableDate }}</time><br>
-            更新: <time datetime="{{ updated | isoDate }}" class="Article-updated">{{ updated | readableDate }}</time>
+            公開：<time datetime="{{ published | isoDate }}" class="Article-published">{{ published | readableDate }}</time><br>
+            更新：<time datetime="{{ updated | isoDate }}" class="Article-updated">{{ updated | readableDate }}</time>
           </p>
           <p class="Article-permalink">
             <a href="{{ page.url }}" rel="bookmark" title="このページの正式なURL">パーマリンク</a>
