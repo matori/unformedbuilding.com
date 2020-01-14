@@ -1,7 +1,7 @@
-{% extends "./_base.njk" %}
+{% extends './_base.njk' %}
 
 {% set isArticle = true %}
-{% set style = "article.scss" %}
+{% set style = 'article.scss' %}
 
 {% block main %}
   <main class="Page-main">
@@ -29,10 +29,13 @@
           <summary class="Actions-trigger">記事の修正依頼</summary>
           <ul class="Actions-list">
             <li class="Actions-item">
-              <a href="" class="Actions-link">GitHube上のソースをForkして編集し、Pull Requestを送る</a>
+              <a href="{{ pkg.repository.url + '/blob/master/' + page.inputPath | url | urlencode }}"
+                 class="Actions-link">GitHube上のソースをForkして編集し、Pull Requestを送る</a>
             </li>
             <li class="Actions-item">
-              <a href="" class="Actions-link">GitHube上のリポジトリーにIssueを作成する</a>
+              <a
+                href="{{ pkg.repository.url + '/issues/new?title=記事「' + title + '」の修正依頼&labels=記事修正&body=URL：' + canonical + '\n修正内容：' | url | urlencode }}"
+                class="Actions-link">Issueを作成する</a>
             </li>
             <li class="Actions-item">
               <a
