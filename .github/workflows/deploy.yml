@@ -23,7 +23,7 @@ jobs:
       uses: AEnterprise/rsync-deploy@v1.0
       env:
           DEPLOY_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          ARGS: "-avzr --delete --bwlimit=3096 --dry-run"
+          ARGS: "-avzr --delete --bwlimit=3096"
           FOLDER: "./_build/"
           SERVER_IP: ${{ secrets.REMOTE_HOST }}
           USERNAME: ${{ secrets.REMOTE_USER }}
