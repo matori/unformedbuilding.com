@@ -1,0 +1,68 @@
+.example {
+  margin: 0 auto;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+.example h1 {
+  margin: 1rem 0;
+  font-size: 2rem;
+  font-weight: 500;
+  text-align: center;
+}
+.example table {
+  margin: 3rem auto 0;
+  border-collapse: collapse;
+}
+.example table,
+.example th,
+.example td {
+  border: 1px solid #dfdfdf;
+}
+.example th {
+  font-weight: 400;
+}
+.example th,
+.example td {
+  padding: 0.25em 0.5em;
+  white-space: nowrap;
+}
+.example thead {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  left: 0;
+}
+.example thead th {
+  background-image: -webkit-linear-gradient(#f6f6f6, #efefef);
+  background-image: linear-gradient(#f6f6f6, #efefef);
+}
+.example tbody th {
+  vertical-align: top;
+}
+.example tbody th > div {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 50%;
+  padding: 0.25em 0;
+  line-height: 1;
+}
+.example tbody td {
+  text-align: right;
+}
+.example tbody:nth-of-type(2) {
+  background-color: #fafafa;
+}
+.example-note {
+  margin: 1rem 0;
+}
+.example-note code {
+  margin: 0.25em;
+}
+.example-note code::before, .example-note code::after {
+  content: "`";
+}
+.example .next {
+  margin: 3rem 0;
+  text-align: center;
+}

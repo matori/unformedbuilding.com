@@ -16,7 +16,7 @@ html {
 }
 
 body {
-  font-family: "Hiragino Sans", sans-serif;
+  font-family: var(--ff-sans);
   hanging-punctuation: allow-end;
 }
 
