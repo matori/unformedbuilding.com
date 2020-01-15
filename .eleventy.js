@@ -100,7 +100,7 @@ module.exports = eleventyConfig => {
   })
 
   // ウェブ制作関連の記事コレクション
-  eleventyConfig.addCollection('articlesWebdev',  collection => {
+  eleventyConfig.addCollection('articlesWebdev', collection => {
     const allArticles = collection.getFilteredByGlob(`${SOURCE_DIR}/articles/*/*.html`)
     const articles = allArticles.filter(article => {
       const category = article.data.category
@@ -110,7 +110,7 @@ module.exports = eleventyConfig => {
   })
 
   // 年別アーカイブ用コレクション
-  eleventyConfig.addCollection('yearlyArchive',  collection => {
+  eleventyConfig.addCollection('yearlyArchive', collection => {
     const articles = collection.getFilteredByGlob(`${SOURCE_DIR}/articles/*/*.html`)
     return articles.sort((a, b) => a.data.published < b.data.published ? 1 : -1).reduce((result, article) => {
       const year = dayjs(article.data.published).year()
@@ -180,7 +180,10 @@ module.exports = eleventyConfig => {
     })
   }
 
-  // 記事内のtableをdivでラップする
+  // jsdomを使うtransformはここでまとめて処理する
+  //
+  // - 記事内のtableをdivでラップする
+  // - imgにloading="lazy"を付与する
   eleventyConfig.addTransform('wrap table', (content, outputPath) => {
     if (!outputPath.endsWith('.html')) {
       return content
@@ -188,16 +191,26 @@ module.exports = eleventyConfig => {
 
     const dom = new JSDOM(content)
     const doc = dom.window.document
+
+    // tableの処理
     const tableElements = doc.querySelectorAll('.Article-body table')
-    if (!tableElements.length) {
-      return content
+    if (tableElements.length) {
+      Array.from(tableElements).forEach(table => {
+        const div = doc.createElement('div')
+        div.classList.add('tableWrapper')
+        table.parentNode.insertBefore(div, table)
+        div.appendChild(table)
+      })
     }
-    Array.from(tableElements).forEach(table => {
-      const div = doc.createElement('div')
-      div.classList.add('tableWrapper')
-      table.parentNode.insertBefore(div, table)
-      div.appendChild(table)
-    })
+
+    // imgの処理
+    const imgElements = doc.querySelectorAll('img')
+    if (imgElements.length) {
+      Array.from(imgElements).forEach(img => {
+        img.setAttribute('loading', 'lazy')
+      })
+    }
+
     return doc.documentElement.outerHTML
   })
 
