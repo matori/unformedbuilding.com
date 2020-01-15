@@ -18,7 +18,7 @@
         <pubDate>{{ article.data.published | rfc2822 }}</pubDate>
         <guid isPermaLink="true">{{ site.url + article.url }}</guid>
         <content:encoded>
-          <![CDATA[{{ article.templateContent | feed_htmlmin | safe }}]]>
+          <![CDATA[{{ article.templateContent | feedAbsoluteUrl | feedHtmlmin | safe }}]]>
         </content:encoded>
       </item>
     {% endfor %}
