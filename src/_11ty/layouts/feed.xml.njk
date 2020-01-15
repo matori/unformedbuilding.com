@@ -7,7 +7,7 @@
     <language>ja-JP</language>
     <managingEditor>{{ site.author.email }} ({{ site.author.name }})</managingEditor>
     <webMaster>{{ site.author.email }} ({{ site.author.name }})</webMaster>
-    <atom:link href="{{ site.url + page.url }}" rel="self" type="application/rss+xml"/>
+    <atom:link href="{{ site.url + page.url | replace('index.xml', '') }}" rel="self" type="application/rss+xml"/>
     {% for article in collections.articles | limit(10) %}
       <item>
         <title>
@@ -18,7 +18,7 @@
         <pubDate>{{ article.data.published | rfc2822 }}</pubDate>
         <guid isPermaLink="true">{{ site.url + article.url }}</guid>
         <content:encoded>
-          <![CDATA[{{ article.templateContent | feed_htmlmin | safe }}]]>
+          <![CDATA[{{ article.templateContent | feedAbsoluteUrl | feedHtmlmin | safe }}]]>
         </content:encoded>
       </item>
     {% endfor %}

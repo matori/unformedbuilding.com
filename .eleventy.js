@@ -19,6 +19,8 @@ const isDev = process.env.ELEVENTY_ENV === 'development'
 const isProd = process.env.ELEVENTY_ENV === 'production'
 const isPreview = process.env.ELEVENTY_ENV === 'preview'
 
+const SITE_URL = require('./src/metadata').url
+
 const SOURCE_DIR = 'src/contents'
 const DISTRIBUTION_DIR = '_build'
 const STYLES_DIR = `src/_11ty/styles`
@@ -77,8 +79,44 @@ module.exports = eleventyConfig => {
     return result.join('\n')
   })
 
+  // フィードのコンテンツHTML内の相対URLを絶対URLに書き換える
+  eleventyConfig.addFilter('feedAbsoluteUrl', htmlString => {
+    const dom = new JSDOM(`${htmlString}`)
+    const doc = dom.window.document
+
+    // href属性
+    const hrefs = doc.querySelectorAll(`[href^="/"]`)
+    Array.from(hrefs).forEach(element => {
+      const originalHref = element.getAttribute('href')
+      element.setAttribute('href', SITE_URL + originalHref)
+    })
+
+    // src属性
+    const srcs = doc.querySelectorAll(`[src^="/"]`)
+    Array.from(srcs).forEach(element => {
+      const originalSrc = element.getAttribute('src')
+      element.setAttribute('src', SITE_URL + originalSrc)
+    })
+
+    // srcset属性
+    const srcsets = doc.querySelectorAll(`[srcset]`)
+    Array.from(srcsets).forEach(element => {
+      const originalSrcset = element.getAttribute('srcset')
+      const srcsetValue = originalSrcset.split(',').map(srcset => {
+        const image = srcset.trim().split(/\s+/)
+        if (image[0].charAt(0) === '/') {
+          image[0] = SITE_URL + image[0]
+        }
+        return image.join(' ')
+      })
+      element.setAttribute('srcset', srcsetValue.join(','))
+    })
+
+    return doc.body.innerHTML
+  })
+
   // フィードのHTMLをminifyする
-  eleventyConfig.addFilter('feed_htmlmin', data => {
+  eleventyConfig.addFilter('feedHtmlmin', data => {
     return htmlmin.minify(data, {
       collapseBooleanAttributes: true,
       collapseWhitespace: true,
