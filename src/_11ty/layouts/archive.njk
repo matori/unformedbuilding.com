@@ -15,7 +15,7 @@
                 <time
                   datetime="{{ article.data.published | isoDate }}"
                   class="Archive-date">
-                  {{ article.data.date | readableDate('MM月DD日') }}
+                  {{ article.data.published | readableDate('MM月DD日') }}
                 </time>
                 <a href="{{ article.url }}" class="Archive-link">
                   {{ article.data.title }}
