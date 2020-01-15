@@ -184,7 +184,7 @@ module.exports = eleventyConfig => {
   //
   // - 記事内のtableをdivでラップする
   // - imgにloading="lazy"を付与する
-  eleventyConfig.addTransform('wrap table', (content, outputPath) => {
+  eleventyConfig.addTransform('jsdom transform', (content, outputPath) => {
     if (!outputPath.endsWith('.html')) {
       return content
     }
