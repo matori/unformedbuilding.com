@@ -116,7 +116,7 @@ module.exports = eleventyConfig => {
   })
 
   // フィードのHTMLをminifyする
-  eleventyConfig.addFilter('feed_htmlmin', data => {
+  eleventyConfig.addFilter('feedHtmlmin', data => {
     return htmlmin.minify(data, {
       collapseBooleanAttributes: true,
       collapseWhitespace: true,
