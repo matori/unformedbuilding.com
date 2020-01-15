@@ -1,5 +1,8 @@
 name: Deploy with Node CI
 
+env:
+  TZ: 'Asia/Tokyo'
+
 on:
   push:
     branches: master
