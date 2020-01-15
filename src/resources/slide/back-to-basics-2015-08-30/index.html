@@ -1,0 +1,911 @@
+<!doctype html>
+<!--
+この HTML はプレゼン用ライブラリーに合わせて作成されています。
+-->
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>基本の前の基礎知識 - Back to Basics CSS 2015-08-30</title>
+<meta name="description" content="CSS イベント “Back to Basics” 「基本の前の基礎知識」発表資料。">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+<link rel="stylesheet" href="css/reveal.css">
+<link rel="stylesheet" href="css/theme/solarized.css" id="theme">
+<link rel="stylesheet" href="lib/css/zenburn.css">
+<style>
+  .reveal, .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+    font-family: "Noto Sans CJK JP", sans-serif;
+  }
+
+  .reveal {
+    font-weight: 400;
+  }
+
+  .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+    font-weight: 600;
+    text-transform: none;
+  }
+
+  .reveal pre {
+    font-size: inherit;
+    box-shadow: none;
+    max-width: -webkit-fit-content;
+    max-width: -moz-fit-content;
+    max-width: fit-content;
+    box-sizing: border-box;
+    border-left: 1ch solid #586e75;
+    border-right: 1ch solid transparent;
+    width: auto;
+  }
+
+  .reveal code {
+    font-family: "Source Han Code JP", "Source Code Pro", monospace;
+  }
+
+  .reveal code mark {
+    background-color: transparent;
+    color: #dc322f;
+    font-weight: bold;
+  }
+
+  .reveal pre code {
+    background-color: #002b36;
+    padding: 1ex;
+    color: #93a1a1;
+  }
+
+  .reveal li {
+    margin: 10px 0;
+  }
+
+  .reveal p code,
+  .reveal li code {
+    /*background-color: #eee8d5;*/
+    color: #2aa198;
+    font-weight: bold;
+    padding: 0 0.25em;
+  }
+
+  .reveal p em,
+  .reveal li em {
+    color: #d33682;
+    font-weight: bold;
+    font-style: normal;
+  }
+
+  .reveal .logo {
+    display: block;
+    margin: 0 auto;
+    border: none;
+    box-shadow: none;
+  }
+
+  .speaker-controls-notes .value {
+    font-size: 14px;
+  }
+</style>
+<script>
+  var link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.type = 'text/css';
+  link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+  document.getElementsByTagName('head')[0].appendChild(link);
+</script>
+<!--[if lt IE 9]>
+<script src="lib/js/html5shiv.js"></script>
+<![endif]-->
+</head>
+
+<body>
+
+<div class="reveal">
+
+  <div class="slides">
+    <section>
+      <h2>注意事項</h2>
+      <ul>
+        <li>これは発表資料で、普通のウェブページではありません。<br>環境によっては正常に表示されないかもしれません。</li>
+        <li>この資料の内容が正しいとは限りません。<br>正しく理解するために、ご自身で仕様を読むことをお勧めします。</li>
+      </ul>
+      <hr>
+      <p>
+        <a href="http://techhtml.github.io/TR/">韓国語版（한국어）</a> Translation by 조은
+      </p>
+    </section>
+    <section>
+      <h1>基本の前の基礎知識</h1>
+      <h2 style="margin-top:2em;"><img src="./btb-logo.png" alt="Back to Basics CSS" width="736" height="114" class="logo"><time datetime="2015-08-30" style="font-size: 50%">August 30, 2015</time></h2>
+      <aside class="notes">
+        それでは『Back to Basics - 基本の前の基礎知識』を始めます。よろしくお願いします。 <br>
+        このセッションについてですが、まだ仕様を見たことがない、なんか抵抗がある、という人たちが仕様を見る助けになればと思ってやることにしました。<br>
+        あまり深いところまではやりませんし、詳しい方にとっては物足りないかもしれませんが、そうでない方の手助けになれば幸いです。
+      </aside>
+    </section>
+    <section>
+      <h2 style="font-weight:400;">國仲 義則<br><small lang="en" style="font-size:0.5em;font-weight:200;line-height:1;">Yoshinori Kuninaka</small></h2>
+      <p>
+        （a.k.a. <a href="http://unformedbuilding.com/">Matori</a> / <a href="https://twitter.com/ub_pnr">@ub_pnr</a>）<br>
+        <a href="http://www.shiftbrain.co.jp/">株式会社シフトブレイン</a><br>
+      </p>
+    </section>
+    <section>
+      <h2>目次</h2>
+      <ol>
+        <li>CSSの基本構文</li>
+        <li>プロパティーの仕様と、その値の構文</li>
+        <li>型と単位</li>
+        <li>関数表現</li>
+      </ol>
+      <aside class="notes">
+        CSS Values and Units Module Level 3 を中心に、基礎知識部分をざっと紹介しています。
+      </aside>
+    </section>
+    <section>
+      <h2>仕様を覗いてみてみよう</h2>
+    </section>
+    <section>
+      <h3>仕様はどこにあるの？</h3>
+      <ul>
+        <li><a href="http://www.w3.org/Style/CSS/current-work">CSS current work &amp; how to participate</a></li>
+        <li><a href="http://momdo.s35.xrea.com/web-html-test/CSS3-ja/">CSS3の日本語訳集 - 血統の森 web実験小屋</a></li>
+      </ul>
+      <p>
+        日本語訳を見るときには、原文と一緒に見ることをお勧めします。<br>
+        また、誤訳などを見つけたら翻訳者に連絡を取ってみるとよいでしょう。
+      </p>
+    </section>
+    <section>
+      <h2>CSSの基本構文</h2>
+    </section>
+    <section>
+      <h3>宣言</h3>
+      <pre><code>property: value<span style="padding-left: 1ch"></span></code></pre>
+      <h4>宣言の区切り</h4>
+      <pre><code>property: value<mark>;</mark>
+property: value<mark>;</mark></code></pre>
+      <aside class="notes">
+        プロパティー、コロン、値（あたい）の組み合わせを宣言といいます。<br>
+        宣言と宣言の区切りにはセミコロンを使います。<br>
+        最後の宣言のあとのセミコロンは、あってもなくてもいいですが、後から何かを追加したりするときにエラーを起こしやすいので基本的には書いておくほうがよいでしょう。
+      </aside>
+    </section>
+    <section>
+      <h3>宣言ブロック</h3>
+      <pre><code><mark>{</mark>
+  property: value;
+  property: value;
+<mark>}</mark></code></pre>
+      <aside class="notes">
+        宣言のセットを波括弧で囲ったものを宣言ブロックといいます
+      </aside>
+    </section>
+    <section>
+      <h3>スタイルルール<br>（ルールセット / 規則セット）</h3>
+      <pre><code>selector-lists {
+  property: value;
+  property: value;
+}</code></pre>
+      <p>セレクターについては <a href="http://www.w3.org/TR/selectors/">Selectors Level 3</a> を参照ください。</p>
+      <aside class="notes">
+        セレクターと宣言ブロックを組み合わせたものをスタイルルール、またはルールセットといいます。<br>
+        これらの名称を知らなくてもCSSは書けますが、知っておくと仕様や技術系ブログを読むときの手助けになります。
+      </aside>
+    </section>
+    <section>
+      <h3>@ルール</h3>
+      <p>@ルールは、そのルールによって構文が異なります。<br>詳しくは個別の仕様を参照してください。</p>
+      <pre><code>@charset "UTF-8";          </code></pre>
+      <pre><code>@import url("...");        </code></pre>
+      <pre><code>@keyframes foo {
+  from { property: value; }
+  to { property: value; }
+}</code></pre>
+      <p>他にも様々な@ルールがあります。</p>
+    </section>
+    <section>
+      <h3>コメント</h3>
+      <p>コメントは1種類のみです。</p>
+      <pre><code><mark>/*</mark> ここはコメントです。 <mark>*/</mark>
+
+<mark>/*</mark>
+  ここはコメントです。
+<mark>*/</mark></code></pre>
+      <aside class="notes">
+        スラッシュと、それに続くアスタリスクからコメントが始まり、アスタリスクとそれに続くスラッシュでコメントが終わります
+      </aside>
+    </section>
+    <section>
+      <p>コメント記号から行末までをコメントとする<br><em>1行コメントはありません</em>ので</p>
+      <pre><code>// ここはコメントです。
+# ここはコメントです。    </code></pre>
+      <p>こういうことはできません。</p>
+      </section>
+    <section>
+      <h2>各種プロパティー仕様の<br>基本的な読み方</h2>
+      <p>それぞれの仕様に載っているプロパティーの仕様表を見てみよう。</p>
+    </section>
+    <section role="presentation" style="
+      padding: 0;
+      width: 1280px;
+      height: 720px;
+      background: url(./media/ss-box-shadow-spec.png) no-repeat center / contain;">
+      <aside class="notes">
+        見づらいかもしれませんが、実際の仕様はこのような感じです。<br>
+        ここから、この水色の部分について簡単に説明します。
+      </aside>
+    </section>
+    <section>
+      <pre><code>Name: プロパティー名
+<mark>Value: 正規の値と構文</mark>
+Initial: 初期値
+Applies to: このプロパティーが適用される要素
+Inherited: プロパティーが継承されるかどうか
+Percentages: パーセンテージがどのように解釈されるか
+Media: このプロパティーが適用されるメディアグループ
+Computed value: 値がどのように計算されるか
+Animatable: アニメーション可能かどうか</code></pre>
+      <aside class="notes">
+        この表の後に値ごとの違いや、プロパティー特有の型、注意事項などの詳細が書かれています。<br>
+        ここから、赤くハイライトされている「プロパティーの正規の値と構文」について紹介していきます。
+      </aside>
+    </section>
+    <section>
+      <h3>値の構文</h3>
+      <p>
+        <a href="http://www.w3.org/TR/css3-values/#value-defs">Value Definition Syntax</a>
+      </p>
+      <aside class="notes">
+        構文はここに載っていますので、後ほどご確認ください。
+      </aside>
+    </section>
+    <section>
+      <h4>よくある話題</h4>
+      <p>どの順番で書けばいいの？</p>
+      <p><code>border</code>ショートハンドプロパティー</p>
+      <pre><code>border: 1px solid red;
+border: red 1px solid;
+border: solid red 1px;</code></pre>
+      <aside class="notes">
+        よくこういう話題がありますが、これも仕様を読めば分かります。
+      </aside>
+    </section>
+    <section>
+      <h4>例：<code>box-shadow</code>プロパティー値の構文</h4>
+      <p>
+        <a href="http://www.w3.org/TR/css3-background/#the-box-shadow">Drop Shadows: the ‘box-shadow’ property</a>
+      </p>
+      <pre><code>box-shadow: none | &lt;shadow> [ , &lt;shadow> ]*   </code></pre>
+      <pre><code>&lt;shadow> = inset? && &lt;length>{2,4} && &lt;color>?</code></pre>
+    </section>
+    <section>
+      <h4>キーワード</h4>
+      <p>キーワードは仕様にある文字通りに記述します。<code>/</code>や<code>,</code>も同様です。</p>
+      <pre><code>box-shadow: <mark>none</mark> | &lt;shadow> [ <mark>,</mark> &lt;shadow> ]*   </code></pre>
+      <pre><code>&lt;shadow> = <mark>inset</mark>? && &lt;length>{2,4} && &lt;color>?</code></pre>
+    </section>
+    <section>
+      <h5>データ型</h5>
+      <p><code>&lt;</code>と<code>&gt;</code>で囲まれているものはデータ型を表します。</p>
+      <pre><code>box-shadow: none | <mark>&lt;shadow></mark> [ , <mark>&lt;shadow></mark> ]*   </code></pre>
+      <pre><code><mark>&lt;shadow></mark> = inset? && <mark>&lt;length></mark>{2,4} && <mark>&lt;color></mark>?</code></pre>
+    </section>
+    <section>
+      <h5>並置</h5>
+      <p>並置されている単語は、その<em>順序を守って</em>記述します。</p>
+      <pre style="font-size: 98%"><code>counter-set: [ <mark>&lt;custom-ident> &lt;integer></mark>? ]+ | none</code></pre>
+    </section>
+    <section>
+      <h5><code>&&</code>（ダブルアンパサンド）</h5>
+      <p><code>&&</code>は2つ以上の構成要素の区切りで、それらの<em>全てを順不同で</em>記述します。</p>
+      <pre><code>&lt;shadow> = inset? <mark>&&</mark> &lt;length>{2,4} <mark>&&</mark> &lt;color>?</code></pre>
+    </section>
+    <section>
+      <h5><code>||</code>（ダブルバー）</h5>
+      <p style="font-size: 98%"><code>||</code>は2つ以上の構成要素の区切りで、それらの<em>1つ以上を順不同</em>で記述します。</p>
+      <pre><code>border: &lt;line-width> <mark>||</mark> &lt;line-style> <mark>||</mark> &lt;color></code></pre>
+    </section>
+    <section>
+      <h5><code>|</code>（シングルバー）</h5>
+      <p><code>|</code>は2つ以上の構成要素の区切りで、それらの<em>1つを</em>記述します。</p>
+      <pre><code>box-shadow: none <mark>|</mark> &lt;shadow> [ , &lt;shadow> ]*</code></pre>
+    </section>
+    <section>
+      <h5><code>[</code>と<code>]</code></h5>
+      <p><code>[</code>と<code>]</code>の組み合わせはグルーピングに使用されます。</p>
+      <pre><code>box-shadow: none | &lt;shadow> <mark>[</mark> , &lt;shadow> <mark>]</mark>*</code></pre>
+    </section>
+    <section>
+      <h5>優先度: 並置 > && > || > |</h5>
+      <pre><code>  a b   |   c ||   d &&   e f    </code></pre>
+      <p>優先度順に見てみると……</p>
+      <pre><code>[ a b ] | [ c || [ d && [ e f ]]]</code></pre>
+      <ol>
+        <li><code>[a b]</code>と<code>[e f]</code>はその表記通りに記述。</li>
+        <li><code>d</code>と<code>[e f]</code>はどちらも必須で順不同。</li>
+        <li><code>c</code>と<code>[d && [e f]]</code>は<code>c</code>のみ、<code>[d && [e f]]</code>のみ、<br>または両方を順不同で記述。</li>
+        <li><code>[a b]</code>と<code>[c || [d && [e f]]]</code>はどちらか片方を記述。</li>
+      </ol>
+    </section>
+    <section>
+      <h5>修飾子</h5>
+      <ul>
+        <li><code>*</code>は、先行する型、単語、グループが<em>0回以上</em>出現することを示します。</li>
+        <li><code>+</code>は、先行する型、単語、グループが<em>1回以上</em>出現することを示します。</li>
+        <li><code>?</code>は、先行する型、単語、グループが<em>任意</em>であることを示します。</li>
+        <li>波括弧で囲まれた数字<code>{A}</code>は、先行する型、単語、グループが<em>A回</em>出現することを示します。</li>
+        <li>波括弧で囲まれたコンマ区切りの数字のペア<code>{A,B}</code>は、先行する型、単語、グループが<em>最低A回、最大B回</em>出現することを示します。</li>
+        <li><code>#</code>はコンマによって区切られる、先行する型、単語、グループが1回以上出現することを示します。</li>
+        <li>グループ後の<code>!</code>は、そのグループが必須且つ、1つ以上の値を生成しなければならないことを示します。</li>
+      </ul>
+      <aside class="notes">
+        下の2つは後から追加されたので、まだ反映されていない仕様もあります。
+      </aside>
+    </section>
+    <section>
+      <h6>つまり<code>box-shadow</code>プロパティーの値は……</h6>
+      <pre><code>box-shadow: none | &lt;shadow> [ , &lt;shadow> ]*</code></pre>
+      <ul>
+        <li><code>none</code>キーワード、またはコンマ区切りによって繰り返し可能な<code>&lt;shadow></code>型、これらのどれかを指定できます。</li>
+      </ul>
+    </section>
+    <section style="text-align: left">
+      <pre><code>&lt;shadow> = inset? && &lt;length>{2,4} && &lt;color>?</code></pre>
+      <p>であるので……</p>
+      <ul>
+        <li><code>inset</code>キーワード、2回以上4回以内繰り返される<code>&lt;length></code>型、<code>&lt;color></code>型の組み合わせとなります。</li>
+        <li><code>inset</code>キーワード、<code>&lt;color></code>型は任意ですが、2回以上4回以内繰り返される<code>&lt;length></code>型と共に記述する必要があります。</li>
+        <li>これらは順不同です。</li>
+      </ul>
+      <p>
+        また、繰り返される<code>&lt;length></code>型がそれぞれ何を示すのかは直後に記載されています。
+      </p>
+    </section>
+    <section>
+      <h6>注意</h6>
+      <p>
+        なお、現在の<code>&lt;shadow></code>型の構文で表示がうまくいかない場合があります。<br>
+        <code>inset</code>が<code>&lt;length>{2,4}</code>と<code>&lt;color></code>の間に入った場合です。<br>
+      </p>
+      <pre><code>box-shadow: 1em 1em <mark>inset</mark> red;
+box-shadow: red <mark>inset</mark> 1em 1em;</code></pre>
+      <p>
+        古い<code>&lt;shadow></code>型の構文は次のようなものでしたので、<br>現在の仕様とも互換性のあるこちらに合わせておくと安全です。
+      </p>
+      <pre><code>&lt;shadow> = inset? && <mark>[</mark>&lt;length>{2,4} && &lt;color>?<mark>]</mark></code></pre>
+    </section>
+    <section>
+      <h4><code>border</code>ショートハンドプロパティー</h4>
+      <pre><code>&lt;line-width> || &lt;line-style> || &lt;color></code></pre>
+      <p>それぞれ順不同であるので、</p>
+      <pre><code>border: 1px solid red;
+border: red 1px solid;
+border: solid red 1px;</code></pre>
+      <p>仕様上はどの順番で書いても構いません。</p>
+      <aside class="notes">
+        実際にはチームのコーディング規約だったり好みで決まることになると思います。
+      </aside>
+    </section>
+    <section>
+      <h2>型と単位</h2>
+      <p>
+        各プロパティーに指定できる値の、様々な型について。
+      </p>
+      <aside class="notes">
+        先ほどの説明で小なり記号と大なり記号で囲まれたものはデータ型を示すと言いましたが、ここからは基本的なデータ型を紹介していきます。
+      </aside>
+    </section>
+    <section>
+      <h3>テキストデータ型</h3>
+    </section>
+    <section>
+      <h4>定義済みキーワード</h4>
+      <p>
+        プロパティーごとに決められたキーワード。
+      </p>
+      <pre><code>margin-top: <mark>auto</mark>;
+font-size: <mark>medium</mark>;
+text-transform: <mark>uppercase</mark>;</code></pre>
+      <p>
+        先ほどの<code>box-shadow</code>でいうと<code>none</code>と<code>inset</code>がそれにあたります。
+      </p>
+    </section>
+    <section>
+      <h4>CSS-wide キーワード</h4>
+      <p>
+        全てのプロパティーに適用できるキーワード。<br>
+        現在のところ、以下の3つがあります。
+      </p>
+      <ul>
+        <li><code>initial</code>: プロパティーの初期値を示します。</li>
+        <li><code>inherit</code>: 親からそのプロパティーの算出値を継承します。</li>
+        <li><code>unset</code>: そのプロパティーが継承されるかどうかに応じて、<code>initial</code>または<code>inherit</code>になります。</li>
+      </ul>
+      <aside class="notes">
+        イニシャルはそのプロパティーの初期値を示します。先ほどの仕様表にあったとおり、初期値は各仕様で規定されています。<br>
+        インヘリットは親からそのプロパティー値の算出値を継承します。<br>
+        アンセットは少し特殊で、そのプロパティーが継承されるかどうかに応じて、イニシャルまたはインヘリットになります。継承されるかどうかは、各仕様で既定されています
+      </aside>
+    </section>
+    <section>
+      <h4><code>&lt;custom-ident></code>型</h4>
+      <p>
+        定義済みキーワードとして解釈されない、作者によるCSS識別子。<br>
+        使用できる文字などの詳細は仕様をご確認ください。
+      </p>
+      <pre><code>counter-increment: <mark>my-counter</mark>;
+animation-name: <mark>rotation360</mark>;
+will-change: <mark>transform</mark>;</code></pre>
+    </section>
+    <section>
+      <h5>妥当ではない例</h5>
+      <p>
+        <pre><code>.foo { animation-name: <mark>none</mark>; }
+
+@keyframes <mark>none</mark> {
+  to { opacity: 0; }
+}</code></pre>
+        <p><code>animation-name</code>の値は</p>
+        <pre><code>&lt;single-animation-name>#
+&lt;single-animation-name> = <mark>none</mark> | &lt;custom-ident></code></pre>
+      <p>
+        であるので<code>none</code>は定義済みキーワードとなります。<br>
+        よってこの指定は妥当ではありません。
+      </p>
+    </section>
+    <section>
+      <p>解決例としては以下の様なものがあります。</p>
+      <pre><code>.foo { animation-name: <mark>fade-out</mark>; }
+
+@keyframes <mark>fade-out</mark> {
+  to { opacity: 0; }
+}</code></pre>
+    </section>
+    <section>
+      <h4><code>&lt;string></code>型</h4>
+      <p>
+        <code>&lt;string></code>は、二重引用符または一重引用符によって囲まれた文字列です。
+      </p>
+      <pre><code>.foo::before {
+  content: <mark>&quot;</mark>before!<mark>&quot;</mark>;
+}
+
+.bar::after {
+  content: <mark>&#39;</mark>after!<mark>&#39;</mark>;
+}</code></pre>
+    </section>
+    <section>
+      <h4><code>&lt;url></code>型</h4>
+      <p>リソースの所在を指定します。</p>
+      <pre><code>&lt;url> = url( &lt;string> &lt;url-modifier>* )</code></pre>
+      <p>例</p>
+      <pre><code>background-image: <mark>url(</mark>&quot;./kawaii-icon.png&quot;<mark>)</mark>;</code></pre>
+      <pre><code>background-image: <mark>url(</mark>&quot;icons.svg#kawaii&quot;<mark>)</mark>; </code></pre>
+    </section>
+    <section>
+      <p><code>@import</code>の場合は関数式ではなく<code>&lt;string></code>のみでの指定も可能です。</p>
+      <pre><code>@import "./reset.css"</code></pre>
+      <p>互換性を保つため、引用符なしでの指定も可能となっています。</p>
+      <pre><code>background-image: url(./kawaii-icon.png);</code></pre>
+      <p>ただし、これらの代替記法で<code>&lt;url-modifier></code>は使用できません。</p>
+      <aside class="notes">
+        URL modifier は識別子や関数として使用できることになっていますが、それぞれの仕様で必要に応じて定義されることになっていますので、ここでは扱いません。
+      </aside>
+    </section>
+    <section>
+      <h3>数値データ型</h3>
+    </section>
+    <section>
+      <h4><code>&lt;integer></code>型</h4>
+      <p>
+        整数。<br>
+        1つ以上の10進数<code>0</code>〜<code>9</code>の数字の並びで、<br>
+        数字の前に<code>+</code><code>-</code>を付与することができます。<br>
+        範囲は制限されることがあります。
+      </p>
+      <pre><code>z-index: <mark>0</mark>;
+order: <mark>-1</mark>;
+counter-increment: my-counter <mark>1</mark>;</code></pre>
+      <aside class="notes">
+        インテジャー
+      </aside>
+    </section>
+    <section>
+      <h4><code>&lt;number></code>型</h4>
+      <p>
+        実数。<br>
+        <code>&lt;integer></code>または0個以上の数字の後に<code>.</code>と1つ以上の10進数字、<br>
+        そして任意で<code>e</code>または<code>E</code>および整数から構成される指数のこと。<br>
+        範囲は制限されることがあります。
+      </p>
+      <pre><code>line-height: <mark>1.6</mark>; /* 0以上 */
+opacity: <mark>0.2</mark>; /* 0.0 ~ 1.0 */</code></pre>
+      <aside class="notes">
+        Eは指数表記ですね。CSSでは普段は使うことはありませんが、見かけた時にびっくりしないように、こういう記述もできると覚えておけばよいでしょう。
+      </aside>
+    </section>
+    <section>
+      <h4><code>&lt;percentage></code>型</h4>
+      <p>
+        パーセンテージ。<br>
+        <code>&lt;number></code>とパーセント記号（<code>%</code>）で構成されます。<br>
+        パーセンテージは常に別の値に対して相対的となります。
+      </p>
+      <p>
+        パーセンテージが使用できるプロパティーは、<br>
+        それが何を基準にするのか定義します。
+      </p>
+      <pre><code>font-size: <mark>200%</mark>; /* 親のフォントサイズ */
+padding-top: <mark>50%</mark>; /* 包含ブロックの幅 */</code></pre>
+      <aside class="notes">
+        仕様の表の読み方の部分で出てきましたが、パーセンテージが使用できるプロパティーには何を基準としたパーセンテージなのか書かれています。
+      </aside>
+    </section>
+    <section>
+      <h4>ディメンション</h4>
+      <p>
+        <code>&lt;number></code>の直後に単位がつくもの。<br>
+        <code>&lt;percentage></code>は含まれません。
+      </p>
+      <aside class="notes">
+        これは型ではありません。
+      </aside>
+    </section>
+    <section>
+      <h3><code>&lt;length></code>型</h3>
+      <p>
+        長さ。<br>
+        長さが<code>0</code>のときは<code>&lt;length></code>型は単位を省略でき、<br>
+        構文としては<code>&lt;number></code>と同じになります。<br>
+        また、長さの範囲は制限されることがあります。
+      </p>
+      <aside class="notes">
+        長さには相対的な単位と絶対的な単位があります。
+      </aside>
+    </section>
+    <section>
+      <h4>相対的な単位</h4>
+      <aside class="notes">
+        相対単位は、別の長さに対して相対的な長さです。
+      </aside>
+    </section>
+    <section>
+      <h5>フォントに対して相対的な長さの単位</h5>
+      <ul>
+        <li><code>em</code>: この単位が使用される要素の<code>font-size</code>プロパティーの算出値。</li>
+        <li><code>ex</code>: 利用可能な最初のフォントの<em>x</em>の高さ（x-height）。</li>
+        <li><code>ch</code>: 描画に利用されているフォントの<em>0</em>（U+0030）のグリフの送り幅。</li>
+        <li><code>rem</code>: ルート要素の<code>font-size</code>の算出値。</li>
+      </ul>
+      <aside class="notes">
+        ex: x-heightが測定不能の場合は0.5emと見なされます。<br>
+        ch: 0の文字ボックスの幅。exと同様に、ゼロのグリフが測定不能だの場合は0.5emと見なされます。
+        rem: remについては後で補足します。
+      </aside>
+    </section>
+    <section>
+      <h5>フォントに対して相対的な長さについて</h5>
+      <ul>
+        <li>単位<code>rem</code>を除いてフォントに相対的な長さは使用される要素のフォント計量法を参照します。</li>
+        <li>ただし<code>font-size</code>プロパティーに出現する場合は親要素のフォント計量法を参照します。</li>
+        <li>親がない要素の場合は<code>font</code>プロパティーの初期値に対応するフォント計量法を参照します。</li>
+      </ul>
+      <pre><code>margin: 1rem; /* ルートのフォントサイズ */
+padding: 0.5ch; /* この要素のフォントサイズ */
+font-size: 1.2em; /* 親のフォントサイズ */</code></pre>
+    </section>
+    <section>
+      <h6><code>rem</code>について</h6>
+      <ul>
+        <li>HTMLにおいてルート要素は<code>html</code>要素です。</li>
+        <li>ルート要素に用いられる場合は各プロパティーの初期値を参照します。</li>
+        <li><code>font-size</code>の初期値は<code>medium</code>です。</li>
+        <li>どこで使っても常にルート要素のフォントサイズを基準にするため、<br>
+            算出値を計算（予測）しやすい便利な単位です。</li>
+      </ul>
+    </section>
+    <section>
+      <h5>ビューポートに対する割合の長さの単位</h5>
+      <ul>
+        <li><code>vw</code>: 初期包含ブロックの<em>幅の1%</em>。</li>
+        <li><code>vh</code>: 初期包含ブロックの<em>高さの1%</em>。</li>
+        <li><code>vmin</code>: <code>vw</code>と<code>vh</code>の小さい方に等しくなります。<br>
+          <small>古い仕様では<code>vm</code>という単位でした。Internet Explorer 9 が<code>vm</code>を使っています。</small></li>
+        <li><code>vmax</code>: <code>vw</code>と<code>vh</code>の大きい方に等しくなります。<br>
+          <small>後から追加された単位のため、実装が遅れているブラウザーもあります。</small></li>
+      </ul>
+    </section>
+    <section>
+      <h5>ビューポートに対する割合の長さ</h5>
+      <ul>
+        <li>ビューポートに対する割合の長さとは、初期包含ブロックに対して相対的な長さのことです。</li>
+        <li>初期包含ブロックとは、連続するメディア（ウェブページなど）では表示領域、ページメディアではページ領域になります。</li>
+        <li>ルート要素の<code>overflow</code>の値が<code>auto</code>の場合、スクロールバーは存在しないものと見なされます。</li>
+        <li>たとえば、縦スクロールバーがあるときの<br>
+          <code>html {width: 100<mark>vw</mark>; }</code>と<br>
+          <code>html {width: 100<mark>%</mark>; }</code>は違う長さになります。</li>
+      </ul>
+      <aside class="notes">
+        ここでいうスクロールバーとは実際に幅を持ちレイアウトに影響を与えるタイプのものです。<br>
+        モバイルOSや、WindowsのInternet ExplorerのCSSによる指定、Macの設定変更で可能なオーバーレイスクロールバーの場合は、そもそもスクロールバーがレイアウトに影響を与えないので同じ長さになります。
+      </aside>
+    </section>
+    <section>
+      <h4>絶対単位</h4>
+      <aside class="notes">
+        絶対単位は互いに固定的な長さです。
+      </aside>
+    </section>
+    <section>
+      <h5>物理単位</h5>
+      <ul>
+        <li><code>cm</code>: センチメートル。1cm = (96/2.54)px</li>
+        <li><code>mm</code>: ミリメートル。1mm = (1/10)cm</li>
+        <li><code>q</code>: クォーターミリメートル。1q = (1/40)cm</li>
+        <li><code>in</code>: インチ。1in = 2.54cm = 96px</li>
+        <li><code>pc</code>: パイカ。1pc = 1/6in</li>
+        <li><code>pt</code>: ポイント。1pt = 1/72in</li>
+      </ul>
+      <aside class="notes">
+        スクリーン向けのウェブページ作成ではまず使うことはありませんが、印刷用スタイルシートなどでは使うことがあるかもしれません。
+      </aside>
+    </section>
+    <section>
+      <h5>視野角単位</h5>
+      <p>
+        単位は<code>px</code>のみ。
+      </p>
+      <ul>
+        <li>簡単にいうと画面解像度依存の単位。</li>
+        <li>低解像度の環境、たとえば一般的なパソコンの場合、<br>
+          <code>1px</code>は画面の<em>1</em>ドット。</li>
+        <li>たとえばiPhone 6では<code>1px</code>平方区画は<em>2x2=4ドット</em>にあたります。<br>
+            同様に、高解像度環境であるプリンターでは<em>4x4=16ドット</em>などになります。</li>
+        <li>解像度が高くなるごとに<code>1px</code>平方を覆うのに必要な画面ドット数は増加します。</li>
+      </ul>
+      <aside class="notes">
+        過去の仕様では相対的な単位という位置づけだったこともあります。<br>
+        CSSの技術記事などで、画面のピクセル（デバイスピクセル）と区別するために『CSSピクセル』などのように表現されることがあります。
+      </aside>
+    </section>
+    <section>
+      <h5>絶対単位について</h5>
+      <ul>
+        <li>スクリーン向けに作る場合は基本的に<code>px</code>で書いておけば問題ないです。</li>
+        <li>物理単位を使用している場合、実際のスクリーンに描画される長さは物理的な長さと同一とは限りません。</li>
+        <li>絶対単位の仕様は結構複雑なので、詳細は仕様をご確認ください。</li>
+      </ul>
+    </section>
+    <section>
+      <h3><code>&lt;angle></code>型</h3>
+      <p>角度を表します。</p>
+      <ul>
+        <li><code>deg</code>: 度数法。お馴染みのやつです。円の全周は<code><em>360deg</em></code>。</li>
+        <li><code>grad</code>: グラジアン。1直角を100とする単位で、円の全周は<code><em>400grad</em></code>。</li>
+        <li><code>rad</code>: 弧度法。円の全周は<code><em>2πrad</em></code>。</li>
+        <li><code>turn</code>: 回転数。円の全周は<code><em>1turn</em></code>。</li>
+      </ul>
+      <p>数値が<code>0</code>でも単位の省略はできません。</p>
+      <aside class="notes">
+        グラジアン、グラード。メートル法の一部だそうですが、あまり馴染みがないので使うことはないと思います。<br>
+        ラジアン。CSSから使うことはあまりないと思いますが、JavaScriptで操作するときには必要になるかもしれません。
+      </aside>
+    </section>
+    <section>
+      <h3><code>&lt;time></code>型</h3>
+      <p>時間を表します。</p>
+      <ul>
+        <li><code>s</code>: 秒。</li>
+        <li><code>ms</code>: ミリ秒。<code><em>1000ms</em></code>は<code><em>1s</em></code>と等しくなります。</li>
+      </ul>
+      <p>数値が<code>0</code>でも単位の省略はできません。</p>
+    </section>
+    <section>
+      <h3><code>&lt;frequency></code>型</h3>
+      <p>
+        周波数を表します。
+      </p>
+      <p>
+        <small>
+          今のところ使い道がありません。<br>
+          （現在、この型をサポートしているブラウザーは存在しません）
+        </small>
+      </p>
+      <aside class="notes">
+        フリークエンシー<br>
+        一応、CSS Speech Moduleで使われることになっていますが、サポートしているブラウザーが存在しません。
+      </aside>
+      <ul>
+        <li><code>Hz</code>: ヘルツ。1秒あたりの周波数です。</li>
+        <li><code>kHz</code>: キロヘルツ。<code><em>1kHz</em></code>は<code><em>1000Hz</em></code>と等しくなります。</li>
+      </ul>
+      <hr>
+      <p style="text-align: left">
+        <small><a href="http://www.w3.org/TR/CSS2/aural.html#propdef-pitch">CSS2における聴覚メディアグループの<code>pitch</code>プロパティー</a>で使用できたので、Opera Prestoにはサポートしているバージョンがありました。（現在のOperaはPrestoではなくBlinkです）</small>
+      </p>
+    </section>
+    <section>
+      <h3><code>&lt;resolution></code>型</h3>
+      <p>解像度を表し、メディアクエリーなどに用いられます。</p>
+      <ul>
+        <li><code>dpi</code>: インチあたりのドット数。</li>
+        <li><code>dpcm</code>: センチメートルあたりのドット数。</li>
+        <li><code>dppx</code>: <code>px</code>単位あたりのドット数。</li>
+      </ul>
+      <aside class="notes">
+        レゾリューション
+      </aside>
+    </section>
+    <section>
+      <h3>他のモジュールで定義されている型</h3>
+      <p>
+        ここまで<a href="http://www.w3.org/TR/css-values/">CSS Values and Units Module Level 3</a>（<a href="https://drafts.csswg.org/css-values/">ED</a>）を元に見てきましたが、他のモジュールで定義されている型もあります。
+      </p>
+    </section>
+    <section>
+      <h4><code>&lt;color></code>型</h4>
+      <p><a href="http://www.w3.org/TR/css3-color/">CSS Color Module Level 3</a>で定義されています。</p>
+      <ul>
+        <li>カラーキーワード。</li>
+        <li><code>transparent</code>キーワード。</li>
+        <li><code>currentColor</code>キーワード。</li>
+        <li>16進数RGBフォーマット。</li>
+        <li><code>rgb()</code>と<code>rgba()</code>関数。</li>
+        <li><code>hsl()</code>と<code>hsla()</code>関数</li>
+        <li>システムカラーキーワードも定義されていますが、<br>廃止予定となっています。</li>
+      </ul>
+      <hr>
+      <p>
+        <small><a href="https://drafts.csswg.org/css-color/">CSS Color Module Level 4</a>ではもうちょっと増えそうです。</small>
+      </p>
+    </section>
+    <section>
+      <h4>その他の型</h4>
+      <ul>
+        <li><code>&lt;image></code></li>
+        <li><code>&lt;position></code></li>
+        <li><code>&lt;ratio></code></li>
+        <li><code>&lt;blend-mode></code></li>
+        <li><code>&lt;counter></code></li>
+        <li><code>&lt;gradient></code></li>
+        <li><code>&lt;shape></code></li>
+        <li><code>&lt;timing-function></code></li>
+      </ul>
+      <p>
+        ……などがあります（他にもあります）。
+      </p>
+      <aside class="notes">
+        url関数、グラデーション、element関数などを扱うイメージ型、2次元座標を扱うポジション型、メディアクエリーから画面比率を扱うレシオ型、レイヤーの重なりの色の処理を扱うブレンドモード型、カウンター型、グラデーションを扱うグラディエント型、領域形状を表すシェイプ型、アニメーションの変化の速度を表すタイミング関数型、などがあります。
+      </aside>
+    </section>
+    <section>
+      <h2>関数表現</h2>
+    </section>
+    <section>
+      <h3><code>calc()</code></h3>
+      <ul>
+        <li>数式を値として利用できる関数で、数式は四則演算が可能です。</li>
+        <li><code>&lt;length></code>, <code>&lt;frequency></code>, <code>&lt;angle></code>, <code>&lt;time></code>, <code>&lt;number></code>, <code>&lt;integer></code>が利用できる箇所で使用できます。</li>
+        <li>加算<code>+</code>と減算<code>-</code>の記号の前後には空白が必要です。</li>
+      </ul>
+      <pre><code>.foo {
+  width: <mark>calc(</mark>100% - 20px<mark>)</mark>;
+  font-size: <mark>calc(</mark>16px + 0.1vw<mark>)</mark>;
+  margin-left: <mark>calc((</mark>50% + 10vh<mark>)</mark> / 2 <mark>)</mark>;
+}</code></pre>
+      <aside class="notes">
+        構文は結構ややこしいので仕様を確認してください。ただ、ちょっとした計算をするだけならあまりハマったりはしないと思います。
+      </aside>
+    </section>
+    <section>
+      <h3><code>attr()</code></h3>
+      <p>要素の属性値を参照します。</p>
+      <pre><code style="font-size: 85%">attr( &lt;attr-name> &lt;type-or-unit>? [ , &lt;attr-fallback> ]? )</code></pre>
+      <p style="text-align: left">
+        という構文ですが、現在のブラウザーでは<code>attr(&lt;attr-name>)</code>という基本形のみ、使用箇所は<code>content</code>プロパティーという形式がサポートされています。
+      </p>
+      <p style="text-align: left">
+        仕様の上では要素の属性値に指定された長さや色といった様々なCSSの型を指定した上で属性値を参照し、プロパティーの値として使用できることになっています（あとから削除されるかもしれませんが）。
+      </p>
+    </section>
+    <section>
+      <p>
+        現在の仕様がフルサポートされた場合は、<br>こういうことができることになっています。
+      </p>
+      <pre><code>&lt;div data-z="7">...&lt;/div>
+---
+div { z-index: attr(data-z integer); }</code></pre>
+      <p>
+        今のところ、実際は次のような感じでしか使えません。
+      </p>
+      <pre><code>&lt;div data-t="FOO!">...&lt;/div>
+---
+div::before { content: attr(data-t); }</code></pre>
+    </section>
+    <section>
+      <h3><code>toggle()</code></h3>
+      <p>
+        実装しているブラウザーが今のところ存在しません。
+      </p>
+      <pre><code style="font-size: 85%">ul {
+  list-style-type: toggle(disc, circle, square, box);
+}</code></pre>
+      <p>これは次のようになることになっています。</p>
+      <pre><code style="font-size: 85%">ul { list-style-type: disc; }
+ul ul { list-style-type: circle; }
+ul ul ul { list-style-type: square; }
+ul ul ul ul { list-style-type: box; }
+ul ul ul ul ul { list-style-type: disc; }
+ul ul ul ul ul ul { list-style-type: circle; }
+...
+</code></pre>
+      <aside class="notes">
+        以前はサイクルという名前でした。<br>
+        今のところ使い道はありません。
+      </aside>
+    </section>
+    <section>
+      <h3>その他</h3>
+      <p>別のモジュールで定義された、型特有の関数があります。</p>
+    </section>
+    <section>
+      <h2>まとめ</h2>
+      <p style="text-align: left">
+        いろいろと紹介しましたが、一度に覚えなくても様々なプロパティーの仕様を見ていれば次第に覚えていけると思います。<br>
+        これらを知らなくてもCSSは書けますが、仕様を見るときを含め、実際にぶつかっている問題解決の手助けになることもあります。
+      </p>
+      <p style="text-align: left">
+        今回は大雑把に紹介しましたが、より詳しくは実際に仕様をご覧ください。<br>
+        眺めるだけでも結構楽しいですよ。
+      </p>
+    </section>
+    <section>
+      <h2>ありがとうございました</h2>
+    </section>
+  </div>
+
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+  // Full list of configuration options available at:
+  // https://github.com/hakimel/reveal.js#configuration
+  Reveal.initialize({
+    controls: true,
+    progress: true,
+    history: true,
+    center: true,
+    slideNumber: true,
+    width: 1280,
+    height: 720,
+
+    transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+    // Optional reveal.js plugins
+    dependencies: [
+      {
+        src: 'lib/js/classList.js', condition: function () {
+        return !document.body.classList;
+      }
+      },
+      {
+        src: 'plugin/markdown/marked.js', condition: function () {
+        return !!document.querySelector('[data-markdown]');
+      }
+      },
+      {
+        src: 'plugin/markdown/markdown.js', condition: function () {
+        return !!document.querySelector('[data-markdown]');
+      }
+      },
+      {src: 'plugin/zoom-js/zoom.js', async: true},
+      {src: 'plugin/notes/notes.js', async: true}
+    ]
+  });
+
+</script>
+
+</body>
+</html>
