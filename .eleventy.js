@@ -185,39 +185,6 @@ module.exports = eleventyConfig => {
     return array.splice(array.length + endPoint, array.length)
   })
 
-  // Purgecss
-  if (isProd || isPreview) {
-    eleventyConfig.addTransform('purgecss', (content, outputPath) => {
-      if (!outputPath.endsWith('.html')) {
-        return content
-      }
-      const dom = new JSDOM(content)
-      const doc = dom.window.document
-      const styleElement = doc.querySelector('style')
-      const styleText = styleElement.textContent
-
-      const purgecss = new Purgecss({
-        content: [{
-          raw: doc.documentElement.outerHTML,
-          extension: 'html'
-        }],
-        css: [{
-          raw: styleText
-        }],
-        extractors: [
-          {
-            extractor: purgeHtml,
-            extensions: ['html']
-          }
-        ]
-      })
-      const purgecssResult = purgecss.purge()
-      styleElement.textContent = purgecssResult[0].css.trim().replace(/^@charset "UTF-8";/i, '')
-
-      return doc.documentElement.outerHTML
-    })
-  }
-
   // jsdomを使うtransformはここでまとめて処理する
   //
   // - 記事内のtableをdivでラップする
@@ -251,6 +218,39 @@ module.exports = eleventyConfig => {
 
     return doc.documentElement.outerHTML
   })
+
+  // Purgecss
+  if (isProd || isPreview) {
+    eleventyConfig.addTransform('purgecss', (content, outputPath) => {
+      if (!outputPath.endsWith('.html')) {
+        return content
+      }
+      const dom = new JSDOM(content)
+      const doc = dom.window.document
+      const styleElement = doc.querySelector('style')
+      const styleText = styleElement.textContent
+
+      const purgecss = new Purgecss({
+        content: [{
+          raw: doc.documentElement.outerHTML,
+          extension: 'html'
+        }],
+        css: [{
+          raw: styleText
+        }],
+        extractors: [
+          {
+            extractor: purgeHtml,
+            extensions: ['html']
+          }
+        ]
+      })
+      const purgecssResult = purgecss.purge()
+      styleElement.textContent = purgecssResult[0].css.trim().replace(/^@charset "UTF-8";/i, '')
+
+      return doc.documentElement.outerHTML
+    })
+  }
 
   // posthtml
   if (isProd || isPreview) {
