@@ -219,29 +219,6 @@ module.exports = eleventyConfig => {
     return doc.documentElement.outerHTML
   })
 
-  // posthtml
-  if (isProd || isPreview) {
-    eleventyConfig.addTransform('posthtml', (content, outputPath) => {
-      if (!outputPath.endsWith('.html')) {
-        return content
-      }
-      const plugins = [
-        doctype({ doctype: 'HTML 5' }),
-      ]
-      if (isProd) {
-        plugins.push(
-          minifyClassnames({
-            genNameClass: 'genNameEmoji',
-            genNameId: false,
-          }),
-        )
-      }
-      return posthtml(plugins)
-        .process(content, { sync: true })
-        .html
-    })
-  }
-
   // Purgecss
   if (isProd || isPreview) {
     eleventyConfig.addTransform('purgecss', (content, outputPath) => {
@@ -272,6 +249,29 @@ module.exports = eleventyConfig => {
       styleElement.textContent = purgecssResult[0].css.trim().replace(/^@charset "UTF-8";/i, '')
 
       return doc.documentElement.outerHTML
+    })
+  }
+
+  // posthtml
+  if (isProd || isPreview) {
+    eleventyConfig.addTransform('posthtml', (content, outputPath) => {
+      if (!outputPath.endsWith('.html')) {
+        return content
+      }
+      const plugins = [
+        doctype({ doctype: 'HTML 5' }),
+      ]
+      if (isProd) {
+        plugins.push(
+          minifyClassnames({
+            genNameClass: 'genNameEmoji',
+            genNameId: false,
+          }),
+        )
+      }
+      return posthtml(plugins)
+        .process(content, { sync: true })
+        .html
     })
   }
 
