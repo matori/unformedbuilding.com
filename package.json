@@ -1,7 +1,7 @@
 {
   "name": "unformedbuilding",
   "private": true,
-  "version": "9.0.2",
+  "version": "9.0.3",
   "description": "Unformed Building",
   "scripts": {
     "build": "rimraf '_build' && ELEVENTY_ENV=production eleventy",
