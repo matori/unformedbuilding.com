@@ -1,4 +1,4 @@
-name: Deploy with Node CI
+name: Build 11ty & Deploy with ssh+rsync
 
 env:
   TZ: 'Asia/Tokyo'
