@@ -69,3 +69,16 @@
     color: var(--fg-weak);
   }
 }
+
+// asideにつけて使う
+.digression {
+  @include text(-2);
+  margin-left: auto;
+  padding-left: 3rem;
+  text-align: right;
+
+  @supports (width: fit-content) {
+    width: fit-content;
+    text-align: left;
+  }
+}
