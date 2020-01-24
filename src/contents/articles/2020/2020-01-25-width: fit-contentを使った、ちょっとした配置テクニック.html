@@ -1,0 +1,149 @@
+<script type="application/x-yaml">
+title: "width: fit-contentを使った、ちょっとした配置テクニック"
+description: "ブロックは右寄せ、テキストは左寄せ、もっとも長い行の末は右揃え、をfit-contentキーワードを使ってレイアウトします。"
+slug: layout-technique-with-fit-content
+published: 2020-01-25T01:09:36+09:00
+updated: 2020-01-25T01:09:36+09:00
+category: webdev
+</script>
+
+<p>
+  ウェブページの本文エリア内で、たとえば補足や余談などのデザインを区別して配置したいという場合があります。<br>
+  その際、そのブロックのレイアウトを次の条件にしたいとします。
+</p>
+<ul>
+  <li>ブロック全体をインデントする</li>
+  <li>ブロック内テキストの行頭は揃える</li>
+  <li>ブロック内のもっとも長い行の末は本文の行末に揃える</li>
+</ul>
+<p>
+  これが実際に使われた場合、表示されるパターンはおおよそ3つ、そしてその複合パターンがあります。
+</p>
+<ul>
+  <li>
+    <figure>
+      <figcaption>短い1行パターン</figcaption>
+      <img src="/images/2020/layout-technique-with-fit-content/figure-1.svg" width="600" height="150"
+           alt="本文レイアウトの概要図です。本文に続いて、インデントされた範囲があります。その範囲内にあるのは、短く、1行で収まる長さの文です。文の行末は本文の行末と同じ位置になりますが、行頭は本文の行頭よりかなり遠い位置にあります。自身の行の長さに応じてインデントの距離を広げています。">
+    </figure>
+  </li>
+  <li>
+    <figure>
+      <figcaption>長い1行パターン</figcaption>
+      <img src="/images/2020/layout-technique-with-fit-content/figure-2.svg" width="600" height="150"
+           alt="本文レイアウトの概要図です。本文に続いて、インデントされた範囲があります。その範囲内にあるのは、少し長いものの、1行で収まる長さの文です。文の行末は本文の行末と同じ位置で、行頭は本文の行頭の近い位置にあります。">
+    </figure>
+  </li>
+  <li>
+    <figure>
+      <figcaption>複数行パターン</figcaption>
+      <img src="/images/2020/layout-technique-with-fit-content/figure-3.svg" width="600" height="180"
+           alt="本文レイアウトの概要図です。本文に続いて、インデントされた範囲があります。その範囲内にあるのは、折り返さなければ範囲内に収まらない長さの文です。概要図では3行目の途中まで到達しています。文の行末は本文の行末と同じ位置で、行頭は本文の行頭の近い位置にあります。">
+    </figure>
+  </li>
+  <li>
+    <figure>
+      <figcaption>複数行、複数段落のパターン</figcaption>
+      <img src="/images/2020/layout-technique-with-fit-content/figure-4.svg" width="600" height="240"
+           alt="本文レイアウトの概要図です。本文に続いて、インデントされた範囲があります。その範囲内には、折り返さなければ範囲内に収まらない長さの文があります。次に、段落をかえて、折り返さなくても収まる程度の長い1文、そして改行を挟んで短い1文があります。もっとも長い文の行末は本文の行末と同じ位置で、すべての行頭は本文の行頭の近い位置に揃えられています。">
+    </figure>
+  </li>
+</ul>
+<p>
+  これらのレイアウトを1つの部品として作成したいと思います。<br>
+  （この記事のコードには現在は必要だとしてもベンダー接頭辞は記載していません）
+</p>
+<pre><code class="language-html">&lt;section>
+  &lt;h2>見出し&lt;/h2>
+  &lt;p>本文&lt;/p>
+  &lt;aside class=&quot;digression&quot;>
+    &lt;p>余談のようなもの&lt;/p>
+  &lt;/aside>
+  &lt;p>本文&lt;/p>
+&lt;/section></code></pre>
+<p>
+  このようなHTMLで、レイアウトを作成します。<br>
+  なお、クラス名<code>digression</code>の子要素は1つとは限らず、その内容の長さも不定とします。
+</p>
+<p>
+  このレイアウトを実現するために<code>fit-content</code>キーワードは非常に優秀で、単純なコードで実現することができます。
+</p>
+<pre><code class="language-css">.digression {
+  margin-left: auto;
+  padding-left: 3em;
+  width: fit-content;
+}</code></pre>
+<p>
+  <a href="/demo/2020/layout-technique-with-fit-content/fit-content.html">fit-contentを使ったデモ</a>
+</p>
+<p>
+  <code>padding-left</code>で、最低限確保したい左の空白を指定します。<br>
+  <code>margin-left</code>は、要素を右側に移動させる指定です。<code>margin: 0 auto</code>を使った中央寄せや、FlexboxでFlex itemを左や右に寄せるのにも使われているのを頻繁に見かけるので、みなさんご存知でしょう。<br>
+  そして<code>width</code>に<code>fit-content</code>キーワードを指定します。
+</p>
+<p>
+  たった3行で終了です。
+</p>
+<p>
+  <a href="/articles/css-intrinsic-width/"><code>fit-content</code>については2013年にも書いています</a>が、あのころとは状況が違っていて、<a href="https://www.w3.org/TR/2019/WD-css-sizing-3-20190522/#sizing-values"><code>fit-content</code>は関数になる予定です</a>。<br>
+  そうなったときには、このコードは動いていない可能性が高いです。<br>
+  しかし関数としての<code>fit-content</code>は、現在ではCSS Gridで見慣れていることでしょうし、そちらのほうが馴染みやすいかもしれません。
+</p>
+<section>
+  <h2>それFloatでできるよ！</h2>
+  <p>
+    そうです。近いことは<code>float</code>を使えば実現できます。
+  </p>
+  <pre><code class="language-css">.digression {
+  float: right;
+  margin-left: 3em;
+}
+
+.digression + * {
+  clear: both;
+}</code></pre>
+  <p>
+    <a href="/demo/2020/layout-technique-with-fit-content/float.html">Floatを使ったデモ</a>
+  </p>
+  <p>
+    しかし、この方法ではマージンの相殺が発生する場所としない場所について考える必要があります。<br>
+    今回のデモの場合は<code>p</code>要素のマージンを下方向に統一することで回避できます（デモページは調整していません）。
+  </p>
+  <p>
+    こちらのメリットは<code>fit-content</code>が使えないブラウザーでも対応可能なことです。
+  </p>
+</section>
+<section>
+  <h2>それGridでできるよ！</h2>
+  <p>
+    そうです。近いことは<code>display: grid</code>を使えば実現できます。
+  </p>
+  <pre><code class="language-css">.digression {
+  display: grid;
+  justify-content: end;
+  margin-left: 3em;
+}</code></pre>
+  <p>
+    <a href="/demo/2020/layout-technique-with-fit-content/grid.html">Gridを使ったデモ</a>
+  </p>
+  <p>
+    おや、こちらもたったの3行ですね。
+  </p>
+  <p>
+    しかし、この方法ではマージンの相殺が発生しないことについて考える必要があります。<br>
+    今回のデモの場合はクラス名<code>digression</code>要素の前後の要素、または自身の子要素の最初と最後のマージンを調整する必要があります（デモページでは調整していません）。
+  </p>
+  <p>
+    こちらのメリットは「今後は安定していそう」というところでしょうか。
+  </p>
+</section>
+<p>
+  <code>fit-content</code>を使ったコードは将来的な不安はあるものの、マージンの相殺について考えなくてもよいというのは非常に楽です。
+</p>
+<p>
+  このレイアウトの場合、対応している環境に向けて<code>@supports</code>を使って分離し、そうでない環境にはインデントだけしておく、または<code>text-align: right</code>しておくだけでも十分な気がします。<br>
+  もしくはFloatを使っておくか。
+</p>
+<p>
+  どの方法も一長一短なので、やるなら好きなものを選べばよいと思います。
+</p>
