@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>hanging-punctuation property demo</title>
+  <style>
+  .case {
+    background-color: blanchedalmond;
+    font-size: 4rem;
+  }
+
+  .first,
+  .last,
+  .allow-end,
+  .force-end {
+    width: 5em;
+  }
+
+  .multi {
+    width: 4em;
+  }
+
+  body {
+    margin: 3em;
+  }
+
+  code {
+    font-family: monospace, serif;
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  h2 {
+    margin-top: 5rem;
+    margin-bottom: 1rem;
+  }
+
+  h3 {
+    margin-top: 1rem;
+    margin-bottom: 0;
+  }
+
+  .container {
+    display: grid;
+    grid-template-columns: repeat(2, 20rem);
+    justify-content: start;
+    grid-column-gap: 4rem;
+  }
+  </style>
+</head>
+<body>
+
+<h1><code>hanging-punctuation</code>プロパティのデモ</h1>
+
+<h2><code>first</code>キーワード</h2>
+<p>幅：<code>5em</code></p>
+<div class="container">
+  <div>
+    <h3><code>hanging-punctuation: first</code></h3>
+    <p class="case first" style="hanging-punctuation: first">
+      「括弧類と、句読点のぶら下げ」
+    </p>
+  </div>
+  <div>
+    <h3>指定なし</h3>
+    <p class="case first">
+      「括弧類と、句読点のぶら下げ」
+    </p>
+  </div>
+</div>
+
+<h2><code>last</code>キーワード</h2>
+<p>幅：<code>5em</code></p>
+<div class="container">
+  <div>
+    <h3><code>last</code></h3>
+    <p class="case last" style="hanging-punctuation: last">
+      「括弧類と、句読点のぶら下げ」
+    </p>
+  </div>
+  <div>
+    <h3>指定なし</h3>
+    <p class="case last">
+      「括弧類と、句読点のぶら下げ」
+    </p>
+  </div>
+</div>
+
+<h2><code>allow-end</code>キーワード</h2>
+<p>幅：<code>5em</code></p>
+<div class="container">
+  <div>
+    <h3><code>allow-end</code></h3>
+    <p class="case allow-end" style="hanging-punctuation: allow-end">
+      「括弧類と、句読点のぶら下げ」
+    </p>
+  </div>
+  <div>
+    <h3>指定なし</h3>
+    <p class="case allow-end">
+      「括弧類と、句読点のぶら下げ」
+    </p>
+  </div>
+</div>
+
+<h2><code>force-end</code>キーワード</h2>
+<p>幅：<code>5em</code></p>
+<div class="container">
+  <div>
+    <h3><code>force-end</code></h3>
+    <p class="case force-end" style="hanging-punctuation: force-end">
+      「括弧類と、句読点のぶら下げ」
+    </p>
+  </div>
+  <div>
+    <h3>指定なし</h3>
+    <p class="case force-end">
+      「括弧類と、句読点のぶら下げ」
+    </p>
+  </div>
+</div>
+
+<h2>複数指定</h2>
+<p>幅：<code>4em</code></p>
+<div class="container">
+  <div>
+    <h3><code>first last allow-end</code></h3>
+    <p class="case multi" style="hanging-punctuation: first last allow-end">
+      「括弧類と、句読点のぶら下げ」
+    </p>
+  </div>
+  <div>
+    <h3>指定なし</h3>
+    <p class="case multi">
+      「括弧類と、句読点のぶら下げ」
+    </p>
+  </div>
+</div>
+
+
+</body>
+</html>
