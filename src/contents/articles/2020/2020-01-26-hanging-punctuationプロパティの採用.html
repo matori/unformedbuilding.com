@@ -1,0 +1,103 @@
+<script type="application/x-yaml">
+title: "hanging-punctuationプロパティの採用"
+description: "括弧類と句読点のぶら下げを行えるhanging-punctuationがSafariに実装されているので、このサイトでは採用することにしました。"
+slug: adopt-hanging-punctuation
+published: 2020-01-26T01:50:02+09:00
+updated: 2020-01-26T01:50:02+09:00
+category: webdev
+ogImage: true
+</script>
+
+<p>
+  括弧類と句読点のぶら下げを行える<a href="https://www.w3.org/TR/2019/WD-css-text-3-20191113/#propdef-hanging-punctuation"><code>hanging-punctuation</code>プロパティ</a>は、現在のところSafariがサポートしています。<br>
+  Safari 10のころに実装されたはずですので、2016年の中頃でしょうか。
+</p>
+<p>
+  この機能で何ができるのかについてはSafariで<a href="/demo/2020/adopt-hanging-punctuation/">デモページ</a>を見てほしいのですが、Safariが使えない環境もありますので、スクリーンショットを載せておきます。<br>
+  スクリーンショットはSafari 13.0.4での表示です。
+</p>
+<figure>
+  <figcaption><code>hanging-punctuation: first</code></figcaption>
+  <picture>
+    <source srcset="/images/2020/adopt-hanging-punctuation/first@2x.png"
+            media="(min-width: 696px) and (min-resolution: 1.5dppx)">
+    <img src="/images/2020/adopt-hanging-punctuation/first.png" width="784" height="589"
+         alt="デモページ内、hanging-punctuationプロパティにfirstキーワードを指定した場合のスクリーンショット：「括弧類と、句読点のぶら下げ」とういう文字列が5em幅の要素に入っています。通常の要素内の文字列は開き鉤括弧から始まりますが、hanging-punctuationプロパティにfirstキーワードを指定すると開き鉤括弧が1文字分行頭方向に移動するので、要素内の文字列は、括弧類の、という文字列の、括、から始まっているように描画されます。">
+  </picture>
+</figure>
+<figure>
+  <figcaption><code>hanging-punctuation: last</code></figcaption>
+  <picture>
+    <source srcset="/images/2020/adopt-hanging-punctuation/last@2x.png"
+            media="(min-width: 696px) and (min-resolution: 1.5dppx)">
+    <img src="/images/2020/adopt-hanging-punctuation/last.png" width="804" height="580"
+         alt="デモページ内、hanging-punctuationプロパティにlastキーワードを指定した場合のスクリーンショット：「括弧類と、句読点のぶら下げ」とういう文字列が5em幅の要素に入っています。通常の要素内の文字列の最終行は、げ」、となりますが、hanging-punctuationプロパティにlastキーワードを指定すると閉じ鉤括弧が1文字分行末方向に移動するので、要素内の文字列の最終行は、のぶら下げ、となりその次に、」、が配置されて描画されます。">
+  </picture>
+</figure>
+<figure>
+  <figcaption><code>hanging-punctuation: allow-end</code></figcaption>
+  <picture>
+    <source srcset="/images/2020/adopt-hanging-punctuation/allow-end@2x.png"
+            media="(min-width: 696px) and (min-resolution: 1.5dppx)">
+    <img src="/images/2020/adopt-hanging-punctuation/allow-end.png" width="770" height="579"
+         alt="デモページ内、hanging-punctuationプロパティにallow-endキーワードを指定した場合のスクリーンショット：「括弧類と、句読点のぶら下げ」とういう文字列が5em幅の要素に入っています。通常の要素内の文字列の、括弧類と、に続く読点は、と、という文字とともに次の行に送られ、改行位置は括弧類という文字列の直後となります。しかし、hanging-punctuationプロパティにallow-endキーワードを指定すると、読点は要素外に配置されて描画されますので、と、と読点は1行目に収まっています。">
+  </picture>
+</figure>
+<figure>
+  <figcaption><code>hanging-punctuation: first last allow-end</code></figcaption>
+  <picture>
+    <source srcset="/images/2020/adopt-hanging-punctuation/first-last-allow-end@2x.png"
+            media="(min-width: 696px) and (min-resolution: 1.5dppx)">
+    <img src="/images/2020/adopt-hanging-punctuation/first-last-allow-end.png" width="703" height="539"
+         alt="デモページ内、hanging-punctuationプロパティにfirst last allow-endキーワードを指定した場合のスクリーンショット：「括弧類と、句読点のぶら下げ」とういう文字列が4em幅の要素に入っています。前述の3つの要素を持ち合わせており、開き鉤括弧、読点、閉じ鉤括弧が要素外に配置されて描画されています。通常だと4行必要になるところ、3行ぴったりで収まっています。">
+  </picture>
+</figure>
+<p>
+  プロパティ値の構文や、対象となるグリフ、ぶら下げの条件については各自で<a
+  href="https://www.w3.org/TR/2019/WD-css-text-3-20191113/#propdef-hanging-punctuation">仕様</a>を見てください。
+</p>
+<p>
+  この機能によって、句読点が収まらない場合に発生する1文字と句読点という組み合わせから始まる行を抑えることができます（もちろん、句読点の前の文字が収まらない場合には結果としてそのような行が発生しますが）。
+</p>
+<p>
+  先頭の開き括弧類をぶら下げるというのは日本語ではあまり使う機会がないかもしれません。将来<code>text-spacing</code>が実装され、<code>trim-start</code>が使えるようになれば各行頭の開き括弧類の半分の空白をつめることもでるでしょうし。<br>
+  欧文での引用段落のクォーテーションマークなどに向いているでしょうか。
+</p>
+<p>
+  現在、このウェブサイトには<code>body { hanging-punctuation: allow-end last }</code>が指定されています。<br>
+  この機能を使うことによるデメリットは、このウェブサイトにおいては存在しないという判断です。<br>
+  対応していない環境では無視されるだけで、何か不具合が起きるようなプロパティではありませんし、対応している環境では少しだけ文字組みが変更される（かもしれない）だけだからです。
+</p>
+<p>
+  ところで、デモページと仕様を見た方はお気づきでしょうが、この記事内で<code>force-end</code>キーワードについて触れてきませんでした。このキーワードはSafariは対応していません。
+</p>
+<figure>
+  <figcaption><code>hanging-punctuation: force-end</code></figcaption>
+  <picture>
+    <source srcset="/images/2020/adopt-hanging-punctuation/force-end@2x.png"
+            media="(min-width: 696px) and (min-resolution: 1.5dppx)">
+    <img src="/images/2020/adopt-hanging-punctuation/force-end.png" width="758" height="536"
+         alt="デモページ内、hanging-punctuationプロパティにforce-endキーワードを指定した場合のスクリーンショット：このデモの場合、allow-endキーワードと同じ描画結果になるはずですが、何も指定してないのと変わらないように描画されています。">
+  </picture>
+</figure>
+<p>
+  <a href="https://developer.mozilla.org/docs/Web/CSS/hanging-punctuation#Browser_compatibility">MDNの互換データ表</a>では完全対応となっていますが、これは誤りなので<a
+  href="https://github.com/mdn/browser-compat-data/issues/5541">報告しておきました</a>。
+</p>
+<hr>
+<p>
+  Safariが対応してる<code>hanging-punctuation</code>、Firefoxが対応している「<a
+  href="https://www.w3.org/TR/2019/WD-css-text-3-20191113/#line-break-transform">Segment Break Transformation Rules</a>」、これらによって日本語のHTMLが少しずつ便利になってきました。<a
+  href="https://ub-pnr.hatenadiary.org/entry/20130829/1377766223">6年半前に妄想したCSS指定</a>が次第に現実のものとなってきて、時の流れを感じます。
+</p>
+<aside class="digression">
+  <p>
+    「Segment Break Transformation Rules」については、本文中のリンク先である仕様を見るのと、「<cite><a href="http://maiha.hatenablog.jp/entry/2017/04/10/firefox52-segment-break-transformation-rules">区分分断の変換規則(2017/4/25 追記アリ)</a></cite>」が詳しいです。
+  </p>
+</aside>
+<p>
+  文字組み周りのCSS機能は見た目の上では地味な機能だからか、それとも対応しているのが環境が少ないからか、あまり話題になっていませんが（記事を書いている人はいます）、こういった機能はテキスト主体のウェブサイトを持つ人にとっては待ち望んでいた機能ではないかと思います。
+</p>
+<p>
+  CSS Text Moduleは<q cite="https://hail2u.net/blog/webdesign/decimal-alignment-in-table-cell.html">ウェブ・デザイナーの夢が詰まっている</q>（「<cite><a href="https://hail2u.net/blog/webdesign/decimal-alignment-in-table-cell.html">表のセルにおける少数の行揃え - Hail2u</a></cite>」より）とわたしも思っていますので、実装が出るたびに喜んでいます。
+</p>

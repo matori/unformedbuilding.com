@@ -33,6 +33,17 @@ module.exports = eleventyConfig => {
     delimiters: ['<script type="application/x-yaml">', '</script>'],
   })
 
+  // og:imageのURLを取得するショートコード
+  eleventyConfig.addShortcode('ogImageUrl', (siteUrl, isArticle, ogImage, pubDate, slug) => {
+    const baseFileName = 'og.png'
+    if (!isArticle || !ogImage) {
+      return `${siteUrl}/assets/images/${baseFileName}`
+    }
+    const year = dayjs(pubDate).year()
+    const fileName = typeof ogImage === 'string' ? ogImage : baseFileName
+    return `${siteUrl}/images/${year}/${slug}/${fileName}`
+  })
+
   // sassフィルター
   eleventyConfig.addFilter('sass', sassFilePath => {
     const filePath = path.resolve(__dirname, STYLES_DIR, sassFilePath)
