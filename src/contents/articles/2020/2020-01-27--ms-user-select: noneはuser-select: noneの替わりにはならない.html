@@ -1,0 +1,36 @@
+<script type="application/x-yaml">
+title: "-ms-user-select: noneはuser-select: noneの替わりにはならない"
+description: "-ms-user-select: noneは、該当要素からの選択をブロックするだけで、前後からの選択には無力です。"
+slug: -ms-user-select-none-is-not-same-as-user-select-none
+published: 2020-01-27T23:02:15+09:00
+updated: 2020-01-27T23:02:15+09:00
+category: webdev
+</script>
+
+<p>
+  任意の要素に対し、ユーザーの選択を無効化するために<code>user-select: none</code>が指定されることがあります。
+</p>
+<p>
+  Internet Explorerは標準構文をサポートしていないため、Internet Explorerがサポート範囲にある場合は<code>-ms-</code>接頭辞のついた<code>-ms-user-select: none</code>もいっしょに記述されることでしょう。<br>
+  もっとも、現代の制作では<a href="https://github.com/postcss/autoprefixer">Autoprefixer</a>が使われることが多いでしょうし、意識して<code>-ms-user-select</code>を書くことは少ないと思います。
+</p>
+<p>
+  それはともかく、<code>-ms-user-select: none</code>を指定しても、該当要素のテキストが選択できてしまうことがあります。<br>
+  なぜそういうことが起きるのか。それについては<code>-ms-user-select</code>の仕様に記載されています。
+</p>
+<figure>
+  <blockquote cite="https://docs.microsoft.com/en-us/previous-versions/hh781492(v=vs.85)">
+    <p>
+      Blocks selection from starting on that element. It will not block an existing selection from entering the element.
+    </p>
+  </blockquote>
+  <figcaption>
+    <cite><a href="https://docs.microsoft.com/en-us/previous-versions/hh781492(v=vs.85)">-ms-user-select property (Internet Explorer) | Microsoft Docs</a></cite>
+  </figcaption>
+</figure>
+<p>
+  「選択が該当要素から始まるのを防ぐが、すでに存在する選択範囲が該当要素に到達することはブロックしない」と書かれています。
+</p>
+<p>
+  なので、Internet Explorerで<code>-ms-user-select: none</code>が指定された要素が場合によって選択可能なことはバグでもなんでもなく、そういうものだったということです。
+</p>
