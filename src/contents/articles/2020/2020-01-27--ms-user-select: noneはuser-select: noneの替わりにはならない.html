@@ -2,15 +2,17 @@
 title: "-ms-user-select: noneはuser-select: noneの替わりにはならない"
 description: "-ms-user-select: noneは、該当要素からの選択をブロックするだけで、前後からの選択には無力です。"
 slug: -ms-user-select-none-is-not-same-as-user-select-none
-published: 2020-01-27T22:55:51+09:00
-updated: 2020-01-27T22:55:51+09:00
+published: 2020-01-27T23:02:15+09:00
+updated: 2020-01-27T23:02:15+09:00
 category: webdev
 </script>
 
 <p>
-  任意の要素に対し、ユーザーの選択を無効化するために<code>user-select: none</code>が指定されることがあります。<br>
-  Internet Explorerは標準構文をサポートしていないため、<code>-ms-</code>接頭辞のついた<code>-ms-user-select: none</code>もいっしょに記述されることが多いと思います。<br>
-  もっとも、現代の制作では<a href="https://github.com/postcss/autoprefixer">Autoprefixer</a>が使われることが多いでしょうし、意識して<code>-ms-user-select</code>を書くことは少ないでしょうが。
+  任意の要素に対し、ユーザーの選択を無効化するために<code>user-select: none</code>が指定されることがあります。
+</p>
+<p>
+  Internet Explorerは標準構文をサポートしていないため、Internet Explorerがサポート範囲にある場合は<code>-ms-</code>接頭辞のついた<code>-ms-user-select: none</code>もいっしょに記述されることでしょう。<br>
+  もっとも、現代の制作では<a href="https://github.com/postcss/autoprefixer">Autoprefixer</a>が使われることが多いでしょうし、意識して<code>-ms-user-select</code>を書くことは少ないと思います。
 </p>
 <p>
   それはともかく、<code>-ms-user-select: none</code>を指定しても、該当要素のテキストが選択できてしまうことがあります。<br>
@@ -27,10 +29,8 @@ category: webdev
   </figcaption>
 </figure>
 <p>
-  「選択が該当要素から始まるのを防ぐが、すでに存在する選択範囲が該当要素に到達することはブロックしない」と書かれています。<br>
-  なので、Internet Explorerで<code>-ms-user-select: none</code>が指定された要素が場合によって選択可能なことはバグでもなんでもなく、そういうものだったということです。
+  「選択が該当要素から始まるのを防ぐが、すでに存在する選択範囲が該当要素に到達することはブロックしない」と書かれています。
 </p>
 <p>
-  そもそもの話ですが、<code>user-select</code>プロパティは<a href="https://www.w3.org/TR/css-ui-4/">CSS Basic User Interface Module Level 4</a>で追加されたプロパティであり、その<a href="https://www.w3.org/TR/2015/WD-css-ui-4-20150922/">初回Working Draftは2015年9月</a>です。<br>
-  それまでにあった<code>user-select</code>は各ブラウザーがベンダー接頭辞付きで搭載していたもので、初回のドラフトの時点で各ブラウザーの動作の違いについて触れられています。
+  なので、Internet Explorerで<code>-ms-user-select: none</code>が指定された要素が場合によって選択可能なことはバグでもなんでもなく、そういうものだったということです。
 </p>
