@@ -1,0 +1,173 @@
+<script type="application/x-yaml">
+title: "CSSを書く前にスクロールバーを表示しよう"
+description: "世の中にはオーバーレイ・スクロールバーでない環境が多く存在します。そういった環境も考慮してCSSを書きましょう、という話です。"
+slug: consider-classic-scrollbar
+published: 2020-02-05T16:02:56+09:00
+updated: 2020-02-05T16:02:56+09:00
+category: webdev
+</script>
+
+<p>
+  なぜあなたが普段スクロールバーを非表示にしているのか、わたしにはわかりません。<br>
+  OSの初期設定から変えていないだけかもしれません。スクロールバーを醜いものだと考えていて、スクロールするときだけに出現する控えめなスクロールバーを好んでいるからかもしれません。
+</p>
+<p>
+  あなたがどう考えていようと、現実にはそのような、ユーザーの操作に応じてオーバーレイで表示されるスクロールバーが選択できない環境も存在します。<br>
+  そういった環境では、スクロールバーはウェブページ上で幅と高さを持ち、レイアウトに影響を与えます。<br>
+  それを忘れて書かれたCSSは、オーバーレイ・スクロールバー前提のレイアウトであったり、不必要なスクロールバーの存在を生み出してしまうことがあります。
+</p>
+<p>
+  スクロールバーを表示、つまり、ウェブページ上で幅と高さを持つスクロールバーを使っていれば、そのような現象を発見することは容易いのです。<br>
+  わざわざプレビュー用のブラウザーへマウスカーソルを移動してオーバーレイ・スクロールバーを表示させる必要もなく、一瞥するだけで判断できるでしょう。
+</p>
+<p>
+  これから挙げる少しの例は、幅と高さを持つスクロールバーのことを忘れて書かれたCSSの例で、現実のウェブサイトで見かけたものを簡略化したものです。
+</p>
+<section>
+  <h2><code>100vw</code></h2>
+  <p>
+    Viewport percentage lengthsは、その要素がどこにあろうと、ビューポートに対して相対的な長さを指定することができる、とても便利なものです。<br>
+    ですが、それらの単位を使うときにはスクロールバーの存在を忘れてはなりません。
+  </p>
+  <p>
+    <a href="/demo/2020/consider-classic-scrollbar/100vw.html">ある要素に<code>100vw</code>を指定した例</a>を見てみましょう。
+  </p>
+  <p>
+    オーバーレイ・スクロールバーを使っている方には何がおかしいのかわからない、正常なウェブページに見えるでしょうが、スクロールバーが幅と高さを持つ世界では、横スクロールバーが表示されています。
+  </p>
+  <p>
+    「<a href="https://www.w3.org/TR/2019/CR-css-values-3-20190606/">CSS Values and Units Module Level 3</a>」にはこうあります。
+  </p>
+  <figure>
+    <blockquote cite="https://www.w3.org/TR/2019/CR-css-values-3-20190606/#viewport-relative-lengths">
+      <p>
+        However, any scrollbars are assumed not to exist.
+      </p>
+    </blockquote>
+    <figcaption>
+      <cite>
+        <a href="https://www.w3.org/TR/2019/CR-css-values-3-20190606/#viewport-relative-lengths">
+          5.1.2. Viewport-percentage Lengths: the vw, vh, vmin, vmax units
+        </a>
+      </cite>
+    </figcaption>
+  </figure>
+  <p>
+    スクロールバーは存在しないものとして計算されるので、幅と高さを持つスクロールバーが存在した場合には、その分のずれが生じます。<br>
+    <code>100vw</code>はスクロールバーの幅を含めた幅です。いまのところは。
+  </p>
+  <p>
+    ビューポートいっぱいに広げた要素で何をするのかにもよりますが、ほんの少し横スクロールしなければ見ることができないコンテンツを含む、というレイアウトを意図しているのは稀でしょう。<br>
+    ウェブページの利用者にとっても特に意味のないスクロールバーです。ですが、スクロールできます。できてしまいます。それによって配置されているコンテンツは少し移動してしまいますので、もしかすると見切れることがあるかもしれません。
+  </p>
+  <p>
+    オーバーレイ・スクロールバーの利用者は通常どおり、他の利用者は少しの横スクロールが必須である、という2つの要件があるウェブページというものは想像できませんが、そのような意図がない限りは、この横スクロールバーは不要です。
+  </p>
+  <p>
+    Viewport-percentage Lengthsを、特に<code>100</code>という数値を利用する際にはスクロールバーの存在を忘れてはなりません。<br>
+    幅と高さを持つスクロールバーを表示していれば、この現象はすぐに見つけられるでしょう。
+  </p>
+  <section>
+    <h3>アップデートされたViewport-percentage Lengths</h3>
+    <p>
+      「<a href="https://www.w3.org/TR/2019/WD-css-values-4-20190131/">CSS Values and Units Module Level 4</a>」（リンク先は2019年1月31日版）では、スクロールバーのことが考慮されていますので、多くの環境がこちらの仕様に合わせられるころには、<code>100vw</code>で横スクロールバーが発生する、という現象はいまより減るかもしれません。
+    </p>
+    <figure>
+      <blockquote cite="https://www.w3.org/TR/2019/WD-css-values-4-20190131/#viewport-relative-lengths">
+        However, when the value of <a href="https://www.w3.org/TR/css-overflow-3/#propdef-overflow">overflow</a> on the
+        root element is <a href="https://www.w3.org/TR/css-overflow-3/#valdef-overflow-auto">auto</a>, any scroll bars
+        are assumed not to exist. <span>Note that the initial containing block’s size is affected by the presence of scrollbars on the viewport.</span>
+      </blockquote>
+      <figcaption>
+        <cite>
+          <a href="https://www.w3.org/TR/2019/WD-css-values-4-20190131/#viewport-relative-lengths">
+            6.1.2. Viewport-percentage lengths: the vw, vh, vi, vb, vmin, vmax units
+          </a>
+        </cite>
+      </figcaption>
+    </figure>
+  </section>
+</section>
+<section>
+  <h2>こんにちは、スクロールバーです！</h2>
+  <p>
+    いろいろなウェブサイトを見ていると、とってもオシャレでスタイリッシュなイントロ・アニメーションや、クールなローディング・アニメーションを見ることがあります（以降、イントロ画面と呼びます）。<br>
+    あなたも見かけたことがあるでしょう？ または、あなたはそれを作る側かもしれません。
+  </p>
+  <p>
+    その存在、または動作の是非についてはここで話すことではありませんので、いったん忘れましょう。
+  </p>
+  <p>
+    イントロ画面を表示するページでは、それを表示している間はユーザーにスクロールさせたくないという理由で、メイン画面の要素（多くの場合はルートとなる要素）に<code>overflow: hidden</code>が指定されていることがあります。
+  </p>
+  <p>
+    その気持ちはわかります。スクロールできてしまうと、イントロ画面が消えたあと、ユーザーは途中からコンテンツを見ることになりますから。<br>
+    制作者の都合でスクロールをロックするのはいいのか、ですか。さきほど書いたとおり、その話は別の問題です。
+  </p>
+  <p>
+    ともかく、スクロールをロックするという処理は行われています。
+  </p>
+  <p>
+    イントロ画面の表示から非表示までは、いろいろなパターンがありますが、<a href="/demo/2020/consider-classic-scrollbar/intro.html">単純な例</a>を作りましたので、ご覧ください。
+  </p>
+  <p>
+    どうでしょう、違和感なく見ることができましたか。オーバーレイ・スクロールバーの方は何も気にならないでしょう。そうでない方は気づいたことと思います。<br>
+    アニメーションが終わったとたんにスクロールバーが出現することで、その幅の分、全体のレイアウトが狭くなり、ガタつきが発生しています。
+  </p>
+  <p>
+    ウェブページの閲覧や操作には大きな影響を及ぼしませんが、オシャレでスタイリッシュなイントロ画面を必要とするような、見栄えを気にするウェブページで、この現象は許容されるのでしょうか。
+  </p>
+  <p>
+    これは何もページを開いたら見ることを強制されるようなイントロ画面に限りません。<br>
+    ページ遷移の際のローディング画面、モーダルウィンドウの表示と非表示、ハンバーガー・ボタンによって出現するナビゲーションなど、スクロールをロックするような場面では頻出します。
+  </p>
+  <p>
+    この現象は幅と高さを持つスクロールバーを表示していればすぐに気づきます。<br>
+    気づいた上で対応するかどうかは別の話ですが、気づいていないのはよいことだと思えません。
+  </p>
+  <section>
+    <h3><code>scrollbar-gutter</code>プロパティ</h3>
+    <p>
+      「<a href="https://www.w3.org/TR/2017/WD-css-overflow-4-20170613/">CSS Overflow Module Level 4</a>」（リンク先は2017年6月13日版）には<code>scrollbar-gutter</code>プロパティというものがあります。
+    </p>
+    <figure>
+      <blockquote cite="https://www.w3.org/TR/2017/WD-css-overflow-4-20170613/#scollbar-gutter-property">
+        <p>
+          The space between the inner border edge and the outer padding edge which user agents may reserve to display
+          the scrollbar is called the <dfn>scrollbar gutter</dfn>.
+        </p>
+        <p>
+          The <a
+          href="https://www.w3.org/TR/2017/WD-css-overflow-4-20170613/#propdef-scrollbar-gutter">scrollbar-gutter</a>
+          property gives control to the author over the presence of <a
+          href="https://www.w3.org/TR/2017/WD-css-overflow-4-20170613/#scrollbar-gutter">scrollbar gutters</a>
+          separately from the ability to control the presence of scrollbars provided by the <a
+          href="https://www.w3.org/TR/CSS22/visufx.html#propdef-overflow">overflow</a> property.</p>
+      </blockquote>
+      <figcaption>
+        <cite>
+          <a href="https://www.w3.org/TR/2017/WD-css-overflow-4-20170613/#scollbar-gutter-property">
+            4. Reserving space for the scrollbar: the scrollbar-gutter property
+          </a>
+        </cite>
+      </figcaption>
+    </figure>
+    <p>
+      簡単に言うと、スクロールバーのスペースを予約しておくかどうかを制御できるプロパティです。これが使えるようになれば、スクロールバーが「こんにちは！」したときのレイアウトのずれを制御することも容易になるでしょう。<br>
+      2020年2月現在、実装しているブラウザーは存在しません。
+    </p>
+    <p>
+      なお、このプロパティはCSS Overflow Moduleではなく、<a href="https://www.w3.org/2020/01/23-css-irc">スクロールバーの仕様に移動されるようです</a>。「<a href="https://drafts.csswg.org/css-scrollbars-1/">CSS Scrollbars Module Level 1</a>」（Editor’s Draft）を追っていれば、そのうち追加されるでしょう。
+    </p>
+  </section>
+</section>
+<p>
+  たった2つだけの例でしたが、言いたいことは伝わったでしょうか。
+</p>
+<p>
+  これらが大きな不具合となることは少ないでしょうが、可能ならば対応しておきたいものです。そして発見を容易にするには、せめてCSSを書くときだけでも幅と高さを持つスクロールバーを表示しておくことです。<br>
+  たとえあなたがそれを嫌っていようとも、現実にはそのスクロールバーを使っているユーザーは数え切れないほど存在します。
+</p>
+<p>
+  ですので、どうか「<a href="/demo/2020/consider-classic-scrollbar/no-scrollbar.html">だったらスクロールバー自体を見えなくしてやる</a>」という結論に達することのないように願っています。それは通常のウェブページでは不便なだけです。
+</p>
