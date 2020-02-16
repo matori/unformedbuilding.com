@@ -1,0 +1,52 @@
+<script type="application/x-yaml">
+title: "はてなブックマークのビューワーを作った"
+description: "以前に作った「しんぷるはてぶ」を作り直して、いろいろ機能を追加しました。"
+slug: new-simple-hatebu
+published: 2020-02-16T19:11:44+09:00
+updated: 2020-02-16T19:11:44+09:00
+category: webdev
+</script>
+
+<p>
+  「<a href="https://shb.unformedbuilding.com/">しんぷるはてぶ</a>」というツールを作りました。<br>
+  現在の主な機能としては次のようなものがあります。
+</p>
+<ul>
+  <li>はてなブックマークのフィードを取ってきてタブ形式で表示</li>
+  <li>エントリー一覧から任意のエントリーを選択すると情報とブックマーク一覧を表示</li>
+  <li>メタブックマークがある場合はブックマーク一覧をタブ形式で表示</li>
+  <li>エントリーがメタブックマークの場合は元エントリーも探してきてタブ形式で表示</li>
+  <li>ブックマーク一覧でIDコールがある場合はコメントの下にIDコール先、IDコール元のコメントを表示</li>
+  <li>メタブックマークでのIDコールは、コール先アカウントの下の階のコメントも表示</li>
+  <li>コメントにあるURLを自動リンク</li>
+</ul>
+<p>
+  Microsoft Edgeレガシ（EdgeHTML版のほう）とInternet Explorerはサポート対象外です。<br>
+  また、スマートフォンというか小さい画面での閲覧も対象外です。こっちはいつか対応するかもしれませんが、いまのところやる気はありません。
+</p>
+<hr>
+<p>
+  <a href="/articles/simple-hatebu/">2014年にも同じ名前のものを作りました</a>が、そちらはYQLに依存した作りになっていましたので、YQLのサービス終了とともに動かなくなりました。<br>
+  これはしょうがないことなので、データを取得する部分は自前で作りました。
+</p>
+<p>
+  自前のAPIはPHPでできています。データを取りに行くのには「<a href="https://github.com/guzzle/guzzle">Guzzle</a>」を使いました。
+</p>
+<p>
+  <a href="https://developer.mozilla.org/docs/Web/HTTP/CORS">CORS</a>は、許可したサイトのみOKという形を取っています。Stack Overflowにあった「<a href="https://stackoverflow.com/questions/1653308/access-control-allow-origin-multiple-origin-domains">Access-Control-Allow-Origin Multiple Origin Domains?</a>」を参考にして対応しました。
+</p>
+<p>
+  フロントエンド部分は「<a href="https://svelte.dev/">Svelte</a>」です。最初はVueで作っていたのですが、Svelteを覚えたかったのでそちらに移行しました。
+</p>
+<p>
+  Svelteは基本的に書きやすくて好きですが、いまのSvelte（公開時のバージョンは3.18.1）はCSSのスコープ周りに癖があってやりづらいので、CSSは全部グローバルで書いています。どういうものなのかは<a href="https://github.com/sveltejs/svelte/issues/2870">Issue</a>を見るとわかると思います。
+</p>
+<p>
+  <a href="https://github.com/matori/shb">フロントエンド部分はGitHubの公開リポジトリに置いてあります</a>ので、バグとか要望とかありましたらIssue投げてもらえると助かります。
+</p>
+<p>
+  デプロイは、このサイトと同じ構成でGitHub Actionsを使っています。プレビューにはNetlify。
+</p>
+<p>
+  作っていた中でいろいろな現象に遭遇しましたので、近いうちに紹介できればと思います。
+</p>
