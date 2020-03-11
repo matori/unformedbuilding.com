@@ -1,0 +1,189 @@
+<script type="application/x-yaml">
+title: "スクロール・コンテナーへのアクセス"
+description: "ページ内に存在する、スクロール可能な要素へは、マウスやキーボードを利用してちゃんとアクセスできるのでしょうか。"
+slug: accessing-scroll-containers
+published: 2020-03-11T19:34:15+09:00
+updated: 2020-03-11T19:34:15+09:00
+category: webdev
+</script>
+
+<p>
+  ウェブページ内には、しばしばスクロール可能な要素が存在します。スクロール可能な要素のことをスクロール・コンテナーと呼びますが、それらの要素のコンテンツをすべて閲覧するにはスクロールが必要になります。<br>
+  何を当たり前のことを言っているのかと思われるでしょうが、マウスのみ、またはキーボードのみの環境でもスクロールを完了させることが可能なのでしょうか。
+</p>
+<section>
+  <h2>キーボード操作のみでのアクセス</h2>
+  <p>
+    ホイール機能のついたマウスにおいては、スクロール・コンテナーまでカーソルを移動し、ホイールを実行することでスクロールが可能です。
+  </p>
+  <p>
+    それに対し、キーボードではスクロール・コンテナー自身、またはそのコンテンツ内にフォーカスを移動しなければカーソルキーや、その他スクロール操作を行うキーによるスクロール動作を行うことができません。
+  </p>
+  <p>
+    <code>iframe</code>や<code>textarea</code>など、初期状態でスクロールが可能な要素は、<code>tabindex</code>属性を指定せずともキーボード・ナビゲーションによるアクセスは基本的に可能です。<br>
+    しかし、そうではない要素に対し、ページの著者がCSSで<code>overflow</code>プロパティ（<code>overflo-x</code>、<code>overflow-y</code>も含む）を<code>scroll</code>や<code>auto</code>にした場合はどうでしょうか。
+  </p>
+  <p>
+    「<a href="https://html.spec.whatwg.org/multipage/interaction.html">HTML Living Standard - 6 User interaction</a>」の「<a href="https://html.spec.whatwg.org/multipage/interaction.html#focusable-area">Focusable area</a>」には次の文が含まれています。
+  </p>
+  <figure>
+    <blockquote cite="https://html.spec.whatwg.org/multipage/interaction.html#focusable-area">
+      <p>
+        The scrollable regions of elements that are <a href="https://html.spec.whatwg.org/multipage/rendering.html#being-rendered">being rendered</a> and are not <a
+        href="https://html.spec.whatwg.org/multipage/interaction.html#expressly-inert">expressly inert</a>.
+      </p>
+    </blockquote>
+    <figcaption>
+      <cite>
+        <a href="https://html.spec.whatwg.org/multipage/interaction.html#focusable-area">HTML Living Standard - 6 User interaction - Focusable area</a>
+      </cite>
+    </figcaption>
+  </figure>
+  <p>
+    inert（不活性）ではないスクロール領域はフォーカス可能である、ということがHTMLの仕様に掲載されていることがわかります。
+  </p>
+  <p>
+    <a href="/demo/2020/accessing-scroll-containers/1.html">デモを作成しました</a>ので、ご確認ください。<br>
+    以下はデモページのHTMLとCSSの断片です。
+  </p>
+  <pre><code class="language-html">&lt;div class=&quot;content&quot;>
+  &lt;p class=&quot;scrollable&quot;>
+    ...
+  &lt;/p>
+&lt;/div></code></pre>
+  <pre><code class="language-css">:focus {
+  outline-width: 2px;
+  outline-style: solid;
+  outline-color: skyblue;
+  outline-offset: 2px;
+}
+
+.content {
+  border-width: 1px;
+  border-style: solid;
+  border-color: gray;
+  padding: 1em;
+  width: 20em;
+}
+
+.scrollable {
+  margin: 0;
+  overflow: auto;
+  height: 10em;
+}</code></pre>
+  <p>
+    それぞれの<code>p</code>要素には<code>overflow: auto</code>が指定されています。3種類のケースの違いは次のとおりです。
+  </p>
+  <dl>
+    <dt>Case 1-A</dt>
+    <dd>スクロールの必要がない程度のコンテンツ</dd>
+    <dt>Case 1-B</dt>
+    <dd>スクロールが必要な量のコンテンツ</dd>
+    <dt>Case 1-C</dt>
+    <dd>スクロールが必要な量のコンテンツで、内部にボタンがある</dd>
+  </dl>
+  <p>
+    どうですか、すべてのケースでマウス、またはキーボードで最後まで見られましたか。<br>
+    キーボードのみの操作ではFirefox以外を利用している方は見られなかったのではないかと思います。
+  </p>
+  <p>
+    先ほど示した仕様に準拠しているのは、2020年3月現在、Firefoxのみです。
+  </p>
+  <p>
+    Chrome（というよりBlinkエンジン）では該当イシュー「<a href="https://bugs.chromium.org/p/chromium/issues/detail?id=585413">Issue 585413: Scrollable area does not get focus with TAB focus navigation</a>」は2019年にFixedになっているものの、動作していないように見えます。<br>
+    これは現段階ではフラグ付きの実装のためです。<span class="path">chrome://flags</span>から「Experimental Web Platform
+    features」を有効にすることで動作を確認できます。
+  </p>
+  <p>
+    Safari（Webkit）については特に見つかりませんでした。<br>
+    またMicrosoft Edge レガシ、Internet Explorerでも動作しません。
+  </p>
+  <p>
+    このような状況で、スクロール・コンテナー内のコンテンツにアクセスするにはどうしたらよいのでしょう。<br>
+    キーボードでフォーカス可能な要素がコンテンツ内にある場合はスクロール位置がそこまで移動してしまうものの、要素のスクロール自体はキーボードのみで可能です。<br>
+    そうではない場合、スクロール・コンテナーへフォーカス可能でないブラウザーの利用者はキーボードでアクセスできないのでしょうか。
+  </p>
+  <p>
+    思いつくのはスクロール・コンテナーである要素に<code>tabindex</code>属性を付与し、その値を<code>0</code>以上にすることです。<br>
+    これはシンプルでスマートな解決法に見えます。
+  </p>
+  <p>
+    該当要素に<code>overflow: scroll</code>が指定されているのならば、この方法はうまくいくでしょう。
+  </p>
+  <p>
+    しかし、<code>overflow: auto</code>の場合はどうでしょうか。スクロールの必要がない量のコンテンツの場合、特に意味のないフォーカス可能要素が生まれてしまいます。致命的な現象ではありませんが、違和感のある動作になってしまいます。
+  </p>
+  <p>
+    これを解消するには、JavaScriptの力が必要となります。<br>
+    該当要素の矩形と、コンテンツ量に応じて必要とされる矩形を比較し、<code>tabindex</code>属性をつけ外しすることになります。<br>
+    また、レスポンシブなレイアウトにおいては、要素のサイズを監視する必要もあるでしょう。
+  </p>
+  <p>
+    当然それには制作コストがかかります。<br>
+    Firefoxは対応済み、Blink系統のブラウザーもそのうちフラグが外れるでしょう。こういった状態で追加コストで対応するかどうかはチームで判断するしかないでしょう。
+  </p>
+  <ul>
+    <li>ページ内のコンテンツにスクロールが必要なパーツを作らない</li>
+    <li>スクロールの必要があるのならば、<code>overflow: scroll</code>と<code>tabindex</code>属性を指定し、コンテンツ量によってはスクロールの必要がない状態でもスクロールバーが表示されるのを許容する</li>
+    <li>それもできないのならばJavaScriptで頑張る</li>
+    <li>そもそも仕様ではスクロール・コンテナーはフォーカス可能であり、対応も進みつつあるので何もしない</li>
+  </ul>
+  <p>
+    といった選択肢があります。<br>
+    いえ、わたしが思いつかないだけできっともっとあるでしょう。
+  </p>
+</section>
+<section>
+  <h2>マウスとキーボードを併用している場合</h2>
+  <p>
+    レアケースかと思いますが、マウスでスクロール・コンテナーにアクセスし、スクロール操作自体はキーボードで行う場合があります。
+  </p>
+  <p>
+    わたしがそうなのですが、スクロール・コンテナー内の任意を場所をクリックし、カーソルキーでスクロールをすることがあります。<br>
+    事情としてはマウスを頻繁に長時間使い続けて右手首の腱鞘炎を起こしたことがあり、マウスに触れる時間を少しでも減らそうとした、というものです。
+  </p>
+  <p>
+    マウスの利便性を保ちつつ、非常に単純な操作はキーボードで済ませる、という使用方法です。
+  </p>
+  <p>
+    既出のデモページで、同様の操作（スクロール・コンテナー内をクリックしたあとでカーソルキーでスクロール）を行ってみてください。<br>
+    問題なく操作できるはずです。
+  </p>
+  <p>
+    しかし、この操作方法が不可能なパターンがあります。<br>
+    それはスクロール・コンテナーの先祖に<code>tabindex</code>が指定されている場合です。
+  </p>
+  <p>
+    先ほどと同様に<a href="/demo/2020/accessing-scroll-containers/2.html">デモを作りました</a>のでご覧ください。<br>
+    1つ目のデモのスクロール・コンテナーの親要素に<code>tabindex=&quot;0&quot;</code>を追加したものです。
+  </p>
+  <p>
+    スクロール・コンテナー内をクリックすると、その親にフォーカスを奪われるのでスクロール・コンテナーをキーボードで操作できません。<br>
+    これはスクロール・コンテナーにキーボードでフォーカス可能なFirefoxでも同様です。
+  </p>
+  <p>
+    これを回避するには、やはりスクロール・コンテナー自体に<code>tabindex</code>属性を付与するしかないのですが、すでに述べたように、この方法にはいくつかの解決すべき問題があります。
+  </p>
+  <p>
+    この現象に遭遇するパターンとしては、わたしのような使い方をしている場合、または、ホイール機能のないマウスを利用していて、結果としてわたしと同じような操作をしている場合でしょう。
+  </p>
+  <p>
+    非常に限定的なパターンかつレアケースではあると思いますが、このようなシチュエーションも存在します。
+  </p>
+</section>
+<hr>
+<p>
+  この記事を書くきっかけとしては「<a href="https://shb.unformedbuilding.com/">しんぷるはてぶ</a>」を作っていたときにキーボードでうまくスクロール操作ができなかったことです。シチュエーションとしてはマウスとキーボードの併用です。<br>
+  なお、「しんぷるはてぶ」ではスクロールが必要なコンテンツには大量のリンクが存在し、アクセスするのに不便ではないので特別な対応はしていません。
+</p>
+<p>
+  現象に気づいた際に話し相手になってくれた矢倉さん（<a href="https://twitter.com/myakura">@myakura</a>）、ありがとうございました。
+</p>
+<p>
+  以下は参考資料です。
+</p>
+<ul>
+  <li><a href="https://html.spec.whatwg.org/multipage/interaction.html">HTML Living Standard - 6 User interaction</a>（<a href="https://momdo.github.io/html/interaction.html">日本語訳</a>）</li>
+  <li><a href="https://www.chromestatus.com/feature/5231964663578624">Keyboard-focusable scroll containers - Chrome Platform Status</a></li>
+  <li><a href="https://allyjs.io/data-tables/focusable.html">Focusable Elements - Browser Compatibility Table</a></li>
+</ul>
