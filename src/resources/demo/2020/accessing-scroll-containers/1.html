@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>スクロール・コンテナーへのアクセスのデモ1</title>
+  <style>
+  :focus {
+    outline-width: 2px;
+    outline-style: solid;
+    outline-color: skyblue;
+    outline-offset: 2px;
+  }
+
+  .content {
+    border-width: 1px;
+    border-style: solid;
+    border-color: gray;
+    padding: 1em;
+    width: 20em;
+  }
+
+  .scrollable {
+    margin: 0;
+    overflow: auto;
+    height: 10em;
+  }
+  </style>
+</head>
+<body>
+
+<h2>Case 1-A</h2>
+<div class="content">
+  <p class="scrollable">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+    aliqua.
+  </p>
+</div>
+
+<h2>Case 1-B</h2>
+<div class="content">
+  <p class="scrollable">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </p>
+</div>
+
+<h2>Case 1-C</h2>
+<div class="content">
+  <p class="scrollable">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br>
+    <button type="button">button</button>
+  </p>
+</div>
+
+</body>
+</html>
