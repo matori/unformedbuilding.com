@@ -9,7 +9,7 @@ const utf8 = require('utf8')
 const dayjs = require('dayjs')
 const htmlmin = require('html-minifier')
 const { JSDOM } = require('jsdom')
-const Purgecss = require('purgecss')
+const { PurgeCSS } = require('purgecss')
 const purgeHtml = require('purgecss-from-html')
 const posthtml = require('posthtml')
 const minifyClassnames = require('posthtml-minify-classnames')
@@ -230,9 +230,9 @@ module.exports = eleventyConfig => {
     return doc.documentElement.outerHTML
   })
 
-  // Purgecss
+  // PurgeCSS
   if (isProd || isPreview) {
-    eleventyConfig.addTransform('purgecss', (content, outputPath) => {
+    eleventyConfig.addTransform('purgecss', async (content, outputPath) => {
       if (!outputPath.endsWith('.html')) {
         return content
       }
@@ -241,7 +241,7 @@ module.exports = eleventyConfig => {
       const styleElement = doc.querySelector('style')
       const styleText = styleElement.textContent
 
-      const purgecss = new Purgecss({
+      const result = await new PurgeCSS().purge({
         content: [{
           raw: doc.documentElement.outerHTML,
           extension: 'html'
@@ -256,8 +256,7 @@ module.exports = eleventyConfig => {
           }
         ]
       })
-      const purgecssResult = purgecss.purge()
-      styleElement.textContent = purgecssResult[0].css.trim().replace(/^@charset "UTF-8";/i, '')
+      styleElement.textContent = result[0].css.trim().replace(/^@charset "UTF-8";/i, '')
 
       return doc.documentElement.outerHTML
     })
