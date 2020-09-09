@@ -1,0 +1,81 @@
+{% extends './_base.njk' %}
+
+{% set isArticle = true %}
+{% set style = 'article.scss' %}
+{% set title = dailyMemo.title %}
+{% set description = dailyMemo.description %}
+
+{% block main %}
+  <main class="Page-main">
+    <article class="Article">
+      <header class="Article-header">
+        <h1 class="Article-headline">{{ dailyMemo.title | safe }}</h1>
+        <div class="Article-meta">
+          <p class="Article-date">
+            公開：<time datetime="{{ dailyMemo.published | isoDate }}" class="Article-published">{{ dailyMemo.published | readableDate }}</time>
+            {% if dailyMemo.published | string != dailyMemo.updated | string %}
+              <br>
+              更新：<time datetime="{{ dailyMemo.updated | isoDate }}" class="Article-updated">{{ dailyMemo.updated | readableDate }}</time>
+            {% endif %}
+          </p>
+          <p class="Article-canonical">
+            <a href="{{ page.url }}" rel="bookmark" title="このページの正式なURL" class="Article-link">パーマリンク</a>
+          </p>
+        </div>
+      </header>
+      <div class="Article-body">
+        {% for content in dailyMemo.contents %}
+          <section>
+          <h2 id="{{ content.hash }}">{{ content.title }}</h2>
+            {{ content.html | safe }}
+          </section>
+        {% endfor %}
+      </div>
+      <footer class="Actions">
+        <details class="Actions-content">
+          <summary class="Actions-trigger">記事の修正依頼</summary>
+          <ul class="Actions-list">
+            <li class="Actions-item">
+              <a
+                href="{{ pkg.repository.url + '/issues/new?title=記事「' + title + '」の修正依頼&labels=記事修正&body=URL：' + canonical + '\n修正内容：' | url | urlencode }}"
+                class="Actions-link">Issueを作成する</a>
+            </li>
+            <li class="Actions-item">
+              <a
+                href="https://twitter.com/share?url={{ canonical | urlencode }}&amp;text={{ '@ub_pnr {修正内容}' | urlencode }}"
+                class="Actions-link">Twitterでメンションする</a>
+            </li>
+          </ul>
+        </details>
+        <details class="Actions-content">
+          <summary class="Actions-trigger">記事を共有</summary>
+          <ul class="Actions-list">
+            <li class="Actions-item">
+              <a href="https://twitter.com/share?url={{ canonical | urlencode }}&amp;text={{ pageTitle | urlencode }}"
+                 class="Actions-link">Twitter</a>
+            </li>
+            <li class="Actions-item">
+              <a href="https://www.facebook.com/share.php?u={{ canonical | urlencode }}"
+                 class="Actions-link">Facebook</a>
+            </li>
+            <li class="Actions-item">
+              <a href="https://getpocket.com/edit?url={{ canonical | urlencode }}" class="Actions-link">Pocket</a>
+            </li>
+            <li class="Actions-item">
+              <a href="https://b.hatena.ne.jp/entry/panel/?url={{ canonical | urlencode }}"
+                 class="Actions-link">はてなブックマーク</a>
+            </li>
+            <li class="Actions-item">
+              <a href="https://social-plugins.line.me/lineit/share?url={{ canonical | urlencode }}"
+                 class="Actions-link">LINE</a>
+            </li>
+          </ul>
+        </details>
+      </footer>
+    </article>
+  </main>
+{% endblock %}
+
+{% block footer %}
+  {% include "../includes/partials/footer.njk" %}
+{% endblock %}

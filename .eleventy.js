@@ -175,6 +175,23 @@ module.exports = eleventyConfig => {
     }, [])
   })
 
+  // 検索メモの年別アーカイブ用コレクション
+  eleventyConfig.addCollection('memoArchive', collection => {
+    const memos = collection.getFilteredByTags('memoCollection')
+    return memos.sort((a, b) => a.data.published < b.data.published ? 1 : -1).reduce((result, memo) => {
+      const year = dayjs(memo.data.published).year()
+      if (!result.find(obj => obj.year === year)) {
+        result.push({
+          year,
+          memos: [],
+        })
+      }
+      const archive = result[result.length - 1]
+      archive.memos.push(memo)
+      return result
+    }, [])
+  })
+
   // 日付処理
   eleventyConfig.addFilter('readableDate', (date, format = 'YYYY年MM月DD日 HH:mm') => {
     return dayjs(date).format(format)

@@ -1,0 +1,38 @@
+{% extends "./_base.njk" %}
+
+{% set style = "archive.scss" %}
+
+{% block main %}
+  <main class="Page-main">
+    <section class="Archive">
+      <h2 class="Archive-heading">{{ title }}</h2>
+      {% for archive in collections.memoArchive %}
+        <section>
+          <h3 class="Archive-year">{{ archive.year }}年</h3>
+          <ul class="Archive-list">
+            {% for memo in archive.memos %}
+              <li class="Archive-item">
+                <a href="{{ memo.url }}" class="Archive-dateLink">
+                  <time datetime="{{ memo.data.dailyMemo.published | isoDate }}">
+                    {{ memo.data.dailyMemo.published | readableDate('MM月DD日') }}
+                  </time>
+                </a>
+                <ul class="Archive-keywordList">
+                  {% for keyword in memo.data.dailyMemo.keywords %}
+                    <li class="Archive-keyword">
+                      <a href="{{ memo.url }}#{{ keyword.hash }}">{{ keyword.title }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </li>
+            {% endfor %}
+          </ul>
+        </section>
+      {% endfor %}
+    </section>
+  </main>
+{% endblock %}
+
+{% block footer %}
+  {% include "../includes/partials/footer.njk" %}
+{% endblock %}
