@@ -18,7 +18,7 @@
                   </time>
                 </a>
                 <ul class="Archive-keywordList">
-                  {% for keyword in memo.data.dailyMemo.keywords %}
+                  {% for keyword in memo.data.dailyMemo.keywords | reverse %}
                     <li class="Archive-keyword">
                       <a href="{{ memo.url }}#{{ keyword.hash }}">{{ keyword.title }}</a>
                     </li>

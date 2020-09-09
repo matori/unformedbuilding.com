@@ -24,7 +24,7 @@
         </div>
       </header>
       <div class="Article-body">
-        {% for content in dailyMemo.contents %}
+        {% for content in dailyMemo.contents | reverse %}
           <section>
           <h2 id="{{ content.hash }}">{{ content.title }}</h2>
             {{ content.html | safe }}

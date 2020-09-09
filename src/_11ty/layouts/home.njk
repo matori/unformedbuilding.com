@@ -41,7 +41,7 @@
               </time>
             </a>
             <ul class="Collection-keywordList">
-              {% for keyword in memo.data.dailyMemo.keywords %}
+              {% for keyword in memo.data.dailyMemo.keywords | reverse %}
                 <li class="Collection-keyword">{{ keyword.title }}</li>
               {% endfor %}
             </ul>
