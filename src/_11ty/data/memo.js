@@ -19,10 +19,10 @@ async function getData (offset = 0) {
   const urlParams = new URLSearchParams(params)
   const fetchOptions = {
     headers: {
-      'X-API-KEY': process.env.MEMO_API_KEY,
+      'X-API-KEY': process.env.API_KEY,
     },
   }
-  const response = await fetch(`${process.env.MEMO_API_URL}?${urlParams}`, fetchOptions)
+  const response = await fetch(`${process.env.API_URL}/memo?${urlParams}`, fetchOptions)
   return await response.json()
 }
 
