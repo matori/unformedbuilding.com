@@ -1,13 +1,11 @@
 const fetch = require('node-fetch')
 const dayjs = require('dayjs')
-const advancedFormat = require('dayjs/plugin/advancedFormat')
 const md = require('markdown-it')({
   html: true,
   breaks: true,
 })
 require('dotenv').config()
 require('dayjs/locale/ja')
-dayjs.extend(advancedFormat)
 dayjs.locale('ja')
 
 async function getData (offset = 0) {
@@ -58,8 +56,8 @@ async function memoData () {
       ...metadata,
       html: md.render(current.body)
     })
-    const published = dayjs(current.publishedAt).format('x')
-    const updated = dayjs(current.updatedAt).format('x')
+    const published = dayjs(current.publishedAt).valueOf()
+    const updated = dayjs(current.updatedAt).valueOf()
     if(!acc[date].published) {
       acc[date].published = published
     } else {
