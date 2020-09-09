@@ -17,11 +17,11 @@
 
 .Collection-item {
   @include text(1);
+  margin-top: get-lines(1);
 }
 
 .Collection-date {
   @include text(0);
-  margin-top: get-lines(1);
   display: block;
   color: var(--fg-weak);
 }
@@ -29,5 +29,22 @@
 .Collection-link {
   &:active {
     color: var(--fg-active);
+  }
+}
+
+.Collection-keywordList {
+  @include text(0);
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.5em;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 0;
+  list-style-type: none;
+}
+
+.Collection-keyword {
+  &:nth-last-child(n+2)::after {
+    content: ",";
   }
 }

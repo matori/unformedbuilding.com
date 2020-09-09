@@ -6,6 +6,8 @@ env:
 on:
   push:
     branches: master
+  repository_dispatch:
+    types: [cms_update]
 
 jobs:
   build:

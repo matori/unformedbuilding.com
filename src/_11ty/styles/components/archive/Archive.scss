@@ -50,6 +50,14 @@
   }
 }
 
+.Archive-dateLink {
+  white-space: nowrap;
+
+  @include supports-subgrid {
+    grid-area: date;
+  }
+}
+
 .Archive-link {
   margin-left: 1rem;
   word-break: break-word;
@@ -58,5 +66,27 @@
   @include supports-subgrid {
     grid-area: title;
     margin-left: 0;
+  }
+}
+
+.Archive-keywordList {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.5em;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 1rem;
+  padding-left: 0;
+  list-style-type: none;
+
+  @include supports-subgrid {
+    grid-area: title;
+    margin-left: 0;
+  }
+}
+
+.Archive-keyword {
+  &:nth-last-child(n+2)::after {
+    content: ",";
   }
 }

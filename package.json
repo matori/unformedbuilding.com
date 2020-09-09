@@ -1,7 +1,7 @@
 {
   "name": "unformedbuilding",
   "private": true,
-  "version": "9.0.5",
+  "version": "9.1.0",
   "description": "Unformed Building",
   "scripts": {
     "build": "rimraf '_build' && ELEVENTY_ENV=production eleventy",
@@ -30,7 +30,10 @@
     "purgecss-from-html": "^2.2.0",
     "rimraf": "^3.0.2",
     "sass": "^1.26.10",
-    "utf8": "^3.0.0"
+    "utf8": "^3.0.0",
+    "dotenv": "^8.2.0",
+    "node-fetch": "^2.6.1",
+    "markdown-it": "^10.0.0"
   },
   "browserslist": [
     "> 1% in jp and last 2 versions"
