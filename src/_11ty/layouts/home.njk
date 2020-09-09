@@ -27,6 +27,31 @@
   </section>
   <section class="Content">
     <h3 class="Content-heading">
+      <a href="/memos/" class="Content-link">検索メモ</a>
+    </h3>
+    <p class="Content-description">興味本位で検索したことがらの記録。</p>
+    <section class="Content-children Collection">
+      <h4 class="Collection-heading">最近のメモ</h4>
+      <ol class="Collection-list">
+        {% for memo in collections.memoCollection | limit(3) %}
+          <li class="Collection-item">
+            <a href="{{ memo.url }}" class="Collection-dateLink">
+              <time datetime="{{ memo.data.dailyMemo.published | isoDate }}">
+                {{ memo.data.dailyMemo.published | readableDate('MM月DD日') }}
+              </time>
+            </a>
+            <ul class="Collection-keywordList">
+              {% for keyword in memo.data.dailyMemo.keywords %}
+                <li class="Collection-keyword">{{ keyword.title }}</li>
+              {% endfor %}
+            </ul>
+          </li>
+        {% endfor %}
+      </ol>
+    </section>
+  </section>
+  <section class="Content">
+    <h3 class="Content-heading">
       <a href="/about/" class="Content-link">このウェブサイトについて</a>
     </h3>
     <p class="Content-description">当サイト『{{ site.name }}』についての説明。問い合わせ先の情報もこちらにあります。</p>
