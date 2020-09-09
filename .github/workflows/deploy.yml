@@ -24,6 +24,9 @@ jobs:
       run: npm install
     - name: Run build task
       run: npm run build
+      env:
+        API_KEY: ${{ secrets.API_KEY }}
+        API_URL: ${{ secrets.API_URL }}
     - name: Deploy to Server
       uses: AEnterprise/rsync-deploy@v1.0
       env:
@@ -34,5 +37,3 @@ jobs:
           USERNAME: ${{ secrets.REMOTE_USER }}
           SERVER_PORT: ${{ secrets.REMOTE_PORT }}
           SERVER_DESTINATION: ${{ secrets.REMOTE_TARGET }}
-          API_KEY: ${{ secrets.API_KEY }}
-          API_URL: ${{ secrets.API_URL }}
