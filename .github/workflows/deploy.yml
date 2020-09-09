@@ -34,3 +34,5 @@ jobs:
           USERNAME: ${{ secrets.REMOTE_USER }}
           SERVER_PORT: ${{ secrets.REMOTE_PORT }}
           SERVER_DESTINATION: ${{ secrets.REMOTE_TARGET }}
+          API_KEY: ${{ secrets.API_KEY }}
+          API_URL: ${{ secrets.API_URL }}
