@@ -10,7 +10,7 @@
         <section>
           <h3 class="Archive-year">{{ archive.year }}年</h3>
           <ul class="Archive-list">
-            {% for memo in archive.memos %}
+            {% for memo in archive.memos | reverse %}
               <li class="Archive-item">
                 <a href="{{ memo.url }}" class="Archive-dateLink">
                   <time datetime="{{ memo.data.dailyMemo.published | isoDate }}">
