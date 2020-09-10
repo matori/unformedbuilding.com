@@ -5,6 +5,7 @@ module.exports = {
     data: 'memo',
     size: 1,
     alias: 'dailyMemo',
+    addAllPagesToCollections: true,
   },
   layout: 'memo.njk'
 }
