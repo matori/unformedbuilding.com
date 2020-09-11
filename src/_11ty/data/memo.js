@@ -11,7 +11,7 @@ dayjs.locale('ja')
 async function getData (offset = 0) {
   const params = {
     offset,
-    limit: 1,
+    limit: 100,
     orders: '-publishedAt',
   }
   const urlParams = new URLSearchParams(params)
