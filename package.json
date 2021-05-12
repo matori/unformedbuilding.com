@@ -21,7 +21,7 @@
     "html-minifier": "^4.0.0",
     "js-base64": "^3.4.5",
     "jsdom": "^16.4.0",
-    "postcss": "^7.0.32",
+    "postcss": "^8.2.10",
     "postcss-gap-properties": "^2.0.0",
     "posthtml": "^0.13.2",
     "posthtml-doctype": "^1.1.1",
