@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ダウンロードされないdisplay:noneな画像の代替テキスト</title>
+  <style>
+  .container {
+    padding: 10px;
+    overflow: auto;
+    resize: both;
+    background-color: gainsboro;
+  }
+
+  .image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+  </style>
+</head>
+<body>
+
+<h2>CSSで代替テキストを指定した場合</h2>
+<div class="container">
+  <div style="content: url(./long-tailed-blue.jpg) / '写真：ウラナミシジミ'"
+       class="image">
+  </div>
+</div>
+
+<h2>aria-labelを使った場合</h2>
+<div class="container">
+  <div style="content: url(./long-tailed-blue.jpg)"
+       class="image"
+       aria-label="写真：ウラナミシジミ">
+  </div>
+</div>
+
+</body>
+</html>

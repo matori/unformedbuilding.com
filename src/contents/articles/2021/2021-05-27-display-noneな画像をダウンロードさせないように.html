@@ -1,0 +1,169 @@
+<script type="application/x-yaml">
+title: "display:noneな画像のダウンロードを避けるために"
+description: "HTMLで読み込む画像はdisplay:noneされていてもダウンロードされるので、それを避けるための方法。"
+slug: avoid-downloading-images-with-display-none
+published: 2021-05-27T18:35:39+09:00
+updated: 2021-05-27T18:35:39+09:00
+category: webdev
+</script>
+
+<p>
+  <code>img</code>要素で読み込む画像は、CSSで`display: none`が指定されていたとしてもダウンロードされることはご存知かと思います。<br>
+  それをどうにかしたいという話です。
+</p>
+<p>
+  前提として、画面サイズに応じたデザインの変更による画像表示の切り替えを想定しているわけではありません。<br>
+  それにも対応できますが、使いにくいと思います。
+</p>
+<p>
+  結論から言うと「<code>url()</code>関数を指定した<code>content</code>プロパティをインラインスタイルで指定する」、これだけです。
+</p>
+<section>
+  <h2>なんでこんなことをしたかったのか</h2>
+  <p>
+    大量の小さな画像が配置されたウェブページを作っていましたが、それらの大半はユーザーが操作しない限り表示されないUIでした。<br>
+    表示されるかどうか分からない画像をダウンロードさせるのもイマイチな気がして、ダウンロードを遅らせたかったというのが理由です。
+  </p>
+</section>
+<section>
+  <h2>通常の<code>img</code>指定</h2>
+  <p>
+    <a href="/demo/2021/avoid-downloading-images-with-display-none/1.html">デモを作ってあります</a>ので、確認してみましょう。<br>
+    <code>display: none</code>になっているのは親要素ですが、自身につけても変わりません。
+  </p>
+  <pre><code class="language-css">p {
+  display: none;
+  padding: 10px;
+  overflow: auto;
+  resize: both;
+  background-color: gainsboro;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}</code></pre>
+  <pre><code class="language-html">&lt;button id=&quot;button&quot;&gt;画像を表示する&lt;/button&gt;
+&lt;div id=&quot;container&quot; class=&quot;container&quot;&gt;
+  &lt;img src=&quot;./long-tailed-blue.jpg&quot;
+       class=&quot;image&quot;
+       width=&quot;2048&quot;
+       height=&quot;1536&quot;
+       alt=&quot;写真：ウラナミシジミ&quot;&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+const button = document.querySelector(&#39;#button&#39;);
+button.addEventListener(&#39;click&#39;, function() {
+  const container = document.querySelector(&#39;#container&#39;);
+  container.style.display = &#39;block&#39;;
+  this.disabled = true;
+});
+&lt;/script&gt;</code></pre>
+  <p>
+    デモページで開発者ツールを開き、ネットワークパネルを見てもらうと分かるように、ページを開いた時点で画像がダウンロードされています。<br>
+    これを、ボタンが押下されて<code>.container</code>が`display: block`になったときにダウンロードさせたいというわけです。
+  </p>
+</section>
+<section>
+  <h2>表示されてからダウンロードを開始する</h2>
+  <p>
+    ご存知のように、CSSの<code>background-image</code>で指定された背景画像は、対象が<code>display:none</code>になっているとダウンロードされません。<br>
+    これは<code>background-image</code>というより<code>&lt;image&gt;</code>型で扱われるリソースがそうなっているのではないかと思うのですが、ちょっとソースが分かりませんでした。CSS Images Moduleあたりかなと思ったんですが、仕様ではなく実装のほうなのかもしれません。
+  </p>
+  <p>
+    ともかく、背景画像にすれば<code>display: none</code>のときにダウンロードされないようにはできるのですが、非常に不便です。<br>
+    背景画像を使うということは、該当要素のサイズ指定が必要になりますが、そのためには画像のサイズを知っていなければなりません。
+  </p>
+  <p>
+    そこで<code>content</code>プロパティによる要素置換を使います。
+  </p>
+  <p>
+    <a href="/demo/2021/avoid-downloading-images-with-display-none/2.html">デモをご覧ください</a>。<br>
+    画像として扱う要素が<code>img</code>から<code>div</code>になっている以外は同じです。
+  </p>
+  <pre><code class="language-html">&lt;div id=&quot;container&quot; class=&quot;container&quot;&gt;
+  &lt;div style=&quot;content: url(./long-tailed-blue.jpg)&quot;
+       class=&quot;image&quot;&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+  <p>
+    開発者ツールのネットワークパネルを見ると、ボタンを押下して<code>display:none</code>な<code>.cotainer</code>が<code>display:block</code>になって初めて画像がダウンロードされているのが分かります。
+  </p>
+  <p>
+    <code>.cotainer</code>をリサイズすると、それに合わせて画像になっている<code>div</code>のサイズも変わります。これは<code>img</code>要素で読み込んだときと同じ動作です。
+  </p>
+</section>
+<section>
+  <h2>読み上げ対応</h2>
+  <p>
+    <code>content</code>プロパティに<code>&lt;image&gt;</code>型が指定された要素は、アクセシビリティツリー上では画像として扱われます。<br>
+    開発者ツールで確認してみてください。<br>
+    こういう点では問題ありません。
+  </p>
+  <p>
+    しかし<code>div</code>には<code>alt</code>属性が使えませんので、代替画像が指定できません。<br>
+    この問題に対しては、次のように解決されることが望ましいでしょう。
+  </p>
+  <pre><code class="language-css">content: url(./long-tailed-blue.jpg) / &quot;写真：ウラナミシジミ&quot;</code></pre>
+  <p>
+    <code>content</code>プロパティ値の<code>/</code>（スラッシュ）で区切ったあとの文字列は代替テキストとなります。<br>
+    構文的には次のようなものです。（2021年5月17日版 Editor’s Draft）
+  </p>
+  <pre><code>normal | none | [ &lt;content-replacement&gt; | &lt;content-list&gt; ] [/ [ &lt;string&gt; | &lt;counter&gt; ]+ ]? </code></pre>
+  <p>
+    しかし、2021年5月現在、スラッシュ後の文字列に対応している環境はBlinkエンジンのみです。GeckoやWebkitでは使用できません。
+  </p>
+  <p>
+    対応している環境、たとえばGoogle Chromeを使って読み上げてみると、ちゃんと画像であることを伝えてくれます。<br>
+    そうではない環境では、不正なCSSとして<code>content</code>プロパティ自体が無視され、画像すら表示されません。
+  </p>
+  <p>
+    対処方法としては、替わりに<code>aria-label</code>を使うことでしょう。
+  </p>
+  <pre><code class="language-html">&lt;div style=&quot;content: url(./long-tailed-blue.jpg)&quot;
+     class=&quot;image&quot;
+     aria-label=&quot;写真：ウラナミシジミ&quot;&gt;
+&lt;/div&gt;</code></pre>
+  <p>
+    <a href="/demo/2021/avoid-downloading-images-with-display-none/3.html">両者を比較するデモをご覧ください</a>。<br>
+    このデモを使って開発者ツールを確認すると、ここまでの説明がわかりやすいかと思います。
+  </p>
+</section>
+<section>
+  <h2>問題点</h2>
+  <p>
+    <code>img</code>要素ではありませんので、<code>width</code>または<code>height</code>プロパティが使えません。つまり、画像のロードが完了しないとレイアウトが完了しません。<br>
+    ただし、そのような場合は画像のサイズが分かっていることが前提ですので、CSSで指定すればいいでしょう。
+  </p>
+  <pre><code class="language-css">.image {
+  max-width: 100%;
+  height: auto;
+}</code></pre>
+  <pre><code class="language-html">&lt;div style=&quot;
+       content: url(./long-tailed-blue.jpg);
+       aspect-ratio: 2048 / 1536;
+     &quot;
+     class=&quot;image&quot;
+     aria-label=&quot;写真：ウラナミシジミ&quot;&gt;
+&lt;/div&gt;</code></pre>
+  <p>
+    また、<code>img</code>要素ではないことから、<code>loading</code>属性が使えません。<br>
+    そもそもこの方法を採用するのは特殊なケースかと思いますので、ビューポート外の画像を遅延ロードさせたいなら普通に<code>img</code>要素を使ったほうがいいのではないかと思います。
+  </p>
+  <p>
+    レスポンシブ画像はCSSの<code>image-set()</code>関数を使えば解決できそうです。
+  </p>
+</section>
+<section>
+  <h2>まとめ</h2>
+  <p>
+    わたしが使ったケースとしては、タブが20個あるタブUIで、そのコンテンツはリンク集であり、各リンクに小さな画像がついているというものでした。<br>
+    タブUIの中身というものは、表示されるかどうか不明という意味では代表的なものかもしれません。<br>
+    他には<code>details</code>要素でしょうか。
+  </p>
+  <p>
+    ほとんどの場合、<code>img</code>要素を使うべきだと思いますが、このような方法もあると知っていれば役に立つことがあるかもしれません。
+  </p>
+</section>
