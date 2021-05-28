@@ -5,6 +5,7 @@ slug: avoid-downloading-images-with-display-none
 published: 2021-05-27T18:44:05+09:00
 updated: 2021-05-28T16:10:05+09:00
 category: webdev
+
 </script>
 
 <p>
@@ -70,7 +71,8 @@ button.addEventListener(&#39;click&#39;, function() {
   <h2>表示されてからダウンロードを開始する</h2>
   <p>
     ご存知のように、CSSの<code>background-image</code>で指定された背景画像は、対象が<code>display: none</code>になっているとダウンロードされません。<br>
-    これは<code>background-image</code>というより<code>&lt;image&gt;</code>型で扱われるリソースがそうなっているのではないかと思うのですが、ちょっとソースが分かりませんでした。CSS Images Moduleあたりかなと思ったんですが、仕様ではなく実装のほうなのかもしれません。
+    これは<code>background-image</code>というより<code>&lt;image&gt;</code>型で扱われるリソースがそうなっているのではないかと思うのですが、ちょっとソースが分かりませんでした。CSS
+    Images Moduleあたりかなと思ったんですが、仕様ではなく実装のほうなのかもしれません。
   </p>
   <p>
     ともかく、背景画像にすれば<code>display: none</code>のときにダウンロードされないようにはできるのですが、非常に不便です。<br>
@@ -183,3 +185,11 @@ button.addEventListener(&#39;click&#39;, function() {
     ほとんどの場合、<code>img</code>要素を使うべきだと思いますが、このような方法もあると知っていれば役に立つことがあるかもしれません。
   </p>
 </section>
+<ins datetime="2021-05-28T16:10:05+09:00">
+  <aside>
+    <h2>2021年5月28日追記</h2>
+    <p>
+      <a href="https://twitter.com/SaekiTominaga/status/1397914352204668945">@SaekiTominagaさんからご指摘がありました</a>ので、その内容について追加しました。
+    </p>
+  </aside>
+</ins>
