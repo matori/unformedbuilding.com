@@ -3,7 +3,7 @@ title: "display:noneな画像のダウンロードを避けるために"
 description: "HTMLで読み込む画像はdisplay:noneされていてもダウンロードされるので、それを避けるための方法。"
 slug: avoid-downloading-images-with-display-none
 published: 2021-05-27T18:44:05+09:00
-updated: 2021-05-28T13:13:31+09:00
+updated: 2021-05-28T16:10:05+09:00
 category: webdev
 </script>
 
@@ -155,7 +155,23 @@ button.addEventListener(&#39;click&#39;, function() {
   <p>
     レスポンシブ画像はCSSの<code>image-set()</code>関数を使えば解決できそうです。
   </p>
+  <ins datetime="2021-05-28T16:10:05+09:00">
+    <p>
+      これはあくまでも<code>div</code>ですので、コンテキストメニューが画像用のものにはなりません。<br>
+      その点は解決できないでしょう。
+    </p>
+  </ins>
 </section>
+<ins datetime="2021-05-28T16:10:05+09:00">
+  <section>
+    <h2><code>loading=&quot;lazy&quot;</code>じゃ駄目なの？</h2>
+    <p>
+      それでもいいです。<br>
+      ただ、現在はWebkitで使えないことは念頭に置いておく必要があるでしょう。<br>
+      <a href="https://bugs.webkit.org/show_bug.cgi?id=196698">https://bugs.webkit.org/show_bug.cgi?id=196698</a>がWebkitの対象バグです。
+    </p>
+  </section>
+</ins>
 <section>
   <h2>まとめ</h2>
   <p>
