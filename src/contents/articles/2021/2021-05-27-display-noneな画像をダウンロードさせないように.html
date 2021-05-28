@@ -69,7 +69,7 @@ button.addEventListener(&#39;click&#39;, function() {
 <section>
   <h2>表示されてからダウンロードを開始する</h2>
   <p>
-    ご存知のように、CSSの<code>background-image</code>で指定された背景画像は、対象が<code>display:none</code>になっているとダウンロードされません。<br>
+    ご存知のように、CSSの<code>background-image</code>で指定された背景画像は、対象が<code>display: none</code>になっているとダウンロードされません。<br>
     これは<code>background-image</code>というより<code>&lt;image&gt;</code>型で扱われるリソースがそうなっているのではないかと思うのですが、ちょっとソースが分かりませんでした。CSS Images Moduleあたりかなと思ったんですが、仕様ではなく実装のほうなのかもしれません。
   </p>
   <p>
@@ -89,7 +89,7 @@ button.addEventListener(&#39;click&#39;, function() {
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
   <p>
-    開発者ツールのネットワークパネルを見ると、ボタンを押下して<code>display:none</code>な<code>.cotainer</code>が<code>display:block</code>になって初めて画像がダウンロードされているのが分かります。
+    開発者ツールのネットワークパネルを見ると、ボタンを押下して<code>display: none</code>な<code>.cotainer</code>が<code>display: block</code>になって初めて画像がダウンロードされているのが分かります。
   </p>
   <p>
     <code>.cotainer</code>をリサイズすると、それに合わせて画像になっている<code>div</code>のサイズも変わります。これは<code>img</code>要素で読み込んだときと同じ動作です。
@@ -103,7 +103,7 @@ button.addEventListener(&#39;click&#39;, function() {
     こういう点では問題ありません。
   </p>
   <p>
-    しかし<code>div</code>には<code>alt</code>属性が使えませんので、代替画像が指定できません。<br>
+    しかし<code>div</code>には<code>alt</code>属性が使えませんので、代替テキストが指定できません。<br>
     この問題に対しては、次のように解決されることが望ましいでしょう。
   </p>
   <pre><code class="language-css">content: url(./long-tailed-blue.jpg) / &quot;写真：ウラナミシジミ&quot;</code></pre>
