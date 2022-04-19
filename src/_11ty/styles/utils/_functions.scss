@@ -1,9 +1,12 @@
+@use "sass:math";
+@use "../config" as *;
+
 $config-fs-root: 16px !default;
 $config-line-gap: 5px !default;
 $config-fs-scale-base: 4 !default;
 
 @function rem($px) {
-  @return $px / $config-fs-root * 1rem;
+  @return math.div($px, $config-fs-root) * 1rem;
 }
 
 @function get-lines($lines: 0, $without-edge-gap: false) {
@@ -16,12 +19,12 @@ $config-fs-scale-base: 4 !default;
 }
 
 @function get-font-scale($factor) {
-  @return $config-fs-root * $config-fs-scale-base / $factor;
+  @return math.div($config-fs-root * $config-fs-scale-base, $factor);
 }
 
 @function strip-unit($number) {
   @if type-of($number) == "number" and not unitless($number) {
-    @return $number / ($number * 0 + 1);
+    @return math.div($number, $number * 0 + 1);
   }
   @return $number;
 }
