@@ -1,12 +1,12 @@
-const {SOURCE_DIR, DISTRIBUTION_DIR} = require('./dir')
+const {SOURCE_DIR} = require('./constants')
 const dayjs = require('dayjs');
 
-exports.articlesCollection = function articlesCollection(collection) {
+function articles(collection) {
   const articles = collection.getFilteredByGlob(`${SOURCE_DIR}/articles/*/*.html`);
   return articles.sort((a, b) => a.data.published < b.data.published ? 1 : -1);
 }
 
-exports.articlesWebdevCollection = function articlesWebdevCollection(collection) {
+function articlesWebdev(collection) {
   const allArticles = collection.getFilteredByGlob(`${SOURCE_DIR}/articles/*/*.html`);
   const articles = allArticles.filter(article => {
     const category = article.data.category;
@@ -15,7 +15,7 @@ exports.articlesWebdevCollection = function articlesWebdevCollection(collection)
   return articles.sort((a, b) => a.data.published < b.data.published ? 1 : -1);
 }
 
-exports.yearlyArchiveCollection = function yearlyArchive(collection) {
+function yearlyArchive(collection) {
   const articles = collection.getFilteredByGlob(`${SOURCE_DIR}/articles/*/*.html`);
   return articles.sort((a, b) => a.data.published < b.data.published ? 1 : -1).reduce((result, article) => {
     const year = dayjs(article.data.published).year();
@@ -31,7 +31,7 @@ exports.yearlyArchiveCollection = function yearlyArchive(collection) {
   }, []);
 }
 
-exports.memoArchiveCollection = function memoArchiveCollection(collection) {
+function memoArchive(collection) {
   const memos = collection.getFilteredByTags('memoCollection');
   return memos.sort((a, b) => a.data.published < b.data.published ? 1 : -1).reduce((result, memo) => {
     const year = dayjs(memo.data.published).year();
@@ -45,4 +45,12 @@ exports.memoArchiveCollection = function memoArchiveCollection(collection) {
     archive.memos.push(memo);
     return result;
   }, []);
+}
+
+
+module.exports = {
+  articles,
+  articlesWebdev,
+  yearlyArchive,
+  memoArchive
 }
