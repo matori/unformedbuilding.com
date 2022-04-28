@@ -3,6 +3,7 @@ const {PurgeCSS} = require('purgecss');
 const posthtml = require('posthtml');
 const doctype = require('posthtml-doctype');
 const minifyClassnames = require('posthtml-minify-classnames');
+const htmlMinifier = require('html-minifier');
 const {isProd} = require('./mode');
 const {isHtml, isXml} = require('./utils');
 
@@ -109,7 +110,7 @@ function htmlmin(content, outputPath) {
     sortClassName: true,
     useShortDoctype: true,
   };
-  return htmlmin.minify(content, options);
+  return htmlMinifier.minify(content, options);
 }
 
 function xmlmin(content, outputPath) {
