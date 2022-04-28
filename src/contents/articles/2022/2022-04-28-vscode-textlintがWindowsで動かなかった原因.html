@@ -1,0 +1,31 @@
+<script type="application/x-yaml">
+title: "vscode-textlintがWindowsで動かなかった原因"
+description: "vscode-textlintがなぜかWindowsでエラー吐いて動かなかったときにやったこと。"
+slug: vscode-textlint-dit-not-work-on-my-windows
+published: 2022-04-28T19:41:44+09:00
+updated: 2022-04-28T19:41:44+09:00
+category: misc
+</script>
+
+<p>
+  ついこの間、<a href="https://marketplace.visualstudio.com/items?itemName=taichi.vscode-textlint">vscode-textlint</a>がなぜかWindowsマシンでエラーを吐いてまともに動作しないという問題に突き当たっていました。
+</p>
+<p>
+  エラーの内容はtextlintサーバーが起動できないとか、そういう感じのものでした。
+</p>
+<p>
+  今のWindowsマシンは昨年に新調したものですが、その前のマシンでは問題なく動いていたため、エクステンションの問題ではないだろうと考えて原因を探すことに。
+</p>
+<p>
+  結果としてはVS Codeのインストール場所が悪かった、というものでした。
+</p>
+<p>
+  今回、VS CodeをProgram Filesフォルダーにインストールしていたので、アクセス権限関係の問題だったのでしょう。<br>
+  結局、VS Codeのインストーラーが提示する初期インストールフォルダー（ユーザーフォルダー）にインストールし直したところ、vscode-textlintは問題なく動作しました。
+</p>
+<p>
+  Program Filesフォルダーの権限をいじればインストールし直さなくてもいいのかもしれませんが、それはそれでなんとなく気持ち悪いので、このまま使おうと思います。
+</p>
+<p>
+  具体的な内容のある記事でなくて少し申し訳ないですが、メモとして残しおきます。
+</p>
