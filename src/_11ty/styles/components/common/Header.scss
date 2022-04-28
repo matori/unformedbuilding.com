@@ -1,3 +1,7 @@
+@use "../../config" as *;
+@use "../../foundation/variables" as *;
+@use "../../utils/functions" as *;
+
 .Header {
 }
 
@@ -6,8 +10,8 @@
   position: relative;
   margin-top: 0;
   margin-bottom: get-lines(4);
-  padding-top: rem($config-line-gap / 2);
-  padding-bottom: rem($config-line-gap / 2);
+  padding-top: rem($config-line-gap * 0.5);
+  padding-bottom: rem($config-line-gap * 0.5);
   width: get-lines(2, true);
   height: get-lines(2, true);
 }

@@ -1,10 +1,14 @@
+@use "sass:math";
+@use "../config" as *;
+@use "../utils/functions" as *;
+
 @mixin text($scale: 0, $need-line-height: true) {
   $scale: $scale * -1;
   $font-size: get-font-scale($config-fs-scale-base + $scale);
   $line-height: $font-size + $config-line-gap;
   font-size: rem($font-size);
   @if $need-line-height {
-    line-height: strip-unit($line-height / $font-size);
+    line-height: strip-unit(math.div($line-height, $font-size));
   }
 }
 
