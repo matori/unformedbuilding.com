@@ -1,11 +1,14 @@
+@use "sass:math";
+@use "../utils/functions" as *;
+
 $color-bg-base: floralwhite;
 $color-fg-base: #002c1d;
 
-$color-bg-secondary: desaturate-relative(alpha-composing(rgba($color-fg-base, 0.05), $color-bg-base), 1 / 16 * 4);
+$color-bg-secondary: desaturate-relative(alpha-composing(rgba($color-fg-base, 0.05), $color-bg-base), math.div(1, 16) * 4);
 $color-bg-tertiary: alpha-composing(rgba($color-bg-secondary, 0.75), $color-bg-base);
 
 $color-fg-link: #0050f0;
-$color-fg-visited: desaturate-relative($color-fg-link, 1 / 16 * 12);
+$color-fg-visited: desaturate-relative($color-fg-link, math.div(1, 16) * 12);
 $color-fg-active: #dc0049;
 $color-fg-weak: desaturate-relative(alpha-composing(rgba($color-fg-base, 0.62), $color-bg-base), 0.5);
 $color-fg-highlight: #007a52;

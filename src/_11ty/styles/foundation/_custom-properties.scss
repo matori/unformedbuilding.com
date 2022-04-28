@@ -1,3 +1,5 @@
+@use "../foundation/variables" as *;
+
 :root {
   --bg-base: #{$color-bg-base};
   --bg-secondary: #{$color-bg-secondary};

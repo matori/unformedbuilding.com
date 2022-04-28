@@ -19,7 +19,7 @@ jobs:
     - name: Install Node.js
       uses: actions/setup-node@v1
       with:
-        node-version: '12.14.0'
+        node-version: '16.14.0'
     - name: Install npm dependencies
       run: npm install
     - name: Run build task

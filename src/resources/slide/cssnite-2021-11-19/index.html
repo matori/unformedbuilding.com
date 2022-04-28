@@ -1,0 +1,913 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>今から使える、いつか使える日本語ウェブ文字組みの機能</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://unformedbuilding.com/slide/cssnite-2021-11-19/">
+<link rel="stylesheet" href="reveal.js/dist/reveal.css">
+<link rel="stylesheet" href="reveal.js/dist/theme/solarized.css">
+<link rel="stylesheet" href="styles/base16-solarized-dark.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&amp;family=Source+Code+Pro:wght@400;600;700&amp;display=swap">
+<style>
+body {
+  --r-main-color: #002b36;
+  --r-main-font: "Noto Sans JP", sans-serif;
+  --r-heading-color: #073642;
+  --r-heading-font: "Noto Sans JP", sans-serif;
+  --r-heading-font-weight: 700;
+  --r-code-font: "Source Code Pro", "Noto Sans JP", monospace;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  text-transform: none;
+}
+
+img {
+  vertical-align: bottom;
+  border: 3px double #93a1a1;
+}
+
+.r-stack img.fragment {
+  border-color: transparent;
+}
+
+.reveal h2 code,
+.reveal h3 code,
+.reveal h4 code,
+.reveal h5 code {
+  color: #2aa198;
+}
+
+.reveal p code,
+.reveal p code,
+.reveal dl code,
+.reveal ul code,
+.reveal ol code {
+  color: #2aa198;
+  font-weight: 600;
+}
+
+.reveal dt:nth-of-type(n+2) {
+  margin-block-start: 0.5em;
+}
+</style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+    <section role="presentation">
+      <h1 style="font-size: var(--r-heading3-size)">今から使える、いつか使える<br>日本語ウェブ文字組みの機能</h1>
+      <p style="margin-block-start: 1em">
+        CSS Nite<br>
+        『CodeGridから読み解くイマドキのCSS 第二弾』
+      </p>
+      <p>
+        <small><time datetime="2021-11-19">2021-11-19（金）</time></small>
+      </p>
+    </section>
+    <section role="presentation">
+      <h2>自己紹介</h2>
+    </section>
+    <section role="presentation">
+      <dl>
+        <dt>名前</dt>
+        <dd><ruby>國仲<rp>（</rp><rt>くになか</rt><rp>）</rp>義則<rp>（</rp><rt>よしのり</rt><rp>）</rp></ruby> / Online: matori</dd>
+        <dt>所属</dt>
+        <dd><a href="https://www.pxgrid.com/">PixelGrid Inc.</a><br>フロントエンド・エンジニア</dd>
+        <dt>Twitter</dt>
+        <dd>
+          <a href="https://twitter.com/ub_pnr" style="display: flex; align-items: center; column-gap: 0.5em">
+            <img src="images/avatar.png" width="64" height="64" alt="" style="margin: 0">
+            @ub_pnr
+          </a>
+        </dd>
+        <dt>ウェブサイト</dt>
+        <dd>
+          <a href="https://unformedbuilding.com/">Unformed Building</a>
+        </dd>
+      </dl>
+    </section>
+    <section role="presentation">
+      <h2>日本語のウェブサイト</h2>
+    </section>
+    <section role="presentation">
+      <ul style="width: 16em;">
+        <li>日本語でもウェブサイトは問題なく作れるし見られる</li>
+        <li class="fragment">書籍などで使われる文字組みの機能はかなり制限されていた</li>
+        <li class="fragment">少しずつではあるが、できることは増えてきている</li>
+        <li class="fragment">それらの機能をいくつか紹介</li>
+      </ul>
+    </section>
+    <section role="presentation">
+      <h2>今すぐ使える機能</h2>
+    </section>
+    <section role="presentation">
+      <h3 style="font-size: var(--r-heading1-size)">ルビ</h3>
+    </section>
+    <section role="presentation">
+      <p>
+        <img src="./images/ruby-1.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <p>
+        <img src="./images/ruby-2.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <p>
+        <img src="./images/ruby-3.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <h3>基本的なHTML</h3>
+      <p>
+        <img src="./images/ruby-1.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <h4>必要な要素は3つ</h4>
+      <p>
+        <code>ruby</code>, <code>rt</code>, <code>rp</code>
+      </p>
+      <pre><code class="language-html" data-trim data-line-numbers>
+        <ruby>
+          春<rp>（</rp><rt>はる</rt><rp>）</rp>
+        </ruby>
+      </code></pre>
+      <h4>以前までのHTML</h4>
+      <pre><code class="language-html" data-trim data-line-numbers>
+        <ruby>
+          <rb>春</rb><rp>（</rp><rt>はる</rt><rp>）</rp>
+        </ruby>
+      </code></pre>
+      <p>
+        <code>rb</code>要素は削除され、非標準となった
+      </p>
+    </section>
+    <section role="presentation">
+      <h4>ルビの3要素</h4>
+      <dl>
+        <dt><code>ruby</code></dt>
+        <dd>ルビ全体を囲む要素</dd>
+        <dt><code>rt</code></dt>
+        <dd>ルビ文字の要素</dd>
+        <dt><code>rp</code></dt>
+        <dd>フォールバック用の要素</dd>
+      </dl>
+    </section>
+    <section role="presentation">
+      <h3>二重ルビのHTML</h3>
+      <p>
+        <img src="./images/ruby-2.png" alt="">
+      </p>
+    </section>
+    <section>
+      <h4>今の書き方</h4>
+      <pre><code class="language-html" data-trim data-line-numbers>
+        <ruby>
+          <ruby>
+            春<rp>（</rp><rt>はる</rt><rp>）</rp>
+          </ruby>
+          <rp>（</rp><rt lang="en">spring</rt><rp>）</rp>
+        </ruby>
+      </code></pre>
+      <h4>以前までの書き方（一例）</h4>
+      <pre><code class="language-html" data-trim data-line-numbers>
+          <ruby>
+            <rb>春</rb>
+            <rp>（</rp><rt>はる</rt><rp>）</rp>
+            <rp>（</rp><rtc lang="en">spring</rtc><rp>）</rp>
+          </ruby>
+      </code></pre>
+    </section>
+    <section role="presentation">
+      <h4><code>rp</code>要素について</h4>
+      <pre><code class="language-html" data-trim data-line-numbers>
+        <ruby>
+          春<rp>（</rp><rt>はる</rt><rp>）</rp>
+        </ruby>
+        <ruby>
+          春<rt>はる</rt>
+        </ruby>
+      </code></pre>
+      <p>
+        <img src="images/ruby-4.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <h4><code>ruby-position</code>プロパティ</h4>
+      <p>
+        ルビ関係のCSSプロパティは<br>いくつかあるが、まずはこれを<br>覚えておきたい
+      </p>
+    </section>
+    <section role="presentation">
+      <pre><code class="language-css" data-trim data-line-numbers>
+        .over {
+          -webkit-ruby-position: before; /* Safari */
+          ruby-position: over;
+        }
+
+        .under {
+          -webkit-ruby-position: after; /* Safari */
+          ruby-position: under;
+        }
+      </code></pre>
+      <pre><code class="language-html" data-trim data-line-numbers>
+        <ruby class="over">
+          春<rp>（</rp><rt>はる</rt><rp>）</rp>
+        </ruby>
+        <ruby class="under">
+          春<rp>（</rp><rt>はる</rt><rp>）</rp>
+        </ruby>
+      </code></pre>
+    </section>
+    <section role="presentation">
+      <p>
+        <img src="images/ruby-5.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <pre><code class="language-html" data-trim data-line-numbers>
+        <ruby>
+          <ruby>
+            春<rp>（</rp><rt>はる</rt><rp>）</rp>
+          </ruby>
+          <rp>（</rp><rt lang="en">spring</rt><rp>）</rp>
+        </ruby>
+      </code></pre>
+      <p>
+        <img src="images/ruby-6.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <pre><code class="language-css" data-trim data-line-numbers>
+        .under {
+          -webkit-ruby-position: after;
+          ruby-position: under;
+        }
+
+        .under > ruby {
+          -webkit-ruby-position: before;
+          ruby-position: over;
+        }
+      </code></pre>
+      <pre><code class="language-html" data-trim data-line-numbers>
+        <ruby class="under">
+          <ruby>
+            春<rp>（</rp><rt>はる</rt><rp>）</rp>
+          </ruby>
+          <rp>（</rp><rt lang="en">spring</rt><rp>）</rp>
+        </ruby>
+      </code></pre>
+    </section>
+    <section role="presentation">
+      <p>
+        <img src="images/ruby-7.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <h3 style="font-size: var(--r-heading1-size)"><ruby>圏点<rp>（</rp><rt>けんてん</rt><rp>）</rp></ruby></h3>
+    </section>
+    <section role="presentation">
+      <p class="r-stack">
+        <img src="images/em-1.png" alt="">
+        <img class="fragment" src="images/em-2.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <h4><code>text-emphasis</code>プロパティ</h4>
+    </section>
+    <section role="presentation">
+      <p>
+        <code>text-emphasis</code>はショートハンドプロパティ
+      </p>
+      <ul>
+        <li><code>text-emphasis-style</code></li>
+        <li><code>text-emphasis-color</code></li>
+      </ul>
+    </section>
+    <section role="presentation">
+      <pre><code class="language-css" data-trim data-line-numbers>
+        em {
+          font-style: normal; /* 初期スタイルをリセット */
+          -webkit-text-emphasis: dot; /* Chrome */
+          text-emphasis: dot;
+        }
+      </code></pre>
+      <pre><code class="language-html" data-trim data-line-numbers>
+        <p>
+          …<br>
+          窓越しに<em>ソメイヨシノ</em>を見ながら…
+        </p>
+      </code></pre>
+    </section>
+    <section role="presentation">
+      <p>
+        <img src="images/em-1.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <pre><code class="language-css" data-trim data-line-numbers="3-4">
+        em {
+          font-style: normal;
+          -webkit-text-emphasis: dot open;
+          text-emphasis: dot open;
+        }
+      </code></pre>
+      <p>
+        <img src="images/em-3.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <h4>様々なスタイル</h4>
+      <p>
+        <img src="images/em-4.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <h4>任意の圏点スタイル</h4>
+      <pre><code class="language-css" data-trim data-line-numbers="3-4">
+        em {
+          font-style: normal;
+          -webkit-text-emphasis: "★";
+          text-emphasis: "★";
+        }
+      </code></pre>
+      <p>
+        <img src="images/em-5.png" width="500" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <h5>圏点の色</h5>
+      <div class="r-stack">
+        <div class="fade-out">
+          <pre><code class="language-css" data-trim data-line-numbers="3-5">
+            em {
+              font-style: normal;
+              color: tomato;
+              -webkit-text-emphasis: dot;
+              text-emphasis: dot;
+            }
+          </code></pre>
+          <p>
+            <img src="images/em-2.png" width="768" alt="">
+          </p>
+        </div>
+        <div class="fragment">
+          <pre><code class="language-css" data-trim data-line-numbers="3-5">
+            em {
+              font-style: normal;
+              color: inherit;
+              -webkit-text-emphasis: dot tomato;
+              text-emphasis: dot tomato
+            }
+          </code></pre>
+          <p>
+            <img src="images/em-6.png" width="768" alt="">
+          </p>
+        </div>
+      </div>
+    </section>
+    <section role="presentation">
+      <h4>ルビとの併用</h4>
+      <pre><code class="language-html" data-trim data-line-numbers>
+        <em>
+          もうすぐ
+          <ruby>
+            春<rp>（</rp><rt>はる</rt><rp>）</rp>
+          </ruby>
+          ですね
+        </em>
+      </code></pre>
+      <pre><code class="language-css" data-trim data-line-numbers>
+        em {
+          font-style: normal;
+          -webkit-text-emphasis: dot;
+          text-emphasis: dot
+        }
+      </code></pre>
+    </section>
+    <section role="presentation">
+      <h5>Firefox</h5>
+      <p>
+        <img src="images/em-7.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <h5>ChromeとSafari</h5>
+      <p>
+        <img src="images/em-8.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <h2>一部のブラウザで<br>使える機能</h2>
+    </section>
+    <section role="presentation">
+      <h3>句読点と括弧類のぶら下げ</h3>
+    </section>
+    <section role="presentation">
+      <p class="r-stack">
+        <img src="images/hanging-punctuation-1.png" width="550" alt="">
+        <img class="fragment" src="images/hanging-punctuation-2.png" width="550" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <h4><code>hanging-punctuation</code>プロパティ</h4>
+    </section>
+    <section role="presentation">
+      <ul>
+        <li>現在、一部機能を除いてSafariがサポート済み</li>
+        <li class="fragment"><code>first</code>、<code>last</code>、<code>allow-end</code>または<code>force-end</code></li>
+        <li class="fragment"><code>force-end</code>はサポートなし</li>
+      </ul>
+    </section>
+    <section role="presentation">
+      <pre><code class="language-html" data-trim data-line-numbers>
+        <p>「もうすぐ春ですね」</p>
+        <p>□窓越しにソメイヨシノを見ながら、彼は言葉を紡いだ。</p>
+      </code></pre>
+      <pre><code class="language-css" data-trim data-line-numbers>
+        p {
+          margin-inline: auto;
+          width: 8em;
+          background-color: antiquewhite;
+          hanging-punctuation: first last allow-end;
+        }
+      </code></pre>
+    </section>
+    <section role="presentation">
+      <h5>未サポート環境での描画</h5>
+      <p>
+        <img src="images/hanging-punctuation-3.png" width="380" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <h5>Safariでの描画</h5>
+      <p>
+        <img src="images/hanging-punctuation-1.png" width="550" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <h5><code>first</code></h5>
+      <p>
+        <img src="images/hanging-punctuation-4.png" width="550" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <h5><code>last</code></h5>
+      <p>
+        <img src="images/hanging-punctuation-5.png" width="550" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <h5><code>end</code></h5>
+      <p>
+        <img src="images/hanging-punctuation-6.png" width="550" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <h4>括弧類は<code>end</code>ではぶら下げられない</h4>
+      <pre><code class="language-html" data-trim data-line-numbers>
+        <p>
+          「もうすぐ春ですね」<br>
+          □窓越しにソメイヨシノを見ながら、彼は言葉を紡いだ。
+        </p>
+      </code></pre>
+    </section>
+    <section role="presentation">
+      <p>
+        <img src="images/hanging-punctuation-7.png" width="550" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <h4><code>first</code>は1字下げに使える？</h4>
+      <pre><code class="language-html" data-trim data-line-numbers>
+        <p>
+          「もうすぐ春ですね」<br>
+          窓越しにソメイヨシノを見ながら、彼は言葉を紡いだ。
+        </p>
+      </code></pre>
+      <pre><code class="language-css" data-trim data-line-numbers="3,6">
+        p {
+          margin-inline: auto;
+          width: 9em;
+          background-color: antiquewhite;
+          hanging-punctuation: first last allow-end;
+          text-indent: 1em;
+        }
+      </code></pre>
+    </section>
+    <section role="presentation">
+      <p>
+        <img src="images/hanging-punctuation-8.png" width="550" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <h5>こういうHTMLならOK</h5>
+      <pre><code class="language-html" data-trim data-line-numbers>
+        <p>「もうすぐ春ですね」</p>
+        <p>窓越しにソメイヨシノを見ながら、彼は言葉を紡いだ。</p>
+      </code></pre>
+    </section>
+    <section role="presentation">
+      <p>
+        <img src="images/hanging-punctuation-9.png" width="600" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <h4>使っていいの？</h4>
+    </section>
+    <section role="presentation">
+      <ul style="width: 17em">
+        <li><code>last</code>と<code>allow-end</code>は未サポート環境に影響を及ぼさない</li>
+        <li class="fragment">1字下げの例のように、<code>first</code>は場合によっては影響があるので注意が必要</li>
+      </ul>
+      <p class="fragment">以上を考慮すれば、使ってもよさそう</p>
+    </section>
+    <section role="presentation">
+      <h3>HTMLコードでの改行処理</h3>
+    </section>
+    <section role="presentation">
+      <pre><code class="language-html" data-trim data-line-numbers>
+        <p>
+          「もうすぐ
+          春ですね」
+        </p>
+      </code></pre>
+      <p class="r-stack">
+        <img src="images/sbtr-1.png" alt="">
+        <img class="fragment" src="images/sbtr-2.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <h4>Segment Break Transformation Rules</h4>
+      <p>区分分断の変形規則</p>
+      <ul>
+        <li class="fragment">HTML中の空白処理に関する決め事</li>
+        <li class="fragment">Firefoxがサポート済み</li>
+      </ul>
+    </section>
+    <section role="presentation">
+      <h4>HTMLの例</h4>
+      <pre><code class="language-html" data-trim data-line-numbers>
+        <p>
+          「もうすぐ
+          春ですね」
+        </p>
+      </code></pre>
+    </section>
+    <section role="presentation">
+      <h5>描画</h5>
+      <p>
+        <img src="images/sbtr-3.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <h5>Firefoxでの描画</h5>
+      <p>
+        <img src="images/sbtr-4.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <h5>比較</h5>
+      <p>
+        <img src="images/sbtr-3.png" alt="">
+        <img src="images/sbtr-4.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <ul style="width: 16em;">
+        <li>日本語文字間の改行と、改行に続くホワイトスペースが除去される</li>
+        <li>改行すると半角スペースが入っちゃう問題が解決される</li>
+      </ul>
+      <p>
+        <small>（中国語などもあるので、正確には日本語に限らない）</small>
+      </p>
+    </section>
+    <section role="presentation">
+      <h4>これまでの問題</h4>
+    </section>
+    <section role="presentation">
+      <p>
+        日本語HTMLは1行が長くなりがち
+      </p>
+      <ul>
+        <li class="fragment">一定文字数で折り返すルールを守るのが難しい</li>
+        <li class="fragment">コード整形ツールなどで改行されると困る</li>
+        <li class="fragment">バージョン管理ツールと相性が悪い<br><small>（差分がわかりにくい）</small></li>
+      </ul>
+    </section>
+    <section role="presentation">
+      <p>
+        区分分断の変形規則により、<br>これらが解消されると考えられる
+      </p>
+    </section>
+    <section role="presentation">
+      <h4>現状</h4>
+    </section>
+    <section role="presentation">
+      <ul>
+        <li>サポートしているのはFirefoxのみ</li>
+        <li class="fragment">未サポート環境に影響がある</li>
+        <li class="fragment">残念ながらこれまでどおりに、<br>改行せずに書いたほうが安全</li>
+      </ul>
+    </section>
+    <section role="presentation">
+      <h2>いつか使える<br>かもしれない機能</h2>
+    </section>
+    <section role="presentation">
+      <h3>特定文字間の空白処理</h3>
+    </section>
+    <section role="presentation">
+      <h4><code>text-spacing</code>プロパティ</h4>
+    </section>
+    <section role="presentation">
+      <ul style="width: 16em;">
+        <li>昔の仕様では<code>text-autospace</code>という名前だった</li>
+        <li><code>text-autospace</code>と<code>text-trim</code>の仕様が合体して<code>text-spacing</code>へ</li>
+      </ul>
+    </section>
+    <section role="presentation">
+      <h4>何ができるの？</h4>
+      <p class="fragment">いろいろできます！</p>
+      <p class="fragment">日本語で嬉しい機能を紹介</p>
+    </section>
+    <section role="presentation">
+      <h4>四分アキ</h4>
+      <p>
+        半角英数と日本語の文字との<br>間に1/4文字の空白を加える
+      </p>
+      <p>
+        <small>（おおまかな表現。正確にはもっと複雑）</small>
+      </p>
+    </section>
+    <section role="presentation">
+      <pre><code class="language-html" data-trim data-line-numbers>
+        <p>
+          2021年11月19日のCSS Nite情報
+        </p>
+      </code></pre>
+      <p>
+        <img src="images/text-spacing-1.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <pre><code class="language-css" data-trim data-line-numbers>
+        p {
+          text-spacing: ideograph-alpha ideograph-numeric;
+        }
+      </code></pre>
+      <p class="r-stack">
+        <img src="images/text-spacing-2.png" alt="">
+        <img class="fragment" src="images/text-spacing-3.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <pre><code class="language-html" data-trim data-line-numbers>
+        <p>
+          2021 年 11 月 19 日の CSS Nite 情報
+        </p>
+      </code></pre>
+      <p>
+        <img src="images/text-spacing-4.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <p>
+        <img src="images/text-spacing-5.png" alt="">
+      </p>
+      <ol>
+        <li>CSS指定なし</li>
+        <li><code>text-spacing</code>利用</li>
+        <li>半角スペース追加、CSS指定なし</li>
+      </ol>
+    </section>
+    <section role="presentation">
+      <h4>約物の空白処理 1</h4>
+      <p>
+        行頭の開き括弧類や<br>
+        行末にある閉じ括弧類の<br>
+        空白を調整
+      </p>
+    </section>
+    <section role="presentation">
+      <pre><code class="language-css" data-trim data-line-numbers>
+        p {
+          width: 9em;
+          background-color: antiquewhite;
+        }
+      </code></pre>
+      <pre><code class="language-html" data-trim data-line-numbers>
+        <p>
+          「もうすぐ春ですね」
+        </p>
+      </code></pre>
+    </section>
+    <section role="presentation">
+      <p>
+        <img src="images/text-spacing-6.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <pre><code class="language-css" data-trim data-line-numbers="4">
+        p {
+          width: 9em;
+          background-color: antiquewhite;
+          text-spacing: trim-start;
+        }
+      </code></pre>
+      <p>
+        <img src="images/text-spacing-7.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <pre><code class="language-css" data-trim data-line-numbers="4">
+        p {
+          width: 9em;
+          background-color: antiquewhite;
+          text-spacing: trim-start trim-end;
+        }
+      </code></pre>
+      <p>
+        <img src="images/text-spacing-8.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <pre><code class="language-css" data-trim data-line-numbers>
+        p {
+          width: 18em;
+          background-color: antiquewhite;
+        }
+      </code></pre>
+      <pre><code class="language-html" data-trim data-line-numbers style="overflow: hidden">
+        <p>
+          「もうすぐ春ですね」と彼は言ったが、「それは違う」と私は小声で反論した。
+        </p>
+      </code></pre>
+    </section>
+    <section role="presentation">
+      <p>
+        <img src="images/text-spacing-9.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <pre><code class="language-css" data-trim data-line-numbers="4">
+        p {
+          width: 18em;
+          background-color: antiquewhite;
+          text-spacing: trim-start;
+        }
+      </code></pre>
+      <p>
+        <img src="images/text-spacing-10.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <pre><code class="language-css" data-trim data-line-numbers="4">
+        p {
+          width: 18em;
+          background-color: antiquewhite;
+          text-spacing: trim-start space-first;
+        }
+      </code></pre>
+      <p>
+        <img src="images/text-spacing-11.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <h4>約物の空白処理 2</h4>
+      <p>
+        連続する開き括弧類や<br>
+        閉じ括弧類の空白を調整
+      </p>
+    </section>
+    <section role="presentation">
+      <pre><code class="language-css" data-trim data-line-numbers>
+        p {
+          width: 25em;
+          background-color: antiquewhite;
+        }
+      </code></pre>
+      <pre><code class="language-html" data-trim data-line-numbers>
+        <p>
+          「『春はあけぼの』清少納言の言葉だ」彼は言った。<br>
+          「こうも遺した『夏は夜』」私は続ける。<br>
+          「『秋は夕暮れ』・『冬はつとめて』」最後は二人で。
+        </p>
+      </code></pre>
+    </section>
+    <section role="presentation">
+      <p>
+        <img src="images/text-spacing-12.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <pre><code class="language-css" data-trim data-line-numbers="4">
+        p {
+          width: 25em;
+          background-color: antiquewhite;
+          text-spacing: trim-adjacent;
+        }
+      </code></pre>
+      <p>
+        <img src="images/text-spacing-13.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <h5>比較</h5>
+      <p>
+        <img src="images/text-spacing-12.png" alt="">
+      </p>
+      <p>
+        <img src="images/text-spacing-13.png" alt="">
+      </p>
+    </section>
+    <section role="presentation">
+      <h4>現状</h4>
+    </section>
+    <section role="presentation">
+      <ul>
+        <li>サポートしている環境はない</li>
+        <li>いつ実装されるか不明</li>
+        <li>使えるようになったら、<br>より美しい文字組みが可能に</li>
+      </ul>
+    </section>
+    <section role="presentation">
+      <h4>今すぐ試したい</h4>
+    </section>
+    <section role="presentation">
+      <p>
+        CSS組版プロジェクト「Vivliostyle」
+      </p>
+      <ul>
+        <li>つい先日<code>text-spacing</code>のサポートを開始</li>
+        <li>同時に<code>hanging-punctuation</code>も</li>
+      </ul>
+      <p>
+        <small>対象バージョンは 2.12.0 (2021-11-13)</small>
+      </p>
+    </section>
+    <section role="presentation">
+      <h2>終わりに</h2>
+    </section>
+    <section role="presentation">
+      <ul>
+        <li>日本語ウェブサイトでの<br>文字組み機能は改善されてきた</li>
+        <li class="fragment">今後もよくなっていくだろう</li>
+        <li class="fragment">一見すると地味な機能が多いが、<br>こういったことは本当に喜ばしい<br><small>（文字を読まないウェブサイトは少ないので）</small></li>
+        <li class="fragment">仕様の提案・策定に関わる方々、<br>それを実装するウェブブラウザ<br>開発者の方々に感謝</li>
+      </ul>
+    </section>
+    <section role="presentation">
+      <p style="font-size: var(--r-heading3-size)">ありがとうございました</p>
+    </section>
+    <section role="presentation">
+      <p>
+        <a href="./">表紙に戻る</a>
+      </p>
+    </section>
+  </div>
+</div>
+<script src="reveal.js/dist/reveal.js"></script>
+<script src="reveal.js/plugin/highlight/highlight.js"></script>
+<script>
+Reveal.initialize({
+  // Display the page number of the current slide
+  // - true:    Show slide number
+  // - false:   Hide slide number
+  //
+  // Can optionally be set as a string that specifies the number formatting:
+  // - "h.v":   Horizontal . vertical slide number (default)
+  // - "h/v":   Horizontal / vertical slide number
+  // - "c":   Flattened slide number
+  // - "c/t":   Flattened slide number / total slides
+  //
+  // Alternatively, you can provide a function that returns the slide
+  // number for the current slide. The function should take in a slide
+  // object and return an array with one string [slideNumber] or
+  // three strings [n1,delimiter,n2]. See #formatSlideNumber().
+  slideNumber: 'c/t',
+
+  // Can be used to limit the contexts in which the slide number appears
+  // - "all":      Always show the slide number
+  // - "print":    Only when printing to PDF
+  // - "speaker":  Only in the speaker view
+  showSlideNumber: 'speaker',
+  hash: true,
+  transition: 'none',
+  plugins: [
+    RevealHighlight,
+  ],
+});
+</script>
+</body>
+</html>

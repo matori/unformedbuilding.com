@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ダウンロードされるdisplay:noneな画像</title>
+  <style>
+  .container {
+    display: none;
+    padding: 10px;
+    overflow: auto;
+    resize: both;
+    background-color: gainsboro;
+  }
+
+  .image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+  </style>
+</head>
+<body>
+
+<button id="button">画像を表示する</button>
+<div id="container" class="container">
+  <img src="./long-tailed-blue.jpg"
+       class="image"
+       width="2048"
+       height="1536"
+       alt="写真：ウラナミシジミ">
+</div>
+
+<script>
+const button = document.querySelector('#button');
+button.addEventListener('click', function() {
+  const container = document.querySelector('#container');
+  container.style.display = 'block';
+  this.disabled = true;
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,157 @@
+<script type="application/x-yaml">
+title: "キーボード操作に優しくないドロップダウンの例"
+description: "キーボード操作時、視覚的にのみ不具合が発生するドロップダウンの原因と解決法。"
+slug: keyboard-unfriendly-dropdown
+published: 2020-09-19T14:57:39+09:00
+updated: 2020-09-19T14:57:39+09:00
+category: webdev
+</script>
+
+<p>
+  先日、おもしろい不具合を起こしているドロップダウンUIを見かけたので、どうしてその不具合が起こるのかを残しておきます。
+</p>
+<p>
+  まずは実際に見たUIの仕組みを再現した<a href="/demo/2020/keyboard-unfriendly-dropdown/example-1.html">デモページ</a>を見てください。<br>
+  「リンク集」と記載のある部分のクリックをトリガーとしてドロップダウンが動作します。<br>
+  おそらく、マウスやタッチなどのポインティング・デバイスでは何事もなく動作するでしょう。
+</p>
+<p>
+  ところが、キーボードによるナビゲーションを使っていると、ドロップダウンにフォーカスした瞬間、ドロップダウンのテキストが見えなくなります。<br>
+  ブラウザー下部などに表示されるリンク先URLは表示されますので、ドロップダウン内部のリンクにフォーカスが当たっているようです。<br>
+  リンクとして動作はしても、リンク・テキストは見えず、操作しづらいのは間違いありません。
+</p>
+<p>
+  この不具合の面白いところは、スクリーン・リーダーでは大きな問題とならないところです。<br>
+  ユーザーのアクションを元に折りたたみまたは展開するという機能は動作しませんが、リンク自体は何事もなく読み上げられます。<br>
+  問題となるのは、視覚的にブラウジングしているキーボード・ユーザーです。
+</p>
+<p>
+  では、このドロップダウンのコードがどうなっているのかを見ます。<br>
+  いつものとおり重要ではない部分は省略してありますので、全部見たい方はデモページでソースを表示してください。
+</p>
+<pre><code class="language-html">&lt;div class=&quot;example&quot;>
+  &lt;dl class=&quot;dropdown&quot;>
+    &lt;dt class=&quot;dropdown-trigger&quot;>リンク集&lt;/dt>
+    &lt;dd class=&quot;dropdown-content&quot;>
+      &lt;a href=&quot;...&quot;>...&lt;/a>
+      &lt;!-- ... -->
+    &lt;/dd>
+  &lt;/dl>
+&lt;/div></code></pre>
+<pre><code class="language-css">.dropdown {
+  background-color: white;
+  height: 2rem;
+  overflow: hidden;
+  transition-property: all;
+  transition-duration: 0.2s;
+}
+
+.dropdown.open {
+  height: 14rem;
+}
+
+.dropdown-trigger {
+  line-height: 2rem;
+}
+
+.dropdown-content {
+  opacity: 0;
+  transition-property: all;
+  transition-duration: 0.2s;
+}
+
+.dropdown.open .dropdown-content {
+  opacity: 1;
+}
+
+.dropdown-content a {
+  display: block;
+  line-height: 2rem;
+}</code></pre>
+<pre><code class="language-javascript">const dropdown = document.querySelector('.dropdown')
+const trigger = dropdown.querySelector('.dropdown-trigger')
+
+trigger.addEventListener('click', event => {
+  event.preventDefault()
+  dropdown.classList.toggle('open')
+})</code></pre>
+<p>
+  見てのとおり<code>.dropdown-trigger</code>のクリックをトリガーに<code>.dropdown</code>にクラスを付け外ししているだけです。
+</p>
+<p>
+  <code>.dropdown</code>は高さが指定されており、展開時には高さが変更されます。また、折りたたみ時のドロップダウン外への影響を考慮してか、<code>overflow: hidden</code>も指定されています。<br>
+</p>
+<p>
+  ドロップダウンの中身である<code>.dropdown-content</code>は、折りたたみ時は<code>opacity: 0</code>によって不透明度が<code>0</code>となって視覚的には隠され、展開時は不透明度が<code>1</code>になって視覚的に表示されます。
+</p>
+<p>
+  それで、どうしてキーボード操作時に不具合が起きるのかです。<br>
+  タブキーによるナビゲーション中にドロップダウン内部のリンクにフォーカスがあたることで、<code>overflow: hidden</code>になっている<code>.dropdown</code>内が強制的にスクロールされ、該当リンクが表示可能領域に移動してきます。<br>
+  フォーカスが当たったリンクが<code>.dropdown</code>の表示可能領域に移動してきても、それは<code>opacity: 0</code>の状態なので、視覚的には何も表示されなくなる、というわけです。<br>
+  そして、トリガーとなる<code>.dropdown-trigger</code>はタブキーによるフォーカスが行われませんので、ドロップダウンUIの表示可能領域に戻ってこれなくなります。
+</p>
+<p>
+  <code>opacity</code>プロパティは不透明度を変更するだけのプロパティなので、その値を<code>0</code>にしても視覚的に見えなくなるだけで、要素ボックス自体はそこにあり、操作もできます。<br>
+  また、<code>overflow: hidden</code>な要素の表示領域から飛び出た要素であっても、フォーカス可能要素ならタブキーによるキーボード操作で到達できます。さらに今回の場合はそれがスクロールによって描画可能な場所にありました。<br>
+  これら2つの動作を想定していないために前述のドロップダウンは不具合を起こしているのです。
+</p>
+<p>
+  これをキーボード操作でも問題なく動作するように修正する方法はいくつもあるでしょうが、とりあえず応急処置的にHTMLとCSSだけ調整してみましょう。<br>
+  <a href="/demo/2020/keyboard-unfriendly-dropdown/example-2.html">修正したデモ</a>をご覧ください。
+</p>
+<pre><code class="language-html">&lt;div class=&quot;example&quot;>
+  &lt;dl class=&quot;dropdown&quot;>
+    &lt;dt>
+      &lt;button type=&quot;button&quot; class=&quot;dropdown-trigger&quot;>リンク集&lt;/button>
+    &lt;/dt>
+    &lt;dd class=&quot;dropdown-content&quot;>...&lt;/dd>
+  &lt;/dl>
+&lt;/div></code></pre>
+<pre><code class="language-css">.dropdown-trigger {
+  /* button要素特有のスタイルを消す */
+}
+
+.dropdown-content {
+  visibility: hidden;
+  opacity: 0;
+  transition-property: all;
+  transition-duration: 0.2s;
+}
+
+.dropdown.open .dropdown-content {
+  visibility: visible;
+  opacity: 1;
+}</code></pre>
+<p>
+  トリガーを<code>dt</code>から<code>button</code>要素へと変更しました。<br>
+  これにより、トリガーにもキーボード操作でフォーカスが当たるようになりました。<br>
+  今回の場合、<code>dt</code>から<code>button</code>へのクラス名の移動はしなくてもいいのですが、名前と実態が合わなくなるので移動しました。
+</p>
+<p>
+  <code>.dropdown-content</code>に<code>visibility</code>プロパティを使うことで、視覚的に見えないときは非表示という状態にしてフォーカスが当たらなくなりました。<br>
+  <code>visibility</code>プロパティはアニメーション可能なので、<code>transition</code>プロパティによっていい感じに遷移アニメーションしてくれるでしょう。
+</p>
+<p>
+  トリガーは<code>dt</code>要素のままでも、<code>tabindex</code>属性とイベント処理で<code>button</code>要素と似た動作を作ることはできるのですが、面倒なのでおすすめできません。<br>
+  HTMLを変更できるならそちらのほうが楽です。<br>
+  たとえば、<code>button</code>要素が持っている機能の一部をリストで書き出してみます。
+</p>
+<ul>
+  <li>タブキーでフォーカス可能</li>
+  <li><code>disabled</code>な状態を持てる</li>
+  <li>エンターキーでクリックできる（<code>keydown</code>時）</li>
+  <li>スペースキーでクリックできる（<code>keyup</code>時）</li>
+  <li>スペースキーはスクロール動作を起こす（<code>keydown</code>時）が、<code>button</code>要素にフォーカスしているときは発生しない</li>
+</ul>
+<p>
+  今回のドロップダウンに関係するものだけでもこのようになります。<br>
+  これをJavaScriptで書いていくより、<code>button</code>要素を使ったほうが早いでしょう。
+</p>
+<p>
+  HTMLもCSSも、またはJavaScriptも、もっとよくできるだろう、という意見もあると思います。<br>
+  今回はとりあえずドロップダウンを動作させることだけを目的にしたので、このような修正を行いました。
+</p>
+<p>
+  <code>overflow: hidden</code>と、<code>visibility</code>プロパティを伴わない<code>opacity</code>プロパティの組み合わせで発生し、視覚的ブラウジングをするキーボード操作のユーザーのみに発生する不具合というものは珍しかったので、とても参考になりました。<br>
+  また興味をひかれるUIの不具合を見かけたら紹介したいと思います。
+</p>
