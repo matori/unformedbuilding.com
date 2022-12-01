@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>「CSS Gridで作られたコンポーネントの列数と行数を知りたい」のデモ</title>
+  <style>
+    .container {
+      max-width: 600px;
+      min-width: 160px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 10px;
+      border-width: 1px;
+      border-style: solid;
+      border-color: silver;
+      padding: 20px;
+      overflow: scroll;
+      resize: both;
+    }
+
+    .fill {
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      grid-template-rows: repeat(auto-fill, 100px);
+    }
+
+    .fit {
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      grid-template-rows: repeat(auto-fit, 100px);
+    }
+
+    .item {
+      height: 100px;
+    }
+
+    .fill .item {
+      background-color: tomato;
+    }
+
+    .fit .item {
+      background-color: deepskyblue;
+    }
+
+    hr {
+      margin-block: 2em;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <p id="output-fill" class="output"></p>
+  <div class="grid fill">
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+  </div>
+  <hr>
+  <p id="output-fit" class="output"></p>
+  <div class="grid fit">
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+    <div class="item"></div>
+  </div>
+</div>
+
+<script>
+  const gridContainers = document.querySelectorAll(".grid");
+  const fillOutput = document.querySelector("#output-fill");
+  const fitOutput = document.querySelector("#output-fit");
+
+  function getColumnsCount(element) {
+    const raw = getComputedStyle(element).getPropertyValue("grid-template-columns");
+    return {
+      count: raw.split(" ").filter(w => w !== "0px").length,
+      raw,
+    };
+  }
+
+  const observer = new ResizeObserver(entries => {
+    for (let entry of entries) {
+      const count = getColumnsCount(entry.target);
+      if (entry.target.classList.contains("fill")) {
+        output(fillOutput, count);
+      }
+
+      if (entry.target.classList.contains("fit")) {
+        console.log(getComputedStyle(entry.target).getPropertyValue("grid-template-columns"));
+        output(fitOutput, count);
+      }
+    }
+  });
+  gridContainers.forEach(element => observer.observe(element));
+
+  function output(element, {count, raw}) {
+    element.innerHTML = `列数: ${count}<br>スタイル値: ${raw}</span>`;
+  }
+</script>
+
+</body>
+</html>

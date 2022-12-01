@@ -1,0 +1,52 @@
+<script type="application/x-yaml">
+title: "CSS Gridで作られたコンポーネントの列数と行数を知りたい"
+description: "CSS Gridの自動リピートで配置されている場合に、列数と行数をJavaScriptから知りたい。"
+slug: how-to-know-columns-rows-count-css-grid
+published: 2022-12-01T16:10:06+09:00
+updated: 2022-12-01T16:10:06+09:00
+category: webdev
+</script>
+
+<p>
+  タイトルどおりなんですが、<code>repeat(auto-fill, ...)</code>または<code>repeat (auto-fit, ...)</code>が使われているCSS Gridのコンポーネントの、現在の列数（カラム数）と行数（ロウ数）をJavaScriptから知る方法についてです。<br>
+  ただし、すべてのグリッドアイテムは1セル分の大きさであるという前提条件があります。
+</p>
+<p>
+  はじめはグリッドコンテナーのサイズと、グリッドアイテムのサイズを調べて計算しないといけないのかと考えていましたが、検索したらシンプルな解決法を見つけました。<br>
+  やはり同様の要望を持つ人はいるようで、StackOverflowで質問されており、その回答が分かりやすいものでした。
+</p>
+<p>
+  <a href="https://stackoverflow.com/questions/49506393/how-to-get-count-of-rows-and-columns-in-javascript-for-flexbox-and-grid-layout">html - How to get count of rows and columns in javascript for flexbox and grid layout? - Stack Overflow</a>
+</p>
+<figure>
+  <blockquote cite="https://stackoverflow.com/a/66186894">
+    <p>The questions is al little bit older but in case anybody needs this:</p>
+    <p>If you are working with CSS-Grid you don't need so much calculation. You can get the current template settings e.g. with</p>
+    <pre><code class="language-javascript">getComputedStyle(container).getPropertyValue("grid-template-rows")</code></pre>
+    <p>in modern Browsers this returns the actual values, not the values from your css, so you get a string like</p>
+    <pre><code class="language-text">250px 250px 250px</code></pre>
+    <p>you can than calculate the current number of rows by splitting the string and counting the elements in the resulting array.</p>
+    <p>This might work in older IEs as well, I did not test it.</p>
+  </blockquote>
+  <figcaption>
+    <cite><a href="https://stackoverflow.com/questions/49506393/how-to-get-count-of-rows-and-columns-in-javascript-for-flexbox-and-grid-layout">html - How to get count of rows and columns in javascript for flexbox and grid layout? - Stack Overflow</a></cite>
+  </figcaption>
+</figure>
+<p>
+  自動的に列数が変更されるグリッドでも、上記コードを使えば行のサイズ一覧をテキストで得られる（同様に列数も取れる）ので、複雑な計算は必要ないとのことです。<br>
+  これならシンプルな解決ができそうに見えますので、<a href="/demo/2022/how-to-know-columns-rows-count-css-grid/">デモを作って試しました</a>。<br>
+  列数を取得するコードは、最初は次のような処理をしていました。
+</p>
+<pre><code class="language-javascript">const raw = getComputedStyle(element).getPropertyValue("grid-template-columns");
+const count = raw.split(" ").length,</code></pre>
+<p>
+  試して分かりましたが、<code>auto-fill</code>の場合はこれでうまくいきます。1行になって右側に空白ができてもアイテム幅はちゃんとデータとして取得されます。<br>
+  しかし、<code>auto-fit</code>の場合、空白を埋める場合に<code>0px</code>の幅が追加されていきます。これはデモの「スタイル値」を見ると分かるでしょう。結果、見た目の列数と異なった結果を得てしまいます。<br>
+  これを回避するには、<code>0px</code>の幅を取り除いてから数えるしかないでしょう。
+</p>
+<pre><code class="language-javascript">const raw = getComputedStyle(element).getPropertyValue("grid-template-columns");
+const count = raw.split(" ").filter(w => w !== "0px").length,</code></pre>
+<p>
+  こんな感じです。<br>
+  これで見た目と同じ列数を取得できました。
+</p>
