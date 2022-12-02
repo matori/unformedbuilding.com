@@ -3,7 +3,7 @@ title: "CSS Gridで作られたコンポーネントの列数と行数を知り�
 description: "CSS Gridの自動リピートで配置されている場合に、列数と行数をJavaScriptから知りたい。"
 slug: how-to-know-columns-rows-count-css-grid
 published: 2022-12-01T16:10:06+09:00
-updated: 2022-12-01T16:10:06+09:00
+updated: 2022-12-02T16:24:25+09:00
 category: webdev
 </script>
 
@@ -29,23 +29,25 @@ category: webdev
     <p>This might work in older IEs as well, I did not test it.</p>
   </blockquote>
   <figcaption>
-    <cite><a href="https://stackoverflow.com/questions/49506393/how-to-get-count-of-rows-and-columns-in-javascript-for-flexbox-and-grid-layout">html - How to get count of rows and columns in javascript for flexbox and grid layout? - Stack Overflow</a></cite>
+    <cite><a href="https://stackoverflow.com/a/66186894">「How to get count of rows and columns in javascript for flexbox and grid layout?」についた回答の1つ</a></cite>
   </figcaption>
 </figure>
 <p>
   自動的に列数が変更されるグリッドでも、上記コードを使えば行のサイズ一覧をテキストで得られる（同様に列数も取れる）ので、複雑な計算は必要ないとのことです。<br>
-  これならシンプルな解決ができそうに見えますので、<a href="/demo/2022/how-to-know-columns-rows-count-css-grid/">デモを作って試しました</a>。<br>
+  これならシンプルな解決ができそうに見えますので、<a href="/demo/2022/how-to-know-columns-rows-count-css-grid/">デモを作って試しました</a>。
+</p>
+<p>
   列数を取得するコードは、最初は次のような処理をしていました。
 </p>
 <pre><code class="language-javascript">const raw = getComputedStyle(element).getPropertyValue("grid-template-columns");
-const count = raw.split(" ").length,</code></pre>
+const count = raw.split(" ").length;</code></pre>
 <p>
   試して分かりましたが、<code>auto-fill</code>の場合はこれでうまくいきます。1行になって右側に空白ができてもアイテム幅はちゃんとデータとして取得されます。<br>
   しかし、<code>auto-fit</code>の場合、空白を埋める場合に<code>0px</code>の幅が追加されていきます。これはデモの「スタイル値」を見ると分かるでしょう。結果、見た目の列数と異なった結果を得てしまいます。<br>
   これを回避するには、<code>0px</code>の幅を取り除いてから数えるしかないでしょう。
 </p>
 <pre><code class="language-javascript">const raw = getComputedStyle(element).getPropertyValue("grid-template-columns");
-const count = raw.split(" ").filter(w => w !== "0px").length,</code></pre>
+const count = raw.split(" ").filter(w => w !== "0px").length;</code></pre>
 <p>
   こんな感じです。<br>
   これで見た目と同じ列数を取得できました。
