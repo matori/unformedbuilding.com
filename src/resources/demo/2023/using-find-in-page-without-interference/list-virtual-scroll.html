@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>仮想スクロールのリスト - ページ内検索のデモ</title>
+  <style>
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px auto;
+    padding-inline-start: 0;
+    max-width: 600px;
+    list-style-type: none;
+  }
+
+  .item {
+    display: grid;
+    border-width: 1px;
+    border-style: solid;
+    border-color: silver;
+    padding: 10px;
+  }
+
+  .text {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  mark {
+    background-color: transparent;
+    color: red;
+    font-weight: 600;
+  }
+  </style>
+</head>
+<body>
+
+<ul class="container"></ul>
+
+<script src="virtual-scroller-dom.js"></script>
+<script type="module">
+import { getData, createItem } from "./showData.js";
+
+const ul = document.querySelector(".container");
+const data = await getData();
+new VirtualScroller(
+  ul,
+  data,
+  function (texts) {
+    return createItem(texts)
+  }
+)
+</script>
+</body>
+</html>
