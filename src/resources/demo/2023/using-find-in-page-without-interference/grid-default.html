@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>普通のグリッド - ページ内検索のデモ</title>
+  <style>
+  .container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    margin: 20px auto;
+    padding-inline-start: 0;
+    max-width: 1024px;
+    list-style-type: none;
+  }
+
+  .item {
+    border-width: 1px;
+    border-style: solid;
+    border-color: silver;
+    padding: 10px;
+  }
+
+  .text {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  mark {
+    background-color: transparent;
+    color: red;
+    font-weight: 600;
+  }
+  </style>
+</head>
+<body>
+
+<ul class="container"></ul>
+
+<script type="module">
+import { getData, createChildren } from "./showData.js";
+
+const ul = document.querySelector(".container");
+const data = await getData();
+const fragment = createChildren(data);
+ul.appendChild(fragment);
+</script>
+</body>
+</html>
