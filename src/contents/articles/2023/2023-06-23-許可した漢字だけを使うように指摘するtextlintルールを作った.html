@@ -1,0 +1,95 @@
+<script type="application/x-yaml">
+title: "許可した漢字だけを使うように指摘するtextlintルールを作った"
+description: "許可する漢字をコントールできたり、特定パターンの場合は許可できるようなtextlintルールを作りました"
+slug: released-textlint-rule-ja-allowed-kanji
+published: 2023-06-23T15:06:49+09:00
+updated: 2023-06-23T15:06:49+09:00
+category: webdev
+</script>
+
+<p>
+  タイトルどおりですが、許可した漢字だけを使うように指摘する<a href="https://github.com/matori/textlint-rule-ja-allowed-kanji">textlint-rule-ja-allowed-kanji</a>というtextlintルールを作りました。
+</p>
+<p>
+  すでに特定の漢字セットを使うように指摘するtextlintルールはありますが、自分の要望とはちょっと違う感じでした。<br>
+  たとえば常用漢字以外は必ずエラーになるというものなので、ユーザーが許可する漢字を増やしたり減らしたりできるようにしたかったのです。<br>
+  また、基本的にはエラーになる漢字でも特定の熟語は許可するようにしたかったというのもあります。
+</p>
+<section>
+  <h2>動機</h2>
+  <p>
+    もともとはNHK放送文化研究所の『<a href="https://www.nhk.or.jp/bunken/book/irregular/dic_kanji_notation.html">NHK漢字表記辞典</a>』を基準にしたルールがほしかったという事情があります。<br>
+    「<a href="https://www.nhk.or.jp/bunken/summary/kotoba/research/024.html">新用字用語辞典の概要まとまる（１） | ことば（放送用語） - ことばの研究 | NHK放送文化研究所</a>」のPDFを見ると分かるように、NHKの基準は常用漢字とは異なっています。<br>
+  </p>
+  <p>
+    ほかに、<a href="https://www.pressnet.or.jp/publication/book/pdf/shimbun_yogo.pdf">日本新聞協会の新聞用語集（2010年版, PDF）</a>を見ると、新聞常用漢字は常用漢字の一部を使わないようにしたり、特定の熟語の場合は使えるように、などとなっています。<br>
+  </p>
+  <p>
+    こういった状況に対応できるようなtextlintルールがほしかったのです。
+  </p>
+  <p>
+    とはいえ、必要な漢字セットを更新し続けるというのも自分にはできそうになかったので、いくつかの漢字プリセットを用意し、そこから漢字を除外したり追加したりできるようにしました。<br>
+    熟語の対応は、特定パターンの場合は許可するオプションを追加して対応しました。
+  </p>
+</section>
+<section>
+  <h2>設定例</h2>
+  <p>
+    リポジトリのREADMEにも似たものがありますが、オプションの例を出します。<br>
+    次のコードはtextlintの対象とするテキストです。
+  </p>
+  <pre>職権濫用の諜報から得た情報です。
+川が氾濫したそうですが、今日のおかずは野菜炒めです。炒飯もあります。
+
+豆を炒るのは明日です。</pre>
+  <p>
+    むちゃくちゃな文章ですが気にしないでください。<br>
+    これに対して当ルールを初期状態ままtextlintを使うと次のような結果が得られます。
+  </p>
+  <pre><samp>1:6   error  「諜」は許可されていない漢字です。  ja-allowed-kanji
+2:22  error  「炒」は許可されていない漢字です。  ja-allowed-kanji
+2:27  error  「炒」は許可されていない漢字です。  ja-allowed-kanji
+4:3   error  「炒」は許可されていない漢字です。  ja-allowed-kanji
+</samp></pre>
+  <p>
+    初期状態では常用漢字のみを使うようにしているので、このような結果になります。
+  </p>
+  <p>
+    次に、先ほどのNHK漢字表記を参考に、「濫」を「氾濫」のみに限定し、「諜」を許可、「炒」を「炒め」の場合のみ許可する設定です。
+  </p>
+  <pre><code class="language-json">{
+  "rules": {
+    "ja-allowed-kanji": {
+      "preset": {
+        "regular": true, // 常用漢字のみの場合はpresetごと無指定でもOK
+      },
+      "exclude": "濫",
+      "allowKanji": "諜",
+      "allowPatterns": [
+        "氾濫",
+        "/炒(?=め)/"
+      ]
+    }
+  }
+}</code></pre>
+  <p>
+    この設定からは次の結果が得られます。
+  </p>
+  <pre><samp>  1:3   error  「濫」は "氾濫" 以外のパターンでは許可されていない漢字です。        ja-allowed-kanji
+  2:27  error  「炒」は "/炒(?=め)/" 以外のパターンでは許可されていない漢字です。  ja-allowed-kanji
+  4:3   error  「炒」は "/炒(?=め)/" 以外のパターンでは許可されていない漢字です。  ja-allowed-kanji</samp></pre>
+</section>
+<p>
+  こういう感じで、ユーザーが用途に合わせて調整できます。<br>
+  許可する漢字を増やせば簡単にエラーを消せるので、そのあたりのバランスはお任せします。
+</p>
+<p>
+  その他の設定についてはリポジトリのREADMEを参照してください。
+</p>
+<section>
+  <h2>やりたいことはできた</h2>
+  <p>
+    ひとまず、自分の要望を満たすルールは完成したので満足しました。<br>
+    同じ要望を持つ方にも使ってもらえたら嬉しいです。
+  </p>
+</section>
