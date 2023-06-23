@@ -3,7 +3,7 @@ title: "許可した漢字だけを使うように指摘するtextlintルール�
 description: "許可する漢字をコントールできたり、特定パターンの場合は許可できるようなtextlintルールを作りました"
 slug: released-textlint-rule-ja-allowed-kanji
 published: 2023-06-23T15:06:49+09:00
-updated: 2023-06-23T15:06:49+09:00
+updated: 2023-06-23T15:13:24+09:00
 category: webdev
 </script>
 
@@ -81,9 +81,9 @@ category: webdev
   <p>
     この設定からは次の結果が得られます。
   </p>
-  <pre><samp>  1:3   error  「濫」は "氾濫" 以外のパターンでは許可されていない漢字です。        ja-allowed-kanji
-  2:27  error  「炒」は "/炒(?=め)/" 以外のパターンでは許可されていない漢字です。  ja-allowed-kanji
-  4:3   error  「炒」は "/炒(?=め)/" 以外のパターンでは許可されていない漢字です。  ja-allowed-kanji</samp></pre>
+  <pre><samp>1:3   error  「濫」は "氾濫" 以外のパターンでは許可されていない漢字です。        ja-allowed-kanji
+2:27  error  「炒」は "/炒(?=め)/" 以外のパターンでは許可されていない漢字です。  ja-allowed-kanji
+4:3   error  「炒」は "/炒(?=め)/" 以外のパターンでは許可されていない漢字です。  ja-allowed-kanji</samp></pre>
 </section>
 <p>
   こういう感じで、ユーザーが用途に合わせて調整できます。<br>
