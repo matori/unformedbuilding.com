@@ -15,3 +15,19 @@ $color-fg-highlight: #007a52;
 $color-border-focus: #538cff;
 $color-border-thick: alpha-composing(rgba($color-fg-base, 0.1), $color-bg-base);
 $color-border-thin: alpha-composing(rgba($color-fg-base, 0.2), $color-bg-base);
+
+// dark mode colors
+
+$color-bg-base-dark: #001810;
+$color-fg-base-dark: alpha-composing(rgba($color-bg-base, 0.7), $color-bg-base-dark);
+
+$color-bg-secondary-dark: desaturate-relative(alpha-composing(rgba($color-fg-base-dark, 0.05), $color-bg-base-dark), 1 / 16 * 4);
+$color-bg-tertiary-dark: desaturate-relative(alpha-composing(rgba($color-fg-base-dark, 0.05), $color-bg-base-dark), 1 / 16 * 4);
+
+$color-fg-link-dark: #538dff;
+$color-fg-visited-dark: desaturate-relative($color-fg-link-dark, 1 / 16 * 12);
+$color-fg-active-dark: #ff538c;
+$color-fg-weak-dark: desaturate-relative(alpha-composing(rgba($color-fg-base-dark, 0.67), $color-bg-base-dark), 0.5);
+$color-fg-highlight-dark: desaturate-relative(#00a26c, 1 / 16 * 4);
+$color-border-thick-dark: alpha-composing(rgba($color-fg-base-dark, 0.1), $color-bg-base-dark);
+$color-border-thin-dark: alpha-composing(rgba($color-fg-base-dark, 0.2), $color-bg-base-dark);
