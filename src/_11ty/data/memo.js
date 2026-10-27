@@ -1,10 +1,9 @@
-const fetch = require('node-fetch')
 const dayjs = require('dayjs')
 const md = require('markdown-it')({
   html: true,
   breaks: true,
 })
-require('dotenv').config()
+require('dotenv').config({ quiet: true })
 require('dayjs/locale/ja')
 dayjs.locale('ja')
 
