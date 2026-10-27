@@ -1,6 +1,6 @@
 const {JSDOM} = require('jsdom');
 const {url: SITE_URL} = require('../src/metadata.json');
-const htmlmin = require('html-minifier');
+const htmlmin = require('html-minifier-terser');
 const dayjs = require('dayjs');
 
 function convertRelativeURLToAbsoluteURLInFeed(htmlString) {
@@ -38,8 +38,8 @@ function convertRelativeURLToAbsoluteURLInFeed(htmlString) {
   return doc.body.innerHTML;
 }
 
-function htmlminInFeed(data) {
-  return htmlmin.minify(data, {
+async function htmlminInFeed(data) {
+  return await htmlmin.minify(data, {
     collapseBooleanAttributes: true,
     collapseWhitespace: true,
     decodeEntities: true,

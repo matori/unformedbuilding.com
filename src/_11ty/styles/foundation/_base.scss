@@ -6,15 +6,15 @@ html {
   font-size: 100%;
 
   @media screen and (min-width: #{rem(640px)}) {
-    font-size: percentage(math.div(18, 16));
+    font-size: math.percentage(math.div(18, 16));
   }
 
   @media screen and (min-width: #{rem(960px)}) {
-    font-size: percentage(math.div(20, 16));
+    font-size: math.percentage(math.div(20, 16));
   }
 
   @media screen and (min-width: #{rem(1440px)}) {
-    font-size: percentage(math.div(22, 16));
+    font-size: math.percentage(math.div(22, 16));
   }
 }
 

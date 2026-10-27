@@ -1,4 +1,6 @@
+@use "sass:color";
 @use "sass:math";
+@use "sass:meta";
 @use "../config" as *;
 
 $config-fs-root: 16px !default;
@@ -23,7 +25,7 @@ $config-fs-scale-base: 4 !default;
 }
 
 @function strip-unit($number) {
-  @if type-of($number) == "number" and not unitless($number) {
+  @if meta.type-of($number) == "number" and not math.is-unitless($number) {
     @return math.div($number, $number * 0 + 1);
   }
   @return $number;
@@ -33,22 +35,30 @@ $config-fs-scale-base: 4 !default;
   @return $front * $front-alpha  + $back * $back-alpha * (1 - $front-alpha);
 }
 
+// RGBの各チャンネルを整数に丸める
+@function _round-rgb($color) {
+  $red: math.round(color.channel($color, "red", $space: rgb));
+  $green: math.round(color.channel($color, "green", $space: rgb));
+  $blue: math.round(color.channel($color, "blue", $space: rgb));
+  @return rgb($red, $green, $blue, color.alpha($color));
+}
+
 // @see [Compositing and Blending Level 1 - 5.1. Simple alpha compositing](https://www.w3.org/TR/compositing-1/#simplealphacompositing)
 @function alpha-composing($front, $back) {
-  $front-alpha: alpha($front);
-  $back-alpha: alpha($back);
-  $result-red: _mix-alpha-result-single-color(red($front), $front-alpha, red($back), $back-alpha);
-  $result-green: _mix-alpha-result-single-color(green($front), $front-alpha, green($back), $back-alpha);
-  $result-blue: _mix-alpha-result-single-color(blue($front), $front-alpha, blue($back), $back-alpha);
-  @return rgb($result-red, $result-green, $result-blue);
+  $front-alpha: color.alpha($front);
+  $back-alpha: color.alpha($back);
+  $result-red: _mix-alpha-result-single-color(color.channel($front, "red", $space: rgb), $front-alpha, color.channel($back, "red", $space: rgb), $back-alpha);
+  $result-green: _mix-alpha-result-single-color(color.channel($front, "green", $space: rgb), $front-alpha, color.channel($back, "green", $space: rgb), $back-alpha);
+  $result-blue: _mix-alpha-result-single-color(color.channel($front, "blue", $space: rgb), $front-alpha, color.channel($back, "blue", $space: rgb), $back-alpha);
+  @return _round-rgb(rgb($result-red, $result-green, $result-blue));
 }
 
 @function saturate-relative($color, $percentage) {
-  $saturation: saturation($color);
-    @return saturate($color, $saturation * $percentage);
+  $saturation: color.channel($color, "saturation", $space: hsl);
+  @return _round-rgb(color.adjust($color, $saturation: $saturation * $percentage, $space: hsl));
 }
 
 @function desaturate-relative($color, $percentage) {
-  $saturation: saturation($color);
-  @return desaturate($color, $saturation * $percentage);
+  $saturation: color.channel($color, "saturation", $space: hsl);
+  @return _round-rgb(color.adjust($color, $saturation: -$saturation * $percentage, $space: hsl));
 }

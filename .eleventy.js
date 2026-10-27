@@ -73,7 +73,7 @@ module.exports = eleventyConfig => {
   // フィードのコンテンツHTML内の相対URLを絶対URLに書き換える
   eleventyConfig.addFilter('feedAbsoluteUrl', convertRelativeURLToAbsoluteURLInFeed);
   // フィードのHTMLをminifyする
-  eleventyConfig.addFilter('feedHtmlmin', htmlminInFeed);
+  eleventyConfig.addAsyncFilter('feedHtmlmin', htmlminInFeed);
   // ループ処理の回数を制限する
   eleventyConfig.addFilter('limit', limitIteration);
 
@@ -112,9 +112,8 @@ module.exports = eleventyConfig => {
     eleventyConfig.addLinter('validate description', validateDescription);
   }
 
-  eleventyConfig.setBrowserSyncConfig({
+  eleventyConfig.setServerOptions({
     port: 8000,
-    ui: false,
   });
 
   return {
