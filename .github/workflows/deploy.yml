@@ -6,6 +6,14 @@ env:
 on:
   push:
     branches: master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -13,22 +21,41 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
     - name: Install Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v7
       with:
         node-version-file: '.node-version'
+        cache: 'npm'
     - name: Install npm dependencies
-      run: npm install
+      run: npm ci
     - name: Run build task
       run: npm run build
-    - name: Deploy to Server
-      uses: AEnterprise/rsync-deploy@v1.0.2
+    # rsync --delete で公開中のファイルを消してしまわないよう、ビルド結果を確認しておく
+    - name: Check build output
+      run: test -f ./_build/index.html
+    - name: Set up SSH
       env:
-          DEPLOY_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          ARGS: "-avzr --delete --bwlimit=3096"
-          FOLDER: "./_build/"
-          SERVER_IP: ${{ secrets.REMOTE_HOST }}
-          USERNAME: ${{ secrets.REMOTE_USER }}
-          SERVER_PORT: ${{ secrets.REMOTE_PORT }}
-          SERVER_DESTINATION: ${{ secrets.REMOTE_TARGET }}
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+      run: |
+        install -m 700 -d ~/.ssh
+        install -m 600 /dev/null ~/.ssh/deploy_key
+        install -m 600 /dev/null ~/.ssh/known_hosts
+        printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+        printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+    # ビルドのたびに更新日時が変わるので、チェックサムで比較して中身が変わったファイルだけ転送する
+    # known_hostsはREMOTE_HOSTの値に依存しないよう、HostKeyAliasの名前で照合する
+    - name: Deploy to Server
+      env:
+        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+        REMOTE_USER: ${{ secrets.REMOTE_USER }}
+        REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
+        REMOTE_TARGET: ${{ secrets.REMOTE_TARGET }}
+      run: >-
+        rsync -rlcz --delete --delay-updates --itemize-changes
+        -e "ssh -i $HOME/.ssh/deploy_key -p $REMOTE_PORT -o StrictHostKeyChecking=yes -o HostKeyAlias=deploy-server -o UserKnownHostsFile=$HOME/.ssh/known_hosts"
+        ./_build/ "$REMOTE_USER@$REMOTE_HOST:$REMOTE_TARGET"
+    - name: Clean up SSH key
+      if: always()
+      run: rm -f ~/.ssh/deploy_key
