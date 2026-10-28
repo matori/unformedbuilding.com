@@ -8,10 +8,6 @@ module.exports = [
     label: 'ブログ',
   },
   {
-    url: '/memos/',
-    label: '検索メモ',
-  },
-  {
     url: '/about/',
     label: 'このサイトについて',
   },
