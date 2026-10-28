@@ -53,7 +53,7 @@ module.exports = eleventyConfig => {
   // Collections //
   //-------------//
 
-  const {articles, articlesWebdev, yearlyArchive, memoArchive} = collections;
+  const {articles, articlesWebdev, yearlyArchive} = collections;
 
   // 全記事コレクション
   eleventyConfig.addCollection('articles', articles);
@@ -61,8 +61,6 @@ module.exports = eleventyConfig => {
   eleventyConfig.addCollection('articlesWebdev', articlesWebdev);
   // 年別アーカイブ用コレクション
   eleventyConfig.addCollection('yearlyArchive', yearlyArchive);
-  // 検索メモの年別アーカイブ用コレクション
-  eleventyConfig.addCollection('memoArchive', memoArchive);
 
   //---------//
   // Filters //
