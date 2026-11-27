@@ -15,4 +15,19 @@
   --border-thin: #{$color-border-thin};
   --ff-sans: sans-serif;
   --ff-mono: monospace, serif;
+
+  @media (prefers-color-scheme: dark) {
+    --bg-base: #{$color-bg-base-dark};
+    --bg-secondary: #{$color-bg-secondary-dark};
+    --bg-tertiary: #{$color-bg-tertiary-dark};
+    --fg-base: #{$color-fg-base-dark};
+    --fg-link: #{$color-fg-link-dark};
+    --fg-visited: #{$color-fg-visited-dark};
+    --fg-active: #{$color-fg-active-dark};
+    --fg-weak: #{$color-fg-weak-dark};
+    --fg-highlight: #{$color-fg-highlight-dark};
+    //--border-focus: #{$color-border-focus}; // light modeと同じ
+    --border-thick: #{$color-border-thick-dark};
+    --border-thin: #{$color-border-thin-dark};
+  }
 }
