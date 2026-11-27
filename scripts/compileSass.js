@@ -1,17 +1,11 @@
 const sass = require('sass');
-const postcss = require('postcss');
-const autoprefixer = require('autoprefixer');
 const CleanCSS = require('clean-css');
 const utf8 = require('utf8');
 const {Base64} = require('js-base64');
 
 const {isDev, isPreview} = require('./mode.js');
 
-const processor = postcss([
-  autoprefixer,
-]);
-
-module.exports = function compileSass(input, output) {
+module.exports = function compileSass(input) {
   // sassの処理
   const sassResult = sass.compile(input, {
     style: 'compressed',
@@ -21,22 +15,13 @@ module.exports = function compileSass(input, output) {
   const css = sassResult.css.toString();
   const map = JSON.stringify(sassResult.sourceMap);
 
-  // postcssの処理
-  const postcssData = processor.process(css, {
-    to: output,
-    map: {
-      prev: map,
-      inline: false,
-    },
-  });
-
   // Clean CSS
   const cleanCss = new CleanCSS({
     level: 2,
     sourceMap: true,
     sourceMapInlineSources: true,
   });
-  const minified = cleanCss.minify(postcssData.css, postcssData.map.toString());
+  const minified = cleanCss.minify(css, map);
 
   // 出力CSS
   const result = [minified.styles];

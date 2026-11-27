@@ -12,7 +12,6 @@ const {
   DISTRIBUTION_DIR,
   STYLES_DIR,
   STYLES_FIlE,
-  STYLES_FIlE_OUTPUT,
   DATE_FORMAT_FULL,
 } = constants;
 
@@ -25,11 +24,11 @@ module.exports = eleventyConfig => {
   });
 
   // Sassを処理しておく
-  let css = compileSass(STYLES_FIlE, STYLES_FIlE_OUTPUT);
+  let css = compileSass(STYLES_FIlE);
 
   // watchのタイミングでSassを処理して更新する
   eleventyConfig.on('beforeWatch', () => {
-    css = compileSass(STYLES_FIlE, STYLES_FIlE_OUTPUT);
+    css = compileSass(STYLES_FIlE);
   });
 
   // Sassを入れているディレクトリーも監視対象にする
