@@ -5,8 +5,6 @@
 }
 
 .Actions-content {
-  display: block;
-
   &:first-child {
     margin-top: get-lines(4);
   }
@@ -14,7 +12,6 @@
 
 .Actions-trigger {
   @include text(0);
-  display: list-item;
   cursor: default;
 }
 

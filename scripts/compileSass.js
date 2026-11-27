@@ -1,7 +1,6 @@
 const sass = require('sass');
 const postcss = require('postcss');
 const autoprefixer = require('autoprefixer');
-const postcssGapProperties = require('postcss-gap-properties');
 const CleanCSS = require('clean-css');
 const utf8 = require('utf8');
 const {Base64} = require('js-base64');
@@ -9,10 +8,7 @@ const {Base64} = require('js-base64');
 const {isDev, isPreview} = require('./mode.js');
 
 const processor = postcss([
-  postcssGapProperties,
-  autoprefixer({
-    grid: 'autoplace',
-  }),
+  autoprefixer,
 ]);
 
 module.exports = function compileSass(input, output) {
